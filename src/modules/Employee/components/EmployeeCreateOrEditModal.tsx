@@ -245,6 +245,11 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
                 value: true,
                 message: "Пожалуйста, заполните это поле",
               },
+              pattern: {
+                value: /^(?!.*\s).*$/,
+                message:
+                  "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
+              },
             })}
           />
           <TextField
@@ -258,6 +263,11 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
               required: {
                 value: true,
                 message: "Пожалуйста, заполните это поле",
+              },
+              pattern: {
+                value: /^(?!.*\s).*$/,
+                message:
+                  "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
               },
               validate: (value: string) => {
                 if (value !== password) {
