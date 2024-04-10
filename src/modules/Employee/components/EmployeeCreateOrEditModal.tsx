@@ -6,17 +6,24 @@ import {
   ROLE_SELECT_DATA,
   TCreateUser,
 } from "../const"
-import { Box, IconButton, Modal, Typography } from "@mui/material"
+import { Box, Dialog, DialogTitle, IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material/"
 import { TextField } from "@/shared/ui/TextField"
 import { Select } from "@/shared/ui/Select"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
-import { mapperCreateUserFormToAnUserRequest } from "../utils"
+import {
+  mapperCreateUserFormToAnUserCreateRequest,
+  mapperCreateUserFormToAnUserUpdateRequest,
+} from "../utils"
+import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
+import { generateUniqueId } from "@/shared/utils/utils"
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 
 /**
  * @prop isOpen флаг открытия модального окна
  * @prop onClose функция обработчик закрытия модального окна
- * @prop createUser функция обработчик создания/обновления сущности
+ * @prop form форма для создания/обновления
+ * @prop [handleFormSubmit] функция обработчик при успешном заполнении формы
  * @prop [isEditing] флаг редактирования сотрудника
  * @prop [data] данные для текущего сотрудника для редактирования
  */
@@ -24,36 +31,16 @@ type TProps = {
   isOpen: boolean
   onClose: () => void
   form: UseFormReturn<TCreateUser>
-  createUser?: (data: UserDto) => void
-  editUser?: (data: UserDto) => void
+  handleFormSubmit?: (data: UserDto) => void
   isEditing?: boolean
   editUserData?: UserDto
 }
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 616,
-  bgcolor: "background.paper",
-  borderRadius: "16px",
-  boxShadow: "0px 8px 16px 0px #00000029",
-  p: 4,
-}
-
 export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
+  const { isOpen, onClose, handleFormSubmit, isEditing, editUserData, form } =
+    props
   const {
-    isOpen,
-    onClose,
-    createUser,
-    isEditing,
-    editUserData,
-    form,
-    editUser,
-  } = props
-  const {
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     register,
     setValue,
@@ -62,6 +49,8 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
     control,
     watch,
   } = form
+
+  const { addNotification } = useNotification()
 
   const [password, confirmPassword] = watch(["password", "confirmPassword"])
 
@@ -79,6 +68,23 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
     }
   }, [isEditing, editUserData, setValue])
 
+  const handleCloseModalWindow = () => {
+    if (isDirty) {
+      addNotification({
+        id: generateUniqueId(),
+        isOpened: true,
+        text: "Вы точно хотите выйти без сохранения введенных данных?",
+        type: ENotificationType.CONFIRMATION,
+        withConfirmationButtons: true,
+        handleCloseForm: onClose,
+        notificationWidth: "342",
+      })
+      return
+    } else {
+      onClose()
+    }
+  }
+
   /** Проверка при изменении пароля, если пароль изменился и уже введен подтверждение пароля, то вкидывать ошибку */
   useEffect(() => {
     if (confirmPassword.length === 0) return
@@ -89,60 +95,53 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
     }
   }, [password])
 
-  const onSubmitCreateUser: SubmitHandler<TCreateUser> = data => {
-    createUser?.(mapperCreateUserFormToAnUserRequest(data))
-    onClose()
-  }
-
-  const onSubmitEditUser: SubmitHandler<TCreateUser> = data => {
-    if (!editUserData?.id) return
-    editUser?.({
-      ...data,
-      id: editUserData.id!,
-      isActive: editUserData?.isActive || true,
-    })
-    onClose()
+  const onSubmit: SubmitHandler<TCreateUser> = data => {
+    handleFormSubmit?.(
+      isEditing
+        ? // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+          mapperCreateUserFormToAnUserUpdateRequest(data, editUserData?.id!)
+        : mapperCreateUserFormToAnUserCreateRequest(data)
+    )
   }
 
   return (
-    <form
-      className="mt-2"
-      onSubmit={handleSubmit(isEditing ? onSubmitEditUser : onSubmitCreateUser)}
-      id="form_create_employee"
+    <Dialog
+      open={isOpen}
+      onClose={handleCloseModalWindow}
+      aria-labelledby={
+        isEditing ? "modal-update-employee" : "modal-create-employee"
+      }
+      aria-describedby={
+        isEditing ? "modal-update-employee-form" : "modal-create-employee-form"
+      }
+      sx={{
+        "& .MuiDialogTitle-root": {
+          padding: 0,
+        },
+        "& .MuiPaper-root": {
+          borderRadius: "16px",
+          width: "616px",
+        },
+      }}
     >
-      <Modal
-        open={isOpen}
-        onClose={onClose}
-        aria-labelledby={
-          isEditing ? "modal-update-employee" : "modal-create-employee"
-        }
-        aria-describedby={
-          isEditing
-            ? "modal-update-employee-form"
-            : "modal-create-employee-form"
-        }
-      >
-        <Box sx={style}>
-          <Box display="flex" alignItems="center">
-            <Box flexGrow={1}>
-              <Typography fontSize={24} fontWeight={800}>
-                {isEditing
-                  ? "Редактировать данные сотрудника"
-                  : "Новый сотрудник"}
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton onClick={onClose}>
-                <Close />
-              </IconButton>
-            </Box>
-          </Box>
+      <form onSubmit={handleSubmit(onSubmit)} id="form_create_employee">
+        <DialogTitle display="flex" justifyContent="flex-end">
+          <IconButton onClick={handleCloseModalWindow}>
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        <div className="pb-10 px-16">
+          <Typography fontSize={24} fontWeight={800} mb="16px">
+            {isEditing ? "Редактировать данные сотрудника" : "Новый сотрудник"}
+          </Typography>
+
           <TextField
             id="lastName"
             placeholder="Фамилия"
             label="Фамилия"
             error={errors.lastName?.message}
             maxLength={30}
+            marginBottom="16px"
             {...register("lastName", {
               minLength: {
                 value: 1,
@@ -161,6 +160,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             isRequired
             error={errors.firstName?.message}
             maxLength={15}
+            marginBottom="16px"
             {...register("firstName", {
               minLength: {
                 value: 1,
@@ -182,6 +182,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             label="Отчество"
             error={errors.middleName?.message}
             maxLength={30}
+            marginBottom="16px"
             {...register("middleName", {
               minLength: {
                 value: 1,
@@ -199,6 +200,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             label="Адрес электронной почты"
             isRequired
             error={errors.email?.message}
+            marginBottom="16px"
             {...register("email", {
               required: {
                 value: true,
@@ -227,6 +229,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
                 label="Должность*"
                 error={errors.role?.message}
                 fullWidth
+                marginBottom="16px"
               />
             )}
           />
@@ -236,6 +239,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             label="Пароль"
             isRequired
             error={errors.password?.message}
+            marginBottom="16px"
             {...register("password", {
               required: {
                 value: true,
@@ -249,6 +253,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             label="Пароль повторно"
             isRequired
             error={errors.confirmPassword?.message}
+            marginBottom="32px"
             {...register("confirmPassword", {
               required: {
                 value: true,
@@ -261,15 +266,13 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
               },
             })}
           />
-          <Box
-            display={"flex"}
-            marginTop="8px"
-            justifyContent={"space-between"}
-          >
+          <Box display={"flex"} justifyContent={"space-between"}>
             <Button
               size={EButtonSize.Large}
               variant={EButtonVariant.Secondary}
-              onClick={onClose}
+              onClick={handleCloseModalWindow}
+              fontSize={16}
+              fontWeight={700}
             >
               Отменить
             </Button>
@@ -278,12 +281,14 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
               variant={EButtonVariant.Primary}
               type="submit"
               form={"form_create_employee"}
+              fontSize={16}
+              fontWeight={700}
             >
               {isEditing ? "Сохранить" : "Создать"}
             </Button>
           </Box>
-        </Box>
-      </Modal>
-    </form>
+        </div>
+      </form>
+    </Dialog>
   )
 }

@@ -12,10 +12,9 @@ type TProps = {
 
 export const EmployeePageTitle: React.FC<TProps> = props => {
   const { onClick, title } = props
-
   return (
-    <div className="flex justify-between items-center">
-      <Typography fontSize={36} fontWeight={800}>
+    <div className="flex justify-between items-center font-body mt-6 mb-5">
+      <Typography fontSize={36} fontWeight={800} className="font-body">
         {title}
       </Typography>
       <Button

@@ -1,6 +1,6 @@
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
 import { Close } from "@mui/icons-material"
-import { Modal, Box, Typography, IconButton } from "@mui/material"
+import { Box, Typography, IconButton, Dialog, DialogTitle } from "@mui/material"
 import { memo } from "react"
 
 /** Пропы для модалки
@@ -18,51 +18,54 @@ type TProps = {
   onConfirm: () => void
 }
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 616,
-  bgcolor: "background.paper",
-  borderRadius: "16px",
-  boxShadow: "0px 8px 16px 0px #00000029",
-  p: 4,
-}
-
 export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
   const { employeeName, employeeRole, isOpen, onCancel, onConfirm } = props
   return (
-    <Modal
+    <Dialog
       open={isOpen}
       onClose={onCancel}
       aria-labelledby={"modal-delete-employee"}
       aria-describedby={"modal-delete-form"}
+      sx={{
+        "& .MuiDialogTitle-root": {
+          padding: 0,
+        },
+        "& .MuiPaper-root": {
+          borderRadius: "16px",
+        },
+      }}
     >
-      <Box sx={style}>
-        <Box display="flex" alignItems="flex-start" marginBottom={"15px"}>
-          <Box flexGrow={1}>
-            <Typography fontSize={24} fontWeight={800}>
+      <DialogTitle display="flex" justifyContent="flex-end" padding="0">
+        <Box>
+          <IconButton onClick={onCancel}>
+            <Close />
+          </IconButton>
+        </Box>
+      </DialogTitle>
+      <div className="pb-10 px-16">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          marginBottom={"15px"}
+        >
+          <Box>
+            <Typography fontSize={24} fontWeight={800} mb="24px">
               Удалить сотрудника?
             </Typography>
-            <Typography fontSize={16} fontWeight={400} marginTop={2}>
+            <Typography fontSize={16} fontWeight={400} mb="24px">
               Сотрудник будет удален из списка ваших сотрудников и восстановить
               его будет невозможно
             </Typography>
-          </Box>
-          <Box>
-            <IconButton onClick={onCancel}>
-              <Close />
-            </IconButton>
           </Box>
         </Box>
         <Box
           sx={{
             backgroundColor: "#F6F8FF",
             borderRadius: "16px",
-            padding: "10px 15px",
+            padding: "16px 16px",
           }}
-          marginBottom="15px"
+          marginBottom="40px"
         >
           <Typography fontWeight={700} fontSize={16}>
             {employeeName}
@@ -77,6 +80,7 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
             variant={EButtonVariant.Secondary}
             onClick={onCancel}
             fontWeight={700}
+            fontSize={16}
           >
             Отменить
           </Button>
@@ -85,11 +89,12 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
             variant={EButtonVariant.Primary}
             onClick={onConfirm}
             fontWeight={700}
+            fontSize={16}
           >
             Удалить
           </Button>
         </Box>
-      </Box>
-    </Modal>
+      </div>
+    </Dialog>
   )
 })

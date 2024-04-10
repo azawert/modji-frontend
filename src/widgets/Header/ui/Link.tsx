@@ -34,7 +34,7 @@ const Component: React.FC<TProps> = props => {
   return (
     <span
       onClick={onClick}
-      className={cn(`text-black cursor-pointer ${className}`, {
+      className={cn(`text-black cursor-pointer gap-7 ${className}`, {
         "underline-offset-8 underline text-primaryTextBlue decoration-2":
           isActive,
         "font-light font-base": textType === ETextType.NORMAL,

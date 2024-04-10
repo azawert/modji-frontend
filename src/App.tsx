@@ -2,6 +2,8 @@ import { useState } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { routes } from "./routes/routes"
+import { NotificationProvider } from "./contexts/notificationContext/NotificationContext"
+import { NotificationContainer } from "./contexts/notificationContext/NotificationContainer"
 
 function App() {
   const router = createBrowserRouter(routes)
@@ -18,7 +20,10 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <NotificationProvider>
+          <NotificationContainer />
+          <RouterProvider router={router} />
+        </NotificationProvider>
       </QueryClientProvider>
     </>
   )

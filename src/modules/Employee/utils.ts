@@ -36,7 +36,7 @@ export const roleMapperForRussianLanguage = {
  * @param data TCreateUser данные которые приходят с формы
  * @returns NewUserDto возвращает объект для отбравки на бэк
  */
-export const mapperCreateUserFormToAnUserRequest = (
+export const mapperCreateUserFormToAnUserCreateRequest = (
   data: TCreateUser
 ): UserDto => ({
   email: data.email,
@@ -46,4 +46,23 @@ export const mapperCreateUserFormToAnUserRequest = (
   lastName: data.lastName || undefined,
   middleName: data.middleName || undefined,
   password: data.password,
+})
+
+/** Маппер для превращения модельки с формы в форму для запроса на бэк
+ * @param data TCreateUser данные которые приходят с формы
+ * @param id number айди сущности
+ * @returns NewUserDto возвращает объект для отбравки на бэк
+ */
+export const mapperCreateUserFormToAnUserUpdateRequest = (
+  data: TCreateUser,
+  id: number
+): UserDto => ({
+  email: data.email,
+  role: data.role || NewUserDtoRole.ROLE_USER,
+  firstName: data.firstName,
+  isActive: true,
+  lastName: data.lastName || undefined,
+  middleName: data.middleName || undefined,
+  password: data.password,
+  id,
 })

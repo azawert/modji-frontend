@@ -36,13 +36,16 @@ export const EmployeePage: React.FC = () => {
     mode: "all",
   })
   const handleOpenCreateModal = useCallback(() => {
-    setIsOpenedCreateOrEditModal(prev => ({ ...prev, isOpen: true }))
+    setIsOpenedCreateOrEditModal(prev => ({
+      ...prev,
+      isOpen: true,
+      isEdit: false,
+    }))
   }, [])
   const handleCloseCreateOrEditModal = useCallback(() => {
     setIsOpenedCreateOrEditModal(prev => ({
       ...prev,
       isOpen: false,
-      isEdit: false,
     }))
     form.clearErrors()
     form.reset()
@@ -52,7 +55,7 @@ export const EmployeePage: React.FC = () => {
     setIsOpenedDeleteModal(true)
     setDeleteModalData(prev => ({
       ...prev,
-      employeeId: employee.id || 0,
+      employeeId: employee.id || 0, //по идее тут никогда не будет 0, потому что мы будем передавать айди всегда, но модель данных такова, что id там необязательный параметр
       employeeName: getFullName(
         employee.firstName,
         employee.lastName,
@@ -84,6 +87,31 @@ export const EmployeePage: React.FC = () => {
     setIsOpenedDeleteModal(false)
   }, [deleteModalData?.employeeId, deleteUser])
 
+  const handleCreateOrUpdateUser = useCallback(
+    (data: UserDto) => {
+      isOpenedCreateOrEditModal.isEdit
+        ? editUser(
+            { ...data, id: data.id },
+            {
+              onSuccess: () => {
+                handleCloseCreateOrEditModal()
+              },
+            }
+          )
+        : createUser(data, {
+            onSuccess: () => {
+              handleCloseCreateOrEditModal()
+            },
+          })
+    },
+    [
+      createUser,
+      editUser,
+      handleCloseCreateOrEditModal,
+      isOpenedCreateOrEditModal.isEdit,
+    ]
+  )
+
   return (
     <>
       <EmployeePageTitle onClick={handleOpenCreateModal} title="Команда" />
@@ -96,10 +124,9 @@ export const EmployeePage: React.FC = () => {
       <EmployeeCreateOrEditModal
         isOpen={isOpenedCreateOrEditModal.isOpen}
         onClose={handleCloseCreateOrEditModal}
-        createUser={createUser}
+        handleFormSubmit={handleCreateOrUpdateUser}
         form={form}
         isEditing={isOpenedCreateOrEditModal.isEdit}
-        editUser={editUser}
         editUserData={editModalData}
       />
       <EmployeeDeleteModal

@@ -13,7 +13,6 @@ import { getFullName, roleMapperForRussianLanguage } from "../utils"
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { useState } from "react"
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
-import { cn } from "@/lib/utils"
 
 /**
  * @prop employee данные для отображения сотрудника
@@ -35,7 +34,14 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
     useState<boolean>(false)
   return (
     <>
-      <TableRow className={cn({ "bg-[#F6F8FF]": isAdditionalFieldsShown })}>
+      <TableRow
+        hover
+        sx={{
+          "& .MuiTableRow-hover": {
+            backgroundColor: "#F6F8FF",
+          },
+        }}
+      >
         <TableCell>
           {getFullName(
             employee.firstName,

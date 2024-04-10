@@ -1,6 +1,6 @@
 import { TIcon } from "@/assets/Icons/types"
 import { cn } from "@/lib/utils"
-import { InputBase } from "@mui/material"
+import { CircularProgress, InputBase } from "@mui/material"
 import { forwardRef, memo } from "react"
 import { Icon } from "./Icon/Icon"
 
@@ -35,6 +35,8 @@ type TProps = {
   isLoading?: boolean
   loadingSpinner?: React.ReactNode
   maxLength?: number
+  className?: string
+  marginBottom?: string
 } & React.PropsWithChildren &
   Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -57,45 +59,63 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
     iconPosition,
     iconType,
     maxLength,
+    className,
+    marginBottom,
     ...rest
   } = props
+
+  const isLeftIconDisplayed =
+    iconPosition === TIconInputPosition.LEFT && !isLoading
   return (
     <label htmlFor={id} className="flex flex-col">
       {!isLoading ? (
-        <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack">
+        <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
           {label}
-          <span className="font-semibold ml-0.5 text-basicGreyText ">
+          <span className="font-semibold ml-0.5 text-basicGreyText text-small">
             {isRequired ? "*" : ""}
           </span>
         </span>
       ) : (
         loadingSpinner
       )}
-
-      <InputBase
-        placeholder={placeholder}
-        autoComplete="off"
-        disabled={isDisabled || isLoading}
-        id={id}
-        type="text"
-        className={cn(
-          `border border-basicGrey  rounded-24px focus-within:border-basicBlack py-2 px-5`,
-          {
-            [disabled]: isDisabled,
-            [errored]: error,
+      <div style={{ marginBottom }}>
+        <InputBase
+          placeholder={placeholder}
+          autoComplete="off"
+          disabled={isDisabled || isLoading}
+          id={id}
+          type="text"
+          className={cn(
+            `border-2 border-basicGrey  rounded-24px focus-within:border-basicBlack py-3 px-5 w-full ${className}`,
+            {
+              [disabled]: isDisabled,
+              [errored]: error,
+            }
+          )}
+          startAdornment={
+            isLeftIconDisplayed ? (
+              <Icon type={iconType} />
+            ) : isLoading ? (
+              <CircularProgress />
+            ) : null
           }
+          endAdornment={iconPosition === "right" && <Icon type={iconType} />}
+          {...rest}
+          ref={inputRef}
+          inputProps={{
+            maxLength,
+          }}
+          sx={{
+            "& .MuiInputBase-input": {
+              padding: 0,
+            },
+          }}
+          error={!!error}
+        />
+        {error && (
+          <span className="text-error font-semibold text-small">{error}</span>
         )}
-        startAdornment={iconPosition === "left" && <Icon type={iconType} />}
-        endAdornment={iconPosition === "right" && <Icon type={iconType} />}
-        {...rest}
-        ref={inputRef}
-        inputProps={{
-          maxLength,
-        }}
-      />
-      {error && (
-        <span className="text-error font-semibold text-small">{error}</span>
-      )}
+      </div>
     </label>
   )
 })

@@ -36,7 +36,14 @@ export const EmployeePageBody: React.FC<TProps> = props => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          "& .MuiTableCell-root": {
+            padding: "12px 24px",
+          },
+        }}
+      >
         <Table>
           <TableHead className="bg-[#D5E1FF]">
             <TableRow>
