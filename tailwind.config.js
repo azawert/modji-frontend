@@ -19,6 +19,9 @@ module.exports = {
     borderRadius: {
       "24px": "24px",
     },
+    fontFamily: {
+      body: "Inter",
+    },
     fontSize: {
       small: "12px",
       medium: "14px",

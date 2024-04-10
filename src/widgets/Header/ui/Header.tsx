@@ -26,23 +26,24 @@ export const Header: React.FC<TPropsForHeader> = ({
           boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.09)",
         }}
       >
-        <Toolbar>
+        <Toolbar className="px-6">
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between">
               <Logo src={srcLogo} logoTitle={logoTitle} />
-              {links.map(link => (
-                <Link
-                  key={link.label}
-                  isActive={selectedLink === link.label}
-                  textType={ETextType.NORMAL}
-                  onClick={() => handleSelectedLink(link.label)}
-                  className="mr-2"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              <div className=" flex gap-7">
+                {links.map(link => (
+                  <Link
+                    isActive={selectedLink === link.label}
+                    textType={ETextType.NORMAL}
+                    onClick={() => handleSelectedLink(link.label)}
+                    key={link.label}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-8">
               <Button
                 size={EButtonSize.Medium}
                 variant={EButtonVariant.Primary}
@@ -57,8 +58,9 @@ export const Header: React.FC<TPropsForHeader> = ({
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                className="hover:none"
-                sx={{ mr: 2 }}
+                sx={{
+                  padding: 0,
+                }}
               >
                 <img src={userLogo} />
               </IconButton>

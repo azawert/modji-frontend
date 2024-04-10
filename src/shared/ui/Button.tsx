@@ -1,4 +1,4 @@
-import { ButtonBase, Typography } from "@mui/material"
+import { ButtonBase, CircularProgress, Typography } from "@mui/material"
 import React, { useMemo, forwardRef, CSSProperties } from "react"
 import { COLORS } from "../constants/colors"
 import { TIcon } from "@/assets/Icons/types"
@@ -53,7 +53,6 @@ export const Button = forwardRef<HTMLButtonElement, TProps>((props, ref) => {
     fontSize,
     isDisabled,
     isLoading,
-    loadingSpinner,
     type,
     ...rest
   } = props
@@ -115,7 +114,7 @@ export const Button = forwardRef<HTMLButtonElement, TProps>((props, ref) => {
       {...rest}
     >
       {!isLoading && leftIcon && <Icon type={leftIcon} />}
-      {isLoading && loadingSpinner}
+      {isLoading && <CircularProgress />}
       <Typography fontWeight={fontWeight ?? 400} fontSize={fontSize ?? 12}>
         {children}
       </Typography>
