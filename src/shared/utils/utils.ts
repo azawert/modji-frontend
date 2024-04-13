@@ -26,3 +26,23 @@ export const useAddErrorNotification = () => {
 
   return addErrorNotification
 }
+
+export const useAddSuccessNotification = () => {
+  const { addNotification } = useContext(NotificationContext)
+
+  const addSuccessNotification = (text: string, subText?: string) => {
+    addNotification({
+      id: generateUniqueId(),
+      type: ENotificationType.SUCCESS,
+      isOpened: true,
+      text,
+      isAutoClosable: true,
+      subText,
+    })
+  }
+
+  return addSuccessNotification
+}
+
+export const renderValueWithPostfix = <T>(value: T, postfix?: string): string =>
+  `${value}${postfix}`

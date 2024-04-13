@@ -1,4 +1,4 @@
-import { UserDto } from "@/generated/user"
+import { UserDto, UserDtoRole } from "@/generated/user"
 import { useEffect } from "react"
 import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
 import {
@@ -39,6 +39,7 @@ type TProps = {
 export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
   const { isOpen, onClose, handleFormSubmit, isEditing, editUserData, form } =
     props
+
   const {
     formState: { errors, isDirty },
     handleSubmit,
@@ -208,7 +209,8 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
               },
               pattern: {
                 value: EMAIL_VALIDATION_PATTERN,
-                message: "Введите корректную почту",
+                message:
+                  "Такой адрес электронной почты не существует. Пожалуйста, проверьте правильность ввода и попробуйте снова.",
               },
             })}
           />
@@ -223,7 +225,17 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             }}
             render={({ field }) => (
               <Select
-                data={ROLE_SELECT_DATA}
+                data={
+                  editUserData?.role === UserDtoRole.ROLE_BOSS
+                    ? [
+                        ...ROLE_SELECT_DATA,
+                        {
+                          label: "Управляющий",
+                          value: UserDtoRole.ROLE_BOSS,
+                        },
+                      ]
+                    : ROLE_SELECT_DATA
+                }
                 onChange={field.onChange}
                 selectedValue={field.value}
                 label="Должность*"
@@ -240,6 +252,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             isRequired
             error={errors.password?.message}
             marginBottom="16px"
+            maxLength={10}
             {...register("password", {
               required: {
                 value: true,
@@ -250,6 +263,10 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
                 message:
                   "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
               },
+              minLength: {
+                value: 5,
+                message: "Введите больше 5 символов",
+              },
             })}
           />
           <TextField
@@ -259,6 +276,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             isRequired
             error={errors.confirmPassword?.message}
             marginBottom="32px"
+            maxLength={10}
             {...register("confirmPassword", {
               required: {
                 value: true,
@@ -273,6 +291,10 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
                 if (value !== password) {
                   return "Пароли не совпадают"
                 }
+              },
+              minLength: {
+                value: 5,
+                message: "Введите больше 5 символов",
               },
             })}
           />

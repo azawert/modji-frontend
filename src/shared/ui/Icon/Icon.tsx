@@ -1,9 +1,9 @@
-import { TIcon, iconTypes } from '@/assets/Icons/types';
-import { cn, formatToStringWithPx } from '@/lib/utils';
-import { DOMAttributes, memo, useEffect, useRef } from 'react';
-import styles from './Icon.module.scss'
+import { TIcon, iconTypes } from "@/assets/Icons/types"
+import { cn, formatToStringWithPx } from "@/lib/utils"
+import { DOMAttributes, memo, useEffect, useRef } from "react"
+import styles from "./Icon.module.scss"
 
-const getIcon = (type: TIcon) => iconTypes.get(type);
+const getIcon = (type: TIcon) => iconTypes.get(type)
 
 /**
  * @prop type Тип иконки
@@ -14,40 +14,48 @@ const getIcon = (type: TIcon) => iconTypes.get(type);
  * @prop [size] размер иконки
  */
 type TProps = {
-	type?: TIcon
-	className?: string
-	color?: string
-	height?: string
-	width?: string
-	size?: string
+  type?: TIcon
+  className?: string
+  color?: string
+  height?: string
+  width?: string
+  size?: string
 } & DOMAttributes<HTMLSpanElement>
 
 const Component: React.FC<TProps> = props => {
-	const { type, className, height, width, size, ...rest } = props
+  const { type, className, height, width, size, ...rest } = props
 
-	const iconRef = useRef<HTMLDivElement>(null)
+  const iconRef = useRef<HTMLDivElement>(null)
 
-	useEffect(() => {
+  useEffect(() => {
     if (iconRef.current) {
       if (size && !height && !width) {
-        iconRef.current.style.setProperty("--icon-height", formatToStringWithPx(size));
-        iconRef.current.style.setProperty("--icon-width", formatToStringWithPx(size));
+        iconRef.current.style.setProperty(
+          "--icon-height",
+          formatToStringWithPx(size)
+        )
+        iconRef.current.style.setProperty(
+          "--icon-width",
+          formatToStringWithPx(size)
+        )
       } else if (!size && height && width) {
-        iconRef.current.style.setProperty("--icon-height", formatToStringWithPx(height));
-        iconRef.current.style.setProperty("--icon-width", formatToStringWithPx(width));
+        iconRef.current.style.setProperty(
+          "--icon-height",
+          formatToStringWithPx(height)
+        )
+        iconRef.current.style.setProperty(
+          "--icon-width",
+          formatToStringWithPx(width)
+        )
       }
     }
-  }, [height, size, width]);
-  if(!type) {
+  }, [height, size, width])
+  if (!type) {
     return
   }
-  
+
   return (
-	<div
-      className={cn(styles.Icon, className)}
-      ref={iconRef}
-      {...rest}
-    >
+    <div className={cn(styles.Icon, className)} ref={iconRef} {...rest}>
       {getIcon(type)}
     </div>
   )
