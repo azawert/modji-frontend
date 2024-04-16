@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "^/categories", "destination": "/categories" },
+    { "source": "^/main", "destination": "/" },
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
