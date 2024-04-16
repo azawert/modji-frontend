@@ -1,8 +1,8 @@
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
 import { DeleteModal } from "@/shared/ui/modal/DeleteModal"
 import { Close } from "@mui/icons-material"
-import { Box, Typography, IconButton } from "@mui/material"
-import { memo, useCallback } from "react"
+import { Box, IconButton, Typography } from "@mui/material"
+import { useCallback } from "react"
 
 /** Пропы для модалки
  * @prop isOpen флаг открытия модального окна
@@ -13,15 +13,15 @@ import { memo, useCallback } from "react"
  */
 type TProps = {
   isOpen: boolean
-  employeeName?: string
-  employeeRole?: string
+  categoryName?: string
+  categoryDescription?: string
   onCancel: () => void
   onConfirm: () => void
 }
 
-export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
-  const { employeeName, employeeRole, isOpen, onCancel, onConfirm } = props
-
+export const CategoriesDeleteModal: React.FC<TProps> = props => {
+  const { categoryName, categoryDescription, isOpen, onCancel, onConfirm } =
+    props
   const renderHeader = useCallback(
     (): React.ReactNode => (
       <Box>
@@ -36,11 +36,7 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
     (): React.ReactNode => (
       <>
         <Typography fontSize={24} fontWeight={800} mb="24px">
-          Удалить сотрудника?
-        </Typography>
-        <Typography fontSize={16} fontWeight={400} mb="24px">
-          Сотрудник будет удален из списка ваших сотрудников и восстановить его
-          будет невозможно
+          Удалить категорию?
         </Typography>
       </>
     ),
@@ -50,14 +46,14 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
     () => (
       <>
         <Typography fontWeight={700} fontSize={16}>
-          {employeeName}
+          {categoryName}
         </Typography>
         <Typography fontSize={16} fontWeight={400}>
-          {employeeRole}
+          {categoryDescription}
         </Typography>
       </>
     ),
-    [employeeName, employeeRole]
+    [categoryName, categoryDescription]
   )
 
   const renderFooter = useCallback(
@@ -89,12 +85,12 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
     <DeleteModal
       renderHeader={renderHeader}
       isOpen={isOpen}
-      ariaDescribedby="modal-delete-form"
-      ariaLabelledby="modal-delete-employee"
+      ariaDescribedby="modal-delete-category"
+      ariaLabelledby="modal-delete-category-form"
       onClose={onCancel}
       renderMainContent={renderMainContent}
       renderSubText={renderSubText}
       renderFooter={renderFooter}
     />
   )
-})
+}
