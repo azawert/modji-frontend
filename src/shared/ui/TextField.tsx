@@ -22,6 +22,7 @@ export enum TIconInputPosition {
  * @prop [isLoading] флаг для загрузки
  * @prop [loadingSpinner] компонент для отображения состояния загрузки
  * @prop [maxLength] максимальное значение для ввода
+ * @prop [isTextarea] флаг для отображения textarea
  */
 type TProps = {
   id: string
@@ -37,6 +38,8 @@ type TProps = {
   maxLength?: number
   className?: string
   marginBottom?: string
+  isTextarea?: boolean
+  rowsToDisplay?: number
 } & React.PropsWithChildren &
   Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -61,6 +64,8 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
     maxLength,
     className,
     marginBottom,
+    isTextarea,
+    rowsToDisplay = 3,
     ...rest
   } = props
 
@@ -90,6 +95,7 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
             {
               [disabled]: isDisabled,
               [errored]: error,
+              ["px-5"]: isTextarea,
             }
           )}
           startAdornment={
@@ -109,8 +115,14 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
             "& .MuiInputBase-input": {
               padding: 0,
             },
+            "& .MuiInputBase-inputMultiline": {
+              paddingLeft: "20px",
+              paddingTop: "12px",
+            },
           }}
           error={!!error}
+          multiline={isTextarea}
+          minRows={rowsToDisplay}
         />
         {error && (
           <span className="text-error font-semibold text-small">{error}</span>

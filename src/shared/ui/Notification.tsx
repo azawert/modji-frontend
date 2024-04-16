@@ -4,7 +4,6 @@ import {
 } from "@/contexts/notificationContext/NotificationContext"
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CloseIcon from "@mui/icons-material/Close"
 import { useEffect, useState } from "react"
 import { Icon } from "./Icon/Icon"
@@ -16,7 +15,7 @@ const mapperTypeNotificationToIcon: Record<
   JSX.Element | null
 > = {
   [ENotificationType.ERROR]: <Icon type="ErrorIcon" />,
-  [ENotificationType.SUCCESS]: <CheckCircleIcon />,
+  [ENotificationType.SUCCESS]: <Icon type="SuccessIcon" />,
   [ENotificationType.CONFIRMATION]: null,
 }
 export const Notification: React.FC<TNotification> = props => {

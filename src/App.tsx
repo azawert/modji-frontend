@@ -13,6 +13,9 @@ function App() {
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
+            staleTime: Infinity,
+            retry: false,
+            networkMode: "always",
           },
         },
       })
