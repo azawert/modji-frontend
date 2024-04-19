@@ -1,6 +1,8 @@
 import { EmployeePage } from "@/modules/Employee"
+import { PageNotFound } from "@/modules/NotFound/pages/PageNotFound"
 import { Layout } from "@/shared/Layout"
-import { Navigate, RouteObject } from "react-router-dom"
+// import { Navigate, RouteObject } from "react-router-dom"
+import { RouteObject } from "react-router-dom"
 
 export const routes: RouteObject[] = [
   {
@@ -11,10 +13,10 @@ export const routes: RouteObject[] = [
         index: true,
         element: <EmployeePage />,
       },
+      {
+        path: "*",
+        element: <PageNotFound />,
+      }
     ],
-  },
-  {
-    path: "*",
-    element: <Navigate to="/" />,
   },
 ]
