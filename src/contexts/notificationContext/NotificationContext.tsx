@@ -4,6 +4,7 @@ export enum ENotificationType {
   ERROR = "error",
   SUCCESS = "success",
   CONFIRMATION = "confirmation",
+  WARNING = "warning",
 }
 
 /**
@@ -39,6 +40,9 @@ export type TNotification = {
   cancelButtonText?: string
   confirmButtonText?: string
   notificationWidth?: string
+  onlyOneAction?: boolean
+  handleOneAction?: () => void
+  onlyOneActionButtonText?: string
 }
 
 /** Тип для контекста нотификации

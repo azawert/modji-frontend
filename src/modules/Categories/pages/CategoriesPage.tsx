@@ -17,6 +17,8 @@ import {
   mapperCategoryFormToAnCreateRequest,
   mapperCategoryFromToAnUpdateRequest,
 } from "../utils"
+import { useAddWarningNotification } from "@/shared/utils/utils"
+import { useNavigate } from "react-router-dom"
 
 type TDeleteModalData = {
   name: string
@@ -25,6 +27,8 @@ type TDeleteModalData = {
 }
 
 export const CategoriesPage: React.FC = () => {
+  const addWarningNotification = useAddWarningNotification()
+  const navigate = useNavigate()
   const [isCreateOrEditModalOpen, setIsCreateOrEditModalOpen] =
     useState<TOpenModal>({ isOpen: false, isEdit: false })
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false)
@@ -67,6 +71,9 @@ export const CategoriesPage: React.FC = () => {
   const handleDeleteModalClosed = useCallback(() => {
     setIsDeleteModalOpened(false)
   }, [])
+  const handleNavigateToRoomPage = useCallback(() => {
+    navigate("/rooms")
+  }, [navigate])
 
   const handleClickDeleteCategory = useCallback(() => {
     if (!deleteModalData.id) return
@@ -74,8 +81,25 @@ export const CategoriesPage: React.FC = () => {
       onSuccess: () => {
         setIsDeleteModalOpened(false)
       },
+      onError: e => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        if (e?.response?.status === 409) {
+          addWarningNotification(
+            `Удаление категории ${deleteModalData.name} невозможно из-за наличия номеров данной категории`,
+            handleNavigateToRoomPage,
+            "Перейти в раздел Номера"
+          )
+        }
+      },
     })
-  }, [deleteModalData.id, deleteCategory])
+  }, [
+    deleteModalData.id,
+    deleteCategory,
+    addWarningNotification,
+    handleNavigateToRoomPage,
+    deleteModalData.name,
+  ])
 
   const handleCreateOrUpdateCategory = useCallback(
     (category: TCategoryForm) => {

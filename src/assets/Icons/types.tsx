@@ -4,6 +4,7 @@ import { EditIcon } from "./EditIcon"
 import { DeleteIcon } from "./DeleteIcon"
 import { ErrorIcon } from "./ErrorIcon"
 import { SuccessIcon } from "./SuccessIcon"
+import { WarningIcon } from "./WarningIcon"
 
 export type TIcon =
   | "PlusIcon"
@@ -11,6 +12,7 @@ export type TIcon =
   | "DeleteIcon"
   | "ErrorIcon"
   | "SuccessIcon"
+  | "WarningIcon"
 
 export type TIconProps = SVGProps<SVGSVGElement>
 
@@ -20,4 +22,5 @@ export const iconTypes = new Map<TIcon, JSX.Element>([
   ["DeleteIcon", <DeleteIcon key={"DeleteIcon"} />],
   ["ErrorIcon", <ErrorIcon key={"ErrorIcon"} />],
   ["SuccessIcon", <SuccessIcon key={"SuccessIcon"} />],
+  ["WarningIcon", <WarningIcon key={"WarningIcon"} />],
 ])

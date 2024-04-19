@@ -6,13 +6,13 @@ import {
   SelectChangeEvent,
   styled,
 } from "@mui/material"
+import { useEffect, useState } from "react"
 
 export type SelectData = {
   value: string
   label: string
 }
 type TProps = {
-  data: SelectData[]
   onChange: (value: string) => void
   label: string
   selectedValue?: string
@@ -21,6 +21,9 @@ type TProps = {
   isRequired?: boolean
   className?: string
   marginBottom?: string
+  renderNoData?: () => React.ReactNode
+  data?: SelectData[]
+  placeholder?: string
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
@@ -47,8 +50,19 @@ export const Select: React.FC<TProps> = props => {
     isRequired,
     className,
     marginBottom,
+    renderNoData,
+    placeholder,
   } = props
   const handleSelectChange = (e: SelectChangeEvent) => onChange(e.target.value)
+  const [preSelectedValue, setPreselectedValue] = useState<string>()
+
+  useEffect(() => {
+    if (selectedValue) {
+      setPreselectedValue(
+        () => data?.find(element => element.value === selectedValue)?.value
+      )
+    }
+  }, [data, selectedValue])
   return (
     <label htmlFor={label}>
       <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
@@ -62,6 +76,7 @@ export const Select: React.FC<TProps> = props => {
           labelId={label}
           error={!!error}
           onChange={handleSelectChange}
+          defaultValue={preSelectedValue}
           value={selectedValue}
           className={cn(`rounded-24px ${className}`, {
             ["w-full"]: fullWidth,
@@ -86,12 +101,17 @@ export const Select: React.FC<TProps> = props => {
               },
             },
           }}
+          placeholder={placeholder}
         >
-          {data.map(element => (
-            <MenuItem value={element.value} key={element.value}>
-              {element.label}
-            </MenuItem>
-          ))}
+          {Array.isArray(data)
+            ? data?.map(element => {
+                return (
+                  <MenuItem value={element.value} key={element.value}>
+                    {element.label}
+                  </MenuItem>
+                )
+              })
+            : renderNoData?.()}
         </MUISelect>
         {error && (
           <span className="text-error font-semibold text-small">{error}</span>
