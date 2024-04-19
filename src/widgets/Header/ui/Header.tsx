@@ -4,7 +4,7 @@ import { Toolbar, Box, IconButton } from "@mui/material"
 import userLogo from "../../../assets/userIcon.svg"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
 import { useState } from "react"
-import { ETextType, Link } from "./Link"
+import { ETextType, Link } from "../../../shared/ui/Link"
 import { Logo } from "./Logo"
 
 export const Header: React.FC<TPropsForHeader> = ({

@@ -36,13 +36,15 @@ export const CategoriesPageBody: React.FC<TProps> = memo(props => {
           Нет действующих категорий
         </Typography>
       ) : (
-        (categories || []).map(category => (
+        (categories || []).map((category, idx) => (
           <CategoryCard
             categoryData={category}
             handleOpenDeleteCategoryModal={handleOpenDeleteCategoryModal}
             handleOpenEditCategoryModal={handleOpenEditCategoryModal}
             key={category.id}
-            className="mr-5 mb-4"
+            needMargin={
+              categories.length % 4 === 0 ? (idx + 1) % 4 !== 0 : true
+            }
           />
         ))
       )}
