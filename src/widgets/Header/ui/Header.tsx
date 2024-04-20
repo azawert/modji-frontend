@@ -22,11 +22,13 @@ export const Header: React.FC<TPropsForHeader> = ({
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "transparent",
+          height: '92px',
+          backgroundColor: 'white',
           boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.09)",
+          justifyContent: "center",
         }}
       >
-        <Toolbar className="px-6">
+        <Toolbar className="px-6" >
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center justify-between">
               <Logo src={srcLogo} logoTitle={logoTitle} />
