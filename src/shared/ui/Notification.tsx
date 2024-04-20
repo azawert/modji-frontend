@@ -4,7 +4,6 @@ import {
 } from "@/contexts/notificationContext/NotificationContext"
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CloseIcon from "@mui/icons-material/Close"
 import { useEffect, useState } from "react"
 import { Icon } from "./Icon/Icon"
@@ -16,7 +15,8 @@ const mapperTypeNotificationToIcon: Record<
   JSX.Element | null
 > = {
   [ENotificationType.ERROR]: <Icon type="ErrorIcon" />,
-  [ENotificationType.SUCCESS]: <CheckCircleIcon />,
+  [ENotificationType.SUCCESS]: <Icon type="SuccessIcon" />,
+  [ENotificationType.WARNING]: <Icon type="WarningIcon" />,
   [ENotificationType.CONFIRMATION]: null,
 }
 export const Notification: React.FC<TNotification> = props => {
@@ -36,6 +36,9 @@ export const Notification: React.FC<TNotification> = props => {
     confirmButtonText,
     isOpened,
     notificationWidth = "320",
+    handleOneAction,
+    onlyOneAction,
+    onlyOneActionButtonText,
   } = props
   const { removeNotification } = useNotification()
   const [isOpenedNotification, setIsOpenedNotification] = useState(isOpened)
@@ -103,24 +106,39 @@ export const Notification: React.FC<TNotification> = props => {
           {subText}
         </Typography>
       )}
-      {withConfirmationButtons && (
+      {(withConfirmationButtons || onlyOneAction) && (
         <Box display="flex" marginTop="14px" gap="18px">
-          <Button
-            size={EButtonSize.Small}
-            variant={EButtonVariant.Primary}
-            onClick={handleClose}
-            fontWeight={600}
-          >
-            {cancelButtonText || "Продолжить заполнение"}
-          </Button>
-          <Button
-            size={EButtonSize.Small}
-            variant={EButtonVariant.Secondary}
-            onClick={handleCloseFormAndNotification}
-            fontWeight={600}
-          >
-            {confirmButtonText || "Выйти"}
-          </Button>
+          {withConfirmationButtons && (
+            <>
+              <Button
+                size={EButtonSize.Small}
+                variant={EButtonVariant.Primary}
+                onClick={handleClose}
+                fontWeight={600}
+              >
+                {cancelButtonText || "Продолжить заполнение"}
+              </Button>
+              <Button
+                size={EButtonSize.Small}
+                variant={EButtonVariant.Secondary}
+                onClick={handleCloseFormAndNotification}
+                fontWeight={600}
+              >
+                {confirmButtonText || "Выйти"}
+              </Button>
+            </>
+          )}
+          {onlyOneAction && (
+            <Button
+              size={EButtonSize.Small}
+              variant={EButtonVariant.Secondary}
+              fontSize={12}
+              fontWeight={600}
+              onClick={handleOneAction}
+            >
+              {onlyOneActionButtonText}
+            </Button>
+          )}
         </Box>
       )}
       <Box position="absolute" top={-35} right={-35} padding="1px">

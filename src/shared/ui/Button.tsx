@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 
 type TFontWeight = 400 | 500 | 600 | 700
 type TFontSize = 12 | 14 | 16
+
 export enum EButtonSize {
   Small = "small",
   Medium = "medium",
@@ -16,6 +17,7 @@ export enum EButtonSize {
 export enum EButtonVariant {
   Primary = "primary",
   Secondary = "secondary",
+  Link = "link",
 }
 
 /**
@@ -83,6 +85,8 @@ export const Button = forwardRef<HTMLButtonElement, TProps>((props, ref) => {
           backgroundColor: COLORS.white,
           border: `1px solid ${COLORS.darkGrey}`,
         }
+      case EButtonVariant.Link:
+        return {}
     }
   }, [variant])
 
@@ -109,12 +113,19 @@ export const Button = forwardRef<HTMLButtonElement, TProps>((props, ref) => {
           variant === EButtonVariant.Primary,
         ["active:border-[#2422F1] active:text-[#2422F1] hover:border-[#585858] hover:text-[#585858]"]:
           variant === EButtonVariant.Secondary,
+        ["border-0 text-sm text-[#757575]"]: variant === EButtonVariant.Link,
       })}
       type={type}
       {...rest}
     >
       {!isLoading && leftIcon && <Icon type={leftIcon} />}
-      {isLoading && <CircularProgress />}
+      {isLoading && (
+        <CircularProgress
+          color={variant === EButtonVariant.Primary ? "inherit" : "primary"}
+          size={20}
+          sx={{ marginRight: "5px" }}
+        />
+      )}
       <Typography fontWeight={fontWeight ?? 400} fontSize={fontSize ?? 12}>
         {children}
       </Typography>

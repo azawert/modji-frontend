@@ -6,7 +6,7 @@ import {
   ROLE_SELECT_DATA,
   TCreateUser,
 } from "../const"
-import { Box, Dialog, DialogTitle, IconButton, Typography } from "@mui/material"
+import { IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material/"
 import { TextField } from "@/shared/ui/TextField"
 import { Select } from "@/shared/ui/Select"
@@ -18,6 +18,7 @@ import {
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { generateUniqueId } from "@/shared/utils/utils"
 import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -25,8 +26,9 @@ import { ENotificationType } from "@/contexts/notificationContext/NotificationCo
  * @prop form форма для создания/обновления
  * @prop [handleFormSubmit] функция обработчик при успешном заполнении формы
  * @prop [isEditing] флаг редактирования сотрудника
- * @prop [data] данные для текущего сотрудника для редактирования
+ * @prop [editUserData] данные для текущего сотрудника для редактирования
  */
+//todo: попробовать вынести эту модалку в отдельную, чтобы можно было переиспользовать, как например DeleteModal
 type TProps = {
   isOpen: boolean
   onClose: () => void
@@ -42,7 +44,6 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
 
   const {
     formState: { errors, isDirty },
-    handleSubmit,
     register,
     setValue,
     clearErrors,
@@ -59,12 +60,10 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
   useEffect(() => {
     if (isEditing && editUserData) {
       Object.entries(editUserData).forEach(([name, value]) =>
-        setValue(name as keyof TCreateUser, value, { shouldTouch: true })
+        setValue(name as keyof TCreateUser, value)
       )
       if (editUserData.password) {
-        setValue("confirmPassword", editUserData.password, {
-          shouldTouch: true,
-        })
+        setValue("confirmPassword", editUserData.password)
       }
     }
   }, [isEditing, editUserData, setValue])
@@ -105,222 +104,222 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
     )
   }
 
+  const renderHeader = () => (
+    <IconButton onClick={handleCloseModalWindow}>
+      <Close />
+    </IconButton>
+  )
+
+  const renderBody = () => (
+    <>
+      <Typography fontSize={24} fontWeight={800} mb="16px">
+        {isEditing ? "Редактировать данные сотрудника" : "Новый сотрудник"}
+      </Typography>
+
+      <TextField
+        id="lastName"
+        placeholder="Фамилия"
+        label="Фамилия"
+        error={errors.lastName?.message}
+        maxLength={30}
+        marginBottom="16px"
+        {...register("lastName", {
+          minLength: {
+            value: 1,
+            message: "Введите больше 1 символа",
+          },
+          maxLength: {
+            value: 30,
+            message: "Введите меньше 30 символов",
+          },
+        })}
+      />
+      <TextField
+        id="name"
+        placeholder="Имя"
+        label="Имя"
+        isRequired
+        error={errors.firstName?.message}
+        maxLength={15}
+        marginBottom="16px"
+        {...register("firstName", {
+          minLength: {
+            value: 1,
+            message: "Введите больше 1 символа",
+          },
+          maxLength: {
+            value: 15,
+            message: "Введите меньше 15 символов",
+          },
+          required: {
+            value: true,
+            message: "Пожалуйста, заполните это поле",
+          },
+        })}
+      />
+      <TextField
+        id="middleName"
+        placeholder="Отчество"
+        label="Отчество"
+        error={errors.middleName?.message}
+        maxLength={30}
+        marginBottom="16px"
+        {...register("middleName", {
+          minLength: {
+            value: 1,
+            message: "Введите больше 1 символа",
+          },
+          maxLength: {
+            value: 30,
+            message: "Введите меньше 30 символов",
+          },
+        })}
+      />
+      <TextField
+        id="email"
+        placeholder="Адрес электронной почты*"
+        label="Адрес электронной почты"
+        isRequired
+        error={errors.email?.message}
+        marginBottom="16px"
+        {...register("email", {
+          required: {
+            value: true,
+            message: "Пожалуйста, заполните это поле",
+          },
+          pattern: {
+            value: EMAIL_VALIDATION_PATTERN,
+            message:
+              "Такой адрес электронной почты не существует. Пожалуйста, проверьте правильность ввода и попробуйте снова.",
+          },
+        })}
+      />
+      <Controller
+        control={control}
+        name="role"
+        rules={{
+          required: {
+            value: true,
+            message: "Пожалуйста, заполните это поле",
+          },
+        }}
+        render={({ field }) => (
+          <Select
+            data={
+              editUserData?.role === UserDtoRole.ROLE_BOSS
+                ? [
+                    ...ROLE_SELECT_DATA,
+                    {
+                      label: "Управляющий",
+                      value: UserDtoRole.ROLE_BOSS,
+                    },
+                  ]
+                : ROLE_SELECT_DATA
+            }
+            onChange={field.onChange}
+            selectedValue={field.value}
+            label="Должность*"
+            error={errors.role?.message}
+            fullWidth
+            marginBottom="16px"
+          />
+        )}
+      />
+      <TextField
+        id="password"
+        placeholder="Пароль"
+        label="Пароль"
+        isRequired
+        error={errors.password?.message}
+        marginBottom="16px"
+        maxLength={10}
+        {...register("password", {
+          required: {
+            value: true,
+            message: "Пожалуйста, заполните это поле",
+          },
+          pattern: {
+            value: /^(?!.*\s).*$/,
+            message:
+              "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
+          },
+          minLength: {
+            value: 5,
+            message: "Введите больше 5 символов",
+          },
+        })}
+      />
+      <TextField
+        id="confirmPassword"
+        placeholder="Пароль повторно"
+        label="Пароль повторно"
+        isRequired
+        error={errors.confirmPassword?.message}
+        marginBottom="32px"
+        maxLength={10}
+        {...register("confirmPassword", {
+          required: {
+            value: true,
+            message: "Пожалуйста, заполните это поле",
+          },
+          pattern: {
+            value: /^(?!.*\s).*$/,
+            message:
+              "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
+          },
+          validate: (value: string) => {
+            if (value !== password) {
+              return "Пароли не совпадают"
+            }
+          },
+          minLength: {
+            value: 5,
+            message: "Введите больше 5 символов",
+          },
+        })}
+      />
+    </>
+  )
+
+  const renderFooter = () => (
+    <>
+      <Button
+        size={EButtonSize.Large}
+        variant={EButtonVariant.Secondary}
+        onClick={handleCloseModalWindow}
+        fontSize={16}
+        fontWeight={700}
+      >
+        Отменить
+      </Button>
+      <Button
+        size={EButtonSize.Large}
+        variant={EButtonVariant.Primary}
+        type="submit"
+        form={"form_create_employee"}
+        fontSize={16}
+        fontWeight={700}
+      >
+        {isEditing ? "Сохранить" : "Создать"}
+      </Button>
+    </>
+  )
   return (
-    <Dialog
-      open={isOpen}
-      onClose={handleCloseModalWindow}
-      aria-labelledby={
-        isEditing ? "modal-update-employee" : "modal-create-employee"
-      }
-      aria-describedby={
+    <CreateOrEditModal<TCreateUser>
+      ariaDescribedby={
         isEditing ? "modal-update-employee-form" : "modal-create-employee-form"
       }
-      sx={{
-        "& .MuiDialogTitle-root": {
-          padding: 0,
-        },
-        "& .MuiPaper-root": {
-          borderRadius: "16px",
-          width: "616px",
-        },
-      }}
-    >
-      <form onSubmit={handleSubmit(onSubmit)} id="form_create_employee">
-        <DialogTitle display="flex" justifyContent="flex-end">
-          <IconButton onClick={handleCloseModalWindow}>
-            <Close />
-          </IconButton>
-        </DialogTitle>
-        <div className="pb-10 px-16">
-          <Typography fontSize={24} fontWeight={800} mb="16px">
-            {isEditing ? "Редактировать данные сотрудника" : "Новый сотрудник"}
-          </Typography>
-
-          <TextField
-            id="lastName"
-            placeholder="Фамилия"
-            label="Фамилия"
-            error={errors.lastName?.message}
-            maxLength={30}
-            marginBottom="16px"
-            {...register("lastName", {
-              minLength: {
-                value: 1,
-                message: "Введите больше 1 символа",
-              },
-              maxLength: {
-                value: 30,
-                message: "Введите меньше 30 символов",
-              },
-            })}
-          />
-          <TextField
-            id="name"
-            placeholder="Имя"
-            label="Имя"
-            isRequired
-            error={errors.firstName?.message}
-            maxLength={15}
-            marginBottom="16px"
-            {...register("firstName", {
-              minLength: {
-                value: 1,
-                message: "Введите больше 1 символа",
-              },
-              maxLength: {
-                value: 15,
-                message: "Введите меньше 15 символов",
-              },
-              required: {
-                value: true,
-                message: "Пожалуйста, заполните это поле",
-              },
-            })}
-          />
-          <TextField
-            id="middleName"
-            placeholder="Отчество"
-            label="Отчество"
-            error={errors.middleName?.message}
-            maxLength={30}
-            marginBottom="16px"
-            {...register("middleName", {
-              minLength: {
-                value: 1,
-                message: "Введите больше 1 символа",
-              },
-              maxLength: {
-                value: 30,
-                message: "Введите меньше 30 символов",
-              },
-            })}
-          />
-          <TextField
-            id="email"
-            placeholder="Адрес электронной почты*"
-            label="Адрес электронной почты"
-            isRequired
-            error={errors.email?.message}
-            marginBottom="16px"
-            {...register("email", {
-              required: {
-                value: true,
-                message: "Пожалуйста, заполните это поле",
-              },
-              pattern: {
-                value: EMAIL_VALIDATION_PATTERN,
-                message:
-                  "Такой адрес электронной почты не существует. Пожалуйста, проверьте правильность ввода и попробуйте снова.",
-              },
-            })}
-          />
-          <Controller
-            control={control}
-            name="role"
-            rules={{
-              required: {
-                value: true,
-                message: "Пожалуйста, заполните это поле",
-              },
-            }}
-            render={({ field }) => (
-              <Select
-                data={
-                  editUserData?.role === UserDtoRole.ROLE_BOSS
-                    ? [
-                        ...ROLE_SELECT_DATA,
-                        {
-                          label: "Управляющий",
-                          value: UserDtoRole.ROLE_BOSS,
-                        },
-                      ]
-                    : ROLE_SELECT_DATA
-                }
-                onChange={field.onChange}
-                selectedValue={field.value}
-                label="Должность*"
-                error={errors.role?.message}
-                fullWidth
-                marginBottom="16px"
-              />
-            )}
-          />
-          <TextField
-            id="password"
-            placeholder="Пароль"
-            label="Пароль"
-            isRequired
-            error={errors.password?.message}
-            marginBottom="16px"
-            maxLength={10}
-            {...register("password", {
-              required: {
-                value: true,
-                message: "Пожалуйста, заполните это поле",
-              },
-              pattern: {
-                value: /^(?!.*\s).*$/,
-                message:
-                  "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
-              },
-              minLength: {
-                value: 5,
-                message: "Введите больше 5 символов",
-              },
-            })}
-          />
-          <TextField
-            id="confirmPassword"
-            placeholder="Пароль повторно"
-            label="Пароль повторно"
-            isRequired
-            error={errors.confirmPassword?.message}
-            marginBottom="32px"
-            maxLength={10}
-            {...register("confirmPassword", {
-              required: {
-                value: true,
-                message: "Пожалуйста, заполните это поле",
-              },
-              pattern: {
-                value: /^(?!.*\s).*$/,
-                message:
-                  "Извините, это поле не может содержать пробелы. Используйте в этом поле буквы и цифры.",
-              },
-              validate: (value: string) => {
-                if (value !== password) {
-                  return "Пароли не совпадают"
-                }
-              },
-              minLength: {
-                value: 5,
-                message: "Введите больше 5 символов",
-              },
-            })}
-          />
-          <Box display={"flex"} justifyContent={"space-between"}>
-            <Button
-              size={EButtonSize.Large}
-              variant={EButtonVariant.Secondary}
-              onClick={handleCloseModalWindow}
-              fontSize={16}
-              fontWeight={700}
-            >
-              Отменить
-            </Button>
-            <Button
-              size={EButtonSize.Large}
-              variant={EButtonVariant.Primary}
-              type="submit"
-              form={"form_create_employee"}
-              fontSize={16}
-              fontWeight={700}
-            >
-              {isEditing ? "Сохранить" : "Создать"}
-            </Button>
-          </Box>
-        </div>
-      </form>
-    </Dialog>
+      ariaLabelledby={
+        isEditing ? "modal-update-employee" : "modal-create-employee"
+      }
+      form={form}
+      formId="form_create_employee"
+      isOpen={isOpen}
+      onClose={handleCloseModalWindow}
+      onSubmit={onSubmit}
+      renderBody={renderBody}
+      renderFooter={renderFooter}
+      renderHeader={renderHeader}
+    />
   )
 }

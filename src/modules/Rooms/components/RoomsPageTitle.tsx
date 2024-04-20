@@ -8,13 +8,13 @@ type TProps = {
   onClick: () => void
 }
 
-export const EmployeePageTitle: React.FC<TProps> = memo(props => {
+export const RoomsPageTitle: React.FC<TProps> = memo(props => {
   const { onClick } = props
   return (
     <PageTitle
-      buttonText="Добавить сотрудника"
+      buttonText="Создать новый номер"
       onClick={onClick}
-      title="Команда"
+      title="Номера"
     />
   )
 })

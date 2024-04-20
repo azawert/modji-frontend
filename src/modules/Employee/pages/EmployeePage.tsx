@@ -9,24 +9,20 @@ import { DEFAULT_VALUES_FOR_CREATE_USER_FORM, TCreateUser } from "../const"
 import { UserDto } from "@/generated/user"
 import { getFullName, roleMapperForRussianLanguage } from "../utils"
 import { EmployeeDeleteModal } from "../components/EmployeeDeleteModal"
+import { TOpenModal } from "@/shared/types/types"
 
 type TModalDeleteData = {
   employeeName: string
   employeeRole: string
   employeeId: number
 }
-type TModalOpenedState = {
-  isOpen: boolean
-  isEdit: boolean
-}
-
 export const EmployeePage: React.FC = () => {
   const { data: employees, isLoading: isEmployeeListLoading } = useGetAllUsers()
   const { mutate: createUser } = useCreateNewUser()
   const { mutate: deleteUser } = useDeleteUser()
   const { mutate: editUser } = useEditUser()
   const [isOpenedCreateOrEditModal, setIsOpenedCreateOrEditModal] =
-    useState<TModalOpenedState>({ isEdit: false, isOpen: false })
+    useState<TOpenModal>({ isEdit: false, isOpen: false })
   const [isOpenedDeleteModal, setIsOpenedDeleteModal] = useState(false)
   const [deleteModalData, setDeleteModalData] = useState<TModalDeleteData>()
   const [editModalData, setEditModalData] = useState<UserDto>()
@@ -114,7 +110,7 @@ export const EmployeePage: React.FC = () => {
 
   return (
     <>
-      <EmployeePageTitle onClick={handleOpenCreateModal} title="Команда" />
+      <EmployeePageTitle onClick={handleOpenCreateModal} />
       <EmployeePageBody
         employees={employees?.data || []}
         isLoading={isEmployeeListLoading}

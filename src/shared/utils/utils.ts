@@ -44,5 +44,28 @@ export const useAddSuccessNotification = () => {
   return addSuccessNotification
 }
 
+export const useAddWarningNotification = () => {
+  const { addNotification } = useContext(NotificationContext)
+
+  const addWarningNotification = (
+    text: string,
+    handleButtonClick: () => void,
+    buttonText: string
+  ) => {
+    addNotification({
+      id: generateUniqueId(),
+      type: ENotificationType.WARNING,
+      isOpened: true,
+      text,
+      isAutoClosable: true,
+      onlyOneAction: true,
+      handleOneAction: handleButtonClick,
+      onlyOneActionButtonText: buttonText,
+    })
+  }
+
+  return addWarningNotification
+}
+
 export const renderValueWithPostfix = <T>(value: T, postfix?: string): string =>
   `${value}${postfix}`

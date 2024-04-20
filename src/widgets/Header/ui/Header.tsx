@@ -4,7 +4,7 @@ import { Toolbar, Box, IconButton } from "@mui/material"
 import userLogo from "../../../assets/userIcon.svg"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
 import { useState } from "react"
-import { ETextType, Link } from "./Link"
+import { ETextType, Link } from "../../../shared/ui/Link"
 import { Logo } from "./Logo"
 
 export const Header: React.FC<TPropsForHeader> = ({
@@ -24,7 +24,6 @@ export const Header: React.FC<TPropsForHeader> = ({
         sx={{
           height: '92px',
           backgroundColor: 'white',
-          // backgroundColor: "transparent",
           boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.09)",
           justifyContent: "center",
         }}
