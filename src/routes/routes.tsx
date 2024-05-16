@@ -2,6 +2,7 @@ import { CategoriesPage } from "@/modules/Categories/pages/CategoriesPage"
 import { EmployeePage } from "@/modules/Employee"
 import { PageNotFound } from "@/modules/NotFound/pages/PageNotFound"
 import { RoomsPage } from "@/modules/Rooms/pages/RoomsPage"
+import { AuthorizationPage } from "@/modules/Authorization/pages/AuthorizationPage"
 import { Layout } from "@/shared/Layout"
 import { RouteObject } from "react-router-dom"
 
@@ -27,5 +28,9 @@ export const routes: RouteObject[] = [
         element: <RoomsPage />,
       },
     ],
+  },
+  {
+    path: '/authorization',
+    element: <AuthorizationPage />,
   },
 ]

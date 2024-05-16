@@ -40,6 +40,7 @@ type TProps = {
   marginBottom?: string
   isTextarea?: boolean
   rowsToDisplay?: number
+  type?: string
 } & React.PropsWithChildren &
   Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -66,6 +67,7 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
     marginBottom,
     isTextarea,
     rowsToDisplay = 3,
+    type,
     ...rest
   } = props
 
@@ -89,7 +91,7 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
           autoComplete="off"
           disabled={isDisabled || isLoading}
           id={id}
-          type="text"
+          type={type}
           className={cn(
             `border-2 border-basicGrey  rounded-24px focus-within:border-basicBlack py-3 px-5 w-full ${className}`,
             {
