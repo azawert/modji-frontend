@@ -41,6 +41,7 @@ type TProps = {
   isTextarea?: boolean
   rowsToDisplay?: number
   type?: string
+  isPhone?: boolean
 } & React.PropsWithChildren &
   Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -50,7 +51,7 @@ type TProps = {
 const disabled = "opacity-50 hover:bg-indigo-100"
 const errored = "border-error"
 
-const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
+const Component = forwardRef<HTMLInputElement, TProps>((props, inputRef) => {
   const {
     id,
     placeholder,
@@ -108,7 +109,6 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
             ) : null
           }
           endAdornment={iconPosition === "right" && <Icon type={iconType} />}
-          {...rest}
           ref={inputRef}
           inputProps={{
             maxLength,
@@ -125,6 +125,7 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
           error={!!error}
           multiline={isTextarea}
           minRows={rowsToDisplay}
+          {...rest}
         />
         {error && (
           <span className="text-error font-semibold text-small">{error}</span>

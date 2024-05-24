@@ -21,4 +21,11 @@ module.exports = {
       baseUrl: "https://rodionov.ru.fvds.ru:443/",
     },
   },
+  owners: {
+    input: "./src/docs/owners.yaml",
+    output: {
+      target: "./src/generated/owners.ts",
+      baseUrl: "https://rodionov.ru.fvds.ru:443/",
+    },
+  },
 }
