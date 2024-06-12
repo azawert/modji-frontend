@@ -41,7 +41,6 @@ export const AuthorizationPage: React.FC = () => {
         borderRadius={4} 
         textAlign="center" 
         width={487} 
-        // height={484}
       >
         <Avatar 
           src="src/assets/logo.svg" 
@@ -73,7 +72,6 @@ export const AuthorizationPage: React.FC = () => {
         <TextField
           id="email"
           placeholder="Электронная почта"
-          // marginBottom="16px"
           error={errors.email?.message}
           {...register('email', {
             required: {
