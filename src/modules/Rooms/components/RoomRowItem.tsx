@@ -114,24 +114,24 @@ export const RoomRowItem: React.FC<TProps> = memo(props => {
                     </TableCell>
                     <TableCell width={"auto"}>
                       <Typography fontSize={16}>
-                        {renderValueWithPostfix(room.area, " м2")}
+                        {room.area
+                          ? renderValueWithPostfix(room.area, " м2")
+                          : ""}
                       </Typography>
                     </TableCell>
                   </TableRow>
-                  {room.description && (
-                    <TableRow>
-                      <TableCell width={"15%"}>
-                        <Typography fontSize={16} fontWeight={700}>
-                          Описание
-                        </Typography>
-                      </TableCell>
-                      <TableCell width={"auto"}>
-                        <Typography fontSize={16}>
-                          {room.description}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  )}
+                  <TableRow>
+                    <TableCell width={"15%"}>
+                      <Typography fontSize={16} fontWeight={700}>
+                        Описание
+                      </Typography>
+                    </TableCell>
+                    <TableCell width={"auto"}>
+                      <Typography fontSize={16}>
+                        {room.description || ""}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </Collapse>

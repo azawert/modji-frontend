@@ -28,7 +28,7 @@ export const SelectWithCategories: React.FC<TProps> = props => {
   return (
     <Select
       data={mappedDataFromCategories()}
-      label="Номер комнаты*"
+      label="Категория"
       onChange={onChange}
       selectedValue={String(value)}
       renderNoData={renderNoData}
@@ -36,6 +36,7 @@ export const SelectWithCategories: React.FC<TProps> = props => {
       fullWidth
       marginBottom="16px"
       placeholder="Категория*"
+      isRequired
     />
   )
 }
