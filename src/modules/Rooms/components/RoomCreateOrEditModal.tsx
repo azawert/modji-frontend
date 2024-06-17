@@ -15,7 +15,7 @@ import {
   mapperFormToAnUpdateRequest,
 } from "../utils"
 import { SelectWithCategories } from "./SelectWithCategories"
-import { AreaTextField } from "./AreaTextField"
+import { MaskedTextField } from "@/shared/ui/MaskedTextField"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -47,7 +47,8 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
   } = form
   const formId = `${isEditing ? "update" : "create"}RoomForm`
 
-  const { addNotification } = useNotification()
+  const { addNotification, notifications, removeNotification } =
+    useNotification()
 
   /** Автозаполнение полей при наличии флага и данных */
   useEffect(() => {
@@ -92,6 +93,9 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
     } else {
       handleFormSubmit?.(mapperFormToAnCreateRequest(data))
     }
+    notifications.forEach(({ id, type }) => {
+      if (type === ENotificationType.CONFIRMATION) removeNotification(id)
+    })
   }
 
   const renderHeader = () => (
@@ -146,9 +150,26 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
             value: true,
             message: "Пожалуйста, заполните это поле",
           },
+          pattern: {
+            value: /^(?=.*[0-9])|(?=.*[а-яА-Я]).*$/,
+            message:
+              "Пожалуйста, используйте в этом поле не менее одной цифры или буквы",
+          },
         })}
       />
-      <AreaTextField form={form} name="area" />
+      <Controller
+        control={control}
+        name="area"
+        render={({ field }) => (
+          <MaskedTextField
+            id="roomArea"
+            mask="XXXX,XX"
+            placeholder="Площадь"
+            label="Площадь"
+            {...field}
+          />
+        )}
+      />
       <TextField
         id="roomDescription"
         placeholder="Описание"
