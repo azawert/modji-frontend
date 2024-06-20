@@ -23,12 +23,12 @@ const InfoValue = styled(Typography)(() => ({
 
 interface CardWithClientProps {
   fullName: string;
-  primaryPhone: string;
-  secondaryPhone: string;
-  registrationDate: string;
+  mainPhone?: string;
+  optionalPhone?: string;
+  registrationDate?: string;
 }
 
-export const CardWithClient: React.FC<CardWithClientProps> = ({ fullName, primaryPhone, secondaryPhone, registrationDate }) => {
+export const CardWithClient: React.FC<CardWithClientProps> = ({ fullName, mainPhone, optionalPhone, registrationDate }) => {
   return (
     <CardWrapper bgColor="#F6F8FF">
       <StyledBox>
@@ -37,11 +37,11 @@ export const CardWithClient: React.FC<CardWithClientProps> = ({ fullName, primar
       </StyledBox>
       <StyledBox>
         <InfoTitle>Основной телефон</InfoTitle>
-        <InfoValue>{primaryPhone}</InfoValue>
+        <InfoValue>{mainPhone}</InfoValue>
       </StyledBox>
       <StyledBox>
         <InfoTitle>Второй телефон</InfoTitle>
-        <InfoValue>{secondaryPhone}</InfoValue>
+        <InfoValue>{optionalPhone}</InfoValue>
       </StyledBox>
       <StyledBox>
         <InfoTitle>Дата регистрации</InfoTitle>

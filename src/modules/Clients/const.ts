@@ -8,7 +8,7 @@ export const steps: TStep<NewOwnerDto>[] = [
     fields: [
       {
         label: "Фамилия",
-        name: "lastname",
+        name: "lastName",
         validation: {
           minLength: {
             message: "Введите больше 2-ух символов",
@@ -23,7 +23,7 @@ export const steps: TStep<NewOwnerDto>[] = [
       },
       {
         label: "Имя",
-        name: "name",
+        name: "firstName",
         validation: {
           required: {
             message: "Пожалуйста, заполните это поле",

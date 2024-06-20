@@ -1,14 +1,24 @@
-
+import { OwnerDto } from '@/generated/owners';
 import { CardWithClient } from '@/shared/ui/CardWithClient';
 import { CardWithPet } from '@/shared/ui/CardWithPet';
 import { TableComponent } from '@/shared/ui/TableComponent';
 import { Box } from '@mui/material';
+import { mapResponseToTableView } from '../utils';
+
+import { ERROR_MESSAGES } from '@/shared/constants/errors';
+
+interface IProps {
+  isLoading: boolean;
+  isError: boolean;
+  data: OwnerDto[];
+  error: Error | null;
+}
 
 interface Client {
   fullName: string;
-  primaryPhone: string;
-  secondaryPhone: string;
-  registrationDate: string;
+  mainPhone?: string;
+  optionalPhone?: string;
+  registrationDate?: string;
 }
 
 interface Pet {
@@ -17,53 +27,36 @@ interface Pet {
   breed: string;
 }
 
-interface ClientData {
+export interface ClientData {
   client: Client;
   pets: Pet[];
 }
-
-const clientData: ClientData[] = [
-  {
-    client: {
-      fullName: 'Петров Петр Петрович',
-      primaryPhone: '+7 (986) 555 55 55',
-      secondaryPhone: '+7 (986) 666 66 66',
-      registrationDate: '05.12.2023',
-    },
-    pets: [
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-    ],
-  },
-  {
-    client: {
-      fullName: 'Петров Петр Петрович',
-      primaryPhone: '+7 (986) 555 55 55',
-      secondaryPhone: '+7 (986) 666 66 66',
-      registrationDate: '05.12.2023',
-    },
-    pets: [
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-      { petName: 'Марсик', petType: 'Собака', breed: 'Бигль' },
-    ],
-  },
-];
 
 const columns = [
   { id: 'client', label: 'Данные клиента', width: 312 },
   { id: 'pets', label: 'Данные питомцев', flex: 1 },
 ];
 
-export const TableWithClients: React.FC = () => {
-  const rows = clientData.map(data => ({
+const getErrorMessage = (error: Error | null): string | null => {
+  if (!error) return null;
+  const matchedError = Object.keys(ERROR_MESSAGES).find((code) =>
+    error.message.includes(code)
+  );
+  return matchedError ? ERROR_MESSAGES[matchedError] : 'Неизвестная ошибка';
+};
+
+export const TableWithClients: React.FC<IProps> = ({
+  data, 
+  isLoading, 
+  isError,
+  error
+}) => {
+  const rows = mapResponseToTableView(data).map(data => ({
     client: (
       <CardWithClient
         fullName={data.client.fullName}
-        primaryPhone={data.client.primaryPhone}
-        secondaryPhone={data.client.secondaryPhone}
+        mainPhone={data.client.mainPhone}
+        optionalPhone={data.client.optionalPhone}
         registrationDate={data.client.registrationDate}
       />
     ),
@@ -88,7 +81,18 @@ export const TableWithClients: React.FC = () => {
 
   return (
     <Box>
-      <TableComponent columns={columns} rows={rows} />
+      <TableComponent 
+        columns={columns} 
+        rows={isLoading || isError ? [] : rows} 
+      />
+      {isLoading && 
+        <div className='flex justify-center m-40'>
+          Загрузка...
+        </div>}
+      {isError && error && 
+        <div className='flex justify-center m-40'>
+          {getErrorMessage(error)}
+        </div>}
     </Box>
   );
 };

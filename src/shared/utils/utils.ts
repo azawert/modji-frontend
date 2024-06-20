@@ -3,6 +3,7 @@ import {
   NotificationContext,
 } from "@/contexts/notificationContext/NotificationContext"
 import { useContext } from "react"
+import dayjs from "dayjs";
 
 export const generateUniqueId = () => {
   const dateStr = Date.now().toString(36)
@@ -69,3 +70,7 @@ export const useAddWarningNotification = () => {
 
 export const renderValueWithPostfix = <T>(value: T, postfix?: string): string =>
   `${value}${postfix}`
+
+export const convertServerDataToClientData = (date: string): string => {
+  return dayjs(date).format('DD.MM.YYYY')
+}
