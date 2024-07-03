@@ -6,6 +6,7 @@ import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
 import { useState } from "react"
 import { ETextType, Link } from "../../../shared/ui/Link"
 import { Logo } from "./Logo"
+import useBookingStore from "@/modules/Booking/store/BookingStore"
 
 export const Header: React.FC<TPropsForHeader> = ({
   links,
@@ -16,6 +17,8 @@ export const Header: React.FC<TPropsForHeader> = ({
   const [selectedLink, setSelectedLink] = useState(links[0].label)
 
   const handleSelectedLink = (link: string) => setSelectedLink(link)
+
+  const openModal = useBookingStore(state => state.setIsBookingInProgress)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -51,7 +54,7 @@ export const Header: React.FC<TPropsForHeader> = ({
                 variant={EButtonVariant.Primary}
                 fontSize={14}
                 fontWeight={700}
-                onClick={handleActiveButtonClick}
+                onClick={() => openModal(true)}
               >
                 Добавить бронирование
               </Button>
