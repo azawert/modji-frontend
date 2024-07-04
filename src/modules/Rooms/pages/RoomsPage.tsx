@@ -35,8 +35,8 @@ const tabs: TTabsForMode[] = [
 ]
 
 type TModalDeleteData = {
-  roomCategory: string
-  roomNumber: string
+  roomCategory: string | undefined
+  roomNumber: string | undefined
   id: number
 }
 
@@ -88,10 +88,7 @@ export const RoomsPage: React.FC = () => {
     setDeleteModalData(prev => ({
       ...prev,
       id: room.id,
-      //та же ситуация, в RoomDto почему-то приходит categoryDto
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      roomCategory: room.categoryDto.name,
+      roomCategory: room.categoryDto?.name,
       roomNumber: room.number,
     }))
   }, [])

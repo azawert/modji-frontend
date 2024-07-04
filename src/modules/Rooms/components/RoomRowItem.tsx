@@ -36,9 +36,6 @@ export const RoomRowItem: React.FC<TProps> = memo(props => {
   const [isAdditionalFieldsShown, setIsAdditionalFieldsShown] =
     useState<boolean>(false)
   const isDeletedPagesShown = mode === EPageMode.DELETED
-  //todo после правок от бека убрать тс игнор
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
   const categoryName = room.categoryDto?.name
   return (
     <>
