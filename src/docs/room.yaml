@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: 'PetHotel: Rooms Specification'
+  title: "PetHotel: Rooms Specification"
   version: v4
 servers:
   - url: http://localhost:8080
@@ -19,7 +19,7 @@ paths:
       summary: Получение списка всех номеров
       description: Получение списка всех номеров. Доступно только пользователями с ролью ROLE_BOSS, ROLE_ADMIN, ROLE_FINANCIAL.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
         - name: isVisible
           in: query
           description: >-
@@ -29,62 +29,62 @@ paths:
           schema:
             type: boolean
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/RoomDto'
-        '400':
+                  $ref: "#/components/schemas/RoomDto"
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
-        '403':
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     post:
       tags:
         - room-controller
@@ -92,80 +92,80 @@ paths:
       summary: Добавление нового номера
       description: Добавление в БД нового номера. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewRoomDto'
+              $ref: "#/components/schemas/NewRoomDto"
         required: true
       responses:
-        '201':
+        "201":
           description: Номер добавлен
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/RoomDto'
-        '400':
+                $ref: "#/components/schemas/RoomDto"
+        "400":
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '403':
+                $ref: "#/components/schemas/Error"
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '409':
+                $ref: "#/components/schemas/Error"
+        "409":
           description: Конфликт данных - номер с таким именем уже существует в БД.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: CONFLICT
                 reason: For the requested operation the conditions are not met.
-                message: 'Room with id=1 already exists'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Room with id=1 already exists"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /rooms/{id}:
     get:
       tags:
@@ -174,63 +174,63 @@ paths:
       summary: Получение номера по его ID
       description: Получение номера по его ID. Доступно только пользователями с ролью ROLE_BOSS, ROLE_ADMIN, ROLE_FINANCIAL.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/roomId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/roomId"
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/RoomDto'
-        '400':
+                $ref: "#/components/schemas/RoomDto"
+        "400":
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '403':
+                $ref: "#/components/schemas/Error"
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден. Получаем в 2 случаях - в БД отсутствует пользователь с id, переданном в header либо В БД отсутствует номер с id, переданном в параметрах.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - room-controller
@@ -238,59 +238,59 @@ paths:
       summary: Удаление номера по его ID
       description: Удаление номера по его ID. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/roomId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/roomId"
       responses:
-        '204':
+        "204":
           description: No Content
-        '400':
+        "400":
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '403':
+                $ref: "#/components/schemas/Error"
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     patch:
       tags:
         - room-controller
@@ -298,81 +298,81 @@ paths:
       summary: Изменение номера по его ID
       description: Изменение номера по его ID. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/roomId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/roomId"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateRoomDto'
+              $ref: "#/components/schemas/UpdateRoomDto"
         required: true
       responses:
-        '200':
+        "200":
           description: Номер обновлен
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/RoomDto'
-        '400':
+                $ref: "#/components/schemas/RoomDto"
+        "400":
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '403':
+                $ref: "#/components/schemas/Error"
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '409':
+                $ref: "#/components/schemas/Error"
+        "409":
           description: Конфликт данных - номер с таким именем уже существует в БД.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: CONFLICT
                 reason: For the requested operation the conditions are not met.
-                message: 'Room with id=1 already exists'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Room with id=1 already exists"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /rooms/{id}/unhide:
     patch:
       tags:
@@ -381,63 +381,63 @@ paths:
       summary: Возвращение номера в отображаемые списки по его ID
       description: Возвращение номера в отображаемые списки по его ID. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/roomId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/roomId"
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/RoomDto'
-        '400':
+                $ref: "#/components/schemas/RoomDto"
+        "400":
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '403':
+                $ref: "#/components/schemas/Error"
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /rooms/{id}/hide:
     patch:
       tags:
@@ -446,63 +446,63 @@ paths:
       summary: Сокрытие номера из отображаемых списков по его ID
       description: Сокрытие номера из отображаемых списков по его ID. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/roomId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/roomId"
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/RoomDto'
-        '400':
+                $ref: "#/components/schemas/RoomDto"
+        "400":
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '403':
+                $ref: "#/components/schemas/Error"
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /rooms/{catId}/getAvailableRooms:
     get:
       tags:
@@ -511,67 +511,67 @@ paths:
       summary: Получение списка всех доступных номеров в категории
       description: Получение списка всех доступных на определенные даты номеров, относящихся к заданной категории. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/catId'
-        - $ref: '#/components/parameters/checkInDate'
-        - $ref: '#/components/parameters/checkOutDate'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/catId"
+        - $ref: "#/components/parameters/checkInDate"
+        - $ref: "#/components/parameters/checkOutDate"
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/RoomDto'
-        '400':
+                  $ref: "#/components/schemas/RoomDto"
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
-        '403':
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /rooms/checkUniqueNumber:
     get:
       tags:
@@ -580,67 +580,67 @@ paths:
       summary: Проверка уникальности номера комнаты
       description: Проверка номера комнаты на уникальность. Возвращает true - если такой номер уникален, false - если номер не уникален и в БД имеется запись о комнате с таким же номером. Доступно только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
         - name: roomNumber
           in: query
           required: true
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: boolean
-        '400':
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
-                message: 'Required request header X-PetHotel-User-Id for method parameter type Long is not present'
-                timestamp: '2023-01-01 00:00:00'
+                message: "Required request header X-PetHotel-User-Id for method parameter type Long is not present"
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно.Например, переданы невалидные данные.
-        '403':
+        "403":
           description: У пользователя с данной ролью нет прав на совершение данного действия.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Объект не найден - в БД отсутствует пользователь с id, переданном в header.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "user with id=1 is not found"
-                timestamp: '2023-01-01 00:00:00'
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error. Все прочие неотлавливаемые исключения.
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error
-                message: [ ]
-                timestamp: '2023-01-01 00:00:00'
+                message: []
+                timestamp: "2023-01-01 00:00:00"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 components:
   parameters:
     requesterHeader:
@@ -793,7 +793,7 @@ components:
           type: number
           format: double
         categoryDto:
-          $ref: '#/components/schemas/CategoryDto'
+          $ref: "#/components/schemas/CategoryDto"
         description:
           type: string
         isVisible:

@@ -1,8 +1,9 @@
 import { CategoryDto } from "@/generated/categories"
+import { useClickOutside } from "@/shared/hooks/hooks"
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 import { Box, Card, Collapse, IconButton, Typography } from "@mui/material"
-import { memo, useEffect, useRef, useState } from "react"
+import { memo, useCallback, useState } from "react"
 
 const defaultHeightOfCard = 180
 /**
@@ -49,27 +50,14 @@ export const CategoryCard: React.FC<TProps> = memo(props => {
   const [isAdditionalFieldsShown, setIsAdditionalFieldsShown] =
     useState<boolean>(false)
 
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  // Функция для закрытия карточки, если кликнули за границей карточки
-  const handleClickOutsideCard = (event: MouseEvent) => {
-    if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
-      setIsAdditionalFieldsShown(false)
-    }
-  }
-
-  useEffect(() => {
-    if (isAdditionalFieldsShown) {
-      document.addEventListener("mousedown", handleClickOutsideCard)
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideCard)
-    }
-  }, [isAdditionalFieldsShown])
-
   const handleToggleAdditionalFields = () => {
     setIsAdditionalFieldsShown(p => !p)
   }
+
+  const handleCloseAdditionalFields = useCallback(() => {
+    setIsAdditionalFieldsShown(false)
+  }, [])
+  const cardRef = useClickOutside(handleCloseAdditionalFields)
 
   const ButtonIcon = isAdditionalFieldsShown ? (
     <KeyboardArrowUp />
@@ -112,19 +100,13 @@ export const CategoryCard: React.FC<TProps> = memo(props => {
 
             <Box marginTop="12px">
               <Box display="flex" alignItems="center">
+                <Typography fontSize={12} fontWeight={400} color="#757575">
+                  Описание
+                </Typography>
                 <IconButton
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    "&.MuiButtonBase-root:hover": {
-                      bgcolor: "transparent",
-                    },
-                  }}
+                  sx={{ padding: 0, margin: 0 }}
                   onClick={handleToggleAdditionalFields}
                 >
-                  <Typography fontSize={12} fontWeight={400} color="#757575">
-                    Описание
-                  </Typography>
                   {ButtonIcon}
                 </IconButton>
               </Box>
