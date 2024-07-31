@@ -19,7 +19,8 @@ type TProps = {
   isBold?: boolean
   onClick?: () => void
   className?: string
-} & React.PropsWithChildren
+} & React.PropsWithChildren &
+  React.HTMLAttributes<HTMLSpanElement>
 
 const Component: React.FC<TProps> = props => {
   const {
@@ -29,6 +30,7 @@ const Component: React.FC<TProps> = props => {
     children,
     onClick,
     className,
+    ...rest
   } = props
 
   return (
@@ -40,6 +42,7 @@ const Component: React.FC<TProps> = props => {
         "font-light font-base": textType === ETextType.NORMAL,
         "font-bold": isBold,
       })}
+      {...rest}
     >
       {children}
     </span>
