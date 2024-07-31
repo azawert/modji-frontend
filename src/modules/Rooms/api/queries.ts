@@ -13,7 +13,10 @@ export const useGetAllRooms = (key: string) =>
       ) as Promise<AxiosResponse<RoomDto[]>>,
   })
 
-export const useCheckUniqueRoomNumber = (roomNumber: string) => {
+export const useCheckUniqueRoomNumber = (
+  roomNumber: string,
+  enabled?: boolean
+) => {
   return useQuery({
     queryKey: [EQueryKeys.CHECK_UNIQUE_ROOM_NUMBER, roomNumber],
     queryFn: () =>
@@ -21,7 +24,7 @@ export const useCheckUniqueRoomNumber = (roomNumber: string) => {
         { roomNumber },
         { headers: { "X-PetHotel-User-Id": 1 } }
       ),
-    enabled: !!roomNumber?.length,
+    enabled: !!roomNumber?.length && enabled,
     staleTime: 0,
   })
 }

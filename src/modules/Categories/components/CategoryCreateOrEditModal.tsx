@@ -102,7 +102,7 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
             message: "Пожалуйста, заполните это поле",
           },
           pattern: {
-            value: /[а-яА-Я0-9_]/,
+            value: /[а-яА-Яa-zA-Z0-9_]/,
             message: "Название должно содержать минимум 1 букву или цифру",
           },
           minLength: {

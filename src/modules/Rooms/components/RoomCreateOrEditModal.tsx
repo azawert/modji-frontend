@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
 import { IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material/"
@@ -55,11 +55,21 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
     useNotification()
 
   const [roomNumber] = watch(["number"])
+  const [prevRoomNumberValue, setPrevRoomNumberValue] = useState<
+    string | undefined
+  >(undefined)
 
   const debouncedValue = useDebounce(roomNumber, 500)
 
-  const { data: isRoomNumberAvailable } =
-    useCheckUniqueRoomNumber(debouncedValue)
+  /**
+   * Функция возвращающая признак изменения номера при редактировании
+   */
+  const hasRoomNumberNotChanged = () => roomNumber === prevRoomNumberValue
+
+  const { data: isRoomNumberAvailable } = useCheckUniqueRoomNumber(
+    debouncedValue,
+    !hasRoomNumberNotChanged()
+  )
 
   /** Автозаполнение полей при наличии флага и данных */
   useEffect(() => {
@@ -68,13 +78,14 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
         setValue(name as keyof TRoomCreateForm, value)
       })
       setValue("category", editRoomData?.categoryDto?.id?.toString() ?? "0")
+      setPrevRoomNumberValue(editRoomData.number)
     }
   }, [isEditing, setValue, editRoomData])
 
   // в rhf не получается проставить ошибку, при получении ответа от реста, т.к она просто сбрасывается при расфокусе с поля, вроде есть другое решение, но пока как есть
   const getTextErrorForRoomNumber = useMemo(() => {
-    if (isRoomNumberAvailable?.data === false) {
-      return "Данный номер занят"
+    if (isRoomNumberAvailable?.data === false && !hasRoomNumberNotChanged()) {
+      return "Комната с таким номером уже существует в системе"
     }
     if (errors?.number) {
       return errors.number.message
@@ -197,12 +208,12 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
         label="Описание"
         error={errors.description?.message}
         marginBottom="32px"
-        maxLength={150}
+        maxLength={250}
         isTextarea
         {...register("description", {
           maxLength: {
-            value: 150,
-            message: "Введите меньше 150 символов",
+            value: 250,
+            message: "Введите меньше 250 символов",
           },
         })}
       />

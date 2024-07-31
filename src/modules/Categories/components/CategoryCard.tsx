@@ -86,6 +86,10 @@ export const CategoryCard: React.FC<TProps> = memo(props => {
             position: isAdditionalFieldsShown ? "absolute" : "static",
             width: "100%",
             height: isAdditionalFieldsShown ? undefined : defaultHeightOfCard,
+            border: "2px solid transparent",
+            "&:hover": {
+              border: "2px solid #D5E1FF",
+            },
           }}
         >
           <Box display="flex" flexDirection="column">

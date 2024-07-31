@@ -78,7 +78,7 @@ export const Select: React.FC<TProps> = props => {
           onChange={handleSelectChange}
           defaultValue={preSelectedValue}
           value={selectedValue}
-          className={cn(`rounded-24px ${className}`, {
+          className={cn(`${className} selectWithCategories`, {
             ["w-full"]: fullWidth,
             ["border-error"]: !!error,
           })}
@@ -91,14 +91,27 @@ export const Select: React.FC<TProps> = props => {
                   borderRadius: "24px",
                   border: "2px solid #D0CFCF",
                   marginTop: "5px",
+                  maxHeight: "200px",
+                  overflowY: "auto",
                   "& .MuiMenuItem-root:active": {
                     backgroundColor: "#D5E1FF",
                   },
                   "& .MuiMenuItem-root:hover": {
                     backgroundColor: "#E8E8E8",
                   },
+                  "& .Mui-selected": {
+                    backgroundColor: "transparent",
+                  },
                 },
               },
+            },
+          }}
+          sx={{
+            "& .MuiSelect-select": {
+              borderRadius: "24px !important",
+            },
+            "& .Mui-focused": {
+              borderColor: "black",
             },
           }}
           placeholder={placeholder}
