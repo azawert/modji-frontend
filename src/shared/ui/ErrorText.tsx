@@ -9,12 +9,14 @@ export enum EErrorColor {
 export const ErrorText = ({
   children,
   color,
+  className,
 }: {
   children: React.ReactNode
   color: EErrorColor
+  className?: string
 }) => (
   <Typography
-    className={cn({
+    className={cn(className, {
       "text-[#FF7878]": color === EErrorColor.RED,
     })}
     fontSize={12}

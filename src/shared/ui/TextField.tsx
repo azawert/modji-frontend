@@ -83,7 +83,7 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
         </span>
       </span>
 
-      <div style={{ marginBottom }}>
+      <div style={{ marginBottom, position: "relative" }}>
         <InputBase
           placeholder={placeholder}
           autoComplete="off"
@@ -124,7 +124,14 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
           minRows={rowsToDisplay}
           {...rest}
         />
-        {error && <ErrorText color={EErrorColor.RED}>{error}</ErrorText>}
+        {error && (
+          <ErrorText
+            color={EErrorColor.RED}
+            className="top-full left-0 pt-1 pl-[22px] text-red-500 text-xs"
+          >
+            {error}
+          </ErrorText>
+        )}
       </div>
     </label>
   )

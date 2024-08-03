@@ -29,7 +29,7 @@ export const useAddErrorNotification = () => {
 export const useAddSuccessNotification = () => {
   const { addNotification } = useContext(NotificationContext)
 
-  const addSuccessNotification = (text: string, subText?: string) => {
+  return (text: string, subText?: string) => {
     addNotification({
       id: generateUniqueId(),
       type: ENotificationType.SUCCESS,
@@ -39,18 +39,12 @@ export const useAddSuccessNotification = () => {
       subText,
     })
   }
-
-  return addSuccessNotification
 }
 
 export const useAddWarningNotification = () => {
   const { addNotification } = useContext(NotificationContext)
 
-  const addWarningNotification = (
-    text: string,
-    handleButtonClick: () => void,
-    buttonText: string
-  ) => {
+  return (text: string, handleButtonClick: () => void, buttonText: string) => {
     addNotification({
       id: generateUniqueId(),
       type: ENotificationType.WARNING,
@@ -62,8 +56,6 @@ export const useAddWarningNotification = () => {
       onlyOneActionButtonText: buttonText,
     })
   }
-
-  return addWarningNotification
 }
 
 export const renderValueWithPostfix = <T>(value: T, postfix?: string): string =>

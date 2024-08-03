@@ -6,7 +6,7 @@ import {
   SelectChangeEvent,
   styled,
 } from "@mui/material"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
 export type SelectData = {
   value: string
@@ -21,9 +21,11 @@ type TProps = {
   isRequired?: boolean
   className?: string
   marginBottom?: string
-  renderNoData?: () => React.ReactNode
+  renderNoData?: () => ReactNode
   data?: SelectData[]
   placeholder?: string
+  renderValue: (value: string) => ReactNode
+  onBlur?: () => void
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
@@ -52,6 +54,8 @@ export const Select: React.FC<TProps> = props => {
     marginBottom,
     renderNoData,
     placeholder,
+    renderValue,
+    onBlur,
   } = props
   const handleSelectChange = (e: SelectChangeEvent) => onChange(e.target.value)
   const [preSelectedValue, setPreselectedValue] = useState<string>()
@@ -75,6 +79,8 @@ export const Select: React.FC<TProps> = props => {
         <MUISelect
           labelId={label}
           error={!!error}
+          displayEmpty
+          renderValue={renderValue}
           onChange={handleSelectChange}
           defaultValue={preSelectedValue}
           value={selectedValue}
@@ -115,6 +121,7 @@ export const Select: React.FC<TProps> = props => {
             },
           }}
           placeholder={placeholder}
+          onBlur={onBlur}
         >
           {Array.isArray(data)
             ? data?.map(element => {

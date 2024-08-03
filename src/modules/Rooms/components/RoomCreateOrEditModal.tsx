@@ -157,6 +157,7 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
               onChange={field.onChange}
               value={field.value}
               error={error?.message}
+              onBlur={field.onBlur}
             />
           )
         }}
