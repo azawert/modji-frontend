@@ -1,7 +1,6 @@
-import { OwnerDto } from "@/generated/owners";
-import { ClientData } from "./components/TableWithClients";
-import { convertServerDataToClientData } from "@/shared/utils/utils";
-
+import { OwnerDto } from "@/generated/owners"
+import { ClientData } from "./components/TableWithClients"
+import { convertServerDataToClientData } from "@/shared/utils/utils"
 
 export const getFullName = (
   firstName: string,
@@ -21,7 +20,7 @@ export const getFullName = (
 }
 
 export const mapResponseToTableView = (data: OwnerDto[]): ClientData[] => {
-  return data.map((owner) => ({
+  return data.map(owner => ({
     pets: [],
     client: {
       fullName: getFullName(owner.firstname!, owner.lastname, owner.middleName),
@@ -29,5 +28,5 @@ export const mapResponseToTableView = (data: OwnerDto[]): ClientData[] => {
       optionalPhone: owner.optionalPhone,
       registrationDate: convertServerDataToClientData(owner.registrationDate!),
     },
-  }));
+  }))
 }

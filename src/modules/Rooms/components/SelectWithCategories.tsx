@@ -1,15 +1,17 @@
 import { useGetCategories } from "@/modules/Categories/api/queries"
 import { Select, SelectData } from "@/shared/ui/Select"
 import { Typography } from "@mui/material"
+import { ReactNode } from "react"
 
 type TProps = {
   onChange: (value: string) => void
   value: string
   error?: string
+  onBlur?: () => void
 }
 
 export const SelectWithCategories: React.FC<TProps> = props => {
-  const { onChange, value, error } = props
+  const { onChange, value, error, onBlur } = props
   const { data: categories, isError } = useGetCategories()
 
   const mappedDataFromCategories = (): SelectData[] | undefined =>
@@ -25,6 +27,9 @@ export const SelectWithCategories: React.FC<TProps> = props => {
     }
   }
 
+  const renderValue = (value: string): ReactNode =>
+    value?.length ? value : <Typography color="#757575">Категория*</Typography>
+
   return (
     <Select
       data={mappedDataFromCategories()}
@@ -37,6 +42,8 @@ export const SelectWithCategories: React.FC<TProps> = props => {
       marginBottom="16px"
       placeholder="Категория*"
       isRequired
+      renderValue={renderValue}
+      onBlur={onBlur}
     />
   )
 }

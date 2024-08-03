@@ -1,5 +1,5 @@
 import { UserDto, UserDtoRole } from "@/generated/user"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
 import {
   EMAIL_VALIDATION_PATTERN,
@@ -14,6 +14,7 @@ import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
 import {
   mapperCreateUserFormToAnUserCreateRequest,
   mapperCreateUserFormToAnUserUpdateRequest,
+  roleMapperForRussianLanguage,
 } from "../utils"
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { generateUniqueId } from "@/shared/utils/utils"
@@ -28,7 +29,7 @@ import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
  * @prop [isEditing] флаг редактирования сотрудника
  * @prop [editUserData] данные для текущего сотрудника для редактирования
  */
-//todo: попробовать вынести эту модалку в отдельную, чтобы можно было переиспользовать, как например DeleteModal
+
 type TProps = {
   isOpen: boolean
   onClose: () => void
@@ -110,6 +111,17 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
     </IconButton>
   )
 
+  /** Для компонента из material-ui select необходимо пробрасывать доп функцию для отображения значения или плейсхолдера, без нее плейсхолдер не будет отображаться */
+  const renderValue = useCallback(
+    (value: string) =>
+      value?.length ? (
+        roleMapperForRussianLanguage[value as UserDtoRole]
+      ) : (
+        <Typography color="#757575">Должность*</Typography>
+      ),
+    []
+  )
+
   const renderBody = () => (
     <>
       <Typography fontSize={24} fontWeight={800} mb="16px">
@@ -162,7 +174,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
         placeholder="Отчество"
         label="Отчество"
         error={errors.middleName?.message}
-        maxLength={30}
+        maxLength={15}
         marginBottom="16px"
         {...register("middleName", {
           minLength: {
@@ -170,8 +182,8 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
             message: "Введите больше 1 символа",
           },
           maxLength: {
-            value: 30,
-            message: "Введите меньше 30 символов",
+            value: 15,
+            message: "Введите меньше 15 символов",
           },
         })}
       />
@@ -216,12 +228,18 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
                   ]
                 : ROLE_SELECT_DATA
             }
-            onChange={field.onChange}
+            onChange={value => {
+              field.onChange(value)
+              field.onBlur()
+            }}
             selectedValue={field.value}
             label="Должность*"
             error={errors.role?.message}
             fullWidth
             marginBottom="16px"
+            placeholder="Должность*"
+            renderValue={renderValue}
+            onBlur={field.onBlur}
           />
         )}
       />

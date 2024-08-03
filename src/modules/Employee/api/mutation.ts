@@ -42,12 +42,26 @@ export const useDeleteUser = () => {
 
 export const useEditUser = () => {
   const queryClient = useQueryClient()
+  const addErrorNotification = useAddErrorNotification()
   return useMutation({
     mutationKey: [mutationKeys.EDIT_USER],
     mutationFn: (data: UserDto) =>
       updateUser(data.id!, data, { headers: { "X-PetHotel-User-Id": 1 } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKeys.GET_ALL_USERS] })
+    },
+    onError: e => {
+      // TODO: после правок от бека с ошибками, наладить типизацию ошибок во всем проекте и убрать @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      if (e?.response?.status === 409) {
+        addErrorNotification(
+          "Сотрудник с таким адресом электронной почты уже существует в системе"
+        )
+      } else {
+        addErrorNotification("Произошла непредвиденная ошибка")
+      }
+      return
     },
   })
 }
