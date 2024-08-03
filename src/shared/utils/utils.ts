@@ -3,7 +3,7 @@ import {
   NotificationContext,
 } from "@/contexts/notificationContext/NotificationContext"
 import { useContext } from "react"
-import dayjs from "dayjs";
+import dayjs from "dayjs"
 
 export const generateUniqueId = () => {
   const dateStr = Date.now().toString(36)
@@ -14,7 +14,7 @@ export const generateUniqueId = () => {
 export const useAddErrorNotification = () => {
   const { addNotification } = useContext(NotificationContext)
 
-  const addErrorNotification = (text: string, subText?: string) => {
+  return (text: string, subText?: string) => {
     addNotification({
       id: generateUniqueId(),
       type: ENotificationType.ERROR,
@@ -24,8 +24,6 @@ export const useAddErrorNotification = () => {
       subText,
     })
   }
-
-  return addErrorNotification
 }
 
 export const useAddSuccessNotification = () => {
@@ -72,5 +70,5 @@ export const renderValueWithPostfix = <T>(value: T, postfix?: string): string =>
   `${value}${postfix}`
 
 export const convertServerDataToClientData = (date: string): string => {
-  return dayjs(date).format('DD.MM.YYYY')
+  return dayjs(date).format("DD.MM.YYYY")
 }
