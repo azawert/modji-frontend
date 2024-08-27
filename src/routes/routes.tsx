@@ -6,6 +6,7 @@ import { AuthorizationPage } from "@/modules/Authorization/pages/AuthorizationPa
 import { ClientsPage } from "@/modules/Clients/pages/ClientsPage"
 import { Layout } from "@/shared/Layout"
 import { RouteObject } from "react-router-dom"
+import { ClientPage } from "@/modules/Clients/pages/ClientPage.tsx"
 
 export const routes: RouteObject[] = [
   {
@@ -32,10 +33,20 @@ export const routes: RouteObject[] = [
         path: "clients",
         element: <ClientsPage />,
       },
+      {
+        path: "clients/:id",
+        element: <ClientPage />,
+      },
     ],
   },
   {
-    path: '/authorization',
+    path: "/authorization",
     element: <AuthorizationPage />,
   },
 ]
+
+export enum ROUTES {
+  AUTHORIZATION = "/authorization",
+  CLIENTS = "/clients",
+  SINGLECLIENT = "/clients/:id",
+}

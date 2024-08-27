@@ -5,6 +5,7 @@ import {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form"
+import { ReactNode } from "react"
 
 /**Тип для определения открытой модалки (создание или редактирование)
  * @prop isOpen - открыта ли модалка
@@ -68,4 +69,17 @@ export type TField<K extends FieldValues> = {
   placeholder?: string
   isRequired?: boolean
   isPhoneField?: boolean
+}
+
+/** Тип для пропсов карточки клиента
+ * @prop renderHeader рендер заголовка
+ * @prop renderMainContent рендер основного контента
+ * @prop [renderNoData] рендер если данных нет
+ * @prop [renderErrorState] рендер состояния ошибки
+ * */
+export interface ICardFullProps {
+  renderHeader: () => ReactNode
+  renderMainContent: () => ReactNode
+  renderNoData?: () => ReactNode
+  renderErrorState?: () => ReactNode
 }

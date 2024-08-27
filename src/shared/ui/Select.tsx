@@ -14,7 +14,7 @@ export type SelectData = {
 }
 type TProps = {
   onChange: (value: string) => void
-  label: string
+  label?: string
   selectedValue?: string
   error?: string
   fullWidth?: boolean
