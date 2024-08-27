@@ -6,22 +6,24 @@ import { memo } from "react"
  * @prop title тайтл для отображения хедера страницы
  * @prop buttonText текст для кнопки
  * @prop onClick обработчик для клика по кнопке в хедере
+ * @prop buttonVariant вариант кнопки (на некоторых страницах он почему-то отличается)
  */
 type TProps = {
   title: string
   buttonText: string
   onClick: () => void
+  buttonVariant?: EButtonVariant
 }
 
 export const PageTitle: React.FC<TProps> = memo(props => {
-  const { onClick, title, buttonText } = props
+  const { onClick, title, buttonText, buttonVariant } = props
   return (
     <div className="flex justify-between items-center font-body mt-6 mb-5">
       <Typography fontSize={36} fontWeight={800} className="font-body">
         {title}
       </Typography>
       <Button
-        variant={EButtonVariant.Primary}
+        variant={buttonVariant ?? EButtonVariant.Primary}
         size={EButtonSize.Small}
         leftIcon={"PlusIcon"}
         onClick={onClick}

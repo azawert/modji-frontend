@@ -46,7 +46,7 @@ export const MultiStepModal = <K extends FieldValues>({
     if (isLastStep) return
     handleNextStep()
   }
-
+  /** TODO: Переделать, чтобы текстовки передавались сверху, т.к текстовки могут отличаться. */
   const renderFooterButtons = (): React.JSX.Element => (
     <>
       {!isFirstStep && (

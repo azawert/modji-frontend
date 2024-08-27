@@ -1,8 +1,8 @@
-import { MultiStepModal } from "@/shared/ui/modal/MultiStepModal"
-import { steps } from "../const"
+import { MultiStepModal } from "@/shared/ui/modal/MultiStepModal.tsx"
+import { steps } from "../../const.ts"
 import { IconButton } from "@mui/material"
 import { Close } from "@mui/icons-material"
-import { NewOwnerDto } from "@/generated/owners"
+import { NewOwnerDto } from "@/generated/owners.ts"
 import { useForm } from "react-hook-form"
 
 type TProps = {

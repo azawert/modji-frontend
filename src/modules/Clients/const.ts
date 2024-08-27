@@ -1,5 +1,7 @@
 import { NewOwnerDto } from "@/generated/owners"
 import { TStep } from "@/shared/types/types"
+import { SelectData } from "@/shared/ui/Select.tsx"
+import { PetDtoType } from "@/generated/pets.ts"
 
 /** набор шагов для модалки создания клиента */
 export const steps: TStep<NewOwnerDto>[] = [
@@ -119,5 +121,20 @@ export const steps: TStep<NewOwnerDto>[] = [
         validation: {},
       },
     ],
+  },
+]
+
+export const NEW_PET_SELECT_DATA: SelectData[] = [
+  {
+    label: "Собака",
+    value: PetDtoType.DOG,
+  },
+  {
+    label: "Кот",
+    value: PetDtoType.CAT,
+  },
+  {
+    label: "Прочие",
+    value: PetDtoType.EXOTIC,
   },
 ]

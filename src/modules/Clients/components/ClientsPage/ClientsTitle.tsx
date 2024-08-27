@@ -1,4 +1,4 @@
-import { PageTitle } from "@/shared/ui/PageTitle"
+import { PageTitle } from "@/shared/ui/PageTitle.tsx"
 
 /** Пропсы для заголовка страницы клиентов
  * onClick функция обработчик для открытия модального окна
