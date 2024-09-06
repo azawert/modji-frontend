@@ -11,6 +11,8 @@ import { TeamIcon } from "@/assets/Icons/TeamIcon.tsx"
 import { RoomIcon } from "@/assets/Icons/RoomIcon.tsx"
 import { CategoryIcon } from "@/assets/Icons/CategoryIcon.tsx"
 import { ClientIcon } from "@/assets/Icons/ClientIcon.tsx"
+import { CalendarIcon } from "@/assets/Icons/CalendarIcon.tsx"
+import { DownArrowIcon } from "./DownArrowIcon"
 
 export type TIcon =
   | "PlusIcon"
@@ -26,6 +28,8 @@ export type TIcon =
   | "CategoryIcon"
   | "ClientIcon"
   | "AnimalIcon"
+  | "CalendarIcon"
+  | "DownArrowIcon"
 
 export type TIconProps = SVGProps<SVGSVGElement>
 
@@ -42,4 +46,6 @@ export const iconTypes = new Map<TIcon, React.JSX.Element>([
   ["RoomIcon", <RoomIcon key={"RoomIcon"} />],
   ["CategoryIcon", <CategoryIcon key={"CategoryIcon"} />],
   ["ClientIcon", <ClientIcon key={"ClientIcon"} />],
+  ["CalendarIcon", <CalendarIcon key={"CalendarIcon"} />],
+  ["DownArrowIcon", <DownArrowIcon key={"DownArrowIcon"}/>],
 ])
