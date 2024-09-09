@@ -1,16 +1,9 @@
-import { PetDtoType } from "@/generated/pets.ts"
 import { useCallback } from "react"
 import { SectionHeader } from "@/modules/Clients/components/ClientPage/ClientFullCard.tsx"
 import { Box, Typography } from "@mui/material"
 import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet.tsx"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button.tsx"
-
-/** Интерфейс для животного связанного с клиентом (todo переделать после того как бэк выкатит доработку) */
-interface IPet {
-  type: PetDtoType
-  nickname: string
-  breed: string
-}
+import { Pet } from "../../types"
 
 const zeroStateContainerStyles = {
   display: "flex",
@@ -22,7 +15,7 @@ export const ClientPetsCardWrapper = ({
   pets,
   handleOpenNewPetModal,
 }: {
-  pets: IPet[]
+  pets: Pet[]
   handleOpenNewPetModal: () => void
 }) => {
   const renderHeader = useCallback(
@@ -39,9 +32,9 @@ export const ClientPetsCardWrapper = ({
   const renderCards = () =>
     pets.map(el => (
       <CardWithPet
-        key={el.nickname}
-        petName={el.nickname}
-        petType={el.type}
+        key={el.breed}
+        petName={el.petName}
+        petType={el.petType}
         breed={el.breed}
       />
     ))

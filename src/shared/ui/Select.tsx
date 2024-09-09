@@ -122,6 +122,7 @@ export const Select: React.FC<TProps> = props => {
           }}
           placeholder={placeholder}
           onBlur={onBlur}
+          notched={undefined}
         >
           {Array.isArray(data)
             ? data?.map(element => {

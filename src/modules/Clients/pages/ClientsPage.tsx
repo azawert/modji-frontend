@@ -4,10 +4,20 @@ import { CreateNewClientModal } from "@/modules/Clients/components/ClientsPage/C
 import { TableWithClients } from "@/modules/Clients/components/ClientsPage/TableWithClients.tsx"
 import { SearchComponent } from "@/shared/ui/SearchComponent"
 import { useGetAllClients } from "../api/queries"
+import { useCreateClient } from "../api/mutation"
+import { NewOwnerDto } from "@/generated/owners"
+import {
+  formatPhoneNumberToServerRequest,
+  useAddErrorNotification,
+  useAddSuccessNotification,
+} from "@/shared/utils/utils"
 
 export const ClientsPage: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpened] = useState(false)
+  const addSuccessNotification = useAddSuccessNotification()
+  const addErrorNotification = useAddErrorNotification()
   const { data, isLoading, isError, error } = useGetAllClients()
+  const { mutate: createClient } = useCreateClient()
 
   const handleOpenCreateModal = () => {
     setIsCreateModalOpened(true)
@@ -17,7 +27,32 @@ export const ClientsPage: React.FC = () => {
     setIsCreateModalOpened(false)
   }
 
-  const handleCreateCategory = () => {}
+  const handleCreateClient = ({
+    mainPhone,
+    optionalPhone,
+    ...rest
+  }: NewOwnerDto) => {
+    createClient(
+      {
+        ...rest,
+        mainPhone: formatPhoneNumberToServerRequest(mainPhone),
+        ...(optionalPhone && {
+          optionalPhone: formatPhoneNumberToServerRequest(optionalPhone),
+        }),
+      },
+      {
+        onSuccess: () => {
+          addSuccessNotification("Клиент успешно создан")
+          handleCloseCreateModal()
+        },
+        onError: e => {
+          console.error(e)
+          addErrorNotification("Произошла ошибка. Попробуйте позже")
+          handleCloseCreateModal()
+        },
+      }
+    )
+  }
 
   return (
     <>
@@ -30,7 +65,7 @@ export const ClientsPage: React.FC = () => {
         error={error}
       />
       <CreateNewClientModal
-        handleCreateClient={handleCreateCategory}
+        handleCreateClient={handleCreateClient}
         isOpen={isCreateModalOpen}
         onClose={handleCloseCreateModal}
       />

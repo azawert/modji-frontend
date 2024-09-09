@@ -27,6 +27,9 @@ export type TOpenModal = {
  * @type formId айдишник формы, необходим для сабмит кнопки
  * @type onSubmit функция обработчик после успешного заполнения модалки
  * @type steps шаги которые надо отрендерить в модалке
+ * @type [nextStepButtonText] кастомный текст для кнопки следующего шага
+ * @type [backButtonTextString] кастомный текст для кнопки предыдущего шага
+ * @type [handleFormButtonTextString] кастомный текст для кнопки последнего шага
  */
 export type TMultiStepModal<K extends FieldValues> = {
   isOpen: boolean
@@ -39,6 +42,9 @@ export type TMultiStepModal<K extends FieldValues> = {
   formId: string
   onSubmit: SubmitHandler<K>
   steps: TStep<K>[]
+  nextStepButtonText?: string
+  backButtonTextString?: string
+  handleFormButtonTextString?: string
 }
 
 /** Тип для шага в модалке
