@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { Typography, styled, Box } from "@mui/material"
 import { CardWrapper } from "@/shared/ui/CardWrapper"
 
@@ -22,32 +22,41 @@ interface InfoCardProps {
   onClick?: () => void
 }
 
-export const InfoCard: React.FC<InfoCardProps> & {
-  Title: React.FC<{ children: React.ReactNode }>
-  Value: React.FC<{ children: React.ReactNode }>
-} = ({ children, bgColor, onClick }) => {
-  return (
-    <CardWrapper bgColor={bgColor || "#FFFFFF"} onClick={onClick}>
-      {children}
-    </CardWrapper>
-  )
+interface InfoCardTitleProps {
+  children: React.ReactNode
 }
 
-const InfoCardTitle: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <Box>
-    <InfoTitle>{children}</InfoTitle>
-  </Box>
+interface InfoCardValueProps {
+  children: React.ReactNode
+}
+
+const InfoCardComponent: React.FC<InfoCardProps> = memo(
+  ({ children, bgColor, onClick }) => {
+    return (
+      <CardWrapper bgColor={bgColor || "#FFFFFF"} onClick={onClick}>
+        {children}
+      </CardWrapper>
+    )
+  }
 )
 
-const InfoCardValue: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <Box>
-    <InfoValue>{children}</InfoValue>
-  </Box>
+const InfoCardTitleComponent: React.FC<InfoCardTitleProps> = memo(
+  ({ children }) => (
+    <Box>
+      <InfoTitle>{children}</InfoTitle>
+    </Box>
+  )
 )
 
-InfoCard.Title = InfoCardTitle
-InfoCard.Value = InfoCardValue
+const InfoCardValueComponent: React.FC<InfoCardValueProps> = memo(
+  ({ children }) => (
+    <Box>
+      <InfoValue>{children}</InfoValue>
+    </Box>
+  )
+)
+
+export const InfoCard = Object.assign(InfoCardComponent, {
+  Title: InfoCardTitleComponent,
+  Value: InfoCardValueComponent,
+})

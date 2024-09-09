@@ -21,6 +21,7 @@ type TProps = {
   onClose: () => void
   onSuccess: () => void
   clientName: string
+  value?: PetDtoType
   rating: number
   onPetChange: (val: string) => void
   error?: string
@@ -43,6 +44,7 @@ export const CreateNewPetModal = ({
   rating,
   onPetChange,
   error,
+  value,
 }: TProps) => {
   const renderHeader = () => (
     <IconButton onClick={onClose}>
@@ -78,6 +80,7 @@ export const CreateNewPetModal = ({
         onChange={onPetChange}
         fullWidth
         error={error}
+        selectedValue={value || ""}
       />
       <Gap gap={32} />
     </>

@@ -10,12 +10,13 @@ import { Gap } from "@/shared/ui/Gap.tsx"
 import { CreateNewPetModal } from "@/modules/Clients/components/ClientPage/CreateNewPetModal.tsx"
 import { PetDtoType } from "@/generated/pets.ts"
 import { getFullName } from "@/modules/Employee/utils.ts"
+import { mapPetDtoToAnFormView } from "../const"
 
 export const ClientPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const { data, isLoading } = useGetClientById(Number(id))
+  const { data: clientData, isLoading } = useGetClientById(Number(id))
   const [isNewPetCreateModalOpen, setIsNewPetCreateModalOpen] = useState(false)
   const [selectedPetType, setSelectedPetType] = useState<
     PetDtoType | undefined
@@ -35,14 +36,14 @@ export const ClientPage = () => {
   )
 
   const clientInfo = useMemo(() => {
-    if (data?.data) {
-      return mapDataFromServerToAnFormView(data?.data)
+    if (clientData?.data) {
+      return mapDataFromServerToAnFormView(clientData?.data)
     }
-  }, [data?.data, isLoading])
+  }, [clientData?.data, isLoading])
 
   const handleEditClientNavigate = useCallback(
     () => navigate(`/client/edit/${id}`),
-    [id]
+    [id, navigate]
   )
   /** Необходимо сбрасывать ошибку, состояние поля, и состояние открытости модалки */
   const handleCloseModalWindow = useCallback(() => {
@@ -75,7 +76,7 @@ export const ClientPage = () => {
         break
       }
     }
-  }, [selectedPetType])
+  }, [navigate, selectedPetType])
 
   if (isLoading) {
     return <CircularProgress />
@@ -90,7 +91,7 @@ export const ClientPage = () => {
       />
       <Gap gap={100} />
       <ClientPetsCardWrapper
-        pets={[]}
+        pets={clientData?.data?.petsDto?.map(mapPetDtoToAnFormView) ?? []}
         handleOpenNewPetModal={handleOpenModalWindow}
       />
       <CreateNewPetModal
@@ -105,6 +106,7 @@ export const ClientPage = () => {
         rating={Number(clientInfo?.rating) || 0}
         onSuccess={handleNavigateToANewPetCreationPage}
         error={error}
+        value={selectedPetType}
       />
     </>
   )

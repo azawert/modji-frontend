@@ -3,10 +3,15 @@ import { CardWithClient } from "@/modules/Clients/components/ClientsPage/CardWit
 import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet.tsx"
 import { TableComponent } from "@/shared/ui/TableComponent.tsx"
 import { Box } from "@mui/material"
-import { mapResponseToTableView } from "../../utils.ts"
+import {
+  mapperForValuePetTypeToAnLabel,
+  mapResponseToTableView,
+} from "../../utils.ts"
 
 import { ERROR_MESSAGES } from "@/shared/constants/errors.ts"
 import { useNavigate } from "react-router-dom"
+import { Pet } from "../../types.ts"
+import { useCallback } from "react"
 
 interface IProps {
   isLoading: boolean
@@ -21,12 +26,6 @@ interface Client {
   optionalPhone?: string
   registrationDate?: string
   id: string
-}
-
-interface Pet {
-  petName: string
-  petType: string
-  breed: string
 }
 
 export interface ClientData {
@@ -54,7 +53,10 @@ export const TableWithClients: React.FC<IProps> = ({
   error,
 }) => {
   const navigate = useNavigate()
-  const handleCardClick = (id: string) => navigate(`/clients/${id}`)
+  const handleCardClick = useCallback(
+    (id: string) => navigate(`/clients/${id}`),
+    [navigate]
+  )
   const rows = mapResponseToTableView(data).map(data => ({
     client: (
       <CardWithClient
@@ -72,7 +74,7 @@ export const TableWithClients: React.FC<IProps> = ({
           <CardWithPet
             key={petIndex}
             petName={pet.petName}
-            petType={pet.petType}
+            petType={mapperForValuePetTypeToAnLabel[pet.petType]}
             breed={pet.breed}
           />
         ))}
