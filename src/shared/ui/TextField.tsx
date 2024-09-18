@@ -69,6 +69,7 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, inputRef) => {
     isTextarea,
     rowsToDisplay = 3,
     type,
+    width,
     ...rest
   } = props
 
@@ -86,7 +87,7 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, inputRef) => {
       ) : (
         loadingSpinner
       )}
-      <div style={{ marginBottom }}>
+      <div style={{ marginBottom, width }}>
         <InputBase
           placeholder={placeholder}
           autoComplete="off"
@@ -127,9 +128,7 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, inputRef) => {
           minRows={rowsToDisplay}
           {...rest}
         />
-        {error && (
-          <span className="text-error font-semibold text-small">{error}</span>
-        )}
+        <span className="text-error font-semibold text-small h2">{error}</span>
       </div>
     </label>
   )

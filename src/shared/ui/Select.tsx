@@ -78,6 +78,12 @@ export const Select: React.FC<TProps> = props => {
           onChange={handleSelectChange}
           defaultValue={preSelectedValue}
           value={selectedValue}
+          sx={{
+            borderRadius: "24px",
+            ".css-1uwzc1h-MuiSelect-select-MuiInputBase-input:focus": {
+              borderRadius: "24px",
+            },
+          }}
           className={cn(`rounded-24px ${className}`, {
             ["w-full"]: fullWidth,
             ["border-error"]: !!error,

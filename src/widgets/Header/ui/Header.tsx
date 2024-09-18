@@ -12,26 +12,26 @@ export const Header: React.FC<TPropsForHeader> = ({
   links,
   srcLogo,
   logoTitle,
-  handleActiveButtonClick,
 }) => {
   const [selectedLink, setSelectedLink] = useState(links[0].label)
 
   const handleSelectedLink = (link: string) => setSelectedLink(link)
 
   const openModal = useBookingStore(state => state.setIsBookingInProgress)
+  const setBookingStep = useBookingStore(state => state.setBookingStep)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
         sx={{
-          height: '92px',
-          backgroundColor: 'white',
+          height: "92px",
+          backgroundColor: "white",
           boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.09)",
           justifyContent: "center",
         }}
       >
-        <Toolbar className="px-6" >
+        <Toolbar className="px-6">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center justify-between">
               <Logo src={srcLogo} logoTitle={logoTitle} />
@@ -54,7 +54,10 @@ export const Header: React.FC<TPropsForHeader> = ({
                 variant={EButtonVariant.Primary}
                 fontSize={14}
                 fontWeight={700}
-                onClick={() => openModal(true)}
+                onClick={() => {
+                  setBookingStep(1)
+                  openModal(true)
+                }}
               >
                 Добавить бронирование
               </Button>

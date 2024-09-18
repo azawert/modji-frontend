@@ -24,7 +24,7 @@ export const mapResponseToTableView = (data: OwnerDto[]): ClientData[] => {
   return data.map((owner) => ({
     pets: [],
     client: {
-      fullName: getFullName(owner.firstname!, owner.lastname, owner.middleName),
+      fullName: getFullName(owner.firstName!, owner.lastname, owner.middleName),
       mainPhone: owner.mainPhone,
       optionalPhone: owner.optionalPhone,
       registrationDate: convertServerDataToClientData(owner.registrationDate!),

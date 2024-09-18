@@ -1,5 +1,5 @@
-
-import BookingStepOne from "@/modules/Booking/components/steps/BookingStepOne"
+import { BookingFactory } from "@/modules/Booking/components/bookingFactory/bookingFactory"
+import { Footer } from "@/widgets/Footer/Footer"
 import { PropsForHeader } from "@/widgets/Header/data/data"
 import { Header } from "@/widgets/Header/ui/Header"
 import { CircularProgress } from "@mui/material"
@@ -16,8 +16,9 @@ export const Layout: FC = () => {
         <Suspense fallback={<CircularProgress />}>
           <Outlet />
         </Suspense>
-        <BookingStepOne/>
+        <BookingFactory />
       </div>
+      <Footer />
     </div>
   )
 }

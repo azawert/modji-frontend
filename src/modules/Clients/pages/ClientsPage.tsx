@@ -1,32 +1,31 @@
 import { useState } from "react"
 import { ClientsTitle } from "@/modules/Clients/components/ClientsTitle"
 import { CreateNewClientModal } from "@/modules/Clients/components/CreateNewClientModal"
-import { TableWithClients } from "@/modules/Clients/components/TableWithClients";
-import { SearchComponent } from "@/shared/ui/SearchComponent";
-import { useGetAllClients } from "../api/queries";
+import { TableWithClients } from "@/modules/Clients/components/TableWithClients"
+import { useGetAllClients } from "../api/queries"
+import { OwnersSearch } from "@/modules/Booking/components/form/fields/OwnersSearch/OwnersSearch"
 
 export const ClientsPage: React.FC = () => {
-
-  const [isCreateModalOpen, setIsCreateModalOpened] = useState(false);
-  const {data, isLoading, isError, error} = useGetAllClients();
+  const [isCreateModalOpen, setIsCreateModalOpened] = useState(false)
+  const { data, isLoading, isError, error } = useGetAllClients()
 
   const handleOpenCreateModal = () => {
-    setIsCreateModalOpened(true);
-  };
+    setIsCreateModalOpened(true)
+  }
 
   const handleCloseCreateModal = () => {
-    setIsCreateModalOpened(false);
-  };
+    setIsCreateModalOpened(false)
+  }
 
-  const handleCreateCategory = () => {};
-  
+  const handleCreateCategory = () => {}
+
   return (
     <>
-      <ClientsTitle  onClick={handleOpenCreateModal}/>
-      <SearchComponent placeholder="Введите ФИО или телефон клиента"/>
-      <TableWithClients 
-        data={data?.data ?? []} 
-        isLoading={isLoading} 
+      <ClientsTitle onClick={handleOpenCreateModal} />
+      <OwnersSearch />
+      <TableWithClients
+        data={data?.data ?? []}
+        isLoading={isLoading}
         isError={isError}
         error={error}
       />

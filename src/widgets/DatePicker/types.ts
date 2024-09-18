@@ -17,8 +17,12 @@ export type TDatePickerProps = {
   onChangeRange?: (range: IDateRange) => void
   isRange?: boolean
   disableFutureDates?: boolean
-  value?: dayjs.Dayjs
+  value?: dayjs.Dayjs | null
+  minDate?: dayjs.Dayjs | null
+  maxDate?: dayjs.Dayjs | null
   rangeValue?: IDateRange
+  disablePastDates?: boolean
+  cls?: string
 }
 
 /** Тип для вида календаря

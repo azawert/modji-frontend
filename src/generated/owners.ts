@@ -210,7 +210,7 @@ export interface OwnerDto {
   /** Заметки о пользователе */
   comment?: string;
   /** Имя клиента */
-  firstname?: string;
+  firstName?: string;
   /** Id клиента */
   id?: number;
   /** Фамилия клиента */

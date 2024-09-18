@@ -34,5 +34,5 @@ module.exports = {
       target: "./src/generated/bookings.ts",
       baseUrl: "https://rodionov.ru.fvds.ru:443/",
     },
-  },
-}
+  
+  },}
