@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
+import { EQueryKeys } from "./keys"
 import {
+  getAllOwners,
+  getOwnerById,
   searchOwner,
   SearchOwnerDirection,
 } from "@/generated/owners"
-import { EQueryKeys } from "./keys"
-import { getAllOwners, getOwnerById } from "@/generated/owners"
 
 export const useGetAllClients = () =>
   useQuery({

@@ -1,4 +1,4 @@
-import { PageTitle } from "@/shared/ui/PageTitle"
+
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   FullBookingSchema,
@@ -21,6 +21,7 @@ import { useCreateBooking } from "../../api/mutations"
 import { mapperBookingFormDataToDTO } from "../../model/utils"
 import useBookingStore from "../../store/BookingStore"
 import { CommentForm } from "../../components/form/blocks/CommentForm/CommentForm"
+import { PageTitle } from "@/shared/ui/PageTitle"
 
 const defaultValues = {
   categories: "",

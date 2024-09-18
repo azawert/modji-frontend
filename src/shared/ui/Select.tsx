@@ -114,18 +114,17 @@ export const Select: React.FC<TProps> = props => {
                   "& .Mui-selected": {
                     backgroundColor: "transparent",
                   },
+                  "& .MuiSelect-select": {
+                    borderRadius: "24px !important",
+                  },
+                  "& .Mui-focused": {
+                    borderColor: "black",
                 },
               },
             },
-          }}
-          sx={{
-            "& .MuiSelect-select": {
-              borderRadius: "24px !important",
-            },
-            "& .Mui-focused": {
-              borderColor: "black",
-            },
-          }}
+          }
+        }
+       }
           placeholder={placeholder}
           onBlur={onBlur}
           notched={undefined}

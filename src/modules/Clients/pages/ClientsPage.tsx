@@ -3,9 +3,9 @@ import { ClientsTitle } from "@/modules/Clients/components/ClientsPage/ClientsTi
 import { CreateNewClientModal } from "@/modules/Clients/components/ClientsPage/CreateNewClientModal.tsx"
 import { TableWithClients } from "@/modules/Clients/components/ClientsPage/TableWithClients.tsx"
 import { SearchComponent } from "@/shared/ui/SearchComponent"
-import { useGetAllClients } from "../api/queries"
+import { useGetAllClients, useGetSuggestedClients } from "../api/queries"
 import { useCreateClient } from "../api/mutation"
-import { NewOwnerDto } from "@/generated/owners"
+import { NewOwnerDto, OwnerDto } from "@/generated/owners"
 import {
   formatPhoneNumberToServerRequest,
   useAddErrorNotification,
@@ -13,10 +13,16 @@ import {
 } from "@/shared/utils/utils"
 
 export const ClientsPage: React.FC = () => {
+  const [search, setSearch] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpened] = useState(false)
   const addSuccessNotification = useAddSuccessNotification()
   const addErrorNotification = useAddErrorNotification()
   const { data, isLoading, isError, error } = useGetAllClients()
+  const {
+    data: options,
+    isLoading: isLoadingSuggestions,
+    refetch,
+  } = useGetSuggestedClients(search, "name")
   const { mutate: createClient } = useCreateClient()
 
   const handleOpenCreateModal = () => {
@@ -25,6 +31,11 @@ export const ClientsPage: React.FC = () => {
 
   const handleCloseCreateModal = () => {
     setIsCreateModalOpened(false)
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value)
+    refetch()
   }
 
   const handleCreateClient = ({
@@ -57,7 +68,13 @@ export const ClientsPage: React.FC = () => {
   return (
     <>
       <ClientsTitle onClick={handleOpenCreateModal} />
-      <SearchComponent placeholder="Введите ФИО или телефон клиента" />
+      <SearchComponent
+      placeholder="Введите ФИО или телефон клиента"
+      completeOptions={options as OwnerDto[]}
+      search={search}
+      isLoading={isLoadingSuggestions}
+      onSearchChange={handleSearchChange}
+    />
       <TableWithClients
         data={data?.data ?? []}
         isLoading={isLoading}

@@ -15,18 +15,18 @@ interface CardWrapperProps {
   width?: string
   height?: string
   padding?: string
+  onClick?: () => void
 }
 
 export const CardWrapper: React.FC<CardWrapperProps> = ({
   children,
   bgColor,
-  width,
-  height,
-  padding,
+  onClick,
 }) => {
   return (
     <StyledCard
-      style={{ backgroundColor: bgColor || "#FFFFFF", width, height, padding }}
+      style={{ backgroundColor: bgColor || "#FFFFFF" }}
+      onClick={() => onClick?.()}
     >
       <CardContent
         sx={{
