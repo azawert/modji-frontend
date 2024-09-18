@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
 import { IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material/"
@@ -16,6 +16,8 @@ import {
 } from "../utils"
 import { SelectWithCategories } from "./SelectWithCategories"
 import { MaskedTextField } from "@/shared/ui/MaskedTextField"
+import { useCheckUniqueRoomNumber } from "@/modules/Rooms/api/queries.ts"
+import { useDebounce } from "@/shared/hooks/hooks.ts"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -44,11 +46,30 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
     register,
     setValue,
     control,
+    watch,
+    clearErrors,
   } = form
   const formId = `${isEditing ? "update" : "create"}RoomForm`
 
   const { addNotification, notifications, removeNotification } =
     useNotification()
+
+  const [roomNumber] = watch(["number"])
+  const [prevRoomNumberValue, setPrevRoomNumberValue] = useState<
+    string | undefined
+  >(undefined)
+
+  const debouncedValue = useDebounce(roomNumber, 500)
+
+  /**
+   * Функция возвращающая признак изменения номера при редактировании
+   */
+  const hasRoomNumberNotChanged = () => roomNumber === prevRoomNumberValue
+
+  const { data: isRoomNumberAvailable } = useCheckUniqueRoomNumber(
+    debouncedValue,
+    !hasRoomNumberNotChanged()
+  )
 
   /** Автозаполнение полей при наличии флага и данных */
   useEffect(() => {
@@ -56,12 +77,20 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
       Object.entries(editRoomData).forEach(([name, value]) => {
         setValue(name as keyof TRoomCreateForm, value)
       })
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      setValue("category", editRoomData?.categoryDto.id)
+      setValue("category", editRoomData?.categoryDto?.id?.toString() ?? "0")
+      setPrevRoomNumberValue(editRoomData.number)
     }
   }, [isEditing, setValue, editRoomData])
 
+  // в rhf не получается проставить ошибку, при получении ответа от реста, т.к она просто сбрасывается при расфокусе с поля, вроде есть другое решение, но пока как есть
+  const getTextErrorForRoomNumber = useMemo(() => {
+    if (isRoomNumberAvailable?.data === false && !hasRoomNumberNotChanged()) {
+      return "Комната с таким номером уже существует в системе"
+    }
+    if (errors?.number) {
+      return errors.number.message
+    }
+  }, [isRoomNumberAvailable?.data])
   const handleCloseModalWindow = () => {
     if (isDirty) {
       addNotification({
@@ -76,6 +105,7 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
       return
     } else {
       onClose()
+      clearErrors()
     }
   }
 
@@ -97,6 +127,8 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
       if (type === ENotificationType.CONFIRMATION) removeNotification(id)
     })
   }
+
+  const isMainButtonDisabled = () => !!getTextErrorForRoomNumber
 
   const renderHeader = () => (
     <IconButton onClick={handleCloseModalWindow}>
@@ -125,6 +157,7 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
               onChange={field.onChange}
               value={field.value}
               error={error?.message}
+              onBlur={field.onBlur}
             />
           )
         }}
@@ -134,9 +167,9 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
         placeholder="Номер комнаты"
         label="Номер комнаты"
         isRequired
-        error={errors.number?.message}
         maxLength={100}
         marginBottom="16px"
+        error={getTextErrorForRoomNumber}
         {...register("number", {
           minLength: {
             value: 1,
@@ -176,12 +209,12 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
         label="Описание"
         error={errors.description?.message}
         marginBottom="32px"
-        maxLength={150}
+        maxLength={250}
         isTextarea
         {...register("description", {
           maxLength: {
-            value: 150,
-            message: "Введите меньше 150 символов",
+            value: 250,
+            message: "Введите меньше 250 символов",
           },
         })}
       />
@@ -206,6 +239,7 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
         form={formId}
         fontSize={16}
         fontWeight={700}
+        disabled={isMainButtonDisabled()}
       >
         {isEditing ? "Сохранить" : "Создать"}
       </Button>

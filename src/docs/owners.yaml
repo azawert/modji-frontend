@@ -2,7 +2,7 @@ openapi: '3.0.1'
 info:
   title: 'Modgy: Owners Specification'
   description: Modgy owners
-  version: 'v3'
+  version: 'v6'
 
 servers:
     - url: http://localhost:8080
@@ -42,6 +42,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: "Error: Field mainPhone must not be blank."
@@ -53,6 +54,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -64,6 +66,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "User with id=5 is not found"
@@ -75,6 +78,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: CONFLICT
                 reason: integrity constraint has been violated.
                 message: "Attempt to insert duplicate key row in object owner with unique index owner_main_phone."
@@ -86,6 +90,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -96,8 +101,8 @@ paths:
     get:
       tags:
         - owner-controller
-      summary: Получение списка всех пользователей
-      description: Получение списка всех пользователей может осуществляться только пользователями с ролью ROLE_BOSS
+      summary: Получение списка всех клиентов
+      description: Получение списка всех клиентов может осуществляться только пользователями с ролью ROLE_BOSS
         или ROLE_ADMIN.
       operationId: getAllOwners
       parameters:
@@ -117,6 +122,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: ""
@@ -128,6 +134,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -139,6 +146,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "Owner with id=42 is not found"
@@ -150,6 +158,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -161,9 +170,9 @@ paths:
     get:
       tags:
         - owner-controller
-      summary: Получение пользователя по id
+      summary: Получение клиента по id
       description: >-
-        Получение пользователя по id может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
+        Получение клиента по id может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       operationId: getOwnerById
       parameters:
         - $ref: '#/components/parameters/requesterHeader'
@@ -180,6 +189,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: ""
@@ -191,6 +201,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -202,6 +213,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "Owner with id=42 is not found"
@@ -213,6 +225,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -223,9 +236,9 @@ paths:
     delete:
       tags:
           - owner-controller
-      summary: Удаление пользователя по id
+      summary: Удаление клиента по id
       description: >-
-        Удаление пользователя по id не может осуществляться пользователями - данный эндпоинт является служебным.
+        Удаление клиента по id может осуществляться только пользователями с ролью ROLE_BOSS.
       operationId: deleteOwnerById
       parameters:
           - $ref: '#/components/parameters/requesterHeader'
@@ -239,6 +252,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: ""
@@ -250,6 +264,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -261,6 +276,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "Owner with id=42 is not found"
@@ -272,6 +288,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -306,6 +323,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: ""
@@ -317,6 +335,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -328,6 +347,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "Owner with id=42 is not found"
@@ -339,6 +359,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: CONFLICT
                 reason: integrity constraint has been violated.
                 message: "Attempt to insert duplicate key row in object owner with unique index owner_main_phone."
@@ -350,6 +371,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -368,7 +390,7 @@ paths:
         - $ref: '#/components/parameters/requesterHeader'
         - name: num
           in: query
-          description: число запрашиваемых пользователей
+          description: число запрашиваемых клиентов
           required: false
           schema:
             type: integer
@@ -388,6 +410,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -399,6 +422,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -429,6 +453,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
@@ -440,6 +465,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "Owner with id=42 is not found"
@@ -451,6 +477,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: []
@@ -486,6 +513,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: ""
@@ -497,6 +525,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=FINANCIAL, can't access for this action"
@@ -508,6 +537,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: [ ]
@@ -553,6 +583,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: ""
@@ -564,6 +595,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=FINANCIAL, can't access for this action"
@@ -575,6 +607,7 @@ paths:
           content:
             application/json:
               example:
+                errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
                 message: [ ]
@@ -655,7 +688,7 @@ components:
           maxLength: 150
           example: Гендальф, +79217775533
         comment:
-          description: Заметки о пользователе
+          description: Заметки о клиенте
           type: string
           example: Старый пират, друг Флинта. Жаден. Ради денег готов на всё. Характер мерзкий. Не женат.
         source:
@@ -704,11 +737,11 @@ components:
           type: integer
           format: int64
           example: 103
-        lastname:
+        lastName:
           description: Фамилия клиента
           type: string
           example: Сумкин
-        firstname:
+        firstName:
           description: Имя клиента
           type: string
           example: Фёдор
@@ -737,7 +770,7 @@ components:
           type: string
           example: Гендальф, +79217775533
         comment:
-          description: Заметки о пользователе
+          description: Заметки о клиенте
           type: string
           example: Очень, очень хороший мальчик. Вежлив, правдив, скромен, добр. Слушает маму,
             каждое утро делает зарядку. Характер очень мягкий.
@@ -755,10 +788,15 @@ components:
           type: string
           format: date-time
           example: 23.12.2023 12:00
+        petsDto:
+          description: Список питомцев клиента
+          type: array
+          items:
+            $ref: "#/components/schemas/PetDtoForOwner"
 
     UpdateOwnerDto:
       title: UpdateOwnerDto
-      description: DTO для обновления данных пользователя
+      description: DTO для обновления данных клиента
       type: object
       properties:
         lastName:
@@ -807,7 +845,7 @@ components:
           maxLength: 150
           example: Гендальф, +79217775533
         comment:
-          description: Заметки о пользователе
+          description: Заметки о клиенте
           type: string
           example: Старый пират, друг Флинта. Жаден. Ради денег готов на всё. Характер мерзкий. Не женат.
         source:
@@ -853,6 +891,307 @@ components:
           type: string
           format: date-time
           example: 23.12.2023 12:00
+
+    PetDtoForOwner:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: id питомца
+          example: 1
+        type:
+          type: string
+          enum:
+            - DOG
+            - CAT
+            - EXOTIC
+          description: Тип животного
+          example: DOG
+        name:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: Кличка питомца
+          example: Барбос
+        breed:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: Порода питомца
+          example: Спаниель
+        birthDate:
+          type: string
+          description: Дата рождения (в формате "dd.MM.yyyy"), должна быть в прошлом
+          example: 09.06.2023
+        sex:
+          type: string
+          enum:
+            - FEMALE
+            - MALE
+            - HERMAPHRODITE
+          description: Пол питомца
+          example: FEMALE
+        color:
+          maxLength: 30
+          type: string
+          description: Окрас питомца
+          example: Черный
+        sign:
+          maxLength: 150
+          type: string
+          description: Чип, Клеймо, Особые приметы
+          example: Клеймо
+        isExhibition:
+          type: boolean
+          description: Выставочная ли собака?
+          example: true
+        vetVisitDate:
+          type: string
+          description: >-
+            Дата последнего посещения ветврача (в формате "dd.MM.yyyy"), должна
+            быть в прошлом
+          example: 09.06.2023
+        vetVisitReason:
+          maxLength: 250
+          type: string
+          description: Причина последнего посещения врача
+          example: Ушиб лапы
+        vaccine:
+          maxLength: 250
+          type: string
+          description: Даты последних прививок, названия вакцин
+          example: 1.11.2023 антиклещ
+        parasites:
+          maxLength: 250
+          type: string
+          description: Дата обработки от глистов/паразитов
+          example: 22.11.2023
+        fleaMite:
+          maxLength: 250
+          type: string
+          description: Даты обработки от блох/клещей с указанием препарата
+          example: 22.11.2023 антиклещ
+        surgery:
+          maxLength: 250
+          type: string
+          description: Перенесенные операции (кастрация)
+          example: Кастрация
+        pastDisease:
+          maxLength: 500
+          type: string
+          description: Перенесенные заболевания
+          example: пиелонефрит
+        healthCharacteristic:
+          maxLength: 500
+          type: string
+          description: Особенности состояния здоровья питомца (ФИП)
+          example: без особенностей
+        urineAnalysis:
+          maxLength: 250
+          type: string
+          description: Дата последней сдачи мочи
+          example: 1.11.2023
+        allergy:
+          type: boolean
+          description: Есть ли аллергия?
+          example: true
+        allergyType:
+          maxLength: 250
+          type: string
+          description: >-
+            Если предыдущее поле true, тогда в этом поле описание на что
+            аллергия
+          example: На молоко
+        chronicDisease:
+          type: boolean
+          description: Есть ли у питомца хронические заболевания?
+          example: true
+        chronicDiseaseType:
+          maxLength: 500
+          type: string
+          description: >-
+            Если предыдущее поле true, тогда в этом поле описание какие
+            хронические заболевания есть
+          example: пиелонефрит
+        heatDate:
+          type: string
+          description: >-
+            Предполагаемая дата очередной течки (для сук)(в формате
+            "dd.MM.yyyy"), должна быть в будущем
+          example: 09.06.2023
+        vetData:
+          maxLength: 500
+          type: string
+          description: >-
+            Контакты ветврача, к которому следует обращаться в случае
+            необходимости
+          example: 89000000000 Иван Иваныч Иванов
+        stayWithoutMaster:
+          maxLength: 500
+          type: string
+          description: Есть ли опыт разлуки с хозяином?
+          example: Да, разлучается спокойно
+        stayAlone:
+          maxLength: 250
+          type: string
+          description: Умеет ли питомец спокойно оставаться один?
+          example: нет, воет, когда остаётся один
+        specialCare:
+          maxLength: 500
+          type: string
+          description: Требуется ли спец уход, какой?
+          example: да, нужно расчёсывать шерсть два раза в день
+        barkHowl:
+          maxLength: 250
+          type: string
+          description: Лает / воет в одиночестве?
+          example: да
+        furnitureDamage:
+          maxLength: 250
+          type: string
+          description: Портит ли вещи, мебель?
+          example: нет
+        foodFromTable:
+          maxLength: 250
+          type: string
+          description: Ворует ли еду со стола?
+          example: нет
+        defecateAtHome:
+          maxLength: 250
+          type: string
+          description: Справляет ли  нужду дома?
+          example: нет
+        markAtHome:
+          maxLength: 250
+          type: string
+          description: Метит дома?
+          example: нет
+        newPeople:
+          maxLength: 500
+          type: string
+          description: Как относится к незнакомым людям?
+          example: дружелюбно
+        isBitePeople:
+          type: boolean
+          description: Ваша собака когда-нибудь кого-нибудь кусала?
+          example: true
+        reasonOfBite:
+          maxLength: 250
+          type: string
+          description: Если предыдущее поле true, тогда в этом поле причина укуса
+          example: Дразнил
+        playWithDogs:
+          maxLength: 500
+          type: string
+          description: Играет / гуляет с другими собаками?
+          example: да
+        isDogTraining:
+          type: boolean
+          description: Прошел ли питомец курс послушания?
+          example: true
+        trainingName:
+          maxLength: 500
+          type: string
+          description: >-
+            Если предыдущее поле true, тогда в этом поле название курс
+            послушания
+          example: Послушная собака
+        like:
+          maxLength: 500
+          type: string
+          description: Что любит
+          example: Когда гладят по голове
+        notLike:
+          maxLength: 500
+          type: string
+          description: Что не любит
+          example: Когда трогают хвост
+        toys:
+          maxLength: 500
+          type: string
+          description: Любимые игрушки, игры питомца
+          example: Мячик
+        badHabit:
+          maxLength: 250
+          type: string
+          description: Вредные привычки
+          example: Разбрасывает еду из миски
+        walking:
+          maxLength: 250
+          type: string
+          description: Сколько раз в день питомец привык гулять?/гуляет ли на улице
+          example: три раза
+        morningWalking:
+          maxLength: 150
+          type: string
+          description: Привычное время прогулок Утро
+          example: 6 утра
+        dayWalking:
+          maxLength: 150
+          type: string
+          description: Привычное время прогулок День
+          example: В 2 часа дня
+        eveningWalking:
+          maxLength: 150
+          type: string
+          description: Привычное время прогулок Вечер
+          example: В 8 часов вечера
+        feedingQuantity:
+          type: integer
+          description: Количество кормлений в день (От 1 до 9)
+          format: int32
+          example: 7
+        feedType:
+          maxLength: 250
+          type: string
+          description: Вид корма (сухой / натуралка/консервы)
+          example: сухой корм
+        feedName:
+          maxLength: 250
+          type: string
+          description: Название корма/консерв
+          example: Довольный пёс
+        feedComposition:
+          maxLength: 250
+          type: string
+          description: Состав корма/консерв
+          example: говядина и овощи
+        feedingRate:
+          maxLength: 250
+          type: string
+          description: Норма на 1 кормление
+          example: 100 г
+        feedingPractice:
+          maxLength: 500
+          type: string
+          description: Особенности кормления
+          example: без особенностей
+        treat:
+          maxLength: 250
+          type: string
+          description: Разрешенные лакомства и их количество
+          example: сахар
+        isMedicine:
+          type: boolean
+          description: Необходимы ли лекарства, витамины?
+          example: true
+        medicineRegimen:
+          maxLength: 500
+          type: string
+          description: >-
+            Если предыдущее поле true, тогда в этом поле название, режим приема
+            лекарств/витаминов и доза
+          example: Здоровая собака
+        additionalData:
+          maxLength: 1000
+          type: string
+          description: Дополнительные комментарии, особенности поведения
+          example: Любит, чтоб чесали животик
+        registrationDate:
+          type: string
+          description: Дата регистрации в ПО гостиницы (в формате "dd.MM.yyyy"), должна быть в прошлом
+          example: 09.12.2023
 
 
     Error:

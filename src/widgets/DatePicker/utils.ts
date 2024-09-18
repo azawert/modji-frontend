@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 import { DATE_FRONT_FORMAT, IDateRange } from "./types"
 
-/** Функция которая форматирует дату для правильного отображения на фронте
+/** Функция, которая форматирует дату для правильного отображения на фронте
  * @param date | IDateRange аргрументом может быть одна дата, или диапазон дат
  */
 export const formatDate = (date: dayjs.Dayjs | IDateRange): string => {

@@ -6,7 +6,7 @@ import {
   SelectChangeEvent,
   styled,
 } from "@mui/material"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
 export type SelectData = {
   value: string
@@ -14,16 +14,18 @@ export type SelectData = {
 }
 type TProps = {
   onChange: (value: string) => void
-  label: string
+  label?: string
   selectedValue?: string
   error?: string
   fullWidth?: boolean
   isRequired?: boolean
   className?: string
   marginBottom?: string
-  renderNoData?: () => React.ReactNode
+  renderNoData?: () => ReactNode
   data?: SelectData[]
   placeholder?: string
+  renderValue: (value: string) => ReactNode
+  onBlur?: () => void
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
@@ -52,6 +54,8 @@ export const Select: React.FC<TProps> = props => {
     marginBottom,
     renderNoData,
     placeholder,
+    renderValue,
+    onBlur,
   } = props
   const handleSelectChange = (e: SelectChangeEvent) => onChange(e.target.value)
   const [preSelectedValue, setPreselectedValue] = useState<string>()
@@ -75,6 +79,8 @@ export const Select: React.FC<TProps> = props => {
         <MUISelect
           labelId={label}
           error={!!error}
+          displayEmpty
+          renderValue={renderValue}
           onChange={handleSelectChange}
           defaultValue={preSelectedValue}
           value={selectedValue}
@@ -97,17 +103,32 @@ export const Select: React.FC<TProps> = props => {
                   borderRadius: "24px",
                   border: "2px solid #D0CFCF",
                   marginTop: "5px",
+                  maxHeight: "200px",
+                  overflowY: "auto",
                   "& .MuiMenuItem-root:active": {
                     backgroundColor: "#D5E1FF",
                   },
                   "& .MuiMenuItem-root:hover": {
                     backgroundColor: "#E8E8E8",
                   },
+                  "& .Mui-selected": {
+                    backgroundColor: "transparent",
+                  },
                 },
               },
             },
           }}
+          sx={{
+            "& .MuiSelect-select": {
+              borderRadius: "24px !important",
+            },
+            "& .Mui-focused": {
+              borderColor: "black",
+            },
+          }}
           placeholder={placeholder}
+          onBlur={onBlur}
+          notched={undefined}
         >
           {Array.isArray(data)
             ? data?.map(element => {

@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Modgy: Owners Specification
  * Modgy owners
- * OpenAPI spec version: v3
+ * OpenAPI spec version: v6
  */
 import * as axios from 'axios';
 import type {
@@ -28,7 +28,7 @@ direction?: SearchOwnerDirection;
 
 export type GetSomeShortOwnersParams = {
 /**
- * число запрашиваемых пользователей
+ * число запрашиваемых клиентов
  */
 num?: number;
 };
@@ -127,6 +127,280 @@ export interface Error {
   timestamp?: string;
 }
 
+/**
+ * Тип животного
+ */
+export type PetDtoForOwnerType = typeof PetDtoForOwnerType[keyof typeof PetDtoForOwnerType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PetDtoForOwnerType = {
+  DOG: 'DOG',
+  CAT: 'CAT',
+  EXOTIC: 'EXOTIC',
+} as const;
+
+/**
+ * Пол питомца
+ */
+export type PetDtoForOwnerSex = typeof PetDtoForOwnerSex[keyof typeof PetDtoForOwnerSex];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PetDtoForOwnerSex = {
+  FEMALE: 'FEMALE',
+  MALE: 'MALE',
+  HERMAPHRODITE: 'HERMAPHRODITE',
+} as const;
+
+export interface PetDtoForOwner {
+  /**
+   * Дополнительные комментарии, особенности поведения
+   * @maxLength 1000
+   */
+  additionalData?: string;
+  /** Есть ли аллергия? */
+  allergy?: boolean;
+  /**
+   * Если предыдущее поле true, тогда в этом поле описание на что аллергия
+   * @maxLength 250
+   */
+  allergyType?: string;
+  /**
+   * Вредные привычки
+   * @maxLength 250
+   */
+  badHabit?: string;
+  /**
+   * Лает / воет в одиночестве?
+   * @maxLength 250
+   */
+  barkHowl?: string;
+  /** Дата рождения (в формате "dd.MM.yyyy"), должна быть в прошлом */
+  birthDate?: string;
+  /**
+   * Порода питомца
+   * @minLength 1
+   * @maxLength 30
+   */
+  breed?: string;
+  /** Есть ли у питомца хронические заболевания? */
+  chronicDisease?: boolean;
+  /**
+   * Если предыдущее поле true, тогда в этом поле описание какие хронические заболевания есть
+   * @maxLength 500
+   */
+  chronicDiseaseType?: string;
+  /**
+   * Окрас питомца
+   * @maxLength 30
+   */
+  color?: string;
+  /**
+   * Привычное время прогулок День
+   * @maxLength 150
+   */
+  dayWalking?: string;
+  /**
+   * Справляет ли  нужду дома?
+   * @maxLength 250
+   */
+  defecateAtHome?: string;
+  /**
+   * Привычное время прогулок Вечер
+   * @maxLength 150
+   */
+  eveningWalking?: string;
+  /**
+   * Состав корма/консерв
+   * @maxLength 250
+   */
+  feedComposition?: string;
+  /**
+   * Особенности кормления
+   * @maxLength 500
+   */
+  feedingPractice?: string;
+  /** Количество кормлений в день (От 1 до 9) */
+  feedingQuantity?: number;
+  /**
+   * Норма на 1 кормление
+   * @maxLength 250
+   */
+  feedingRate?: string;
+  /**
+   * Название корма/консерв
+   * @maxLength 250
+   */
+  feedName?: string;
+  /**
+   * Вид корма (сухой / натуралка/консервы)
+   * @maxLength 250
+   */
+  feedType?: string;
+  /**
+   * Даты обработки от блох/клещей с указанием препарата
+   * @maxLength 250
+   */
+  fleaMite?: string;
+  /**
+   * Ворует ли еду со стола?
+   * @maxLength 250
+   */
+  foodFromTable?: string;
+  /**
+   * Портит ли вещи, мебель?
+   * @maxLength 250
+   */
+  furnitureDamage?: string;
+  /**
+   * Особенности состояния здоровья питомца (ФИП)
+   * @maxLength 500
+   */
+  healthCharacteristic?: string;
+  /** Предполагаемая дата очередной течки (для сук)(в формате "dd.MM.yyyy"), должна быть в будущем */
+  heatDate?: string;
+  /** id питомца */
+  id?: number;
+  /** Ваша собака когда-нибудь кого-нибудь кусала? */
+  isBitePeople?: boolean;
+  /** Прошел ли питомец курс послушания? */
+  isDogTraining?: boolean;
+  /** Выставочная ли собака? */
+  isExhibition?: boolean;
+  /** Необходимы ли лекарства, витамины? */
+  isMedicine?: boolean;
+  /**
+   * Что любит
+   * @maxLength 500
+   */
+  like?: string;
+  /**
+   * Метит дома?
+   * @maxLength 250
+   */
+  markAtHome?: string;
+  /**
+   * Если предыдущее поле true, тогда в этом поле название, режим приема лекарств/витаминов и доза
+   * @maxLength 500
+   */
+  medicineRegimen?: string;
+  /**
+   * Привычное время прогулок Утро
+   * @maxLength 150
+   */
+  morningWalking?: string;
+  /**
+   * Кличка питомца
+   * @minLength 1
+   * @maxLength 30
+   */
+  name?: string;
+  /**
+   * Как относится к незнакомым людям?
+   * @maxLength 500
+   */
+  newPeople?: string;
+  /**
+   * Что не любит
+   * @maxLength 500
+   */
+  notLike?: string;
+  /**
+   * Дата обработки от глистов/паразитов
+   * @maxLength 250
+   */
+  parasites?: string;
+  /**
+   * Перенесенные заболевания
+   * @maxLength 500
+   */
+  pastDisease?: string;
+  /**
+   * Играет / гуляет с другими собаками?
+   * @maxLength 500
+   */
+  playWithDogs?: string;
+  /**
+   * Если предыдущее поле true, тогда в этом поле причина укуса
+   * @maxLength 250
+   */
+  reasonOfBite?: string;
+  /** Дата регистрации в ПО гостиницы (в формате "dd.MM.yyyy"), должна быть в прошлом */
+  registrationDate?: string;
+  /** Пол питомца */
+  sex?: PetDtoForOwnerSex;
+  /**
+   * Чип, Клеймо, Особые приметы
+   * @maxLength 150
+   */
+  sign?: string;
+  /**
+   * Требуется ли спец уход, какой?
+   * @maxLength 500
+   */
+  specialCare?: string;
+  /**
+   * Умеет ли питомец спокойно оставаться один?
+   * @maxLength 250
+   */
+  stayAlone?: string;
+  /**
+   * Есть ли опыт разлуки с хозяином?
+   * @maxLength 500
+   */
+  stayWithoutMaster?: string;
+  /**
+   * Перенесенные операции (кастрация)
+   * @maxLength 250
+   */
+  surgery?: string;
+  /**
+   * Любимые игрушки, игры питомца
+   * @maxLength 500
+   */
+  toys?: string;
+  /**
+   * Если предыдущее поле true, тогда в этом поле название курс послушания
+   * @maxLength 500
+   */
+  trainingName?: string;
+  /**
+   * Разрешенные лакомства и их количество
+   * @maxLength 250
+   */
+  treat?: string;
+  /** Тип животного */
+  type?: PetDtoForOwnerType;
+  /**
+   * Дата последней сдачи мочи
+   * @maxLength 250
+   */
+  urineAnalysis?: string;
+  /**
+   * Даты последних прививок, названия вакцин
+   * @maxLength 250
+   */
+  vaccine?: string;
+  /**
+   * Контакты ветврача, к которому следует обращаться в случае необходимости
+   * @maxLength 500
+   */
+  vetData?: string;
+  /** Дата последнего посещения ветврача (в формате "dd.MM.yyyy"), должна быть в прошлом */
+  vetVisitDate?: string;
+  /**
+   * Причина последнего посещения врача
+   * @maxLength 250
+   */
+  vetVisitReason?: string;
+  /**
+   * Сколько раз в день питомец привык гулять?/гуляет ли на улице
+   * @maxLength 250
+   */
+  walking?: string;
+}
+
 export interface OwnerShortDto {
   /** Имя клиента */
   firstName?: string;
@@ -143,7 +417,7 @@ export interface OwnerShortDto {
 }
 
 /**
- * DTO для обновления данных пользователя
+ * DTO для обновления данных клиента
  */
 export interface UpdateOwnerDto {
   /**
@@ -151,7 +425,7 @@ export interface UpdateOwnerDto {
    * @maxLength 150
    */
   actualAddress?: string;
-  /** Заметки о пользователе */
+  /** Заметки о клиенте */
   comment?: string;
   /**
    * Имя клиента
@@ -207,14 +481,14 @@ export interface UpdateOwnerDto {
 export interface OwnerDto {
   /** Фактический адрес клиента */
   actualAddress?: string;
-  /** Заметки о пользователе */
+  /** Заметки о клиенте */
   comment?: string;
   /** Имя клиента */
   firstName?: string;
   /** Id клиента */
   id?: number;
   /** Фамилия клиента */
-  lastname?: string;
+  lastName?: string;
   /** Основной номер телефона клиента */
   mainPhone?: string;
   /** Отчество клиента */
@@ -223,6 +497,8 @@ export interface OwnerDto {
   optionalPhone?: string;
   /** Прочие контакты клиента */
   otherContacts?: string;
+  /** Список питомцев клиента */
+  petsDto?: PetDtoForOwner[];
   /** Рейтинг клиента */
   rating?: number;
   /** Дата регистрации клиента */
@@ -252,7 +528,7 @@ export interface NewOwnerDto {
    * @maxLength 150
    */
   actualAddress?: string;
-  /** Заметки о пользователе */
+  /** Заметки о клиенте */
   comment?: string;
   /**
    * Имя клиента
@@ -323,8 +599,8 @@ export const addOwner = <TData = AxiosResponse<OwnerDto>>(
   }
 
 /**
- * Получение списка всех пользователей может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
- * @summary Получение списка всех пользователей
+ * Получение списка всех клиентов может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
+ * @summary Получение списка всех клиентов
  */
 export const getAllOwners = <TData = AxiosResponse<OwnerDto[]>>(
      options?: AxiosRequestConfig
@@ -335,8 +611,8 @@ export const getAllOwners = <TData = AxiosResponse<OwnerDto[]>>(
   }
 
 /**
- * Получение пользователя по id может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
- * @summary Получение пользователя по id
+ * Получение клиента по id может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
+ * @summary Получение клиента по id
  */
 export const getOwnerById = <TData = AxiosResponse<OwnerDto>>(
     id: number, options?: AxiosRequestConfig
@@ -347,8 +623,8 @@ export const getOwnerById = <TData = AxiosResponse<OwnerDto>>(
   }
 
 /**
- * Удаление пользователя по id не может осуществляться пользователями - данный эндпоинт является служебным.
- * @summary Удаление пользователя по id
+ * Удаление клиента по id может осуществляться только пользователями с ролью ROLE_BOSS.
+ * @summary Удаление клиента по id
  */
 export const deleteOwnerById = <TData = AxiosResponse<void>>(
     id: number, options?: AxiosRequestConfig

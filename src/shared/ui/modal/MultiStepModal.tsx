@@ -17,6 +17,9 @@ export const MultiStepModal = <K extends FieldValues>({
   renderHeader,
   steps,
   title,
+  backButtonTextString = "Назад",
+  handleFormButtonTextString = "Создать клиента",
+  nextStepButtonText = "Следующий шаг",
 }: TMultiStepModal<K>) => {
   const [activeStep, setActiveStep] = useState(0)
   const {
@@ -25,26 +28,26 @@ export const MultiStepModal = <K extends FieldValues>({
     formState: { errors },
     trigger,
     control,
+    reset,
   } = form
   const currentStep = steps[activeStep]
   const isLastStep = activeStep === steps.length - 1
   const isFirstStep = activeStep === 0
 
-  const handleNextStep = async () => {
+  const handleClickButton = async () => {
     const isValid = await trigger(currentStep.fields.map(field => field.name))
-    if (isValid) {
+    if (isValid && !isLastStep) {
       setActiveStep(p => p + 1)
+    } else if (isValid && isLastStep) {
+      handleSubmit(onSubmit)()
+      reset()
+      setActiveStep(0)
     }
   }
 
   const handleBackClickButton = () => {
     if (activeStep === 0) return
     setActiveStep(prev => prev - 1)
-  }
-
-  const handleNextButtonClick = () => {
-    if (isLastStep) return
-    handleNextStep()
   }
 
   const renderFooterButtons = (): React.JSX.Element => (
@@ -57,19 +60,19 @@ export const MultiStepModal = <K extends FieldValues>({
           fontSize={16}
           fontWeight={700}
         >
-          Назад
+          {backButtonTextString}
         </Button>
       )}
       <Button
         variant={EButtonVariant.Primary}
         size={EButtonSize.Medium}
-        onClick={handleNextButtonClick}
-        type={isLastStep ? "submit" : "button"}
+        onClick={handleClickButton}
+        type={"button"}
         form={formId}
         fontSize={16}
         fontWeight={700}
       >
-        {isLastStep ? "Создать клиента" : "Следующий шаг"}
+        {isLastStep ? handleFormButtonTextString : nextStepButtonText}
       </Button>
     </>
   )

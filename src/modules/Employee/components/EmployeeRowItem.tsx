@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import { getFullName, roleMapperForRussianLanguage } from "../utils"
 import { Icon } from "@/shared/ui/Icon/Icon"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
 
 /**
@@ -23,7 +23,7 @@ import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
 type TProps = {
   employee: UserDto
   onDeleteIconClick: (employee: UserDto) => void
-  onEditIconClick: () => void
+  onEditIconClick: (employee: UserDto) => void
   isDeleteAvailable?: boolean
 }
 
@@ -32,6 +32,16 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
     props
   const [isAdditionalFieldsShown, setIsAdditionalFieldsShown] =
     useState<boolean>(false)
+
+  const toggleAdditionalFields = useCallback(
+    () => setIsAdditionalFieldsShown(p => !p),
+    []
+  )
+
+  const handleIconButtonClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    toggleAdditionalFields()
+  }, [])
   return (
     <>
       <TableRow
@@ -39,8 +49,10 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
         sx={{
           "& .MuiTableRow-hover": {
             backgroundColor: "#F6F8FF",
+            cursor: "pointer",
           },
         }}
+        onClick={toggleAdditionalFields}
       >
         <TableCell>
           {getFullName(
@@ -51,8 +63,8 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
         </TableCell>
         <TableCell>{roleMapperForRussianLanguage[employee.role]}</TableCell>
         <TableCell>
-          <div className="flex">
-            <IconButton onClick={onEditIconClick}>
+          <div className="flex justify-end">
+            <IconButton onClick={() => onEditIconClick(employee)}>
               <Icon type={"EditIcon"} />
             </IconButton>
             {isDeleteAvailable && (
@@ -63,7 +75,7 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
             <IconButton
               aria-label="expand row"
               size="small"
-              onClick={() => setIsAdditionalFieldsShown(p => !p)}
+              onClick={handleIconButtonClick}
             >
               {isAdditionalFieldsShown ? (
                 <KeyboardArrowUp />
@@ -86,18 +98,18 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
               }}
             >
               <TableBody>
-                {employee.lastName && (
-                  <TableRow>
-                    <TableCell width={"15%"}>
-                      <Typography fontSize={16} fontWeight={700}>
-                        Фамилия
-                      </Typography>
-                    </TableCell>
-                    <TableCell width={"auto"}>
-                      <Typography fontSize={16}>{employee.lastName}</Typography>
-                    </TableCell>
-                  </TableRow>
-                )}
+                <TableRow>
+                  <TableCell width={"15%"}>
+                    <Typography fontSize={16} fontWeight={700}>
+                      Фамилия
+                    </Typography>
+                  </TableCell>
+                  <TableCell width={"auto"}>
+                    <Typography fontSize={16}>
+                      {employee.lastName || ""}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
                 <TableRow>
                   <TableCell width={"15%"}>
                     <Typography fontSize={16} fontWeight={700}>
@@ -108,20 +120,18 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
                     <Typography fontSize={16}>{employee.firstName}</Typography>
                   </TableCell>
                 </TableRow>
-                {employee.middleName && (
-                  <TableRow>
-                    <TableCell width={"15%"}>
-                      <Typography fontSize={16} fontWeight={700}>
-                        Отчество
-                      </Typography>
-                    </TableCell>
-                    <TableCell width={"auto"}>
-                      <Typography fontSize={16}>
-                        {employee.middleName}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                )}
+                <TableRow>
+                  <TableCell width={"15%"}>
+                    <Typography fontSize={16} fontWeight={700}>
+                      Отчество
+                    </Typography>
+                  </TableCell>
+                  <TableCell width={"auto"}>
+                    <Typography fontSize={16}>
+                      {employee.middleName || ""}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
                 <TableRow>
                   <TableCell width={"15%"}>
                     <Typography fontSize={16} fontWeight={700}>

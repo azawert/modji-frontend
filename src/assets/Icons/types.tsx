@@ -8,6 +8,10 @@ import { WarningIcon } from "./WarningIcon"
 import { RightArrowIcon } from "./RightArrowIcon"
 import { LeftArrowIcon } from "./LeftArrowIcon"
 import { CalendarIcon } from "./CalendarIcon"
+import { TeamIcon } from "@/assets/Icons/TeamIcon.tsx"
+import { RoomIcon } from "@/assets/Icons/RoomIcon.tsx"
+import { CategoryIcon } from "@/assets/Icons/CategoryIcon.tsx"
+import { ClientIcon } from "@/assets/Icons/ClientIcon.tsx"
 
 export type TIcon =
   | "PlusIcon"
@@ -19,6 +23,11 @@ export type TIcon =
   | "RightArrowIcon"
   | "LeftArrowIcon"
   | "CalendarIcon"
+  | "TeamIcon"
+  | "RoomIcon"
+  | "CategoryIcon"
+  | "ClientIcon"
+  | "AnimalIcon"
 
 export type TIconProps = SVGProps<SVGSVGElement>
 
@@ -32,4 +41,8 @@ export const iconTypes = new Map<TIcon, React.JSX.Element>([
   ["RightArrowIcon", <RightArrowIcon key={"RightArrowIcon"} />],
   ["LeftArrowIcon", <LeftArrowIcon key={"LeftArrowIcon"} />],
   ["CalendarIcon", <CalendarIcon key={"CalendarIcon"} />],
+  ["TeamIcon", <TeamIcon key={"TeamIcon"} />],
+  ["RoomIcon", <RoomIcon key={"RoomIcon"} />],
+  ["CategoryIcon", <CategoryIcon key={"CategoryIcon"} />],
+  ["ClientIcon", <ClientIcon key={"ClientIcon"} />],
 ])

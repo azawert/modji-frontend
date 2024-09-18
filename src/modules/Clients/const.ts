@@ -1,5 +1,8 @@
-import { NewOwnerDto } from "@/generated/owners"
+import { NewOwnerDto, PetDtoForOwner } from "@/generated/owners"
 import { TStep } from "@/shared/types/types"
+import { SelectData } from "@/shared/ui/Select.tsx"
+import { PetDtoType } from "@/generated/pets.ts"
+import { Pet } from "./types"
 
 /** набор шагов для модалки создания клиента */
 export const steps: TStep<NewOwnerDto>[] = [
@@ -9,6 +12,7 @@ export const steps: TStep<NewOwnerDto>[] = [
       {
         label: "Фамилия",
         name: "lastName",
+        isRequired: true,
         validation: {
           minLength: {
             message: "Введите больше 2-ух символов",
@@ -17,6 +21,10 @@ export const steps: TStep<NewOwnerDto>[] = [
           maxLength: {
             value: 30,
             message: "Введите меньше 30 символов",
+          },
+          required: {
+            message: "Пожалуйста, заполните это поле",
+            value: true,
           },
         },
         placeholder: "Фамилия",
@@ -51,6 +59,10 @@ export const steps: TStep<NewOwnerDto>[] = [
           maxLength: {
             value: 30,
             message: "Введите меньше 30 символов",
+          },
+          required: {
+            value: true,
+            message: "Пожалуйста, заполните это поле",
           },
         },
       },
@@ -121,3 +133,28 @@ export const steps: TStep<NewOwnerDto>[] = [
     ],
   },
 ]
+
+export const NEW_PET_SELECT_DATA: SelectData[] = [
+  {
+    label: "Собака",
+    value: PetDtoType.DOG,
+  },
+  {
+    label: "Кот",
+    value: PetDtoType.CAT,
+  },
+  {
+    label: "Прочие",
+    value: PetDtoType.EXOTIC,
+  },
+]
+
+/** Функция которая мапит дто питомца в представление на форме клиента
+ * @param pet питомец
+ * @returns возвращает объект представления на форме клиента
+ */
+export const mapPetDtoToAnFormView = (pet: PetDtoForOwner): Pet => ({
+  breed: pet.breed ?? "",
+  petName: pet.name ?? "",
+  petType: pet.type as PetDtoType,
+})

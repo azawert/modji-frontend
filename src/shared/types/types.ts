@@ -5,6 +5,7 @@ import {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form"
+import { ReactNode } from "react"
 
 /**Тип для определения открытой модалки (создание или редактирование)
  * @prop isOpen - открыта ли модалка
@@ -26,6 +27,9 @@ export type TOpenModal = {
  * @type formId айдишник формы, необходим для сабмит кнопки
  * @type onSubmit функция обработчик после успешного заполнения модалки
  * @type steps шаги которые надо отрендерить в модалке
+ * @type [nextStepButtonText] кастомный текст для кнопки следующего шага
+ * @type [backButtonTextString] кастомный текст для кнопки предыдущего шага
+ * @type [handleFormButtonTextString] кастомный текст для кнопки последнего шага
  */
 export type TMultiStepModal<K extends FieldValues> = {
   isOpen: boolean
@@ -38,6 +42,9 @@ export type TMultiStepModal<K extends FieldValues> = {
   formId: string
   onSubmit: SubmitHandler<K>
   steps: TStep<K>[]
+  nextStepButtonText?: string
+  backButtonTextString?: string
+  handleFormButtonTextString?: string
 }
 
 /** Тип для шага в модалке
@@ -68,4 +75,17 @@ export type TField<K extends FieldValues> = {
   placeholder?: string
   isRequired?: boolean
   isPhoneField?: boolean
+}
+
+/** Тип для пропсов карточки клиента
+ * @prop renderHeader рендер заголовка
+ * @prop renderMainContent рендер основного контента
+ * @prop [renderNoData] рендер если данных нет
+ * @prop [renderErrorState] рендер состояния ошибки
+ * */
+export interface ICardFullProps {
+  renderHeader: () => ReactNode
+  renderMainContent: () => ReactNode
+  renderNoData?: () => ReactNode
+  renderErrorState?: () => ReactNode
 }
