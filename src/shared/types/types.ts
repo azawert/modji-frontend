@@ -16,20 +16,21 @@ export type TOpenModal = {
   isEdit: boolean
 }
 
-/** Тип для модалки с несколькими шагами
- * @type isOpen флаг открытости модалки
- * @type onClose функция обработчик закрытия модального окна
- * @type ariaLabelledby проп для тайтла модалки
- * @type ariaDescribedby проп для тела модалки
- * @type renderHeader рендер заголовка
- * @type title тайтл модалки
- * @type form форма которая возвращается из useForm
- * @type formId айдишник формы, необходим для сабмит кнопки
- * @type onSubmit функция обработчик после успешного заполнения модалки
- * @type steps шаги которые надо отрендерить в модалке
- * @type [nextStepButtonText] кастомный текст для кнопки следующего шага
- * @type [backButtonTextString] кастомный текст для кнопки предыдущего шага
- * @type [handleFormButtonTextString] кастомный текст для кнопки последнего шага
+/**
+ * Тип для модалки с несколькими шагами
+ * isOpen флаг открытости модалки
+ * onClose функция обработчик закрытия модального окна
+ * ariaLabelledby проп для тайтла модалки
+ * ariaDescribedby проп для тела модалки
+ * renderHeader рендер заголовка
+ * title тайтл модалки
+ * form форма которая возвращается из useForm
+ * formId айдишник формы, необходим для сабмит кнопки
+ * onSubmit функция обработчик после успешного заполнения модалки
+ * steps шаги которые надо отрендерить в модалке
+ * [nextStepButtonText] кастомный текст для кнопки следующего шага
+ * [backButtonTextString] кастомный текст для кнопки предыдущего шага
+ * [handleFormButtonTextString] кастомный текст для кнопки последнего шага
  */
 export type TMultiStepModal<K extends FieldValues> = {
   isOpen: boolean
@@ -47,10 +48,11 @@ export type TMultiStepModal<K extends FieldValues> = {
   handleFormButtonTextString?: string
 }
 
-/** Тип для шага в модалке
- * @type title тайтл для шага
- * @type fields поля которые необходимо отредендирить
- * @type [description] доп описания поля
+/**
+ * Тип для шага в модалке
+ * title тайтл для шага
+ * fields поля которые необходимо отредендирить
+ * [description] доп описания поля
  */
 export type TStep<K extends FieldValues> = {
   title: string
@@ -58,31 +60,33 @@ export type TStep<K extends FieldValues> = {
   description?: string
 }
 
-/** Тип для поля в модалке
- * @type name название поля из rhf
- * @type label лейбл для инпута
- * @type validation правила валидации для поля
- * @type [type] тип поля
- * @type [placeholder] плейсхолдер для инпута
- * @type [isRequired] обязательность поля
- * @type [isPhoneField] флаг для отображения поля под номер телефона
+/**
+ * Тип для поля в модалке
+ * name название поля из rhf
+ * label лейбл для инпута
+ * validation правила валидации для поля
+ * [type] тип поля
+ * [placeholder] плейсхолдер для инпута
+ * [isRequired] обязательность поля
+ * [isPhoneField] флаг для отображения поля под номер телефона
  */
 export type TField<K extends FieldValues> = {
   name: Path<K>
   label: string
-  validation: RegisterOptions
+  validation: RegisterOptions<K>
   type?: string
   placeholder?: string
   isRequired?: boolean
   isPhoneField?: boolean
 }
 
-/** Тип для пропсов карточки клиента
- * @prop renderHeader рендер заголовка
- * @prop renderMainContent рендер основного контента
- * @prop [renderNoData] рендер если данных нет
- * @prop [renderErrorState] рендер состояния ошибки
- * */
+/**
+ * Тип для пропсов карточки клиента
+ * renderHeader рендер заголовка
+ * renderMainContent рендер основного контента
+ * [renderNoData] рендер если данных нет
+ * [renderErrorState] рендер состояния ошибки
+ */
 export interface ICardFullProps {
   renderHeader: () => ReactNode
   renderMainContent: () => ReactNode

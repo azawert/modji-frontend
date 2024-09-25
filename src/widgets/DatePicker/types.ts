@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
 
-/** Пропы для датапикера
+/**
+ * Пропы для датапикера
  * @prop onClose функция закрытия датапикера
  * @prop isOpen флаг открытости датапикера
  * @prop [onChange] функция обработчик одной даты
@@ -21,16 +22,18 @@ export type TDatePickerProps = {
   rangeValue?: IDateRange
 }
 
-/** Тип для вида календаря
- * @type day обычное отображение календаря
- * @type month месячное представление календаря
- * @type year годовое представление календаря
+/**
+ * Тип для вида календаря
+ * day обычное отображение календаря
+ * month месячное представление календаря
+ * year годовое представление календаря
  */
 export type TCalendarView = "day" | "month" | "year"
 
-/** Тип для диапазона дат
- * @type start начальная дата
- * @type end конечная дата
+/**
+ * Тип для диапазона дат
+ * start начальная дата
+ * end конечная дата
  */
 export interface IDateRange {
   start: dayjs.Dayjs | null

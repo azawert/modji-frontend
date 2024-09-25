@@ -1,8 +1,8 @@
 import { ButtonBase, CircularProgress, Typography } from "@mui/material"
 import React, { useMemo, forwardRef, CSSProperties } from "react"
-import { COLORS } from "../constants/colors"
+import { COLORS } from "../../constants/colors"
 import { TIcon } from "@/assets/Icons/types"
-import { Icon } from "./Icon/Icon"
+import { Icon } from "../Icon/Icon"
 import { cn } from "@/lib/utils"
 
 type TFontWeight = 400 | 500 | 600 | 700
@@ -116,6 +116,7 @@ export const Button = forwardRef<HTMLButtonElement, TProps>((props, ref) => {
         ["border-0 text-sm text-[#757575]"]: variant === EButtonVariant.Link,
       })}
       type={type}
+      disabled={isDisabled}
       {...rest}
     >
       {!isLoading && leftIcon && <Icon type={leftIcon} />}

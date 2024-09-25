@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button';
+import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button/Button';
 
 export const PageNotFound: React.FC = () => {
   const navigate = useNavigate();

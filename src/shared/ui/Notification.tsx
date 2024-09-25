@@ -7,7 +7,7 @@ import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { useEffect, useState } from "react"
 import { Icon } from "./Icon/Icon"
-import { Button, EButtonSize, EButtonVariant } from "./Button"
+import { Button, EButtonSize, EButtonVariant } from "./Button/Button"
 
 /** Маппер для получения нужной иконки, для нотификации подтверждения иконка будет не нужна */
 const mapperTypeNotificationToIcon: Record<

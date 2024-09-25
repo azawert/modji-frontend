@@ -1,6 +1,6 @@
 import { styled, alpha, InputBase, SvgIcon } from '@mui/material';
 import { SvgIconProps } from '@mui/material/SvgIcon';
-import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button';
+import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button/Button';
 
 const Search = styled('div')(({ theme }) => ({
   display: 'flex',
