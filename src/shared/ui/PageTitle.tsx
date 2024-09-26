@@ -1,4 +1,4 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { Typography } from "@mui/material"
 import { memo } from "react"
 

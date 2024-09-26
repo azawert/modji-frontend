@@ -4,7 +4,11 @@ import React, { useCallback } from "react"
 import { Box } from "@mui/material"
 import { getFullName } from "@/modules/Employee/utils.ts"
 import { InfoCard } from "@/shared/ui/InfoCard.tsx"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button.tsx"
+import {
+  Button,
+  EButtonSize,
+  EButtonVariant,
+} from "@/shared/ui/Button/Button.tsx"
 import styled from "@emotion/styled"
 import { formatDate } from "@/widgets/DatePicker/utils.ts"
 import dayjs from "dayjs"

@@ -65,17 +65,24 @@ export const convertServerDataToClientData = (date: string): string => {
   return dayjs(date).format("DD.MM.YYYY")
 }
 
-/** Функция которая будет приводить номер телефона с формы в вид подходящий для сервера */
+/**
+ * Функция которая будет приводить номер телефона с формы в вид подходящий для сервера
+ * @param phone номер телефона который нужно отформатировать
+ * @returns отформатированный номер телефона
+ */
 export const formatPhoneNumberToServerRequest = (phone: string) => {
   const formattedPhoneNumber = phone.replace(/[^\d]/g, "")
 
   return `+${formattedPhoneNumber}`
 }
 
-/** Функция которая будет приводить номер телефона с респонса в вид подходящий для формы */
+/**
+ * Функция которая будет приводить номер телефона с респонса в вид подходящий для формы
+ * @param phoneNumber телефон который нужно отформатировать для формы на фронте
+ * @returns отформатированный номер телефона подходящий для формы
+ */
 export const formatServerPhoneNumberToForm = (phoneNumber: string) => {
   if (!phoneNumber.startsWith("+7")) {
-    console.error("Неизвестный формат")
     return phoneNumber
   }
   const { match } = getRawValueAndIfItsMatchesTheMask(
@@ -84,18 +91,18 @@ export const formatServerPhoneNumberToForm = (phoneNumber: string) => {
   )
 
   if (!match) {
-    console.error("Некорректный формат")
     return
   }
 
   return `+${match[1]} (${match[2]}) ${match[3]}-${match[4]}-${match[5]}`
 }
 
-/** Функция обработчик для маскированного инпута под номер телефона
+/**
+ * Функция обработчик для маскированного инпута под номер телефона
  * @param phoneNumber значение которое надо отформотировать
  * @returns возвращает либо частично отформатированный номер телефона, либо же полностью готовый в виде +7 (000) 000-00-00
  */
-export const formatPhoneNumber = (phoneNumber: string) => {
+export const formatPhoneNumber = (phoneNumber: string): string => {
   const { cleaned, match } = getRawValueAndIfItsMatchesTheMask(
     phoneNumber,
     /^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/
@@ -123,12 +130,16 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   }
 }
 
-/** Фунцкия которая будет удалять нечисловые символы (-,^ и тд) и возвращать соответствует ли очищенная строка маске
+/**
+ * Фунцкия которая будет удалять нечисловые символы (-,^ и тд) и возвращать соответствует ли очищенная строка маске
  * @param value значение которое надо очистить
  * @param mask маска с которой надо сравнить полученное значение
  * @returns саму очищенную строку и признак совпадения с маской
  */
-export function getRawValueAndIfItsMatchesTheMask(value: string, mask: RegExp) {
+export function getRawValueAndIfItsMatchesTheMask(
+  value: string,
+  mask: RegExp
+): { cleaned: string; match: RegExpMatchArray | null } {
   const cleaned = value.replace(/\D/g, "")
   const match = cleaned.match(mask)
 
