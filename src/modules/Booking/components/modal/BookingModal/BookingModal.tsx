@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogTitle } from "@mui/material"
 import { memo, useCallback } from "react"
 import useBookingStore from "../../../store/BookingStore"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { DeepPartial, UseFormHandleSubmit } from "react-hook-form"
 import { IBookingForm } from "../../../model/types/BookingValidationSchema"
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"

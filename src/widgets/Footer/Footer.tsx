@@ -1,4 +1,4 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { styled } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom"
 

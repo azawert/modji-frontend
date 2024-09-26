@@ -1,4 +1,4 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { StepTitle } from "../../../typography/StepTitle/StepTitle"
 import { OwnersSearch } from "../../fields/OwnersSearch/OwnersSearch"
 import { CardWithClient } from "@/shared/ui/CardWithClient"
@@ -94,7 +94,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   return (
     <>
       {isCreateBookingPage ? renderBookingPageForm() : renderBookingModalForm()}
-      {<ShortClientModal/>}
+      {<ShortClientModal />}
     </>
   )
 }
