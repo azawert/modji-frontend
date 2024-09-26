@@ -7,7 +7,7 @@ import {
   styled,
 } from "@mui/material"
 import { forwardRef, SelectHTMLAttributes } from "react"
-import { ChangeHandler, FieldValues, UseFormRegister } from "react-hook-form"
+import { FieldValues, UseFormRegister } from "react-hook-form"
 
 export type SelectData = {
   value: string
@@ -20,6 +20,7 @@ type HTMLSelectProps = Omit<
 >
 
 interface TProps extends HTMLSelectProps {
+  onChange: (value: string) => void
   label?: string
   value?: string
   error?: string
@@ -31,8 +32,6 @@ interface TProps extends HTMLSelectProps {
   data?: SelectData[]
   placeholder?: string
   register?: UseFormRegister<FieldValues>
-  onChange?: ChangeHandler
-  onSelectChange?: (e: string) => void
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
@@ -62,11 +61,13 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
       renderNoData,
       placeholder,
       register,
-      onSelectChange,
+      onChange,
     } = props
 
     const handleSelectChange = (e: SelectChangeEvent) => {
-      if (onSelectChange) onSelectChange(e.target.value)
+      console.log(e)
+      onChange(e.target.value)
+      console.log(value)
     }
 
     return (

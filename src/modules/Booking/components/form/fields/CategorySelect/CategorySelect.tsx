@@ -32,7 +32,7 @@ export const CategorySelect: React.FC<TProps> = props => {
     <BookingSelect
       data={mappedDataFromCategories()}
       label={value?.length ? "Категория*" : ""}
-      onSelectChange={onChange}
+      onChange={onChange}
       value={String(value)}
       renderNoData={renderNoData}
       error={error}

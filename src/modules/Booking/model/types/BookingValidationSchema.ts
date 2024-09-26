@@ -37,10 +37,10 @@ export interface IPet {
 
 export interface IBookingForm
   extends ICategoryAndRoom,
-    IScheduleForm,
-    IPayment,
-    IComment,
-    IPet {}
+  IScheduleForm,
+  IPayment,
+  IComment,
+  IPet { }
 
 const isValidDate = (dateString: string) => {
   const regex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(\d{4})$/

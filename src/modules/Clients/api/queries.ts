@@ -18,7 +18,7 @@ export const useGetSuggestedClients = (
   direction: SearchOwnerDirection
 ) =>
   useQuery({
-    queryKey: [EQueryKeys.GET_SUGGESTED_CLIENTS],
+    queryKey: [EQueryKeys.GET_SUGGESTED_CLIENTS + wanted],
     queryFn: () =>
       searchOwner(
         { wanted },
@@ -30,7 +30,7 @@ export const useGetSuggestedClients = (
 
 export const useGetClientById = (id: number) =>
   useQuery({
-    queryKey: [EQueryKeys.GET_CLIENT_BY_ID],
+    queryKey: [EQueryKeys.GET_CLIENT_BY_ID + id],
     queryFn: () =>
       getOwnerById(id, { headers: { "X-PetHotel-User-Id": 1 } }).then(
         res => res.data

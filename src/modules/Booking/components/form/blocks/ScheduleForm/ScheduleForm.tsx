@@ -32,7 +32,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
 
   // TODO: Now dayjs wrong convert bookingData properties from string date to dayjs (month and day are swapped)
   // TODO: Fix it and delete dateForDayJs
-  const dateForDayJs = (date: string) => {
+  const dateForDayJs = (date?: string) => {
     if (!date) return dayjs()
     const dateArr = date?.split(".").reverse()
     const currentDate = new Date(
@@ -48,16 +48,17 @@ export const ScheduleForm = (props: ScheduleProps) => {
 
   //Datepicker
   const [dateFrom, setDateFrom] = useState<null | dayjs.Dayjs>(
-    isDateFromValid ? dateForDayJs(bookingData.dateFrom!) : null
+    isDateFromValid ? dateForDayJs(bookingData.dateFrom) : null
   )
   const [dateTo, setDateTo] = useState<null | dayjs.Dayjs>(
-    isDateToValid ? dateForDayJs(bookingData.dateTo!) : null
+    isDateToValid ? dateForDayJs(bookingData.dateTo) : null
   )
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<string | null>(null)
 
   const daysDifference = dateTo
     ?.diff(dateFrom?.subtract(1, "day"), "day")
     .toString()
+  console.log(daysDifference)
 
   const onChangeDate = useCallback(
     (type: "dateFrom" | "dateTo") => (date: dayjs.Dayjs) => {
@@ -108,8 +109,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
               maxDate={dateTo}
               onChange={onChangeDate("dateFrom")}
               cls="absolute top-20 z-50"
-              disablePastDates={true}
-              disableFutureDates={false}
+              disablePastDates
             />
           </div>
           <Controller
@@ -124,9 +124,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
                 label={
                   field.value?.length ? Placeholder.TIME_FROM.valueOf() : ""
                 }
-                ref={field.ref}
-                onSelectChange={field.onChange}
-                value={field.value}
+                {...field}
                 error={errors.timeFrom?.message}
               />
             )}
@@ -158,7 +156,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
               onChange={onChangeDate("dateTo")}
               minDate={dateFrom?.add(1, "day")}
               cls="absolute top-20 z-50"
-              disablePastDates={true}
+              disablePastDates
             />
           </div>
           <Controller
@@ -171,9 +169,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
                 marginBottom="16px"
                 placeholder={Placeholder.TIME_TO.valueOf()}
                 label={field.value?.length ? Placeholder.TIME_TO.valueOf() : ""}
-                ref={field.ref}
-                onSelectChange={field.onChange}
-                value={field.value}
+                {...field}
                 error={errors.timeTo?.message}
               />
             )}

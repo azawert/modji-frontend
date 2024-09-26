@@ -5,7 +5,7 @@ import { mapperBookingDTOToFormData } from "../model/utils"
 
 export const useGetBookingById = (id: number) =>
   useQuery({
-    queryKey: [EQueryKeys.GET_BOOKING_BY_ID],
+    queryKey: [EQueryKeys.GET_BOOKING_BY_ID + id],
     queryFn: () =>
       getBookingById(id, { headers: { "X-PetHotel-User-Id": 1 } }).then(res =>
         mapperBookingDTOToFormData(res.data)
@@ -18,7 +18,7 @@ export const useGetIsDatesAvailable = (
   checkOutDate: string
 ) =>
   useQuery({
-    queryKey: [EQueryKeys.GET_BOOKING_BY_ID],
+    queryKey: [EQueryKeys.GET_BOOKING_BY_ID + roomId],
     queryFn: () =>
       checkRoomAvailableInDates(
         roomId,

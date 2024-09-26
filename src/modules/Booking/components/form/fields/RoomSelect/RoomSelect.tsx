@@ -32,7 +32,7 @@ export const RoomSelect: React.FC<TProps> = props => {
     <BookingSelect
       data={mappedDataFromRooms()}
       label={value.length ? "Комната*" : ""}
-      onSelectChange={onChange}
+      onChange={onChange}
       value={String(value)}
       renderNoData={renderNoData}
       error={error}

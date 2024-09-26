@@ -80,8 +80,8 @@ export const PriceForm = (props: PriceProps) => {
           <CustomCheckbox
             label={Placeholder.IS_PREPAYMENT_PAID.valueOf()}
             labelPlacement="end"
-            value={field.value!}
-            onChange={field.onChange}
+            {...field}
+            value={field.value ?? false}
           />
         )}
       />
