@@ -37,6 +37,8 @@
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@stylistic/eslint-plugin-jsx": "^2.7.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^5.16.2",
