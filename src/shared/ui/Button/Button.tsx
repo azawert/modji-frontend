@@ -117,6 +117,7 @@ export const Button = forwardRef<HTMLButtonElement, TProps>((props, ref) => {
       })}
       type={type}
       disabled={isDisabled}
+      data-variant={variant}
       {...rest}
     >
       {!isLoading && leftIcon && <Icon type={leftIcon} />}

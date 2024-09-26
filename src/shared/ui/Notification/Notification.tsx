@@ -6,17 +6,33 @@ import { useNotification } from "@/contexts/notificationContext/useNotificationC
 import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { useEffect, useState } from "react"
-import { Icon } from "./Icon/Icon"
-import { Button, EButtonSize, EButtonVariant } from "./Button/Button"
+import { Icon } from "../Icon/Icon"
+import { Button, EButtonSize, EButtonVariant } from "../Button/Button"
+import { DATA_TEST_ID_GLOBAL_OBJECT } from "@/shared/constants/test-id"
 
 /** Маппер для получения нужной иконки, для нотификации подтверждения иконка будет не нужна */
 const mapperTypeNotificationToIcon: Record<
   ENotificationType,
   JSX.Element | null
 > = {
-  [ENotificationType.ERROR]: <Icon type="ErrorIcon" />,
-  [ENotificationType.SUCCESS]: <Icon type="SuccessIcon" />,
-  [ENotificationType.WARNING]: <Icon type="WarningIcon" />,
+  [ENotificationType.ERROR]: (
+    <Icon
+      type="ErrorIcon"
+      dataTestId={DATA_TEST_ID_GLOBAL_OBJECT.notification.error}
+    />
+  ),
+  [ENotificationType.SUCCESS]: (
+    <Icon
+      type="SuccessIcon"
+      dataTestId={DATA_TEST_ID_GLOBAL_OBJECT.notification.success}
+    />
+  ),
+  [ENotificationType.WARNING]: (
+    <Icon
+      type="WarningIcon"
+      dataTestId={DATA_TEST_ID_GLOBAL_OBJECT.notification.warning}
+    />
+  ),
   [ENotificationType.CONFIRMATION]: null,
 }
 export const Notification: React.FC<TNotification> = props => {

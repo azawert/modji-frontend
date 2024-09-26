@@ -12,6 +12,7 @@ const getIcon = (type: TIcon) => iconTypes.get(type)
  * @prop [height] высота иконки
  * @prop [width] ширина иконки
  * @prop [size] размер иконки
+ * @prop [dataTestId] id для тестирования
  */
 type TProps = {
   type?: TIcon
@@ -20,10 +21,11 @@ type TProps = {
   height?: string
   width?: string
   size?: string
+  dataTestId?: string
 } & DOMAttributes<HTMLSpanElement>
 
 const Component: React.FC<TProps> = props => {
-  const { type, className, height, width, size, ...rest } = props
+  const { type, className, height, width, size, dataTestId, ...rest } = props
 
   const iconRef = useRef<HTMLDivElement>(null)
 
@@ -55,7 +57,12 @@ const Component: React.FC<TProps> = props => {
   }
 
   return (
-    <div className={cn(styles.Icon, className)} ref={iconRef} {...rest}>
+    <div
+      className={cn(styles.Icon, className)}
+      ref={iconRef}
+      data-testid={dataTestId}
+      {...rest}
+    >
       {getIcon(type)}
     </div>
   )
