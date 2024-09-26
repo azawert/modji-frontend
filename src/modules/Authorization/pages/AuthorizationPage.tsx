@@ -3,7 +3,7 @@ import { EMAIL_VALIDATION_PATTERN, TAuthUser } from "../const"
 
 import { Box, Avatar, Typography } from '@mui/material';
 import { TextField } from "@/shared/ui/TextField"
-import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button';
+import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button/Button';
 
 export const AuthorizationPage: React.FC = () => {
   const { 

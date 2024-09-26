@@ -2,7 +2,7 @@ import { useCallback } from "react"
 import { SectionHeader } from "@/modules/Clients/components/ClientPage/ClientFullCard.tsx"
 import { Box, Typography } from "@mui/material"
 import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet.tsx"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button.tsx"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button.tsx"
 import { Pet } from "../../types"
 
 const zeroStateContainerStyles = {

@@ -5,10 +5,11 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:jsdoc/recommended-typescript"
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
-  plugins: ["react-refresh", "@stylistic/jsx"],
+  plugins: ["react-refresh", "@stylistic/jsx", "jsdoc"],
   rules: {
     "react-refresh/only-export-components": [
       "warn",
@@ -21,5 +22,7 @@ module.exports = {
         html: true,
       },
     ],
+    "no-console": "warn",
+    "jsdoc/check-tag-names": ["error" | "warn", { "typed": true }],
   },
 }

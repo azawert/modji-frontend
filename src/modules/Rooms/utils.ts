@@ -24,9 +24,14 @@ export const mapperFormToAnUpdateRequest = (
   }
 }
 
+/**
+ * Функция, которая будет менять строку на число с плавающей запятой (необходимо для запроса на сервер)
+ * @param string строка которую необходимо переконвертировать в число
+ * @returns число с плавающей запятой
+ */
 function floatStringToFloatNumber(string: string): number {
   let mappedNumber
-  if (string?.includes(",")) {
+  if (string.includes(",")) {
     mappedNumber = parseFloat(string.replace(",", "."))
   } else {
     mappedNumber = parseFloat(string)
