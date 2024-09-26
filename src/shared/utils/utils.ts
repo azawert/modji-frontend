@@ -136,7 +136,10 @@ export const formatPhoneNumber = (phoneNumber: string): string => {
  * @param mask маска с которой надо сравнить полученное значение
  * @returns саму очищенную строку и признак совпадения с маской
  */
-export function getRawValueAndIfItsMatchesTheMask(value: string, mask: RegExp): { cleaned: string, match: RegExpMatchArray | null } {
+export function getRawValueAndIfItsMatchesTheMask(
+  value: string,
+  mask: RegExp
+): { cleaned: string; match: RegExpMatchArray | null } {
   const cleaned = value.replace(/\D/g, "")
   const match = cleaned.match(mask)
 

@@ -12,6 +12,9 @@ const StyledCard = styled(Card)(() => ({
 interface CardWrapperProps {
   children: React.ReactNode
   bgColor?: string
+  width?: string
+  height?: string
+  padding?: string
   onClick?: () => void
 }
 

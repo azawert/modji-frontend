@@ -25,8 +25,16 @@ module.exports = {
     input: "./src/docs/owners.yaml",
     output: {
       target: "./src/generated/owners.ts",
+      baseUrl: "https://rodionov.ru.fvds.ru:443/"
+    }
+  },
+  bookings: {
+    input: "./src/docs/bookings.yaml",
+    output: {
+      target: "./src/generated/bookings.ts",
       baseUrl: "https://rodionov.ru.fvds.ru:443/",
     },
+  
   },
   pets: {
     input: "./src/docs/pets.yaml",

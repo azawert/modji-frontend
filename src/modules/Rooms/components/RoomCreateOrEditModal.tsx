@@ -18,7 +18,7 @@ import { SelectWithCategories } from "./SelectWithCategories"
 import { MaskedTextField } from "@/shared/ui/MaskedTextField"
 import { useCheckUniqueRoomNumber } from "@/modules/Rooms/api/queries.ts"
 import { useDebounce } from "@/shared/hooks/hooks.ts"
-import { useCallback } from 'react'
+import { useCallback } from "react"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -65,7 +65,10 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
   /**
    * Функция возвращающая признак изменения номера при редактировании
    */
-  const hasRoomNumberNotChanged = useCallback(() => roomNumber === prevRoomNumberValue, [roomNumber, prevRoomNumberValue])
+  const hasRoomNumberNotChanged = useCallback(
+    () => roomNumber === prevRoomNumberValue,
+    [roomNumber, prevRoomNumberValue]
+  )
 
   const { data: isRoomNumberAvailable } = useCheckUniqueRoomNumber(
     debouncedValue,

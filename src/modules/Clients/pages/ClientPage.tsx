@@ -36,10 +36,10 @@ export const ClientPage = () => {
   )
 
   const clientInfo = useMemo(() => {
-    if (clientData?.data) {
-      return mapDataFromServerToAnFormView(clientData?.data)
+    if (clientData) {
+      return mapDataFromServerToAnFormView(clientData)
     }
-  }, [clientData?.data, isLoading])
+  }, [clientData, isLoading])
 
   const handleEditClientNavigate = useCallback(
     () => navigate(`/client/edit/${id}`),
@@ -91,7 +91,7 @@ export const ClientPage = () => {
       />
       <Gap gap={100} />
       <ClientPetsCardWrapper
-        pets={clientData?.data?.petsDto?.map(mapPetDtoToAnFormView) ?? []}
+        pets={clientData?.petsDto?.map(mapPetDtoToAnFormView) ?? []}
         handleOpenNewPetModal={handleOpenModalWindow}
       />
       <CreateNewPetModal

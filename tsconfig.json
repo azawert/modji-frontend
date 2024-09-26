@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/**.*","./setupTests.ts"],
+  "include": ["./src/**/**.*", "./setupTests.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -6,13 +6,13 @@ import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useCallback, useState } from "react"
 import { ETextType, Link } from "../../../shared/ui/Link"
 import { Logo } from "./Logo"
+import useBookingStore from "@/modules/Booking/store/BookingStore"
 import { DropDownMenu } from "@/widgets/Dropdown/DropdownMenu.tsx"
 
 export const Header: React.FC<TPropsForHeader> = ({
   links,
   srcLogo,
   logoTitle,
-  handleActiveButtonClick,
 }) => {
   const [selectedLink, setSelectedLink] = useState(links[0].label)
   const [hoveredLink, setHoveredLink] = useState<string | undefined>(undefined)
@@ -21,6 +21,8 @@ export const Header: React.FC<TPropsForHeader> = ({
 
   const handleSelectedLink = (link: string) => setSelectedLink(link)
 
+  const openModal = useBookingStore(state => state.setIsBookingInProgress)
+  const setBookingStep = useBookingStore(state => state.setBookingStep)
   const handleHoverOverLink = (link?: string) => {
     if (menuTimeout) {
       clearTimeout(menuTimeout)
@@ -115,7 +117,10 @@ export const Header: React.FC<TPropsForHeader> = ({
                 variant={EButtonVariant.Primary}
                 fontSize={14}
                 fontWeight={700}
-                onClick={handleActiveButtonClick}
+                onClick={() => {
+                  setBookingStep(1)
+                  openModal(true)
+                }}
               >
                 Добавить бронирование
               </Button>

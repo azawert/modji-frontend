@@ -5,7 +5,11 @@ import { LabeledRow } from "@/shared/ui/LabeledRow.tsx"
 import { Select } from "@/shared/ui/Select.tsx"
 import { useCallback } from "react"
 import { NEW_PET_SELECT_DATA } from "@/modules/Clients/const.ts"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button.tsx"
+import {
+  Button,
+  EButtonSize,
+  EButtonVariant,
+} from "@/shared/ui/Button/Button.tsx"
 import { PetDtoType } from "@/generated/pets.ts"
 
 /**

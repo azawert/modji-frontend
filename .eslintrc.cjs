@@ -15,6 +15,7 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+    "@typescript-eslint/ban-types": "off",
     "@stylistic/jsx/jsx-self-closing-comp": [
       "error",
       {
