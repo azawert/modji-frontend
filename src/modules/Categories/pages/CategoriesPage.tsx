@@ -82,8 +82,6 @@ export const CategoriesPage: React.FC = () => {
         setIsDeleteModalOpened(false)
       },
       onError: e => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
         if (e?.response?.status === 409) {
           addWarningNotification(
             `Удаление категории ${deleteModalData.name} невозможно из-за наличия номеров данной категории`,
@@ -121,8 +119,6 @@ export const CategoriesPage: React.FC = () => {
               handleCloseCreateOrEditModal()
             },
             onError: e => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
               if (e?.response?.status === 409) {
                 form.setError("name", {
                   message:
