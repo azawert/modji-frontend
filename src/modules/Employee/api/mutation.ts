@@ -14,8 +14,6 @@ export const useCreateNewUser = () => {
       queryClient.invalidateQueries({ queryKey: [queryKeys.GET_ALL_USERS] })
     },
     onError: e => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
       if (e?.response?.status === 409) {
         addErrorNotification(
           "Сотрудник с таким адресом электронной почты уже существует в системе"
@@ -51,9 +49,6 @@ export const useEditUser = () => {
       queryClient.invalidateQueries({ queryKey: [queryKeys.GET_ALL_USERS] })
     },
     onError: e => {
-      // TODO: после правок от бека с ошибками, наладить типизацию ошибок во всем проекте и убрать @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
       if (e?.response?.status === 409) {
         addErrorNotification(
           "Сотрудник с таким адресом электронной почты уже существует в системе"
