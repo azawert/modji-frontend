@@ -31,6 +31,7 @@ export const EmployeePage: React.FC = () => {
     defaultValues: DEFAULT_VALUES_FOR_CREATE_USER_FORM,
     mode: "all",
   })
+
   const handleOpenCreateModal = useCallback(() => {
     setIsOpenedCreateOrEditModal(prev => ({
       ...prev,
@@ -112,7 +113,7 @@ export const EmployeePage: React.FC = () => {
     <>
       <EmployeePageTitle onClick={handleOpenCreateModal} />
       <EmployeePageBody
-        employees={employees?.data || []}
+        employees={employees || []}
         isLoading={isEmployeeListLoading}
         handleOpenDeleteModal={handleOpenDeleteModal}
         handleOpenEditModal={handleOpenEditModal}

@@ -88,13 +88,13 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
 
   // в rhf не получается проставить ошибку, при получении ответа от реста, т.к она просто сбрасывается при расфокусе с поля, вроде есть другое решение, но пока как есть
   const getTextErrorForRoomNumber = useMemo(() => {
-    if (isRoomNumberAvailable?.data === false && !hasRoomNumberNotChanged()) {
+    if (isRoomNumberAvailable === false && !hasRoomNumberNotChanged()) {
       return "Комната с таким номером уже существует в системе"
     }
     if (errors?.number) {
       return errors.number.message
     }
-  }, [errors.number, hasRoomNumberNotChanged, isRoomNumberAvailable?.data])
+  }, [errors.number, hasRoomNumberNotChanged, isRoomNumberAvailable])
   const handleCloseModalWindow = () => {
     if (isDirty) {
       addNotification({

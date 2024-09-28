@@ -69,14 +69,14 @@ export const ClientsPage: React.FC = () => {
     <>
       <ClientsTitle onClick={handleOpenCreateModal} />
       <SearchComponent
-      placeholder="Введите ФИО или телефон клиента"
-      completeOptions={options as OwnerDto[]}
-      search={search}
-      isLoading={isLoadingSuggestions}
-      onSearchChange={handleSearchChange}
-    />
+        placeholder="Введите ФИО или телефон клиента"
+        completeOptions={options as OwnerDto[]}
+        search={search}
+        isLoading={isLoadingSuggestions}
+        onSearchChange={handleSearchChange}
+      />
       <TableWithClients
-        data={data?.data ?? []}
+        data={data ?? []}
         isLoading={isLoading}
         isError={isError}
         error={error}

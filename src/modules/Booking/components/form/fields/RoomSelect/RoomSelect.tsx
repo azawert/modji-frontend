@@ -16,12 +16,12 @@ export const RoomSelect: React.FC<TProps> = props => {
   const { data: rooms, isError } = useGetAllRooms("1")
 
   const mappedDataFromRooms = (): SelectData[] | undefined =>
-    rooms?.data.map(element => ({
+    rooms?.map(element => ({
       label: element.number,
       value: String(element.number),
     }))
   const renderNoData = (): React.ReactNode => {
-    if (!isError && rooms?.data.length === 0) {
+    if (!isError && rooms?.length === 0) {
       return <Typography>Комнаты не найдены</Typography>
     } else if (isError) {
       return <Typography>Ошибка загрузки комнат</Typography>

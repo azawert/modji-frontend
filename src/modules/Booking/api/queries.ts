@@ -8,7 +8,7 @@ export const useGetBookingById = (id: number) =>
     queryKey: [EQueryKeys.GET_BOOKING_BY_ID + id],
     queryFn: () =>
       getBookingById(id, { headers: { "X-PetHotel-User-Id": 1 } }).then(res =>
-        mapperBookingDTOToFormData(res.data)
+        mapperBookingDTOToFormData(res)
       ),
   })
 
