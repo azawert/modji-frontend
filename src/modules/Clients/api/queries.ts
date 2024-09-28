@@ -24,16 +24,13 @@ export const useGetSuggestedClients = (
         { wanted },
         { direction },
         { headers: { "X-PetHotel-User-Id": 1 } }
-      ).then(res => res.data),
+      ),
     enabled: !!wanted,
   })
 
 export const useGetClientById = (id: number) =>
   useQuery({
     queryKey: [EQueryKeys.GET_CLIENT_BY_ID + id],
-    queryFn: () =>
-      getOwnerById(id, { headers: { "X-PetHotel-User-Id": 1 } }).then(
-        res => res.data
-      ),
+    queryFn: () => getOwnerById(id, { headers: { "X-PetHotel-User-Id": 1 } }),
     enabled: !!id,
   })

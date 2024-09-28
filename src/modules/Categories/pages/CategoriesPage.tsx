@@ -147,7 +147,7 @@ export const CategoriesPage: React.FC = () => {
       <CategoriesTitle onClick={handleOpenCreateModal} />
       <CategoriesPageBody
         isLoading={isCategoriesLoading}
-        categories={categories?.data || []}
+        categories={categories || []}
         handleOpenDeleteCategoryModal={handleDeleteModalOpened}
         handleOpenEditCategoryModal={handleOpenEditModal}
       />

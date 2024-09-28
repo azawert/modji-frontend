@@ -206,7 +206,7 @@ export const RoomsPage: React.FC = () => {
         handleOpenEditModal={handleOpenEditModal}
         isLoading={isRoomsLoading}
         mode={selectedMode.label}
-        rooms={rooms?.data || []}
+        rooms={rooms || []}
       />
       <RoomDeleteModal
         isOpen={isDeleteModalOpened}

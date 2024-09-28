@@ -16,12 +16,12 @@ export const CategorySelect: React.FC<TProps> = props => {
   const { data: categories, isError } = useGetCategories()
 
   const mappedDataFromCategories = (): SelectData[] | undefined =>
-    categories?.data.map(element => ({
+    categories?.map(element => ({
       label: element.name,
       value: String(element.name),
     }))
   const renderNoData = (): React.ReactNode => {
-    if (!isError && categories?.data?.length === 0) {
+    if (!isError && categories?.length === 0) {
       return <Typography>Категории не найдены</Typography>
     } else if (isError) {
       return <Typography>Ошибка загрузки категорий</Typography>
