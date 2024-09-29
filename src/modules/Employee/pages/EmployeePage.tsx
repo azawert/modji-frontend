@@ -10,6 +10,7 @@ import { UserDto } from "@/generated/user"
 import { getFullName, roleMapperForRussianLanguage } from "../utils"
 import { EmployeeDeleteModal } from "../components/EmployeeDeleteModal"
 import { TOpenModal } from "@/shared/types/types"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 type TModalDeleteData = {
   employeeName: string
@@ -17,6 +18,7 @@ type TModalDeleteData = {
   employeeId: number
 }
 export const EmployeePage: React.FC = () => {
+  useDocumentTitle({ title: "Команда" })
   const { data: employees, isLoading: isEmployeeListLoading } = useGetAllUsers()
   const { mutate: createUser } = useCreateNewUser()
   const { mutate: deleteUser } = useDeleteUser()

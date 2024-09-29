@@ -4,8 +4,10 @@ import { EMAIL_VALIDATION_PATTERN, TAuthUser } from "../const"
 import { Box, Avatar, Typography } from "@mui/material"
 import { TextField } from "@/shared/ui/TextField"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export const AuthorizationPage: React.FC = () => {
+  useDocumentTitle({ title: "Авторизация" })
   const {
     register,
     handleSubmit,
