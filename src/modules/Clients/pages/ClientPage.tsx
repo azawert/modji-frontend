@@ -11,6 +11,7 @@ import { CreateNewPetModal } from "@/modules/Clients/components/ClientPage/Creat
 import { PetDtoType } from "@/generated/pets.ts"
 import { getFullName } from "@/modules/Employee/utils.ts"
 import { mapPetDtoToAnFormView } from "../const"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export const ClientPage = () => {
   const { id } = useParams()
@@ -22,7 +23,14 @@ export const ClientPage = () => {
     PetDtoType | undefined
   >()
   const [error, setError] = useState<string | undefined>()
-
+  useDocumentTitle({
+    title: getFullName(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      clientData?.firstName!,
+      clientData?.lastName,
+      clientData?.middleName
+    ),
+  })
   /** Очистка ошибки при выборе какого-либо типа питомца */
   useEffect(() => {
     if (selectedPetType) {

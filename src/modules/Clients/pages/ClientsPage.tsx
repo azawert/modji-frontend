@@ -11,8 +11,10 @@ import {
   useAddErrorNotification,
   useAddSuccessNotification,
 } from "@/shared/utils/utils"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export const ClientsPage: React.FC = () => {
+  useDocumentTitle({ title: "Клиенты" })
   const [search, setSearch] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpened] = useState(false)
   const addSuccessNotification = useAddSuccessNotification()

@@ -19,6 +19,7 @@ import {
 } from "../utils"
 import { useAddWarningNotification } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 type TDeleteModalData = {
   name: string
@@ -27,6 +28,7 @@ type TDeleteModalData = {
 }
 
 export const CategoriesPage: React.FC = () => {
+  useDocumentTitle({ title: "Категории" })
   const addWarningNotification = useAddWarningNotification()
   const navigate = useNavigate()
   const [isCreateOrEditModalOpen, setIsCreateOrEditModalOpen] =
