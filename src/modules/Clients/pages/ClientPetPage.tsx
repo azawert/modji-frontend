@@ -1,8 +1,11 @@
 import { CustomCheckbox } from "@/shared/ui/Checkbox"
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { TextField } from "@/shared/ui/TextField"
+import { DatePicker } from "@/widgets/DatePicker/DatePicker"
+import { TDatePickerProps } from "@/widgets/DatePicker/types"
 import { IconButton } from "@mui/material"
-import { useState } from "react"
+import dayjs, { Dayjs } from "dayjs"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 export const ClientPetPage = () => {
@@ -10,7 +13,21 @@ export const ClientPetPage = () => {
   const [healthInfo, setShowHealthInfo] = useState(false)
   const [behaviorInfo, setShowBehaviorInfo] = useState(false)
   const [foodInfo, setShowFoodInfo] = useState(false)
-  useForm()
+  // Состояние для календаря
+  const [date, setDate] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange" })
+
+  const submit = (data: any) => {
+    console.log(data)
+  }
+
+  useEffect(() => {
+    console.log(errors)
+  })
 
   return (
     <>
@@ -18,9 +35,76 @@ export const ClientPetPage = () => {
       <div className="w-3/4 mt-6  border-black border-2">
         <div className="w-7/12 border-black border-2">
           <h2 className="text-xl font-body font-bold">Общая информация</h2>
-          <form action="">
-            <TextField className="" id="1" placeholder="Кличка*"></TextField>
-            <TextField className="" id="2" placeholder="Порода*"></TextField>
+          <form onSubmit={handleSubmit(submit)}>
+            {/* не смог воспользоваться аргументом error у компонента TextField  и сделал кастомно*/}
+            <TextField
+              {...register("nickname", {
+                required: true,
+                minLength: 2,
+                maxLength: 30,
+              })}
+              style={
+                errors?.nickname && { borderColor: "hsl(var(--destructive))" }
+              }
+              id="1"
+              placeholder="Кличка*"
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                if (e.target.value.length > 30) {
+                  e.target.value = e.target.value.slice(0, 30)
+                }
+              }}
+            ></TextField>
+            {(errors?.nickname?.type == "required" && (
+              <p
+                style={{ color: "hsl(var(--destructive))", marginLeft: "20px" }}
+              >
+                Пожалуйста, укажите кличку животного.
+              </p>
+            )) ||
+              (errors?.nickname?.type == "minLength" && (
+                <p
+                  style={{
+                    color: "hsl(var(--destructive))",
+                    marginLeft: "20px",
+                  }}
+                >
+                  Кличка питомца должна содержать минимум 2 буквенных символа
+                </p>
+              ))}
+            <TextField
+              {...register("breed", {
+                required: true,
+                minLength: 2,
+                maxLength: 30,
+              })}
+              style={
+                errors?.breed && { borderColor: "hsl(var(--destructive))" }
+              }
+              id="2"
+              placeholder="Порода*"
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                if (e.target.value.length > 30) {
+                  e.target.value = e.target.value.slice(0, 30)
+                }
+              }}
+            ></TextField>
+            {(errors?.breed?.type == "required" && (
+              <p
+                style={{ color: "hsl(var(--destructive))", marginLeft: "20px" }}
+              >
+                Пожалуйста, укажите породу животного.
+              </p>
+            )) ||
+              (errors?.breed?.type == "minLength" && (
+                <p
+                  style={{
+                    color: "hsl(var(--destructive))",
+                    marginLeft: "20px",
+                  }}
+                >
+                  Порода питомца должна содержать минимум 2 буквенных символа
+                </p>
+              ))}
             <div className="flex w-full">
               <label className="relative mr-4">
                 <TextField
@@ -30,9 +114,18 @@ export const ClientPetPage = () => {
                 ></TextField>
                 <IconButton
                   style={{ position: "absolute", top: "29px", right: "22px" }}
+                  onClick={() => {
+                    setDate(!date)
+                  }}
                 >
                   <Icon type="CalendarIcon" height="20px" width="20px" />
                 </IconButton>
+                <div className="absolute left-64 -top-10 z-10">
+                  <DatePicker
+                    onClose={() => console.log("bob")}
+                    isOpen={date}
+                  ></DatePicker>
+                </div>
               </label>
               <label className="mr-4">
                 <TextField
@@ -418,6 +511,10 @@ export const ClientPetPage = () => {
                 placeholder="Дополнительные комментарии, особенности поведения"
               ></textarea>
             </div>
+            <button
+              type="submit"
+              style={{ height: "80px", width: "80px", background: "blue" }}
+            />
           </form>
         </div>
       </div>
