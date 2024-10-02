@@ -1,8 +1,9 @@
 import { CategoryDto } from "@/generated/categories"
+import { useClickOutside } from "@/shared/hooks/hooks"
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 import { Box, Card, Collapse, IconButton, Typography } from "@mui/material"
-import { memo, useState } from "react"
+import { memo, useCallback, useState } from "react"
 
 const defaultHeightOfCard = 180
 /**
@@ -53,6 +54,11 @@ export const CategoryCard: React.FC<TProps> = memo(props => {
     setIsAdditionalFieldsShown(p => !p)
   }
 
+  const handleCloseAdditionalFields = useCallback(() => {
+    setIsAdditionalFieldsShown(false)
+  }, [])
+  const cardRef = useClickOutside(handleCloseAdditionalFields)
+
   const ButtonIcon = isAdditionalFieldsShown ? (
     <KeyboardArrowUp />
   ) : (
@@ -69,6 +75,7 @@ export const CategoryCard: React.FC<TProps> = memo(props => {
           marginRight: needMargin ? "16px" : undefined,
           marginBottom: "20px",
         }}
+        ref={cardRef}
       >
         <Card
           sx={{
@@ -79,6 +86,10 @@ export const CategoryCard: React.FC<TProps> = memo(props => {
             position: isAdditionalFieldsShown ? "absolute" : "static",
             width: "100%",
             height: isAdditionalFieldsShown ? undefined : defaultHeightOfCard,
+            border: "2px solid transparent",
+            "&:hover": {
+              border: "2px solid #D5E1FF",
+            },
           }}
         >
           <Box display="flex" flexDirection="column">

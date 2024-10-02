@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils"
 import { CircularProgress, InputBase } from "@mui/material"
 import { forwardRef, memo } from "react"
 import { Icon } from "./Icon/Icon"
+import { EErrorColor, ErrorText } from "@/shared/ui/ErrorText.tsx"
 
 export enum TIconInputPosition {
   LEFT = "left",
@@ -40,6 +41,8 @@ type TProps = {
   marginBottom?: string
   isTextarea?: boolean
   rowsToDisplay?: number
+  type?: string
+  isPhone?: boolean
 } & React.PropsWithChildren &
   Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -49,7 +52,7 @@ type TProps = {
 const disabled = "opacity-50 hover:bg-indigo-100"
 const errored = "border-error"
 
-const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
+const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
   const {
     id,
     placeholder,
@@ -58,7 +61,6 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
     label,
     error,
     isLoading,
-    loadingSpinner,
     iconPosition,
     iconType,
     maxLength,
@@ -66,6 +68,7 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
     marginBottom,
     isTextarea,
     rowsToDisplay = 3,
+    type,
     ...rest
   } = props
 
@@ -73,23 +76,20 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
     iconPosition === TIconInputPosition.LEFT && !isLoading
   return (
     <label htmlFor={id} className="flex flex-col">
-      {!isLoading ? (
-        <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
-          {label}
-          <span className="font-semibold ml-0.5 text-basicGreyText text-small">
-            {isRequired ? "*" : ""}
-          </span>
+      <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
+        {label}
+        <span className="font-semibold ml-0.5 text-basicGreyText text-small">
+          {isRequired ? "*" : ""}
         </span>
-      ) : (
-        loadingSpinner
-      )}
-      <div style={{ marginBottom }}>
+      </span>
+
+      <div style={{ marginBottom, position: "relative" }}>
         <InputBase
           placeholder={placeholder}
           autoComplete="off"
           disabled={isDisabled || isLoading}
           id={id}
-          type="text"
+          type={type}
           className={cn(
             `border-2 border-basicGrey  rounded-24px focus-within:border-basicBlack py-3 px-5 w-full ${className}`,
             {
@@ -102,12 +102,11 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
             isLeftIconDisplayed ? (
               <Icon type={iconType} />
             ) : isLoading ? (
-              <CircularProgress />
+              <CircularProgress size={16} />
             ) : null
           }
           endAdornment={iconPosition === "right" && <Icon type={iconType} />}
-          {...rest}
-          ref={inputRef}
+          ref={ref}
           inputProps={{
             maxLength,
           }}
@@ -123,9 +122,15 @@ const Component: React.FC<TProps> = forwardRef((props, inputRef) => {
           error={!!error}
           multiline={isTextarea}
           minRows={rowsToDisplay}
+          {...rest}
         />
         {error && (
-          <span className="text-error font-semibold text-small">{error}</span>
+          <ErrorText
+            color={EErrorColor.RED}
+            className="top-full left-0 pt-1 pl-[22px] text-red-500 text-xs"
+          >
+            {error}
+          </ErrorText>
         )}
       </div>
     </label>

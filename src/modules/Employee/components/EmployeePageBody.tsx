@@ -16,6 +16,8 @@ import { EmployeeRowItem } from "./EmployeeRowItem"
  * @prop employees данные по сотрудникам для отображения в таблице
  * @prop [isLoading] флаг загрузки данных
  * @prop [isError] флаг наличия ошибки в загрузке данных
+ * @prop [handleOpenDeleteModal] функция обработчик открытия модального окна удаления сотрудника
+ * @prop [handleOpenEditModal] функция обработчик открытия модального окна редактирования сотрудника
  */
 type TProps = {
   employees: UserDto[]
@@ -37,7 +39,15 @@ export const EmployeePageBody: React.FC<TProps> = props => {
   return (
     <>
       <TableContainer
-        component={Paper}
+        component={props => (
+          <Paper
+            {...props}
+            sx={{
+              boxShadow: "0px 4px 8px 0px #00000017",
+              borderRadius: "8px",
+            }}
+          />
+        )}
         sx={{
           "& .MuiTableCell-root": {
             padding: "12px 24px",
@@ -69,8 +79,8 @@ export const EmployeePageBody: React.FC<TProps> = props => {
                   key={employee.id}
                   employee={employee}
                   isDeleteAvailable={employee.role !== UserDtoRole.ROLE_BOSS}
-                  onDeleteIconClick={() => handleOpenDeleteModal(employee)}
-                  onEditIconClick={() => handleOpenEditModal(employee)}
+                  onDeleteIconClick={handleOpenDeleteModal}
+                  onEditIconClick={handleOpenEditModal}
                 />
               ))
             )}

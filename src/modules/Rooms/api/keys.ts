@@ -1,5 +1,6 @@
 export enum EQueryKeys {
   GET_ALL_ROOMS = "GET_ALL_ROOMS",
+  CHECK_UNIQUE_ROOM_NUMBER = "CHECK_UNIQUE_ROOM_NUMBER",
 }
 
 export enum EMutationKeys {

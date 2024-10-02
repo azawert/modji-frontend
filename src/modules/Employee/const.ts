@@ -17,7 +17,7 @@ export type TCreateUser = {
   lastName: string
   password: string
   confirmPassword: string
-  role: NewUserDtoRole
+  role: NewUserDtoRole | undefined
   isActive?: boolean
   middleName?: string
 }
@@ -28,7 +28,7 @@ export const DEFAULT_VALUES_FOR_CREATE_USER_FORM: TCreateUser = {
   firstName: "",
   lastName: "",
   password: "",
-  role: NewUserDtoRole.ROLE_USER,
+  role: undefined,
   isActive: true,
   middleName: "",
 }

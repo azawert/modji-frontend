@@ -91,6 +91,7 @@ export const CategoriesPage: React.FC = () => {
             "Перейти в раздел Номера"
           )
         }
+        setIsDeleteModalOpened(false)
       },
     })
   }, [

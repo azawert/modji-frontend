@@ -59,7 +59,7 @@ export const CreateOrEditModal = <K extends FieldValues>(props: TProps<K>) => {
         },
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)} id={formId}>
+      <form onSubmit={handleSubmit(d => onSubmit?.(d))} id={formId}>
         <DialogTitle display="flex" justifyContent="flex-end">
           {renderHeader()}
         </DialogTitle>

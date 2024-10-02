@@ -46,7 +46,8 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
     formState: { errors, isDirty },
     setValue,
   } = form
-  const { addNotification } = useNotification()
+  const { addNotification, removeNotification, notifications } =
+    useNotification()
 
   useEffect(() => {
     if (isEditing && categoryData) {
@@ -55,10 +56,6 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
       )
     }
   }, [isEditing, categoryData, setValue])
-
-  const onSubmit: SubmitHandler<TCategoryForm> = data => {
-    handleFormSubmit(data)
-  }
 
   const handleCloseModalWindow = () => {
     if (isDirty) {
@@ -75,6 +72,15 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
     } else {
       onClose()
     }
+  }
+
+  const onSubmit: SubmitHandler<TCategoryForm> = data => {
+    handleFormSubmit(data)
+    // Необходимо скрывать все нотификации вида confirmation при попытке засабмитить форму
+    notifications.forEach(
+      ({ id, type }) =>
+        type === ENotificationType.CONFIRMATION && removeNotification(id)
+    )
   }
 
   const renderBody = () => (
@@ -96,7 +102,7 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
             message: "Пожалуйста, заполните это поле",
           },
           pattern: {
-            value: /[а-яА-Я0-9_]/,
+            value: /[а-яА-Яa-zA-Z0-9_]/,
             message: "Название должно содержать минимум 1 букву или цифру",
           },
           minLength: {

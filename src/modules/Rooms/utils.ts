@@ -3,19 +3,34 @@ import { TRoomCreateForm } from "./pages/RoomsPage"
 
 export const mapperFormToAnCreateRequest = (
   form: TRoomCreateForm
-): NewRoomDto => ({
-  categoryId: +form.category,
-  number: form.number,
-  area: +form.area,
-  isVisible: true,
-  description: form.description,
-})
+): NewRoomDto => {
+  return {
+    categoryId: +form.category,
+    number: form.number,
+    area: floatStringToFloatNumber(form.area.toString()),
+    isVisible: true,
+    description: form.description,
+  }
+}
 
 export const mapperFormToAnUpdateRequest = (
   form: TRoomCreateForm
-): UpdateRoomDto => ({
-  categoryId: +form.category,
-  number: form.number,
-  area: +form.area,
-  description: form.description,
-})
+): UpdateRoomDto => {
+  return {
+    categoryId: +form.category,
+    number: form.number,
+    area: floatStringToFloatNumber(form.area.toString()),
+    description: form.description,
+  }
+}
+
+function floatStringToFloatNumber(string: string): number {
+  let mappedNumber
+  if (string?.includes(",")) {
+    mappedNumber = parseFloat(string.replace(",", "."))
+  } else {
+    mappedNumber = parseFloat(string)
+  }
+
+  return mappedNumber
+}
