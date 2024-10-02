@@ -1,5 +1,6 @@
 export enum EQueryKeys {
   GET_BOOKING_BY_ID = "GET_BOOKING_BY_ID",
+  GET_ALL_BOOKINGS = "GET_ALL_BOOKINGS",
 }
 
 export enum EMutationKeys {

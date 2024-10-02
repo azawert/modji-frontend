@@ -4,6 +4,7 @@ import {
 } from "@/contexts/notificationContext/NotificationContext"
 import { useContext } from "react"
 import dayjs from "dayjs"
+import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
 
 export const generateUniqueId = () => {
   const dateStr = Date.now().toString(36)
@@ -147,4 +148,14 @@ export function getRawValueAndIfItsMatchesTheMask(
     cleaned,
     match,
   }
+}
+
+/**
+ * Функция которая возвразает текущую дату в отформатированном виде
+ * @returns отформатированную дату в формате DD.MM.YYYY
+ */
+export const getTodayFormattedDate = () => dayjs().format(DATE_FRONT_FORMAT)
+
+export function getUniqueItems<T>(array: T[]): T[] {
+  return [...new Set(array)]
 }

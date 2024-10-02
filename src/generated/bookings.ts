@@ -3,10 +3,53 @@
  * Do not edit manually.
  * PetHotel: Bookings Specification
  * Документация раздела по работе с бронированиями
- * OpenAPI spec version: v4
+ * OpenAPI spec version: v5
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+export type CheckUpdateBookingRoomAvailableInDatesParams = {
+  /**
+   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
+   */
+  checkInDate: CheckInDateParameter
+  /**
+   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
+   */
+  checkOutDate: CheckOutDateParameter
+}
+
+export type CheckRoomAvailableInDatesParams = {
+  /**
+   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
+   */
+  checkInDate: CheckInDateParameter
+  /**
+   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
+   */
+  checkOutDate: CheckOutDateParameter
+}
+
+/**
+ * Дата окончания периода в формате "dd.MM.yyyy". Должна быть равна или позже даты начала периода.
+ */
+export type EndDateParameter = string
+
+/**
+ * Дата начала периода в формате "dd.MM.yyyy". Должна быть до или равна дате окончания периода.
+ */
+export type StartDateParameter = string
+
+export type FindAllBookingsInDatesParams = {
+  /**
+   * Дата начала периода в формате "dd.MM.yyyy". Должна быть до или равна дате окончания периода.
+   */
+  startDate: StartDateParameter
+  /**
+   * Дата окончания периода в формате "dd.MM.yyyy". Должна быть равна или позже даты начала периода.
+   */
+  endDate: EndDateParameter
+}
+
 /**
  * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
  */
@@ -29,28 +72,6 @@ export type FindBlockingBookingsForRoomInDatesParams = {
 }
 
 export type FindCrossingBookingsForRoomInDatesParams = {
-  /**
-   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
-   */
-  checkInDate: CheckInDateParameter
-  /**
-   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
-   */
-  checkOutDate: CheckOutDateParameter
-}
-
-export type CheckUpdateBookingRoomAvailableInDatesParams = {
-  /**
-   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
-   */
-  checkInDate: CheckInDateParameter
-  /**
-   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
-   */
-  checkOutDate: CheckOutDateParameter
-}
-
-export type CheckRoomAvailableInDatesParams = {
   /**
    * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
    */
@@ -762,7 +783,10 @@ export const getBookingById = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<BookingDto>(
-    { url: `/bookings/${bookingId}`, method: "GET" },
+    {
+      url: `/bookings/${bookingId}`,
+      method: "GET",
+    },
     options
   )
 }
@@ -776,7 +800,10 @@ export const deleteBookingById = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<void>(
-    { url: `/bookings/${bookingId}`, method: "DELETE" },
+    {
+      url: `/bookings/${bookingId}`,
+      method: "DELETE",
+    },
     options
   )
 }
@@ -796,6 +823,24 @@ export const updateBooking = (
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       data: updateBookingDto,
+    },
+    options
+  )
+}
+
+/**
+ * Получение всех бронирований в указанные даты, кроме статуса "отменено" Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
+ * @summary Получить все неотмененные бронирования в указанные даты
+ */
+export const findAllBookingsInDates = (
+  params: FindAllBookingsInDatesParams,
+  options?: SecondParameter<typeof axiosInstance>
+) => {
+  return axiosInstance<BookingDto[]>(
+    {
+      url: `/bookings/inDates`,
+      method: "GET",
+      params,
     },
     options
   )
@@ -878,6 +923,40 @@ export const findBlockingBookingsForRoomInDates = (
   )
 }
 
+/**
+ * Поиск всех имеющихся бронирований на пребывание конкретного питомца. Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
+ * @summary Поиск всех имеющихся бронирований на пребывание конкретного питомца
+ */
+export const findAllBookingsByPet = (
+  petId: number,
+  options?: SecondParameter<typeof axiosInstance>
+) => {
+  return axiosInstance<BookingDto[]>(
+    {
+      url: `/bookings/allByPet/pets/${petId}`,
+      method: "GET",
+    },
+    options
+  )
+}
+
+/**
+ * Поиск всех имеющихся бронирований на пребывание всех питомцев конкретного клиента. Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
+ * @summary Поиск всех имеющихся бронирований на пребывание всех питомцев конкретного клиента
+ */
+export const findAllBookingsByOwner = (
+  ownerId: number,
+  options?: SecondParameter<typeof axiosInstance>
+) => {
+  return axiosInstance<BookingDto[]>(
+    {
+      url: `/bookings/allByOwner/owners/${ownerId}`,
+      method: "GET",
+    },
+    options
+  )
+}
+
 export type AddBookingResult = NonNullable<
   Awaited<ReturnType<typeof addBooking>>
 >
@@ -890,6 +969,9 @@ export type DeleteBookingByIdResult = NonNullable<
 export type UpdateBookingResult = NonNullable<
   Awaited<ReturnType<typeof updateBooking>>
 >
+export type FindAllBookingsInDatesResult = NonNullable<
+  Awaited<ReturnType<typeof findAllBookingsInDates>>
+>
 export type CheckRoomAvailableInDatesResult = NonNullable<
   Awaited<ReturnType<typeof checkRoomAvailableInDates>>
 >
@@ -901,4 +983,10 @@ export type FindCrossingBookingsForRoomInDatesResult = NonNullable<
 >
 export type FindBlockingBookingsForRoomInDatesResult = NonNullable<
   Awaited<ReturnType<typeof findBlockingBookingsForRoomInDates>>
+>
+export type FindAllBookingsByPetResult = NonNullable<
+  Awaited<ReturnType<typeof findAllBookingsByPet>>
+>
+export type FindAllBookingsByOwnerResult = NonNullable<
+  Awaited<ReturnType<typeof findAllBookingsByOwner>>
 >
