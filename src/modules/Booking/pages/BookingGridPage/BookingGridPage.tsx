@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils"
 import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
 import dayjs from "dayjs"
 import { BookingDto } from "@/generated/bookings"
+import BookingSideBar from "../../components/BookingSidebar/BookingSidebar"
 
 const rooms: { id: number; category: string }[] = bookings.map(el => ({
   id: el.room.id,
@@ -78,7 +79,9 @@ export const BookingGridPage: FC = () => {
   const daysForBookingGrid = generateDaysForBookingGrid()
 
   return (
-    <div className="relative overflow-hidden py-6">
+    <div className="flex">
+    <BookingSideBar categories={rooms}/>
+    <div className="relative overflow-hidden py-6 w-10/12">
       <div className="overflow-x-auto">
         <div className="py-4 px-6">
           <GridHeader
@@ -91,7 +94,6 @@ export const BookingGridPage: FC = () => {
         <table className="table-fixed w-full">
           <thead>
             <tr>
-              <th className="w-1/5 bg-gray-100 text-left p-2">Категории</th>
               {daysForBookingGrid.map(({ day, isWeekend }) => (
                 <th
                   key={day.format("DD-MM-YYYY")}
@@ -125,10 +127,6 @@ export const BookingGridPage: FC = () => {
               )
               return (
                 <tr key={room.id}>
-                  <td className="w-1/5 border p-2 text-left">
-                    <div className="font-bold">{room.id}</div>
-                    <div className="text-sm text-gray-500">{room.category}</div>
-                  </td>
 
                   {daysForBookingGrid.map(({ isWeekend, day }, index) => {
                     const bookingInfo = getBookingInfo(
@@ -145,7 +143,7 @@ export const BookingGridPage: FC = () => {
                       <td
                         key={index}
                         className={cn(
-                          "border p-2 border-t-0 text-center relative",
+                          `border p-6 border-t-0 text-center relative room-${room.id}`,
                           {
                             "bg-red-100": isWeekend,
                           }
@@ -182,5 +180,7 @@ export const BookingGridPage: FC = () => {
         </table>
       </div>
     </div>
+    </div>
+   
   )
 }
