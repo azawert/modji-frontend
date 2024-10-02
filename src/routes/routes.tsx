@@ -6,6 +6,8 @@ import { AuthorizationPage } from "@/modules/Authorization/pages/AuthorizationPa
 import { ClientsPage } from "@/modules/Clients/pages/ClientsPage"
 import { Layout } from "@/shared/Layout"
 import { RouteObject } from "react-router-dom"
+import { BookingPage } from "@/modules/Booking/pages/BookingPage/BookingPage"
+import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
 import { ClientPage } from "@/modules/Clients/pages/ClientPage.tsx"
 
 export const routes: RouteObject[] = [
@@ -32,6 +34,14 @@ export const routes: RouteObject[] = [
       {
         path: "clients",
         element: <ClientsPage />,
+      },
+      {
+        path: "booking/:bookingId",
+        element: <BookingPage />,
+      },
+      {
+        path: "create-booking",
+        element: <CreateBookingPage />,
       },
       {
         path: "clients/:id",

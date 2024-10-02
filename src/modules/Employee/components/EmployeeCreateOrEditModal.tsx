@@ -10,7 +10,7 @@ import { IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material/"
 import { TextField } from "@/shared/ui/TextField"
 import { Select } from "@/shared/ui/Select"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import {
   mapperCreateUserFormToAnUserCreateRequest,
   mapperCreateUserFormToAnUserUpdateRequest,

@@ -61,8 +61,6 @@ export const useDeleteCategory = () => {
     mutationFn: (id: number) =>
       deleteCategoryById(id, { headers: { "X-PetHotel-User-Id": 1 } }),
     onError: e => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       if (e?.response?.status === 409) return
       addErrorNotification("При удалении категории произошла ошибка.")
     },

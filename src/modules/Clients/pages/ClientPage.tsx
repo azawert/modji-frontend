@@ -11,6 +11,7 @@ import { CreateNewPetModal } from "@/modules/Clients/components/ClientPage/Creat
 import { PetDtoType } from "@/generated/pets.ts"
 import { getFullName } from "@/modules/Employee/utils.ts"
 import { mapPetDtoToAnFormView } from "../const"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export const ClientPage = () => {
   const { id } = useParams()
@@ -22,7 +23,14 @@ export const ClientPage = () => {
     PetDtoType | undefined
   >()
   const [error, setError] = useState<string | undefined>()
-
+  useDocumentTitle({
+    title: getFullName(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      clientData?.firstName!,
+      clientData?.lastName,
+      clientData?.middleName
+    ),
+  })
   /** Очистка ошибки при выборе какого-либо типа питомца */
   useEffect(() => {
     if (selectedPetType) {
@@ -36,10 +44,10 @@ export const ClientPage = () => {
   )
 
   const clientInfo = useMemo(() => {
-    if (clientData?.data) {
-      return mapDataFromServerToAnFormView(clientData?.data)
+    if (clientData) {
+      return mapDataFromServerToAnFormView(clientData)
     }
-  }, [clientData?.data, isLoading])
+  }, [clientData, isLoading])
 
   const handleEditClientNavigate = useCallback(
     () => navigate(`/client/edit/${id}`),
@@ -91,7 +99,7 @@ export const ClientPage = () => {
       />
       <Gap gap={100} />
       <ClientPetsCardWrapper
-        pets={clientData?.data?.petsDto?.map(mapPetDtoToAnFormView) ?? []}
+        pets={clientData?.petsDto?.map(mapPetDtoToAnFormView) ?? []}
         handleOpenNewPetModal={handleOpenModalWindow}
       />
       <CreateNewPetModal

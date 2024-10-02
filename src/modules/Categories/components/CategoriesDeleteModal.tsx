@@ -1,10 +1,11 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { DeleteModal } from "@/shared/ui/modal/DeleteModal"
 import { Close } from "@mui/icons-material"
 import { Box, IconButton, Typography } from "@mui/material"
 import { useCallback } from "react"
 
-/** Пропы для модалки
+/**
+ * Пропы для модалки
  * @prop isOpen флаг открытия модального окна
  * @prop employeeName фио сотрудника
  * @prop employeeRole должность сотрудника

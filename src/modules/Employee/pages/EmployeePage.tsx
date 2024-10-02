@@ -10,6 +10,7 @@ import { UserDto } from "@/generated/user"
 import { getFullName, roleMapperForRussianLanguage } from "../utils"
 import { EmployeeDeleteModal } from "../components/EmployeeDeleteModal"
 import { TOpenModal } from "@/shared/types/types"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 type TModalDeleteData = {
   employeeName: string
@@ -17,6 +18,7 @@ type TModalDeleteData = {
   employeeId: number
 }
 export const EmployeePage: React.FC = () => {
+  useDocumentTitle({ title: "Команда" })
   const { data: employees, isLoading: isEmployeeListLoading } = useGetAllUsers()
   const { mutate: createUser } = useCreateNewUser()
   const { mutate: deleteUser } = useDeleteUser()
@@ -31,6 +33,7 @@ export const EmployeePage: React.FC = () => {
     defaultValues: DEFAULT_VALUES_FOR_CREATE_USER_FORM,
     mode: "all",
   })
+
   const handleOpenCreateModal = useCallback(() => {
     setIsOpenedCreateOrEditModal(prev => ({
       ...prev,
@@ -112,7 +115,7 @@ export const EmployeePage: React.FC = () => {
     <>
       <EmployeePageTitle onClick={handleOpenCreateModal} />
       <EmployeePageBody
-        employees={employees?.data || []}
+        employees={employees || []}
         isLoading={isEmployeeListLoading}
         handleOpenDeleteModal={handleOpenDeleteModal}
         handleOpenEditModal={handleOpenEditModal}

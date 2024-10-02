@@ -1,8 +1,9 @@
 import { RefObject, useEffect, useRef, useState } from "react"
 
-/** Хук для получения значения с задержкой
+/**
+ * Хук для получения значения с задержкой
  * @param value значение которое нужно получить с задержкой
- * @param {number} delay задержка
+ * @param delay задержка
  * @returns значение с задержкой
  * @example
  * const [text, setText] = useState<string>('')
@@ -26,11 +27,12 @@ export const useDebounce = <T>(value: T, delay: number): T => {
   return debouncedValue
 }
 
-/** Хук для обработки кликов за пределами указанного элемента
+/**
+ * Хук для обработки кликов за пределами указанного элемента
  * @param cb колбек который нужно выполнить, если кликнули за пределы элемента
  * @returns ref возвращает ссылку на элемент, который нужно отслеживать
  * @example
- * * const ExampleComponent: React.FC = () => {
+ * const ExampleComponent: React.FC = () => {
  *   const [isOpen, setIsOpen] = useState(false);
  *   const ref = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
  *

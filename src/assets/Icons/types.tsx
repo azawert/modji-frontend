@@ -7,6 +7,7 @@ import { SuccessIcon } from "./SuccessIcon"
 import { WarningIcon } from "./WarningIcon"
 import { RightArrowIcon } from "./RightArrowIcon"
 import { LeftArrowIcon } from "./LeftArrowIcon"
+import { CalendarIcon } from "./CalendarIcon"
 import { TeamIcon } from "@/assets/Icons/TeamIcon.tsx"
 import { RoomIcon } from "@/assets/Icons/RoomIcon.tsx"
 import { CategoryIcon } from "@/assets/Icons/CategoryIcon.tsx"
@@ -21,6 +22,7 @@ export type TIcon =
   | "WarningIcon"
   | "RightArrowIcon"
   | "LeftArrowIcon"
+  | "CalendarIcon"
   | "TeamIcon"
   | "RoomIcon"
   | "CategoryIcon"
@@ -38,6 +40,7 @@ export const iconTypes = new Map<TIcon, React.JSX.Element>([
   ["WarningIcon", <WarningIcon key={"WarningIcon"} />],
   ["RightArrowIcon", <RightArrowIcon key={"RightArrowIcon"} />],
   ["LeftArrowIcon", <LeftArrowIcon key={"LeftArrowIcon"} />],
+  ["CalendarIcon", <CalendarIcon key={"CalendarIcon"} />],
   ["TeamIcon", <TeamIcon key={"TeamIcon"} />],
   ["RoomIcon", <RoomIcon key={"RoomIcon"} />],
   ["CategoryIcon", <CategoryIcon key={"CategoryIcon"} />],

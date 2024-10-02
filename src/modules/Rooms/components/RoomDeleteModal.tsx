@@ -1,4 +1,4 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { DeleteModal } from "@/shared/ui/modal/DeleteModal"
 import { renderValueWithPostfix } from "@/shared/utils/utils"
 import { Close } from "@mui/icons-material"

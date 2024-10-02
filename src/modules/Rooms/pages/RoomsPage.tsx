@@ -18,6 +18,7 @@ import { EQueryKeys } from "../api/keys"
 import { useForm } from "react-hook-form"
 import { TOpenModal } from "@/shared/types/types"
 import { RoomCreateOrEditModal } from "../components/RoomCreateOrEditModal"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export enum EPageMode {
   ACTIVE = "Действующие",
@@ -48,6 +49,7 @@ export type TRoomCreateForm = {
 }
 
 export const RoomsPage: React.FC = () => {
+  useDocumentTitle({ title: "Номера" })
   const queryClient = useQueryClient()
   const [selectedMode, setSelectedMode] = useState<TTabsForMode>(tabs[0])
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false)
@@ -77,7 +79,7 @@ export const RoomsPage: React.FC = () => {
   const handleChangeMode = (mode: string) => {
     const selected = tabs.find(tab => tab.label === mode)
     if (selected) {
-      setSelectedMode(selected ?? tabs[0])
+      setSelectedMode(selected)
       queryClient.invalidateQueries({
         queryKey: [`${EQueryKeys.GET_ALL_ROOMS} ${selected.label}`],
       })
@@ -206,7 +208,7 @@ export const RoomsPage: React.FC = () => {
         handleOpenEditModal={handleOpenEditModal}
         isLoading={isRoomsLoading}
         mode={selectedMode.label}
-        rooms={rooms?.data || []}
+        rooms={rooms || []}
       />
       <RoomDeleteModal
         isOpen={isDeleteModalOpened}

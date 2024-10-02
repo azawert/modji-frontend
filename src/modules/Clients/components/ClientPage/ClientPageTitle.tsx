@@ -1,8 +1,9 @@
 import { PageTitle } from "@/shared/ui/PageTitle.tsx"
-import { EButtonVariant } from "@/shared/ui/Button.tsx"
+import { EButtonVariant } from "@/shared/ui/Button/Button.tsx"
 
-/** Пропсы для заголовка страницы клиентов
- * onClick функция обработчик для кнопки в заголовке страницы
+/**
+ * Пропсы для заголовка страницы клиентов
+ * @prop onClick функция обработчик для кнопки в заголовке страницы
  */
 type TProps = {
   onClick: () => void

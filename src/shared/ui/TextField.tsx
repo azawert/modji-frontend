@@ -69,6 +69,7 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
     isTextarea,
     rowsToDisplay = 3,
     type,
+    width,
     ...rest
   } = props
 
