@@ -1,12 +1,21 @@
 import { CustomCheckbox } from "@/shared/ui/Checkbox"
 import { Icon } from "@/shared/ui/Icon/Icon"
+import { Select } from "@/shared/ui/Select"
 import { TextField } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
-import { TDatePickerProps } from "@/widgets/DatePicker/types"
+import { DATE_FRONT_FORMAT, TDatePickerProps } from "@/widgets/DatePicker/types"
 import { IconButton } from "@mui/material"
 import dayjs, { Dayjs } from "dayjs"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+
+interface IForm {
+  nickname: string
+  breed: string
+  dateOfBirth: string
+  age: string
+  gender: string
+}
 
 export const ClientPetPage = () => {
   const [generalInfo, setShowGeneralInfo] = useState(false)
@@ -19,7 +28,8 @@ export const ClientPetPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: "onChange" })
+    setValue,
+  } = useForm<IForm>({ mode: "onChange" })
 
   const submit = (data: any) => {
     console.log(data)
@@ -28,6 +38,27 @@ export const ClientPetPage = () => {
   useEffect(() => {
     console.log(errors)
   })
+
+  const handleDateChange = (selectedDate: Dayjs) => {
+    setValue("dateOfBirth", selectedDate.format(DATE_FRONT_FORMAT))
+    setDate(false)
+    handleAgeChange(selectedDate.year())
+  }
+
+  const handleAgeChange = (age: number) => {
+    let thisYear = new Date().getFullYear()
+    let ageString = ""
+    if (thisYear - age == 0) {
+      ageString = 0 + " лет"
+    } else if (thisYear - age == 1) {
+      ageString = thisYear - age + " год"
+    } else if (thisYear - age > 1 && thisYear - age <= 4) {
+      ageString = thisYear - age + " года"
+    } else {
+      ageString = thisYear - age + " лет"
+    }
+    setValue("age", ageString)
+  }
 
   return (
     <>
@@ -38,22 +69,17 @@ export const ClientPetPage = () => {
           <form onSubmit={handleSubmit(submit)}>
             {/* не смог воспользоваться аргументом error у компонента TextField  и сделал кастомно*/}
             <TextField
+              maxLength={30}
               {...register("nickname", {
                 required: true,
                 minLength: 2,
-                maxLength: 30,
               })}
               style={
                 errors?.nickname && { borderColor: "hsl(var(--destructive))" }
               }
               id="1"
               placeholder="Кличка*"
-              onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                if (e.target.value.length > 30) {
-                  e.target.value = e.target.value.slice(0, 30)
-                }
-              }}
-            ></TextField>
+            />
             {(errors?.nickname?.type == "required" && (
               <p
                 style={{ color: "hsl(var(--destructive))", marginLeft: "20px" }}
@@ -72,22 +98,17 @@ export const ClientPetPage = () => {
                 </p>
               ))}
             <TextField
+              maxLength={30}
               {...register("breed", {
                 required: true,
                 minLength: 2,
-                maxLength: 30,
               })}
               style={
                 errors?.breed && { borderColor: "hsl(var(--destructive))" }
               }
               id="2"
               placeholder="Порода*"
-              onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                if (e.target.value.length > 30) {
-                  e.target.value = e.target.value.slice(0, 30)
-                }
-              }}
-            ></TextField>
+            />
             {(errors?.breed?.type == "required" && (
               <p
                 style={{ color: "hsl(var(--destructive))", marginLeft: "20px" }}
@@ -106,12 +127,32 @@ export const ClientPetPage = () => {
                 </p>
               ))}
             <div className="flex w-full">
-              <label className="relative mr-4">
+              <div className="relative mr-4">
+                {/* Нужно добавить валидацию для поля при ручном вводе даты. Добавлять точки после числа, месяца */}
                 <TextField
+                  {...register("dateOfBirth", {
+                    required: true,
+                  })}
+                  // type="date"
+                  style={
+                    errors?.dateOfBirth && {
+                      borderColor: "hsl(var(--destructive))",
+                    }
+                  }
                   className="min-w-48"
                   id="3"
                   placeholder="Дата рождения*"
-                ></TextField>
+                />
+                {errors?.dateOfBirth?.type == "required" && (
+                  <p
+                    style={{
+                      color: "hsl(var(--destructive))",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    Пожалуйста, введите дату рождения.
+                  </p>
+                )}
                 <IconButton
                   style={{ position: "absolute", top: "29px", right: "22px" }}
                   onClick={() => {
@@ -124,24 +165,51 @@ export const ClientPetPage = () => {
                   <DatePicker
                     onClose={() => console.log("bob")}
                     isOpen={date}
-                  ></DatePicker>
+                    onChange={handleDateChange}
+                  />
                 </div>
-              </label>
-              <label className="mr-4">
+              </div>
+              <div className="mr-4">
                 <TextField
+                  {...register("age", {})}
                   className="min-w-36 "
                   id="4"
                   placeholder="Возраст"
-                ></TextField>
-              </label>
-              <label className="relative">
-                <TextField id="5" placeholder="Пол*"></TextField>
+                />
+              </div>
+              <div className="relative">
+                <Select
+                  {...register("gender", {
+                    required: true,
+                  })}
+                  placeholder="Пол"
+                  data = {[{'value': 'М', 'label': 'М'}, {'value': 'Ж', 'label': 'Ж'}, {'value': 'Другое', 'label': 'Другое'}]}
+                  onChange={(e: any) => (console.log(e.target))}
+                  renderValue={() => ('Пол*')}
+                ></Select>
+                {errors?.gender?.type == "required" && (
+                  <p
+                    style={{
+                      color: "hsl(var(--destructive))",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    Пожалуйста, выберете пол.
+                  </p>
+                )}
+                {/* <TextField
+                  {...register("gender", {
+                    required: true,
+                  })}
+                  id="5"
+                  placeholder="Пол*"
+                />
                 <IconButton
                   style={{ position: "absolute", top: "29px", right: "5px" }}
                 >
                   <Icon type="DownArrowIcon" height="20px" width="20px" />
-                </IconButton>
-              </label>
+                </IconButton> */}
+              </div>
             </div>
             <div className="mt-1">
               <CustomCheckbox
@@ -151,17 +219,17 @@ export const ClientPetPage = () => {
                 }}
                 label="Выставочная собака"
                 labelPlacement="end"
-              ></CustomCheckbox>
+              />
             </div>
             {generalInfo && (
               //Тут анимацию бы добавить! Для появления доп инпутов
               <div className="transition-transform ease-in-out delay-2000">
-                <TextField className="" id="1" placeholder="Окрас"></TextField>
+                <TextField className="" id="1" placeholder="Окрас" />
                 <TextField
                   className=""
                   id="1"
                   placeholder="Чип, клеймо, особые приметы"
-                ></TextField>
+                />
               </div>
             )}
             <div className="relative flex justify-center">
