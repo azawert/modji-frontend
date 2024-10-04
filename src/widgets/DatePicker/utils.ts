@@ -1,7 +1,8 @@
 import dayjs from "dayjs"
 import { DATE_FRONT_FORMAT, IDateRange } from "./types"
 
-/** Функция, которая форматирует дату для правильного отображения на фронте
+/**
+ * Функция, которая форматирует дату для правильного отображения на фронте
  * @param date | IDateRange аргрументом может быть одна дата, или диапазон дат
  */
 export const formatDate = (date: dayjs.Dayjs | IDateRange): string => {
@@ -14,7 +15,8 @@ export const formatDate = (date: dayjs.Dayjs | IDateRange): string => {
   }
 }
 
-/** Функция проверяющая, что дата входит в выбранный месяц (нужно для правильного отображения даты в календаре)
+/**
+ * Функция проверяющая, что дата входит в выбранный месяц (нужно для правильного отображения даты в календаре)
  * @param date дата которую нужно проверить
  * @param selectedMonth выбранный месяц
  */
@@ -25,7 +27,8 @@ export const isDateInSelectedMonth = (
   return date.month() === selectedMonth
 }
 
-/** Меняет первую букву на заглавную
+/**
+ * Меняет первую букву на заглавную
  * @param string
  * @returns Модифицированную строчку
  */
@@ -42,6 +45,11 @@ export const checkIsDateIsBetween = (
   return date > firstDate && date < secondDate
 }
 
+/**
+ *
+ * @param date
+ * @param range
+ */
 export function updateRange(
   date: dayjs.Dayjs,
   range: IDateRange | null

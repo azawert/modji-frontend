@@ -26,7 +26,11 @@ type TProps<K extends FieldValues> = {
   onSubmit: SubmitHandler<K>
 }
 
-/** Общий компонент модального окна для создания или редактирования сущности */
+/**
+ * Общий компонент модального окна для создания или редактирования сущности
+ * @param props Пропсы для компонента модального окна создания/редактирования сущности
+ * @returns Компонент модального окна создания/редактирования сущности
+ */
 export const CreateOrEditModal = <K extends FieldValues>(props: TProps<K>) => {
   const {
     ariaDescribedby,

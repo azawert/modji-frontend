@@ -5,22 +5,28 @@ import { LabeledRow } from "@/shared/ui/LabeledRow.tsx"
 import { Select } from "@/shared/ui/Select.tsx"
 import { useCallback } from "react"
 import { NEW_PET_SELECT_DATA } from "@/modules/Clients/const.ts"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button.tsx"
+import {
+  Button,
+  EButtonSize,
+  EButtonVariant,
+} from "@/shared/ui/Button/Button.tsx"
 import { PetDtoType } from "@/generated/pets.ts"
 
-/** Пропсы для модалки перехода на страницу создания питомца
- * {boolean} isOpen флаг открытия модалки
- * {() => void} onClose колбек закрытия модалки
- * {() => void} onSuccess колбек успешного исхода
- * {string} clientName имя клиента
- * {string} rating рейтинг
- * {(val:string) => void} onPetChange обработчик изменения
- * */
+/**
+ * Пропсы для модалки перехода на страницу создания питомца
+ * @prop isOpen флаг открытия модалки
+ * @prop onClose колбек закрытия модалки
+ * @prop onSuccess колбек успешного исхода
+ * @prop lientName имя клиента
+ * @prop ating рейтинг
+ * @prop onPetChange обработчик изменения
+ */
 type TProps = {
   isOpen: boolean
   onClose: () => void
   onSuccess: () => void
   clientName: string
+  value?: PetDtoType
   rating: number
   onPetChange: (val: string) => void
   error?: string
@@ -43,6 +49,7 @@ export const CreateNewPetModal = ({
   rating,
   onPetChange,
   error,
+  value,
 }: TProps) => {
   const renderHeader = () => (
     <IconButton onClick={onClose}>
@@ -78,6 +85,7 @@ export const CreateNewPetModal = ({
         onChange={onPetChange}
         fullWidth
         error={error}
+        selectedValue={value || ""}
       />
       <Gap gap={32} />
     </>

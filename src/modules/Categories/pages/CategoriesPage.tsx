@@ -19,6 +19,7 @@ import {
 } from "../utils"
 import { useAddWarningNotification } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 type TDeleteModalData = {
   name: string
@@ -27,6 +28,7 @@ type TDeleteModalData = {
 }
 
 export const CategoriesPage: React.FC = () => {
+  useDocumentTitle({ title: "Категории" })
   const addWarningNotification = useAddWarningNotification()
   const navigate = useNavigate()
   const [isCreateOrEditModalOpen, setIsCreateOrEditModalOpen] =
@@ -82,8 +84,6 @@ export const CategoriesPage: React.FC = () => {
         setIsDeleteModalOpened(false)
       },
       onError: e => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
         if (e?.response?.status === 409) {
           addWarningNotification(
             `Удаление категории ${deleteModalData.name} невозможно из-за наличия номеров данной категории`,
@@ -121,8 +121,6 @@ export const CategoriesPage: React.FC = () => {
               handleCloseCreateOrEditModal()
             },
             onError: e => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
               if (e?.response?.status === 409) {
                 form.setError("name", {
                   message:
@@ -147,7 +145,7 @@ export const CategoriesPage: React.FC = () => {
       <CategoriesTitle onClick={handleOpenCreateModal} />
       <CategoriesPageBody
         isLoading={isCategoriesLoading}
-        categories={categories?.data || []}
+        categories={categories || []}
         handleOpenDeleteCategoryModal={handleDeleteModalOpened}
         handleOpenEditCategoryModal={handleOpenEditModal}
       />

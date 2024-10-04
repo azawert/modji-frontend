@@ -23,6 +23,7 @@ export const FullCard = ({
         boxShadow: "0px 6px 12px 0px #0000001F",
         borderRadius: "0 0 8px 8px",
       }}
+      key={"fullCardKey"}
     >
       {renderHeader()}
       {renderMainContent()}
