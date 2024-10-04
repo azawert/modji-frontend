@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
 
-/** Пропы для датапикера
+/**
+ * Пропы для датапикера
  * @prop onClose функция закрытия датапикера
  * @prop isOpen флаг открытости датапикера
  * @prop [onChange] функция обработчик одной даты
@@ -8,7 +9,11 @@ import dayjs from "dayjs"
  * @prop [isRange] флаг для выбора диапазона дат
  * @prop [disableFutureDates] флаг для отключения дат после текущей
  * @prop [value] значение для одной даты
+ * @prop [minDate] минимальная дата
+ * @prop [maxDate] максимальная дата
  * @prop [rangeValue] значение для диапазона дат
+ * @prop [disablePastDates] флаг для отключения дат до текущей
+ * @prop [cls] класс для корневого элемента
  */
 export type TDatePickerProps = {
   onClose: () => void
@@ -17,20 +22,26 @@ export type TDatePickerProps = {
   onChangeRange?: (range: IDateRange) => void
   isRange?: boolean
   disableFutureDates?: boolean
-  value?: dayjs.Dayjs
+  value?: dayjs.Dayjs | null
+  minDate?: dayjs.Dayjs | null
+  maxDate?: dayjs.Dayjs | null
   rangeValue?: IDateRange
+  disablePastDates?: boolean
+  cls?: string
 }
 
-/** Тип для вида календаря
- * @type day обычное отображение календаря
- * @type month месячное представление календаря
- * @type year годовое представление календаря
+/**
+ * Тип для вида календаря
+ * day обычное отображение календаря
+ * month месячное представление календаря
+ * year годовое представление календаря
  */
 export type TCalendarView = "day" | "month" | "year"
 
-/** Тип для диапазона дат
- * @type start начальная дата
- * @type end конечная дата
+/**
+ * Тип для диапазона дат
+ * start начальная дата
+ * end конечная дата
  */
 export interface IDateRange {
   start: dayjs.Dayjs | null

@@ -38,6 +38,7 @@ export const DropDownMenu = ({
                 element.handleLinkClick?.(navigate)
                 onClose?.()
               }}
+              key={element.label}
             >
               <ListItemIcon>
                 <Icon type={element.icon} />

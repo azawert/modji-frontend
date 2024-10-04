@@ -2,7 +2,8 @@ import { Box, Typography, styled } from "@mui/material"
 import { memo } from "react"
 import MUISlider from "@mui/material/Slider"
 
-/** Типы для маркеров
+/**
+ * Типы для маркеров
  * @prop value значение для дальнейшей отправки на бек
  * @prop label лейбл для отображения
  */
@@ -11,7 +12,8 @@ export type TMarkerData = {
   label: string
 }
 
-/** Пропа для компоненты слайдера
+/**
+ * Пропа для компоненты слайдера
  * @prop value значение на котором будет находиться активное состояние слайдера
  * @prop onChange функция обработчик изменения значения в слайдере
  * @prop label текст для отображения над слайдером

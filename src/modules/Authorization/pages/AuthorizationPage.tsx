@@ -1,81 +1,81 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from "react-hook-form"
 import { EMAIL_VALIDATION_PATTERN, TAuthUser } from "../const"
 
-import { Box, Avatar, Typography } from '@mui/material';
+import { Box, Avatar, Typography } from "@mui/material"
 import { TextField } from "@/shared/ui/TextField"
-import { Button, EButtonSize, EButtonVariant } from '@/shared/ui/Button';
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export const AuthorizationPage: React.FC = () => {
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors, isSubmitting } 
+  useDocumentTitle({ title: "Авторизация" })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
   } = useForm<TAuthUser>({
-    mode: 'onChange'
-  });
+    mode: "onChange",
+  })
 
-  const onSubmit: SubmitHandler<TAuthUser> = async (data) => {
+  const onSubmit: SubmitHandler<TAuthUser> = async data => {
     try {
-      console.log('Login data:', data); // Здесь можно добавить API вызов для аутентификации
+      console.log("Login data:", data) // Здесь можно добавить API вызов для аутентификации
       // Пример: await login(data.email, data.password);
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error)
     }
-  };
+  }
 
   return (
-    <Box 
-      display="flex" 
-      alignItems="center" 
-      justifyContent="center" 
-      minHeight="100vh" 
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
       sx={{
-        backgroundImage: 'url(src/assets/images/bg.png)', 
-    }}>
-      <Box 
-        component="form" 
-        onSubmit={handleSubmit(onSubmit)} 
-        p={6} 
-        bgcolor="white" 
-        boxShadow={3} 
-        borderRadius={4} 
-        textAlign="center" 
-        width={487} 
+        backgroundImage: "url(src/assets/images/bg.png)",
+      }}
+    >
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        p={6}
+        bgcolor="white"
+        boxShadow={3}
+        borderRadius={4}
+        textAlign="center"
+        width={487}
       >
-        <Avatar 
-          src="src/assets/logo.svg" 
-          alt="Logo" 
-          sx={{ 
-            width: 64, 
-            height: 64, 
-            marginX: 'auto', 
-            marginBottom: 1 
-          }} 
-        />
-        <Typography 
-          component="h2" 
+        <Avatar
+          src="src/assets/logo.svg"
+          alt="Logo"
           sx={{
-            fontSize: '36px', 
-            fontWeight: 800, 
-            lineHeight: '48px',
+            width: 64,
+            height: 64,
+            marginX: "auto",
+            marginBottom: 1,
+          }}
+        />
+        <Typography
+          component="h2"
+          sx={{
+            fontSize: "36px",
+            fontWeight: 800,
+            lineHeight: "48px",
           }}
           mb={3}
         >
           Pet's Home
         </Typography>
-        <Typography 
-          variant="subtitle1" 
-          gutterBottom
-        >
+        <Typography variant="subtitle1" gutterBottom>
           Вход в систему
         </Typography>
         <TextField
           id="email"
           placeholder="Электронная почта"
           error={errors.email?.message}
-          {...register('email', {
+          {...register("email", {
             required: {
-              value: true, 
+              value: true,
               message: "Пожалуйста, введите адрес электронной почты",
             },
             pattern: {
@@ -109,8 +109,8 @@ export const AuthorizationPage: React.FC = () => {
           }}
         >
           Войти
-      </Button>
+        </Button>
       </Box>
     </Box>
-  );
+  )
 }

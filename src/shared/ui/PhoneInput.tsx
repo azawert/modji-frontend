@@ -1,40 +1,101 @@
-import React, { ChangeEvent, ReactNode } from "react"
-import InputMask, { Props as InputMaskProps } from "react-input-mask"
+import {
+  ChangeEvent,
+  FocusEvent,
+  useState,
+  forwardRef,
+  Ref,
+  KeyboardEvent,
+  useEffect,
+} from "react"
 import { TextField } from "./TextField"
+import { formatPhoneNumber } from "../utils/utils"
 
-type TPhoneInputProps = Omit<
-  React.ComponentProps<typeof TextField>,
-  "type" | "value" | "onChange"
-> & {
+/** Пропсы для компонента кастомного инпута под номер телефона
+ * @prop value значение инпута
+ * @prop onChange колбек для обработки изменения значения
+ * @prop id уникальный идентификатор для инпута
+ * @prop [placeholder] плейсхолдер (по умолчанию +7 (000) 000-00-00)
+ * @prop [error] текст ошибки
+ */
+interface PhoneInputProps {
   value: string
-  onChange?: (value: string) => void
+  onChange: (value: string) => void
+  id: string
+  label: string
+  isRequired?: boolean
+  placeholder?: string
+  error?: string
 }
+//TODO добавить возможность использования разных кодов страны и масок для телефона
+export const PhoneInput = forwardRef(
+  (
+    {
+      value,
+      onChange,
+      placeholder = "+7 (000) 000-00-00",
+      id,
+      error,
+      label,
+      isRequired,
+    }: PhoneInputProps,
+    ref: Ref<HTMLInputElement>
+  ) => {
+    const [inputValue, setInputValue] = useState<string>(value || "")
 
-type TInputMaskCorrect = Omit<InputMaskProps, "children"> & {
-  children?: (inputProps: unknown) => JSX.Element
-}
-const InputMaskCorrect: React.FC<TInputMaskCorrect> = ({
-  children,
-  ...props
-}) => {
-  const child = children as ReactNode
-  return <InputMask {...props}>{child}</InputMask>
-}
+    //Есть кейсы, когда номер уже введен частично, и пользователь переходит к другому шагу, или компонент еще по каким-то причинам анмаунтиться
+    //тогда нужно при обратном маунте уже отформатировать номер
+    useEffect(() => {
+      if (inputValue.length) {
+        setInputValue(formatPhoneNumber(value))
+      }
+    }, [])
 
-export const PhoneInput = ({ value, onChange, ...props }: TPhoneInputProps) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value)
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const rawValue = e.target.value.replace(/\D/g, "")
+      if (rawValue.length === 12) return
+      const formattedValue = formatPhoneNumber(rawValue)
+      setInputValue(formattedValue)
+      onChange(rawValue)
+    }
+
+    const handleInputFocus = () => {
+      if (inputValue === "") {
+        setInputValue("+7 (")
+      }
+    }
+
+    const handleInputBlur = (e: FocusEvent<HTMLInputElement>) => {
+      if (e.target.value === "+7 (") {
+        setInputValue("")
+        onChange("")
+      }
+    }
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Backspace") {
+        const lastInputElement = [...inputValue].pop()
+        //Код страны и скобку идущую после кода нельзя удалять
+        if (lastInputElement !== "(") {
+          setInputValue(inputValue.slice(0, inputValue.length - 1))
+          e.preventDefault()
+        }
+      }
+    }
+
+    return (
+      <TextField
+        ref={ref}
+        onChange={handleInputChange}
+        placeholder={placeholder}
+        value={inputValue}
+        id={id}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        error={error}
+        onKeyDown={handleKeyDown}
+        label={label}
+        isRequired={isRequired}
+      />
+    )
   }
-
-  return (
-    <InputMaskCorrect
-      mask="+7 (***) ***-**-**"
-      value={value}
-      maskChar=" "
-      onChange={handleChange}
-      onBlur={props.onBlur}
-    >
-      {() => <TextField {...props} />}
-    </InputMaskCorrect>
-  )
-}
+)

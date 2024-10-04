@@ -10,18 +10,27 @@ import { Gap } from "@/shared/ui/Gap.tsx"
 import { CreateNewPetModal } from "@/modules/Clients/components/ClientPage/CreateNewPetModal.tsx"
 import { PetDtoType } from "@/generated/pets.ts"
 import { getFullName } from "@/modules/Employee/utils.ts"
+import { mapPetDtoToAnFormView } from "../const"
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 export const ClientPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const { data, isLoading } = useGetClientById(Number(id))
+  const { data: clientData, isLoading } = useGetClientById(Number(id))
   const [isNewPetCreateModalOpen, setIsNewPetCreateModalOpen] = useState(false)
   const [selectedPetType, setSelectedPetType] = useState<
     PetDtoType | undefined
   >()
   const [error, setError] = useState<string | undefined>()
-
+  useDocumentTitle({
+    title: getFullName(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      clientData?.firstName!,
+      clientData?.lastName,
+      clientData?.middleName
+    ),
+  })
   /** Очистка ошибки при выборе какого-либо типа питомца */
   useEffect(() => {
     if (selectedPetType) {
@@ -35,14 +44,14 @@ export const ClientPage = () => {
   )
 
   const clientInfo = useMemo(() => {
-    if (data?.data) {
-      return mapDataFromServerToAnFormView(data?.data)
+    if (clientData) {
+      return mapDataFromServerToAnFormView(clientData)
     }
-  }, [data?.data, isLoading])
+  }, [clientData, isLoading])
 
   const handleEditClientNavigate = useCallback(
     () => navigate(`/client/edit/${id}`),
-    [id]
+    [id, navigate]
   )
   /** Необходимо сбрасывать ошибку, состояние поля, и состояние открытости модалки */
   const handleCloseModalWindow = useCallback(() => {
@@ -75,7 +84,7 @@ export const ClientPage = () => {
         break
       }
     }
-  }, [selectedPetType])
+  }, [navigate, selectedPetType])
 
   if (isLoading) {
     return <CircularProgress />
@@ -90,7 +99,7 @@ export const ClientPage = () => {
       />
       <Gap gap={100} />
       <ClientPetsCardWrapper
-        pets={[]}
+        pets={clientData?.petsDto?.map(mapPetDtoToAnFormView) ?? []}
         handleOpenNewPetModal={handleOpenModalWindow}
       />
       <CreateNewPetModal
@@ -105,6 +114,7 @@ export const ClientPage = () => {
         rating={Number(clientInfo?.rating) || 0}
         onSuccess={handleNavigateToANewPetCreationPage}
         error={error}
+        value={selectedPetType}
       />
     </>
   )

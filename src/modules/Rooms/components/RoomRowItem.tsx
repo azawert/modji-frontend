@@ -14,7 +14,7 @@ import {
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 import { renderValueWithPostfix } from "@/shared/utils/utils"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 
 type TProps = {
   room: RoomDto

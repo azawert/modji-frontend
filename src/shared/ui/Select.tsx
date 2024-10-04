@@ -84,7 +84,13 @@ export const Select: React.FC<TProps> = props => {
           onChange={handleSelectChange}
           defaultValue={preSelectedValue}
           value={selectedValue}
-          className={cn(`${className} selectWithCategories`, {
+          sx={{
+            borderRadius: "24px",
+            ".css-1uwzc1h-MuiSelect-select-MuiInputBase-input:focus": {
+              borderRadius: "24px",
+            },
+          }}
+          className={cn(`rounded-24px ${className}`, {
             ["w-full"]: fullWidth,
             ["border-error"]: !!error,
           })}
@@ -108,20 +114,20 @@ export const Select: React.FC<TProps> = props => {
                   "& .Mui-selected": {
                     backgroundColor: "transparent",
                   },
+                  "& .MuiSelect-select": {
+                    borderRadius: "24px !important",
+                  },
+                  "& .Mui-focused": {
+                    borderColor: "black",
                 },
               },
             },
-          }}
-          sx={{
-            "& .MuiSelect-select": {
-              borderRadius: "24px !important",
-            },
-            "& .Mui-focused": {
-              borderColor: "black",
-            },
-          }}
+          }
+        }
+       }
           placeholder={placeholder}
           onBlur={onBlur}
+          notched={undefined}
         >
           {Array.isArray(data)
             ? data?.map(element => {
