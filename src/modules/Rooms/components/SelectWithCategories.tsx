@@ -27,8 +27,14 @@ export const SelectWithCategories: React.FC<TProps> = props => {
     }
   }
 
-  const renderValue = (value: string): ReactNode =>
-    value?.length ? value : <Typography color="#757575">Категория*</Typography>
+  const renderValue = (value: string): ReactNode => {
+    const category = categories?.find(element => String(element.id) === value)
+    return category ? (
+      category.name
+    ) : (
+      <Typography color="#757575">Категория*</Typography>
+    )
+  }
 
   return (
     <Select

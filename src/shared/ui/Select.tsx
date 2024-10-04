@@ -119,12 +119,11 @@ export const Select: React.FC<TProps> = props => {
                   },
                   "& .Mui-focused": {
                     borderColor: "black",
+                  },
                 },
               },
             },
-          }
-        }
-       }
+          }}
           placeholder={placeholder}
           onBlur={onBlur}
           notched={undefined}

@@ -87,11 +87,30 @@ export type FindCrossingBookingsForRoomInDatesParams = {
  */
 export interface OwnerShortDto {
   /**
-   * ФИО хозяина питомца
+   * Имя хозяина
    * @minLength 1
    * @maxLength 30
    */
-  name?: string
+  firstName?: string
+  /**
+   * Фамилия
+   * @minLength 1
+   * @maxLength 30
+   */
+  lastName?: string
+  /**
+   * Номер телефона
+   * @maxLength 20,
+   */
+  mainPhone?: string
+  /**
+   * Фамилия
+   * @minLength 1
+   * @maxLength 30
+   */
+  middleName?: string
+  /** @maxLength 20, */
+  optionalPhone?: string
   /** Рейтинг клиента (От 1 до 10) */
   rating?: number
 }
@@ -275,7 +294,7 @@ export interface PetDto {
    * @maxLength 500
    */
   notLike?: string
-  owner?: OwnerShortDto
+  ownerShortDto?: OwnerShortDto
   /**
    * Дата обработки от глистов/паразитов
    * @maxLength 250
@@ -391,7 +410,7 @@ export interface RoomDto {
    * @minimum 0
    */
   area?: number
-  Category?: CategoryDto
+  categoryDto?: CategoryDto
   /**
    * Описание номера
    * @maxLength 250
@@ -783,10 +802,7 @@ export const getBookingById = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<BookingDto>(
-    {
-      url: `/bookings/${bookingId}`,
-      method: "GET",
-    },
+    { url: `/bookings/${bookingId}`, method: "GET" },
     options
   )
 }
@@ -800,10 +816,7 @@ export const deleteBookingById = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<void>(
-    {
-      url: `/bookings/${bookingId}`,
-      method: "DELETE",
-    },
+    { url: `/bookings/${bookingId}`, method: "DELETE" },
     options
   )
 }
@@ -837,11 +850,7 @@ export const findAllBookingsInDates = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<BookingDto[]>(
-    {
-      url: `/bookings/inDates`,
-      method: "GET",
-      params,
-    },
+    { url: `/bookings/inDates`, method: "GET", params },
     options
   )
 }
@@ -932,10 +941,7 @@ export const findAllBookingsByPet = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<BookingDto[]>(
-    {
-      url: `/bookings/allByPet/pets/${petId}`,
-      method: "GET",
-    },
+    { url: `/bookings/allByPet/pets/${petId}`, method: "GET" },
     options
   )
 }
@@ -949,10 +955,7 @@ export const findAllBookingsByOwner = (
   options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<BookingDto[]>(
-    {
-      url: `/bookings/allByOwner/owners/${ownerId}`,
-      method: "GET",
-    },
+    { url: `/bookings/allByOwner/owners/${ownerId}`, method: "GET" },
     options
   )
 }

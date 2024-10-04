@@ -1,5 +1,9 @@
 import AppBar from "@mui/material/AppBar"
-import { getDropDownMenuOptions, TPropsForHeader } from "../data/data"
+import {
+  getDropDownMenuOptions,
+  HeaderPageLink,
+  TPropsForHeader,
+} from "../data/data"
 import { Toolbar, Box, IconButton } from "@mui/material"
 import userLogo from "../../../assets/userIcon.svg"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
@@ -8,25 +12,33 @@ import { ETextType, Link } from "../../../shared/ui/Link"
 import { Logo } from "./Logo"
 import useBookingStore from "@/modules/Booking/store/BookingStore"
 import { DropDownMenu } from "@/widgets/Dropdown/DropdownMenu.tsx"
+import { useLocation, useNavigate } from "react-router-dom"
+import { getSelectedLink } from "../data/utils"
 
 export const Header: React.FC<TPropsForHeader> = ({
   links,
   srcLogo,
   logoTitle,
 }) => {
-  const [selectedLink, setSelectedLink] = useState(links[0].label)
+  const { pathname } = useLocation()
+  const [selectedLink, setSelectedLink] = useState(getSelectedLink(pathname))
   const [hoveredLink, setHoveredLink] = useState<string | undefined>(undefined)
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false)
-  const [menuTimeout, setMenuTimeout] = useState<NodeJS.Timeout | null>(null)
+  const [menuTimeout, setMenuTimeout] =
+    useState<ReturnType<typeof setTimeout>>()
+  const navigate = useNavigate()
 
-  const handleSelectedLink = (link: string) => setSelectedLink(link)
+  const handleSelectedLink = (link: HeaderPageLink) => {
+    setSelectedLink(link.label)
+    navigate(link.href)
+  }
 
   const openModal = useBookingStore(state => state.setIsBookingInProgress)
   const setBookingStep = useBookingStore(state => state.setBookingStep)
   const handleHoverOverLink = (link?: string) => {
     if (menuTimeout) {
       clearTimeout(menuTimeout)
-      setMenuTimeout(null)
+      setMenuTimeout(undefined)
     }
     setHoveredLink(link)
     setIsDropdownMenuOpen(true)
@@ -43,7 +55,7 @@ export const Header: React.FC<TPropsForHeader> = ({
   const handleOnMenuEnter = () => {
     if (menuTimeout) {
       clearTimeout(menuTimeout)
-      setMenuTimeout(null)
+      setMenuTimeout(undefined)
     }
   }
 
@@ -84,7 +96,7 @@ export const Header: React.FC<TPropsForHeader> = ({
                     <Link
                       isActive={selectedLink === link.label}
                       textType={ETextType.NORMAL}
-                      onClick={() => handleSelectedLink(link.label)}
+                      onClick={() => handleSelectedLink(link)}
                     >
                       {link.label}
                     </Link>
