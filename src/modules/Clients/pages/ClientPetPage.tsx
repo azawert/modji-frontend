@@ -170,23 +170,35 @@ export const ClientPetPage = () => {
                 </div>
               </div>
               <div className="mr-4">
+                {/* Нужно прокинуть сюда ошибку и подкрашивать бордер при ошибке */}
                 <TextField
                   {...register("age", {})}
-                  className="min-w-36 "
+                  className="min-w-36"
                   id="4"
                   placeholder="Возраст"
                 />
               </div>
               <div className="relative">
                 <Select
+                  className="min-w-52"
                   {...register("gender", {
                     required: true,
                   })}
-                  placeholder="Пол"
-                  data = {[{'value': 'М', 'label': 'М'}, {'value': 'Ж', 'label': 'Ж'}, {'value': 'Другое', 'label': 'Другое'}]}
-                  onChange={(e: any) => (console.log(e.target))}
-                  renderValue={() => ('Пол*')}
-                ></Select>
+                  data={[
+                    { value: "М", label: "М" },
+                    { value: "Ж", label: "Ж" },
+                    { value: "Другое", label: "Другое" },
+                  ]}
+                  onChange={value => {
+                    setValue("gender", value)
+                  }}
+                  renderValue={value => {
+                    if (value) {
+                      return value
+                    }
+                    return "Пол*"
+                  }}
+                />
                 {errors?.gender?.type == "required" && (
                   <p
                     style={{
