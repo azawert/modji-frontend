@@ -2,7 +2,7 @@ import { memo } from "react"
 import { TIconProps } from "./types"
 
 const Component: React.FC<TIconProps> = props => {
-  const { width = 32, height = 32, ...rest } = props
+  const { width = 20, height = 20, ...rest } = props
   return (
     <svg
       width={width}
