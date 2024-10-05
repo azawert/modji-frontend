@@ -4,17 +4,23 @@ import { Select } from "@/shared/ui/Select"
 import { TextField } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
 import { DATE_FRONT_FORMAT, TDatePickerProps } from "@/widgets/DatePicker/types"
-import { IconButton } from "@mui/material"
+import { FormControlLabel, IconButton, Radio } from "@mui/material"
 import dayjs, { Dayjs } from "dayjs"
 import { ReactNode, useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
+import { RadioGroup } from "@mui/material"
 
 interface IForm {
   nickname: string
   breed: string
   dateOfBirth: string
-  age: string
+  age?: string
   gender: string
+  showDog: boolean
+  color?: string
+  specialSigns: string
+  vaccine: string
+  chronicDiseaseType: string
 }
 
 export const ClientPetPage = () => {
@@ -25,6 +31,7 @@ export const ClientPetPage = () => {
   // Состояние для календаря
   const [date, setDate] = useState(false)
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -209,42 +216,42 @@ export const ClientPetPage = () => {
                     Пожалуйста, выберете пол.
                   </p>
                 )}
-                {/* <TextField
-                  {...register("gender", {
-                    required: true,
-                  })}
-                  id="5"
-                  placeholder="Пол*"
-                />
-                <IconButton
-                  style={{ position: "absolute", top: "29px", right: "5px" }}
-                >
-                  <Icon type="DownArrowIcon" height="20px" width="20px" />
-                </IconButton> */}
               </div>
             </div>
             <div className="mt-1">
-              <CustomCheckbox
-                value={false}
-                onChange={function (value: boolean): void {
-                  throw new Error("Function not implemented.")
-                }}
-                label="Выставочная собака"
-                labelPlacement="end"
+              <Controller
+                defaultValue={false}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomCheckbox
+                    value={value}
+                    onChange={onChange}
+                    label="Выставочная собака"
+                    labelPlacement="end"
+                  />
+                )}
+                name="showDog"
               />
             </div>
             {generalInfo && (
               //Тут анимацию бы добавить! Для появления доп инпутов
               <div className="transition-transform ease-in-out delay-2000">
-                <TextField className="" id="1" placeholder="Окрас" />
                 <TextField
-                  className=""
+                  {...register("color")}
+                  maxLength={30}
+                  id="1"
+                  placeholder="Окрас"
+                />
+                <TextField
+                  {...register("specialSigns")}
+                  maxLength={150}
                   id="1"
                   placeholder="Чип, клеймо, особые приметы"
                 />
               </div>
             )}
             <div className="relative flex justify-center">
+              {/* нужно добавить анимацию переворачивания стрелки - свг при клике */}
               <label style={{ color: "rgb(1, 69, 171)", cursor: "pointer" }}>
                 {!generalInfo
                   ? "Отобразить все поля"
@@ -275,18 +282,45 @@ export const ClientPetPage = () => {
             <div>
               <h2 className="text-xl font-body font-bold">Здоровье</h2>
               <TextField
-                className=""
+                {...register("vaccine")}
+                maxLength={250}
                 id="1"
                 placeholder="Даты последних прививок, названия вакцин"
-              ></TextField>
+              />
 
               <div>Есть ли хронические заболевания?</div>
 
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="female"
+                name="radio-buttons-group"
+              >
+                <>
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Other"
+                  />
+                </>
+              </RadioGroup>
+
               <TextField
-                className=""
+                {...register("chronicDiseaseType")}
+                isDisabled={true}
+                maxLength={500}
                 id="2"
                 placeholder="Какие хронические заболевания?"
-              ></TextField>
+              />
               {healthInfo && (
                 <div>
                   <TextField
