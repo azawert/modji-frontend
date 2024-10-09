@@ -4,7 +4,7 @@ import { Select } from "@/shared/ui/Select"
 import { TextField } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
 import { DATE_FRONT_FORMAT, TDatePickerProps } from "@/widgets/DatePicker/types"
-import { FormControlLabel, IconButton, Radio } from "@mui/material"
+import { FormControlLabel, FormLabel, IconButton, Radio } from "@mui/material"
 import dayjs, { Dayjs } from "dayjs"
 import { ReactNode, useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -20,6 +20,7 @@ interface IForm {
   color?: string
   specialSigns: string
   vaccine: string
+  chronicDisease: "Yes" | "No" | ""
   chronicDiseaseType: string
 }
 
@@ -32,11 +33,15 @@ export const ClientPetPage = () => {
   const [date, setDate] = useState(false)
   const {
     control,
+    watch,
     register,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm<IForm>({ mode: "onChange" })
+
+  // Отслеживание поля наличия хронич болезней для раздизейбла поля Какие болезни
+  const chronicDisease = watch("chronicDisease")
 
   const submit = (data: any) => {
     console.log(data)
@@ -140,7 +145,6 @@ export const ClientPetPage = () => {
                   {...register("dateOfBirth", {
                     required: true,
                   })}
-                  // type="date"
                   style={
                     errors?.dateOfBirth && {
                       borderColor: "hsl(var(--destructive))",
@@ -213,7 +217,7 @@ export const ClientPetPage = () => {
                       marginLeft: "20px",
                     }}
                   >
-                    Пожалуйста, выберете пол.
+                    Пожалуйста, выберите пол.
                   </p>
                 )}
               </div>
@@ -287,47 +291,65 @@ export const ClientPetPage = () => {
                 id="1"
                 placeholder="Даты последних прививок, названия вакцин"
               />
-
-              <div>Есть ли хронические заболевания?</div>
-
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              >
-                <>
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="other"
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </>
-              </RadioGroup>
-
+              <div className="ml-5 mt-4">
+                Есть ли хронические заболевания?
+                <Controller
+                  name="chronicDisease"
+                  control={control}
+                  defaultValue={""}
+                  render={({ field: { onChange, value } }) => {
+                    return (
+                      <RadioGroup row onChange={onChange} value={value}>
+                        <FormControlLabel
+                          value="Yes"
+                          control={<Radio />}
+                          label="Да"
+                        />
+                        <FormControlLabel
+                          value="No"
+                          control={<Radio />}
+                          label="Нет"
+                        />
+                      </RadioGroup>
+                    )
+                  }}
+                />
+              </div>
               <TextField
                 {...register("chronicDiseaseType")}
-                isDisabled={true}
+                // Здесь добавлено отслеживание поля о наличии заболеваний, используется watch из react-hook-form
+                isDisabled={chronicDisease !== "Yes"}
                 maxLength={500}
                 id="2"
                 placeholder="Какие хронические заболевания?"
               />
+
               {healthInfo && (
-                <div>
+                <div className="relative">
                   <TextField
                     className=""
                     id="1"
                     placeholder="Дата последнего посещения ветврача"
                   ></TextField>
+                  <IconButton
+                    style={{
+                      position: "absolute",
+                      top: "29px",
+                      right: "22px",
+                    }}
+                    onClick={() => {
+                      setDate(!date)
+                    }}
+                  >
+                    <Icon type="CalendarIcon" height="20px" width="20px" />
+                  </IconButton>
+                  <div className="absolute left-64 -top-10 z-10">
+                    <DatePicker
+                      onClose={() => console.log("bob")}
+                      isOpen={date}
+                      onChange={handleDateChange}
+                    />
+                  </div>
                   <TextField
                     className=""
                     id="1"
