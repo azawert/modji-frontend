@@ -4,11 +4,12 @@ import { PageNotFound } from "@/modules/NotFound/pages/PageNotFound"
 import { RoomsPage } from "@/modules/Rooms/pages/RoomsPage"
 import { AuthorizationPage } from "@/modules/Authorization/pages/AuthorizationPage"
 import { ClientsPage } from "@/modules/Clients/pages/ClientsPage"
-import { Layout } from "@/shared/Layout"
+import { Layout } from "@/shared/ui/Layouts/Layout"
 import { RouteObject } from "react-router-dom"
 import { BookingPage } from "@/modules/Booking/pages/BookingPage/BookingPage"
 import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
 import { ClientPage } from "@/modules/Clients/pages/ClientPage.tsx"
+import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
 
 export const routes: RouteObject[] = [
   {
@@ -40,10 +41,6 @@ export const routes: RouteObject[] = [
         element: <BookingPage />,
       },
       {
-        path: "create-booking",
-        element: <CreateBookingPage />,
-      },
-      {
         path: "clients/:id",
         element: <ClientPage />,
       },
@@ -52,6 +49,16 @@ export const routes: RouteObject[] = [
   {
     path: "/authorization",
     element: <AuthorizationPage />,
+  },
+  {
+    path: "/create-booking",
+    element: <LayoutWithFooter />,
+    children: [
+      {
+        element: <CreateBookingPage />,
+        path: "",
+      },
+    ],
   },
 ]
 

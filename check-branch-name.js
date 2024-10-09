@@ -2,7 +2,7 @@ import { execSync } from "child_process"
 
 const branchName = execSync("git rev-parse --abbrev-ref HEAD").toString().trim()
 
-if (!/^(feature|bugfix|hotfix|release|docs|ci)\//.test(branchName)) {
+if (!/^(feature|bugfix|hotfix|release|docs|ci|refactor)\//.test(branchName)) {
   console.error(
     `❌ Неверное название ветки: ${branchName}. Должно начинаться с "feature/", "bugfix/", "hotfix/","release/", "docs/", "ci/"`
   )

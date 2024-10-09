@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import {
   formatPhoneNumberToServerRequest,
   generateUniqueId,
-  useAddErrorNotification,
+  addErrorNotification,
   useAddSuccessNotification,
 } from "@/shared/utils/utils"
 import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
@@ -31,22 +31,13 @@ const CreateShortClient = () => {
   const isModalOpen = useBookingStore(state => state.isCreateShortClient)
   const closeModal = useBookingStore(state => state.setIsCreateShortClient)
   const onClose = useCallback(() => closeModal(false), [closeModal])
-  const { addNotification } = useNotification()
   const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const errorNotification = addErrorNotification()
   const { mutate: createClient } = useCreateClient()
 
   const handleCloseModalWindow = () => {
     if (form.formState.isDirty) {
-      addNotification({
-        id: generateUniqueId(),
-        isOpened: true,
-        text: "Вы точно хотите отменить создание бронирования?",
-        type: ENotificationType.CONFIRMATION,
-        withConfirmationButtons: true,
-        handleCloseForm: onClose,
-        notificationWidth: "342",
-      })
+      errorNotification("Вы точно хотите отменить создание бронирования?")
       return
     } else {
       onClose()
@@ -74,7 +65,7 @@ const CreateShortClient = () => {
         },
         onError: e => {
           console.error(e)
-          addErrorNotification("Произошла ошибка. Попробуйте позже")
+          errorNotification("Произошла ошибка. Попробуйте позже")
           onClose()
         },
       }

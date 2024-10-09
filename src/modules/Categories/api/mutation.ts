@@ -8,13 +8,13 @@ import {
   updateCategoryById,
 } from "@/generated/categories"
 import {
-  useAddErrorNotification,
+  addErrorNotification,
   useAddSuccessNotification,
 } from "@/shared/utils/utils"
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   const addSuccessNotification = useAddSuccessNotification()
   return useMutation({
     mutationKey: [EMutationKeys.CREATE_CATEGORY],
@@ -34,7 +34,7 @@ export const useCreateCategory = () => {
 
 export const useUpdateCategory = () => {
   const queryClient = useQueryClient()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   const addSuccessNotification = useAddSuccessNotification()
   return useMutation({
     mutationKey: [EMutationKeys.UPDATE_CATEGORY],
@@ -54,7 +54,7 @@ export const useUpdateCategory = () => {
 
 export const useDeleteCategory = () => {
   const queryClient = useQueryClient()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   const addSuccessNotification = useAddSuccessNotification()
   return useMutation({
     mutationKey: [EMutationKeys.DELETE_CATEGORY],

@@ -8,7 +8,7 @@ import { useCreateClient } from "../api/mutation"
 import { NewOwnerDto, OwnerDto } from "@/generated/owners"
 import {
   formatPhoneNumberToServerRequest,
-  useAddErrorNotification,
+  addErrorNotification,
   useAddSuccessNotification,
 } from "@/shared/utils/utils"
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
@@ -18,7 +18,7 @@ export const ClientsPage: React.FC = () => {
   const [search, setSearch] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpened] = useState(false)
   const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   const { data, isLoading, isError, error } = useGetAllClients()
   const {
     data: options,

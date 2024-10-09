@@ -9,13 +9,13 @@ import {
   updateRoom,
 } from "@/generated/room"
 import {
-  useAddErrorNotification,
+  addErrorNotification,
   useAddSuccessNotification,
 } from "@/shared/utils/utils"
 
 export const useCreateRoom = () => {
   const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   return useMutation({
     mutationKey: [EMutationKeys.CREATE_ROOM],
     mutationFn: (data: NewRoomDto) =>
@@ -31,7 +31,7 @@ export const useCreateRoom = () => {
 
 export const useHideRoom = () => {
   const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   return useMutation({
     mutationFn: (id: number) =>
       hideRoomById(id, { headers: { "X-PetHotel-User-Id": 1 } }),
@@ -47,7 +47,7 @@ export const useHideRoom = () => {
 
 export const useUnHideRoom = () => {
   const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   return useMutation({
     mutationKey: [EMutationKeys.UNHIDE_ROOM],
     mutationFn: (id: number) =>
@@ -63,7 +63,7 @@ export const useUnHideRoom = () => {
 
 export const useUpdateRoom = () => {
   const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const addErrorNotification = addErrorNotification()
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: UpdateRoomDto }) =>
       updateRoom(id, data, { headers: { "X-PetHotel-User-Id": 1 } }),

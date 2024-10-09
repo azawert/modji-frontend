@@ -1,9 +1,6 @@
-import {
-  ENotificationType,
-  NotificationContext,
-} from "@/contexts/notificationContext/NotificationContext"
-import { useContext } from "react"
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 import dayjs from "dayjs"
+import { eventEmitter } from "./eventEmitter"
 
 export const generateUniqueId = () => {
   const dateStr = Date.now().toString(36)
@@ -11,11 +8,9 @@ export const generateUniqueId = () => {
 
   return `${dateStr}-${randomStr}`
 }
-export const useAddErrorNotification = () => {
-  const { addNotification } = useContext(NotificationContext)
-
+export const addErrorNotification = () => {
   return (text: string, subText?: string) => {
-    addNotification({
+    eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
       type: ENotificationType.ERROR,
       isOpened: true,
@@ -27,10 +22,8 @@ export const useAddErrorNotification = () => {
 }
 
 export const useAddSuccessNotification = () => {
-  const { addNotification } = useContext(NotificationContext)
-
   return (text: string, subText?: string) => {
-    addNotification({
+    eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
       type: ENotificationType.SUCCESS,
       isOpened: true,
@@ -42,10 +35,8 @@ export const useAddSuccessNotification = () => {
 }
 
 export const useAddWarningNotification = () => {
-  const { addNotification } = useContext(NotificationContext)
-
   return (text: string, handleButtonClick: () => void, buttonText: string) => {
-    addNotification({
+    eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
       type: ENotificationType.WARNING,
       isOpened: true,
