@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { Icon } from "../Icon/Icon"
 import { Button, EButtonSize, EButtonVariant } from "../Button/Button"
 import { DATA_TEST_ID_GLOBAL_OBJECT } from "@/shared/constants/test-id"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
 
 /** Маппер для получения нужной иконки, для нотификации подтверждения иконка будет не нужна */
 const mapperTypeNotificationToIcon: Record<
@@ -58,10 +59,12 @@ export const Notification: React.FC<TNotification> = props => {
   const [isOpenedNotification, setIsOpenedNotification] = useState(isOpened)
 
   const handleClose = () => {
+    eventEmitter.emit("removeNotification", id)
     setIsOpenedNotification(false)
   }
 
   const handleCloseFormAndNotification = () => {
+    eventEmitter.emit("removeNotification", id)
     handleCloseForm?.()
     setIsOpenedNotification(false)
   }
@@ -71,6 +74,7 @@ export const Notification: React.FC<TNotification> = props => {
     if (isAutoClosable) {
       timerId = setTimeout(() => {
         setIsOpenedNotification(false)
+        eventEmitter.emit("removeNotification", id)
       }, timeout)
     }
 
