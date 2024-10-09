@@ -5,7 +5,7 @@ import { Close } from "@mui/icons-material/"
 import { TextField } from "@/shared/ui/TextField"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
-import { generateUniqueId } from "@/shared/utils/utils"
+import { addConfirmationNotification } from "@/shared/utils/utils"
 import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
 import { TRoomCreateForm } from "../pages/RoomsPage"
@@ -19,6 +19,7 @@ import { MaskedTextField } from "@/shared/ui/MaskedTextField"
 import { useCheckUniqueRoomNumber } from "@/modules/Rooms/api/queries.ts"
 import { useDebounce } from "@/shared/hooks/hooks.ts"
 import { useCallback } from "react"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -52,8 +53,8 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
   } = form
   const formId = `${isEditing ? "update" : "create"}RoomForm`
 
-  const { addNotification, notifications, removeNotification } =
-    useNotification()
+  const { notifications } = useNotification()
+  const confirmationNotification = addConfirmationNotification()
 
   const [roomNumber] = watch(["number"])
   const [prevRoomNumberValue, setPrevRoomNumberValue] = useState<
@@ -97,15 +98,7 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
   }, [errors.number, hasRoomNumberNotChanged, isRoomNumberAvailable])
   const handleCloseModalWindow = () => {
     if (isDirty) {
-      addNotification({
-        id: generateUniqueId(),
-        isOpened: true,
-        text: "Вы точно хотите выйти без сохранения введенных данных?",
-        type: ENotificationType.CONFIRMATION,
-        withConfirmationButtons: true,
-        handleCloseForm: onClose,
-        notificationWidth: "342",
-      })
+      confirmationNotification(onClose)
       return
     } else {
       onClose()
@@ -128,7 +121,8 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
       handleFormSubmit?.(mapperFormToAnCreateRequest(data))
     }
     notifications.forEach(({ id, type }) => {
-      if (type === ENotificationType.CONFIRMATION) removeNotification(id)
+      if (type === ENotificationType.CONFIRMATION)
+        eventEmitter.emit("removeNotification", id)
     })
   }
 

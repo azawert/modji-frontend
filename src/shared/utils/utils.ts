@@ -21,7 +21,7 @@ export const addErrorNotification = () => {
   }
 }
 
-export const useAddSuccessNotification = () => {
+export const addSuccessNotification = () => {
   return (text: string, subText?: string) => {
     eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
@@ -34,7 +34,7 @@ export const useAddSuccessNotification = () => {
   }
 }
 
-export const useAddWarningNotification = () => {
+export const addWarningNotification = () => {
   return (text: string, handleButtonClick: () => void, buttonText: string) => {
     eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
@@ -45,6 +45,20 @@ export const useAddWarningNotification = () => {
       onlyOneAction: true,
       handleOneAction: handleButtonClick,
       onlyOneActionButtonText: buttonText,
+    })
+  }
+}
+
+export const addConfirmationNotification = () => {
+  return (onClose: () => void) => {
+    eventEmitter.emit("addNotification", {
+      id: generateUniqueId(),
+      isOpened: true,
+      text: "Вы точно хотите выйти без сохранения введенных данных?",
+      type: ENotificationType.CONFIRMATION,
+      withConfirmationButtons: true,
+      handleCloseForm: onClose,
+      notificationWidth: "342",
     })
   }
 }

@@ -1,16 +1,13 @@
 import { useCallback } from "react"
 import useBookingStore from "../../store/BookingStore"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ShortClientSchema } from "../../model/types/ShortClientValidationSchema"
 import { useForm } from "react-hook-form"
 import {
   formatPhoneNumberToServerRequest,
-  generateUniqueId,
   addErrorNotification,
-  useAddSuccessNotification,
+  addSuccessNotification,
 } from "@/shared/utils/utils"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 import { ShortClientModal } from "../../components/modal/ShortClientModal/ShortClientModal"
 import { NewOwnerDto } from "@/generated/owners"
 import { useCreateClient } from "@/modules/Clients/api/mutation"
@@ -31,7 +28,7 @@ const CreateShortClient = () => {
   const isModalOpen = useBookingStore(state => state.isCreateShortClient)
   const closeModal = useBookingStore(state => state.setIsCreateShortClient)
   const onClose = useCallback(() => closeModal(false), [closeModal])
-  const addSuccessNotification = useAddSuccessNotification()
+  const successNotification = addSuccessNotification()
   const errorNotification = addErrorNotification()
   const { mutate: createClient } = useCreateClient()
 
@@ -59,7 +56,7 @@ const CreateShortClient = () => {
       },
       {
         onSuccess: () => {
-          addSuccessNotification("Клиент успешно создан")
+          successNotification("Клиент успешно создан")
           onClose()
           form.reset()
         },

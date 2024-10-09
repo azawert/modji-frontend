@@ -4,9 +4,7 @@ import useBookingStore from "../../../store/BookingStore"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { DeepPartial, UseFormHandleSubmit } from "react-hook-form"
 import { IBookingForm } from "../../../model/types/BookingValidationSchema"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
-import { generateUniqueId } from "@/shared/utils/utils"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { addConfirmationNotification } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
 
 type TProps = {
@@ -18,9 +16,8 @@ type TProps = {
 
 export const BookingModal: React.FC<TProps> = memo(props => {
   const { children, onSubmit, isDirty, isReadyToSubmit } = props
-
-  const { addNotification } = useNotification()
   const navigate = useNavigate()
+  const confirmationNotification = addConfirmationNotification()
 
   const isModalOpen = useBookingStore(state => state.isBookingInProgress)
   const closeModal = useBookingStore(state => state.setIsBookingInProgress)
@@ -41,15 +38,7 @@ export const BookingModal: React.FC<TProps> = memo(props => {
 
   const handleCloseModalWindow = () => {
     if (isDirty) {
-      addNotification({
-        id: generateUniqueId(),
-        isOpened: true,
-        text: "Вы точно хотите отменить создание бронирования?",
-        type: ENotificationType.CONFIRMATION,
-        withConfirmationButtons: true,
-        handleCloseForm: onClose,
-        notificationWidth: "342",
-      })
+      confirmationNotification(onClose)
       return
     } else {
       onClose()
