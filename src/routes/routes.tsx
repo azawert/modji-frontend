@@ -1,16 +1,61 @@
-import { CategoriesPage } from "@/modules/Categories/pages/CategoriesPage"
-import { EmployeePage } from "@/modules/Employee"
-import { PageNotFound } from "@/modules/NotFound/pages/PageNotFound"
-import { RoomsPage } from "@/modules/Rooms/pages/RoomsPage"
-import { AuthorizationPage } from "@/modules/Authorization/pages/AuthorizationPage"
-import { ClientsPage } from "@/modules/Clients/pages/ClientsPage"
-import { Layout } from "@/shared/ui/Layouts/Layout"
+import { lazy, Suspense } from "react"
 import { RouteObject } from "react-router-dom"
-import { BookingPage } from "@/modules/Booking/pages/BookingPage/BookingPage"
-import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
-import { ClientPage } from "@/modules/Clients/pages/ClientPage.tsx"
+import { Layout } from "@/shared/ui/Layouts/Layout"
 import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
 
+const CategoriesPage = lazy(() =>
+  import("@/modules/Categories/pages/CategoriesPage").then(module => ({
+    default: module.CategoriesPage,
+  }))
+)
+const EmployeePage = lazy(() =>
+  import("@/modules/Employee").then(module => ({
+    default: module.EmployeePage,
+  }))
+)
+const PageNotFound = lazy(() =>
+  import("@/modules/NotFound/pages/PageNotFound").then(module => ({
+    default: module.PageNotFound,
+  }))
+)
+const RoomsPage = lazy(() =>
+  import("@/modules/Rooms/pages/RoomsPage").then(module => ({
+    default: module.RoomsPage,
+  }))
+)
+const AuthorizationPage = lazy(() =>
+  import("@/modules/Authorization/pages/AuthorizationPage").then(module => ({
+    default: module.AuthorizationPage,
+  }))
+)
+const ClientsPage = lazy(() =>
+  import("@/modules/Clients/pages/ClientsPage").then(module => ({
+    default: module.ClientsPage,
+  }))
+)
+const BookingPage = lazy(() =>
+  import("@/modules/Booking/pages/BookingPage/BookingPage").then(module => ({
+    default: module.BookingPage,
+  }))
+)
+const CreateBookingPage = lazy(() =>
+  import("@/modules/Booking/pages/CreateBookingPage/CreateBookingPage").then(
+    module => ({
+      default: module.CreateBookingPage,
+    })
+  )
+)
+const ClientPage = lazy(() =>
+  import("@/modules/Clients/pages/ClientPage.tsx").then(module => ({
+    default: module.ClientPage,
+  }))
+)
+
+const LazyLoadWrapper = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+)
+
+//TODO: вынести все path в общий объект, чтобы избежать опечаток в будущем
 export const routes: RouteObject[] = [
   {
     path: "/",
@@ -18,52 +63,82 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <EmployeePage />,
+        element: (
+          <LazyLoadWrapper>
+            <EmployeePage />
+          </LazyLoadWrapper>
+        ),
       },
       {
         path: "*",
-        element: <PageNotFound />,
+        element: (
+          <LazyLoadWrapper>
+            <PageNotFound />
+          </LazyLoadWrapper>
+        ),
       },
       {
         path: "categories",
-        element: <CategoriesPage />,
+        element: (
+          <LazyLoadWrapper>
+            <CategoriesPage />
+          </LazyLoadWrapper>
+        ),
       },
       {
         path: "rooms",
-        element: <RoomsPage />,
+        element: (
+          <LazyLoadWrapper>
+            <RoomsPage />
+          </LazyLoadWrapper>
+        ),
       },
       {
         path: "clients",
-        element: <ClientsPage />,
+        element: (
+          <LazyLoadWrapper>
+            <ClientsPage />
+          </LazyLoadWrapper>
+        ),
       },
       {
         path: "booking/:bookingId",
-        element: <BookingPage />,
+        element: (
+          <LazyLoadWrapper>
+            <BookingPage />
+          </LazyLoadWrapper>
+        ),
       },
       {
         path: "clients/:id",
-        element: <ClientPage />,
+        element: (
+          <LazyLoadWrapper>
+            <ClientPage />
+          </LazyLoadWrapper>
+        ),
       },
     ],
   },
   {
     path: "/authorization",
-    element: <AuthorizationPage />,
+    element: (
+      <LazyLoadWrapper>
+        <AuthorizationPage />
+      </LazyLoadWrapper>
+    ),
   },
   {
     path: "/create-booking",
     element: <LayoutWithFooter />,
     children: [
       {
-        element: <CreateBookingPage />,
+        element: (
+          <LazyLoadWrapper>
+            <CreateBookingPage />
+          </LazyLoadWrapper>
+        ),
         path: "",
       },
     ],
   },
 ]
-
-export enum ROUTES {
-  AUTHORIZATION = "/authorization",
-  CLIENTS = "/clients",
-  SINGLECLIENT = "/clients/:id",
-}
