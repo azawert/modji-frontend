@@ -12,7 +12,6 @@ export const steps: TStep<NewOwnerDto>[] = [
       {
         label: "Фамилия",
         name: "lastName",
-        isRequired: true,
         validation: {
           minLength: {
             message: "Введите больше 2-ух символов",
@@ -22,12 +21,7 @@ export const steps: TStep<NewOwnerDto>[] = [
             value: 30,
             message: "Введите меньше 30 символов",
           },
-          required: {
-            message: "Пожалуйста, заполните это поле",
-            value: true,
-          },
         },
-        placeholder: "Фамилия",
       },
       {
         label: "Имя",
@@ -59,10 +53,6 @@ export const steps: TStep<NewOwnerDto>[] = [
           maxLength: {
             value: 30,
             message: "Введите меньше 30 символов",
-          },
-          required: {
-            value: true,
-            message: "Пожалуйста, заполните это поле",
           },
         },
       },
