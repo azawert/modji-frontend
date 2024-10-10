@@ -38,7 +38,7 @@
    git pull origin develop
    ```
 2. Создайте новую ветку с соответствующим названием:
-   Используйте префиксы: feature/, bugfix/, hotfix/, release/, docs/, ci/.
+   Используйте префиксы: feature/, bugfix/, hotfix/, release/, docs/, ci/, refactor/.
 3. Дайте осознанное название коммиту по следующей схеме:
    ```text
    [type]: [description]

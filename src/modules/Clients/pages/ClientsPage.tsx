@@ -8,8 +8,8 @@ import { useCreateClient } from "../api/mutation"
 import { NewOwnerDto, OwnerDto } from "@/generated/owners"
 import {
   formatPhoneNumberToServerRequest,
-  useAddErrorNotification,
-  useAddSuccessNotification,
+  addErrorNotification,
+  addSuccessNotification,
 } from "@/shared/utils/utils"
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
@@ -17,8 +17,8 @@ export const ClientsPage: React.FC = () => {
   useDocumentTitle({ title: "Клиенты" })
   const [search, setSearch] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpened] = useState(false)
-  const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const successNotification = addSuccessNotification()
+  const errorNotification = addErrorNotification()
   const { data, isLoading, isError, error } = useGetAllClients()
   const {
     data: options,
@@ -55,12 +55,12 @@ export const ClientsPage: React.FC = () => {
       },
       {
         onSuccess: () => {
-          addSuccessNotification("Клиент успешно создан")
+          successNotification("Клиент успешно создан")
           handleCloseCreateModal()
         },
         onError: e => {
           console.error(e)
-          addErrorNotification("Произошла ошибка. Попробуйте позже")
+          errorNotification("Произошла ошибка. Попробуйте позже")
           handleCloseCreateModal()
         },
       }

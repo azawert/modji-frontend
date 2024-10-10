@@ -1,9 +1,6 @@
-import {
-  ENotificationType,
-  NotificationContext,
-} from "@/contexts/notificationContext/NotificationContext"
-import { useContext } from "react"
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 import dayjs from "dayjs"
+import { eventEmitter } from "./eventEmitter"
 
 export const generateUniqueId = () => {
   const dateStr = Date.now().toString(36)
@@ -11,11 +8,9 @@ export const generateUniqueId = () => {
 
   return `${dateStr}-${randomStr}`
 }
-export const useAddErrorNotification = () => {
-  const { addNotification } = useContext(NotificationContext)
-
+export const addErrorNotification = () => {
   return (text: string, subText?: string) => {
-    addNotification({
+    eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
       type: ENotificationType.ERROR,
       isOpened: true,
@@ -26,11 +21,9 @@ export const useAddErrorNotification = () => {
   }
 }
 
-export const useAddSuccessNotification = () => {
-  const { addNotification } = useContext(NotificationContext)
-
+export const addSuccessNotification = () => {
   return (text: string, subText?: string) => {
-    addNotification({
+    eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
       type: ENotificationType.SUCCESS,
       isOpened: true,
@@ -41,11 +34,9 @@ export const useAddSuccessNotification = () => {
   }
 }
 
-export const useAddWarningNotification = () => {
-  const { addNotification } = useContext(NotificationContext)
-
+export const addWarningNotification = () => {
   return (text: string, handleButtonClick: () => void, buttonText: string) => {
-    addNotification({
+    eventEmitter.emit("addNotification", {
       id: generateUniqueId(),
       type: ENotificationType.WARNING,
       isOpened: true,
@@ -54,6 +45,20 @@ export const useAddWarningNotification = () => {
       onlyOneAction: true,
       handleOneAction: handleButtonClick,
       onlyOneActionButtonText: buttonText,
+    })
+  }
+}
+
+export const addConfirmationNotification = () => {
+  return (onClose: () => void) => {
+    eventEmitter.emit("addNotification", {
+      id: generateUniqueId(),
+      isOpened: true,
+      text: "Вы точно хотите выйти без сохранения введенных данных?",
+      type: ENotificationType.CONFIRMATION,
+      withConfirmationButtons: true,
+      handleCloseForm: onClose,
+      notificationWidth: "342",
     })
   }
 }
