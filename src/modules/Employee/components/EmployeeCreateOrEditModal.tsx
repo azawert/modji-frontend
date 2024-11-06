@@ -16,9 +16,7 @@ import {
   mapperCreateUserFormToAnUserUpdateRequest,
   roleMapperForRussianLanguage,
 } from "../utils"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
-import { generateUniqueId } from "@/shared/utils/utils"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { addConfirmationNotification } from "@/shared/utils/utils"
 import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
 
 /**
@@ -42,7 +40,7 @@ type TProps = {
 export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
   const { isOpen, onClose, handleFormSubmit, isEditing, editUserData, form } =
     props
-
+  const confirmationNotification = addConfirmationNotification()
   const {
     formState: { errors, isDirty },
     register,
@@ -52,9 +50,6 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
     control,
     watch,
   } = form
-
-  const { addNotification } = useNotification()
-
   const [password, confirmPassword] = watch(["password", "confirmPassword"])
 
   /** Автозаполнение полей при наличии флага и данных */
@@ -71,15 +66,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
 
   const handleCloseModalWindow = () => {
     if (isDirty) {
-      addNotification({
-        id: generateUniqueId(),
-        isOpened: true,
-        text: "Вы точно хотите выйти без сохранения введенных данных?",
-        type: ENotificationType.CONFIRMATION,
-        withConfirmationButtons: true,
-        handleCloseForm: onClose,
-        notificationWidth: "342",
-      })
+      confirmationNotification(onClose)
       return
     } else {
       onClose()

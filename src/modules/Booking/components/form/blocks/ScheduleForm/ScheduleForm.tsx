@@ -58,7 +58,6 @@ export const ScheduleForm = (props: ScheduleProps) => {
   const daysDifference = dateTo
     ?.diff(dateFrom?.subtract(1, "day"), "day")
     .toString()
-  console.log(daysDifference)
 
   const onChangeDate = useCallback(
     (type: "dateFrom" | "dateTo") => (date: dayjs.Dayjs) => {

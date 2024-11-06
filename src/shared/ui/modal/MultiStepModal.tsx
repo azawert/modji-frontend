@@ -17,6 +17,7 @@ export const MultiStepModal = <K extends FieldValues>({
   renderHeader,
   steps,
   title,
+  modalWidth,
   backButtonTextString = "Назад",
   handleFormButtonTextString = "Создать клиента",
   nextStepButtonText = "Следующий шаг",
@@ -49,6 +50,8 @@ export const MultiStepModal = <K extends FieldValues>({
     if (activeStep === 0) return
     setActiveStep(prev => prev - 1)
   }
+
+  const getModalWidth = () => modalWidth || "616px"
 
   const renderFooterButtons = (): React.JSX.Element => (
     <>
@@ -89,7 +92,7 @@ export const MultiStepModal = <K extends FieldValues>({
         },
         "& .MuiPaper-root": {
           borderRadius: "16px",
-          width: "616px",
+          width: getModalWidth(),
         },
       }}
     >

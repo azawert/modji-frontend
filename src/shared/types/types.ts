@@ -6,6 +6,7 @@ import {
   UseFormReturn,
 } from "react-hook-form"
 import { ReactNode } from "react"
+import { SelectData } from "../ui/Select"
 
 /**Тип для определения открытой модалки (создание или редактирование)
  * @prop isOpen - открыта ли модалка
@@ -46,6 +47,7 @@ export type TMultiStepModal<K extends FieldValues> = {
   nextStepButtonText?: string
   backButtonTextString?: string
   handleFormButtonTextString?: string
+  modalWidth?: string
 }
 
 /**
@@ -78,6 +80,14 @@ export type TField<K extends FieldValues> = {
   placeholder?: string
   isRequired?: boolean
   isPhoneField?: boolean
+
+  isSelect?: boolean
+  options?: SelectData[]
+
+  isCheckbox?: boolean
+
+  isGrouped?: boolean
+  fields?: TField<K>[]
 }
 
 /**
