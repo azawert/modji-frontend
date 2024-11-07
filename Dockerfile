@@ -1,17 +1,16 @@
-FROM node:slim AS build
+FROM node:20.18.0-slim AS build
+
 WORKDIR /app
 
 ARG VITE_BACKEND_BASE_URL
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci --legacy-peer-deps
 
 COPY ./ ./
 RUN VITE_BACKEND_BASE_URL=$VITE_BACKEND_BASE_URL npm run build
 
 FROM nginx:alpine AS run
-
-# RUN apt-get update && apt-get install -y curl
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
