@@ -26,6 +26,7 @@ type TProps = {
   placeholder?: string
   renderValue: (value: string) => ReactNode
   onBlur?: (event: React.ChangeEvent) => void
+  width: string
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
@@ -56,6 +57,7 @@ export const Select: React.FC<TProps> = props => {
     placeholder,
     renderValue,
     onBlur,
+    width,
   } = props
   const handleSelectChange = (e: SelectChangeEvent) => onChange(e.target.value)
   const [preSelectedValue, setPreselectedValue] = useState<string>()
@@ -86,6 +88,7 @@ export const Select: React.FC<TProps> = props => {
           value={selectedValue}
           sx={{
             borderRadius: "24px",
+            width,
             ".css-1uwzc1h-MuiSelect-select-MuiInputBase-input:focus": {
               borderRadius: "24px",
             },
@@ -119,12 +122,11 @@ export const Select: React.FC<TProps> = props => {
                   },
                   "& .Mui-focused": {
                     borderColor: "black",
+                  },
                 },
               },
             },
-          }
-        }
-       }
+          }}
           placeholder={placeholder}
           onBlur={onBlur}
           notched={undefined}

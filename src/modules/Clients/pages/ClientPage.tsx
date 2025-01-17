@@ -68,15 +68,15 @@ export const ClientPage = () => {
   const handleNavigateToANewPetCreationPage = useCallback(() => {
     switch (selectedPetType) {
       case PetDtoType.DOG: {
-        navigate("/pets/dog/create")
+        navigate(`pets/dog/create`)
         break
       }
       case PetDtoType.CAT: {
-        navigate("/pets/cat/create")
+        navigate(`pets/cat/create`)
         break
       }
       case PetDtoType.EXOTIC: {
-        navigate("/pets/other/create")
+        navigate(`pets/other/create`)
         break
       }
       default: {
