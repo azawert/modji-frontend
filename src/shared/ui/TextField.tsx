@@ -77,9 +77,9 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
     iconPosition === TIconInputPosition.LEFT && !isLoading
   return (
     <label htmlFor={id} className="flex flex-col" style={{ width }}>
-      {label && (
+      {label && rest.value && (
         <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
-          {label}
+          {rest.value ? label : " "}
           <span className="font-semibold ml-0.5 text-basicGreyText text-small">
             {isRequired ? "*" : ""}
           </span>

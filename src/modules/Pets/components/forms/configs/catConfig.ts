@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid"
 import { FormConfig } from "./types"
+import { calcAge } from "../utils/calcAge"
 
 export const CAT_CONFIG: FormConfig = {
   categories: {
@@ -38,12 +39,13 @@ export const CAT_CONFIG: FormConfig = {
           width: "1/3",
         },
         {
-          name: "age", //omit
+          name: "age",
           id: nanoid(),
           type: "text",
           label: "Возраст",
           required: false,
           width: "1/3",
+          valueFn: (data: { [key: string]: string }) => calcAge(data.birthDate),
         },
         {
           name: "sex",

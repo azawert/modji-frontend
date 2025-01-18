@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid"
 import { FormConfig } from "./types"
+import { calcAge } from "../utils/calcAge"
 
 export const DOG_CONFIG: FormConfig = {
   categories: {
@@ -38,12 +39,14 @@ export const DOG_CONFIG: FormConfig = {
           width: "1/3",
         },
         {
-          name: "age", //omit
+          name: "age",
           id: nanoid(),
           type: "text",
           label: "Возраст",
           required: false,
+          validationErr: "Укажите дату рождения",
           width: "1/3",
+          valueFn: (data: { [key: string]: string }) => calcAge(data.birthDate),
         },
         {
           name: "sex",
@@ -112,6 +115,10 @@ export const DOG_CONFIG: FormConfig = {
           label: "Какие хронические заболевания?",
           required: false,
           width: "full",
+          valueFn: (data: { [key: string]: string }, value: string) =>
+            data.chronicDisease || data.chronicDisease === undefined
+              ? value
+              : "Хронических заболеваний нет",
         },
         {
           name: "vetVisitDate",
@@ -180,6 +187,10 @@ export const DOG_CONFIG: FormConfig = {
           label: "На что аллергия?",
           required: false,
           width: "full",
+          valueFn: (data: { [key: string]: string }, value: string) =>
+            data.allergy || data.allergy === undefined
+              ? value
+              : "Известных аллергий нет",
         },
         {
           name: "heatDate",
@@ -246,6 +257,10 @@ export const DOG_CONFIG: FormConfig = {
           label: "Какой курс послушания прошел?",
           required: false,
           width: "full",
+          valueFn: (data: { [key: string]: string }, value: string) =>
+            data.isDogTraining || data.isDogTraining === undefined
+              ? value
+              : "Курс послушания не проходил",
         },
         {
           name: "stayWithoutMaster",
@@ -313,6 +328,10 @@ export const DOG_CONFIG: FormConfig = {
           label: "Причина, почему кусал",
           required: false,
           width: "full",
+          valueFn: (data: { [key: string]: string }, value: string) =>
+            data.isBitePeople || data.isBitePeople === undefined
+              ? value
+              : "Людей не кусал",
         },
         {
           name: "playWithDogs",
@@ -377,6 +396,12 @@ export const DOG_CONFIG: FormConfig = {
           width: "full",
         },
         {
+          name: "feedingQuantity",
+          id: nanoid(),
+          type: "slider",
+          label: "Количество кормлений в день",
+        },
+        {
           name: "feedName",
           id: nanoid(),
           type: "text",
@@ -434,6 +459,10 @@ export const DOG_CONFIG: FormConfig = {
           label: "Название, режим приема лекарств/витаминов и доза",
           required: false,
           width: "full",
+          valueFn: (data: { [key: string]: string }, value: string) =>
+            data.isMedicine || data.isMedicine === undefined
+              ? value
+              : "Лекарства/Витамины не нужны",
         },
       ],
     },

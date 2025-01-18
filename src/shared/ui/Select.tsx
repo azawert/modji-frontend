@@ -26,7 +26,7 @@ type TProps = {
   placeholder?: string
   renderValue: (value: string) => ReactNode
   onBlur?: (event: React.ChangeEvent) => void
-  width: string
+  width?: string
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({

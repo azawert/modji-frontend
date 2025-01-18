@@ -20,6 +20,13 @@ export interface SelectField {
   width: WidthType
 }
 
+export interface SliderField {
+  name: string
+  id: string
+  type: "slider"
+  label: string
+}
+
 export interface RadioField {
   name: string
   id: string
@@ -48,9 +55,11 @@ export interface DateField {
   required: boolean
   validationErr?: string
   width: WidthType
+  valueFn?: (value: string) => string
+  disabledFn?: (formState: string) => boolean
 }
 
-export interface TextField {
+export interface InputTextField {
   name: string
   id: string
   type: "text"
@@ -59,14 +68,17 @@ export interface TextField {
   validationErr?: string
   minLetters?: number
   width: WidthType
+  valueFn?: (formState: { [key: string]: string }, value: string) => string
+  disabledFn?: (formState: { [key: string]: string }) => boolean
 }
 
 export type FormField =
-  | TextField
+  | InputTextField
   | DateField
   | SelectField
   | RadioField
   | CheckboxField
+  | SliderField
 
 type FormCategory = "commonInfo" | "health" | "behavior" | "feeding"
 

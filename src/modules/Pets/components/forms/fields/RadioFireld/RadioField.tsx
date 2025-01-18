@@ -36,13 +36,17 @@ const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
               alignItems: "baseline",
             }}
             value={value}
-            onChange={e => onChange(e.target.value)}
+            onChange={e => {
+              // Преобразуем строку обратно в булевое значение
+              const newValue = e.target.value === "true"
+              onChange(newValue)
+            }}
             className="mt-1 space-y-2 flex flex-row"
           >
             {field.options.map(option => (
               <FormControlLabel
                 key={option.label}
-                value={option.value}
+                value={option.value.toString()} // Преобразуем булевое значение в строку
                 control={<Radio />}
                 label={
                   <span className="text-sm text-gray-700">{option.label}</span>
@@ -60,5 +64,4 @@ const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
     />
   )
 }
-
 export default RadioField

@@ -1,11 +1,12 @@
 import { nanoid } from "nanoid"
 import { FormConfig } from "./types"
+import { calcAge } from "../utils/calcAge"
 
 export const EXOT_CONFIG: FormConfig = {
   categories: {
     commonInfo: {
       title: "Общая информация",
-      expandedFields: 6,
+      expandedFields: 5,
       fields: [
         {
           name: "name",
@@ -38,12 +39,13 @@ export const EXOT_CONFIG: FormConfig = {
           width: "1/3",
         },
         {
-          name: "age", //omit
+          name: "age",
           id: nanoid(),
           type: "text",
           label: "Возраст",
           required: false,
           width: "1/3",
+          valueFn: (data: { [key: string]: string }) => calcAge(data.birthDate),
         },
         {
           name: "sex",

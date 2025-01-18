@@ -32,7 +32,6 @@ export const CustomDatePicker = ({
           <div className="relative">
             <TextField
               placeholder={field.label as string}
-              width="700px"
               id={field.id}
               value={dateValue ? dateValue.format(InputDataFormat) : ""}
               label={field.label}

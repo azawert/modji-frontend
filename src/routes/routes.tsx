@@ -5,7 +5,7 @@ import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
 import { BookingPage } from "@/modules/Booking/pages/BookingPage/BookingPage"
 import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
 import { ClientPage } from "@/modules/Clients/pages/ClientPage.tsx"
-import { CreateCatPage, CreateDogPage, CreateExotPage } from "@/modules/Pets"
+import { CreatePetPage } from "@/modules/Pets"
 
 const CategoriesPage = lazy(() =>
   import("@/modules/Categories/pages/CategoriesPage").then(module => ({
@@ -123,7 +123,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: "clients/:id/pets/:petType/create",
-        element: <CreateDogPage />,
+        element: <CreatePetPage />,
       },
     ],
   },
