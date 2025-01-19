@@ -1,18 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom"
 import FormBuilder from "../components/forms/builder/FormBuilder"
-import { DOG_CONFIG } from "../components/forms/configs/dogConfig"
 import { useGetClientById } from "@/modules/Clients/api/queries"
-import { CAT_CONFIG } from "../components/forms/configs/catConfig"
-import { EXOT_CONFIG } from "../components/forms/configs/exotConfig"
 import { CircularProgress } from "@mui/material"
-import { PetPageTitle } from "../components/common/PageTitle/PetPageTitle"
-import { useCreatePet } from "../api/mutations"
+import { PetPageTitle } from "../components/common/PetPageTitle/PetPageTitle"
 import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
 import { NewPetDto } from "@/generated/pets"
 import { useRef } from "react"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
-import { generateUniqueId } from "@/shared/utils/utils"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import {
+  useAddErrorNotification,
+  useAddSuccessNotification,
+} from "@/shared/utils/utils"
+import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG } from "../components"
+import { useCreatePet } from "../api"
 
 const petConfig = {
   dog: {
@@ -38,12 +37,14 @@ const petConfig = {
 export const CreatePetPage = () => {
   const { id, petType } = useParams()
   const navigate = useNavigate()
-  const { addNotification } = useNotification()
+  const addSuccessNotification = useAddSuccessNotification()
+  const addErrorNotification = useAddErrorNotification()
 
-  const currentPetType = petType as keyof typeof petConfig
   const { data: clientData, isLoading } = useGetClientById(Number(id))
   const { mutate: createPet } = useCreatePet()
-  const formRef = useRef<{ isDirty: boolean }>(null)
+
+  const formRef = useRef<{ leaveForm: () => void }>(null)
+  const currentPetType = petType as keyof typeof petConfig
 
   const { firstName, lastName, middleName, rating } = clientData || {}
 
@@ -52,23 +53,10 @@ export const CreatePetPage = () => {
   const onCloseForm = () => navigate(`/clients/${id}`)
 
   const handleNavigate = () => {
-    if (formRef.current?.isDirty) {
-      addNotification({
-        id: generateUniqueId(),
-        isOpened: true,
-        text: "Вы точно хотите отменить создание питомца?",
-        type: ENotificationType.CONFIRMATION,
-        withConfirmationButtons: true,
-        handleCloseForm: onCloseForm,
-        notificationWidth: "342",
-      })
-      return
-    } else {
-      onCloseForm
-    }
+    formRef.current?.leaveForm()
   }
 
-  const handleCreatePet = (data: NewPetDto) => {
+  const handleCreatePet = async (data: NewPetDto) => {
     const cleanObj = (obj: {}) =>
       Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== ""))
 
@@ -78,7 +66,15 @@ export const CreatePetPage = () => {
       type: petConfig[currentPetType].dtoName, // ошибка typeOfPet на беке
     }
 
-    createPet(payload as NewPetDto)
+    createPet(payload as NewPetDto, {
+      onSuccess: () => {
+        onCloseForm()
+        addSuccessNotification("Питомец успешно создан")
+      },
+      onError: () => {
+        addErrorNotification("Произошла ошибка при создании питомца")
+      },
+    })
   }
 
   return (
@@ -86,11 +82,13 @@ export const CreatePetPage = () => {
       <div className="pl-6">
         <PetPageTitle />
       </div>
+
       <div className="flex flex-row">
         <FormBuilder
-          formRef={formRef}
+          ref={formRef}
           config={petConfig[currentPetType].config}
           onSubmit={handleCreatePet}
+          onCloseForm={onCloseForm}
         />
 
         {isLoading && <CircularProgress />}
@@ -98,7 +96,7 @@ export const CreatePetPage = () => {
           <div className="cursor-pointer">
             <CardClientSmall
               fullName={fullName}
-              rating={rating?.toString() || "0"}
+              rating={String(rating)}
               petType={petConfig[currentPetType].ru}
               onClick={handleNavigate}
             />

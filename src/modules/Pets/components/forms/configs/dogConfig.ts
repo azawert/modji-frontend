@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import { FormConfig } from "./types"
+import { FormConfig } from "../types/types"
 import { calcAge } from "../utils/calcAge"
 
 export const DOG_CONFIG: FormConfig = {

@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import { FormField } from "../configs/types"
+import { FormField } from "../types/types"
 
 export const createValidationSchema = (fields: FormField[]) => {
   const schema: { [key: string]: yup.AnySchema } = {}

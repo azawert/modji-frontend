@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormHelperText,
 } from "@mui/material"
-import { RadioField as RadioFieldType } from "../../configs/types"
+import { RadioField as RadioFieldType } from "../../types/types"
 
 interface CustomRadioFieldProps {
   field: RadioFieldType

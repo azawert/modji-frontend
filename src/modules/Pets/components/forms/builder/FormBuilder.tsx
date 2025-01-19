@@ -8,20 +8,27 @@ import {
   FormField,
   InputTextField,
   SelectField,
-} from "../configs/types"
+} from "../types/types"
 import { Select } from "@/shared/ui/Select"
 import { CustomDatePicker } from "../fields/DateField/DateField"
 import RadioField from "../fields/RadioFireld/RadioField"
 import CheckboxField from "../fields/CheckboxField/CheckboxField"
-import { RefObject, useImperativeHandle, useState } from "react"
+import {
+  forwardRef,
+  RefObject,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react"
 import { CategoryTitle } from "../../common/CategoryTitle/CategoryTitle"
 import { cn } from "@/lib/utils"
 import { DiscreteSliderValues } from "../fields/SliderField/Slider"
+import { useAddConfirmationNotification } from "@/shared/utils/utils"
 
 interface FormBuilderProps {
-  formRef: RefObject<{ isDirty: boolean }>
   config: FormConfig
   onSubmit: (data: any) => void
+  onCloseForm: () => void
 }
 
 type WidthFields = InputTextField | DateField | SelectField
@@ -86,174 +93,197 @@ const renderFields = (
   ))
 }
 
-const FormBuilder = ({ config, onSubmit, formRef }: FormBuilderProps) => {
-  const categories = Object.values(config.categories)
-  const allFields = categories.flatMap(category => category.fields)
-  const validationSchema = createValidationSchema(allFields)
-  const [expandedCategories, setExpandedCategories] = useState<{
-    [key: string]: boolean
-  }>({})
+const FormBuilder = forwardRef(
+  ({ config, onSubmit, onCloseForm }: FormBuilderProps, ref) => {
+    const categories = Object.values(config.categories)
+    const allFields = categories.flatMap(category => category.fields)
+    const validationSchema = createValidationSchema(allFields)
+    const [expandedCategories, setExpandedCategories] = useState<{
+      [key: string]: boolean
+    }>({})
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isDirty },
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  })
+    const addConfirmationNotification = useAddConfirmationNotification()
 
-  const formValues = useWatch({ control })
-  console.log(formValues)
+    const {
+      control,
+      handleSubmit,
+      formState: { errors, dirtyFields },
+    } = useForm({
+      resolver: yupResolver(validationSchema),
+    })
 
-  useImperativeHandle(formRef, () => ({
-    isDirty,
-  }))
+    const formRef = useRef<{ dirty: boolean }>(null)
 
-  const toggleExpandCategory = (categoryKey: string) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [categoryKey]: !prev[categoryKey],
-    }))
-  }
+    const formValues = useWatch({ control })
 
-  const renderField = (field: FormField) => {
-    switch (field.type) {
-      case "text":
-        return (
-          <Controller
-            key={field.name}
-            name={field.name as never}
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              const disabled = field?.disabledFn
-                ? field.disabledFn(formValues)
-                : false
-              const computedValue =
-                field.valueFn && formValues
-                  ? field.valueFn(formValues, value)
-                  : value
-              return (
-                <div>
-                  <TextField
-                    id={field.id}
-                    placeholder={field.label}
-                    label={field.label}
-                    value={computedValue}
-                    onChange={onChange}
-                    className="w-px-1"
-                    error={errors[field.name]?.message}
-                    disabled={disabled}
-                  />
-                </div>
-              )
-            }}
-          />
-        )
-      case "date":
-        return (
-          <CustomDatePicker
-            key={field.id}
-            field={field}
-            control={control}
-            errors={errors}
-          />
-        )
-      case "select":
-        return (
-          <Controller
-            key={field.name}
-            name={field.name as never}
-            control={control}
-            render={({ field: { onChange, value, onBlur } }) => (
-              <Select
-                renderValue={(value: string) =>
-                  field.options.find(o => o.value === value)?.label
-                }
-                fullWidth
-                label={field.label}
-                data={field.options}
-                selectedValue={value}
-                onChange={onChange}
-                onBlur={onBlur}
-                error={errors[field.name]?.message as string}
-                isRequired={field.required}
-                placeholder={field.label}
-              />
-            )}
-          />
-        )
-      case "radio":
-        return (
-          <RadioField
-            key={field.name}
-            field={field}
-            control={control}
-            errors={errors}
-          />
-        )
-      case "checkbox":
-        return (
-          <CheckboxField
-            key={field.name}
-            name={field.name}
-            label={field.label}
-            control={control}
-            errors={errors}
-          />
-        )
-      case "slider":
-        return (
-          <Controller
-            key={field.name}
-            name={field.name as never}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <DiscreteSliderValues
-                onChange={onChange}
-                value={value}
-                label={field.label}
-              />
-            )}
-          />
-        )
-      default:
-        return null
+    const hasDirtyFields = Object.keys(dirtyFields).length > 0
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        leaveForm: (): void => {
+          if (hasDirtyFields) {
+            addConfirmationNotification(
+              "Вы уверены, что хотите покинуть страницу?",
+              onCloseForm
+            )
+          } else {
+            onCloseForm()
+          }
+        },
+      }),
+      [hasDirtyFields, onCloseForm, addConfirmationNotification]
+    )
+
+    const toggleExpandCategory = (categoryKey: string) => {
+      setExpandedCategories(prev => ({
+        ...prev,
+        [categoryKey]: !prev[categoryKey],
+      }))
     }
-  }
 
-  return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-      id="create-pet"
-      ref={formRef as unknown as RefObject<HTMLFormElement>}
-    >
-      {Object.entries(config.categories).map(([categoryKey, category]) => {
-        const isExpanded = expandedCategories[categoryKey]
-        const fieldsToShow = isExpanded
-          ? category.fields
-          : category.fields.slice(0, category.expandedFields)
+    const renderField = (field: FormField) => {
+      switch (field.type) {
+        case "text":
+          return (
+            <Controller
+              key={field.name}
+              name={field.name as never}
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const disabled = field?.disabledFn
+                  ? field.disabledFn(formValues)
+                  : false
+                const computedValue =
+                  field.valueFn && formValues
+                    ? field.valueFn(formValues, value)
+                    : value
+                return (
+                  <div>
+                    <TextField
+                      id={field.id}
+                      placeholder={field.label}
+                      label={field.label}
+                      value={computedValue}
+                      onChange={onChange}
+                      className="w-px-1"
+                      error={errors[field.name]?.message}
+                      disabled={disabled}
+                    />
+                  </div>
+                )
+              }}
+            />
+          )
+        case "date":
+          return (
+            <CustomDatePicker
+              key={field.id}
+              field={field}
+              control={control}
+              errors={errors}
+            />
+          )
+        case "select":
+          return (
+            <Controller
+              key={field.name}
+              name={field.name as never}
+              control={control}
+              render={({ field: { onChange, value, onBlur } }) => (
+                <Select
+                  renderValue={(value: string) =>
+                    field.options.find(o => o.value === value)?.label
+                  }
+                  fullWidth
+                  label={field.label}
+                  data={field.options}
+                  selectedValue={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  error={errors[field.name]?.message as string}
+                  isRequired={field.required}
+                  placeholder={field.label}
+                />
+              )}
+            />
+          )
+        case "radio":
+          return (
+            <RadioField
+              key={field.name}
+              field={field}
+              control={control}
+              errors={errors}
+            />
+          )
+        case "checkbox":
+          return (
+            <CheckboxField
+              key={field.name}
+              name={field.name}
+              label={field.label}
+              control={control}
+              errors={errors}
+            />
+          )
+        case "slider":
+          return (
+            <Controller
+              key={field.name}
+              name={field.name as never}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <DiscreteSliderValues
+                  onChange={onChange}
+                  value={value}
+                  label={field.label}
+                />
+              )}
+            />
+          )
+        default:
+          return null
+      }
+    }
 
-        return (
-          <div key={categoryKey} className="bg-white shadow-sm rounded-lg p-6">
-            <CategoryTitle title={category.title} />
-            <div className="space-y-4">
-              {renderFields(fieldsToShow, renderField)}
+    return (
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6"
+        id="create-pet"
+        ref={formRef}
+      >
+        {Object.entries(config.categories).map(([categoryKey, category]) => {
+          const isExpanded = expandedCategories[categoryKey]
+          const fieldsToShow = isExpanded
+            ? category.fields
+            : category.fields.slice(0, category.expandedFields)
+
+          return (
+            <div
+              key={categoryKey}
+              className="bg-white shadow-sm rounded-lg p-6"
+            >
+              <CategoryTitle title={category.title} />
+              <div className="space-y-4">
+                {renderFields(fieldsToShow, renderField)}
+              </div>
+              {category.fields.length > category.expandedFields && (
+                <button
+                  type="button"
+                  onClick={() => toggleExpandCategory(categoryKey)}
+                  className="mt-4 text-sm text-indigo-600 hover:text-indigo-500 focus:outline-none"
+                >
+                  {isExpanded ? "Скрыть" : "Отобразить все поля"}
+                </button>
+              )}
             </div>
-            {category.fields.length > category.expandedFields && (
-              <button
-                type="button"
-                onClick={() => toggleExpandCategory(categoryKey)}
-                className="mt-4 text-sm text-indigo-600 hover:text-indigo-500 focus:outline-none"
-              >
-                {isExpanded ? "Скрыть" : "Отобразить все поля"}
-              </button>
-            )}
-          </div>
-        )
-      })}
-    </form>
-  )
-}
+          )
+        })}
+      </form>
+    )
+  }
+)
 
 export default FormBuilder

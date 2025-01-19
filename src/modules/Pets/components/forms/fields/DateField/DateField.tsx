@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form"
 import dayjs, { Dayjs } from "dayjs" // Замените на вашу библиотеку типов
 import { TextField, TIconInputPosition } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
-import { DateField } from "../../configs/types"
+import { DateField } from "../../types/types"
 
 const InputDataFormat = "DD.MM.YYYY" // Формат даты
 
