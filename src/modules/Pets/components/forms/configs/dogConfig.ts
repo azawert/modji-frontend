@@ -466,5 +466,20 @@ export const DOG_CONFIG: FormConfig = {
         },
       ],
     },
+    comment: {
+      title: "Дополнительная информация",
+      expandedFields: 1,
+      fields: [
+        {
+          name: "additionalInfo",
+          id: nanoid(),
+          type: "text",
+          label: "Дополнительная информация",
+          required: false,
+          width: "full",
+          isTextArea: true,
+        },
+      ],
+    },
   },
 }

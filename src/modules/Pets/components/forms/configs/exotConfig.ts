@@ -200,6 +200,12 @@ export const EXOT_CONFIG: FormConfig = {
           width: "full",
         },
         {
+          name: "feedingQuantity",
+          id: nanoid(),
+          type: "slider",
+          label: "Количество кормлений в день",
+        },
+        {
           name: "feedName",
           id: nanoid(),
           type: "text",
@@ -257,6 +263,21 @@ export const EXOT_CONFIG: FormConfig = {
           label: "Название, режим приема лекарств/витаминов и доза",
           required: false,
           width: "full",
+        },
+      ],
+    },
+    comment: {
+      title: "Дополнительная информация",
+      expandedFields: 1,
+      fields: [
+        {
+          name: "additionalInfo",
+          id: nanoid(),
+          type: "text",
+          label: "Дополнительная информация",
+          required: false,
+          width: "full",
+          isTextArea: true,
         },
       ],
     },

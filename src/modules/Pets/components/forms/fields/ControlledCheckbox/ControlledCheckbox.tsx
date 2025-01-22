@@ -1,6 +1,7 @@
 import { CustomCheckbox } from "@/shared/ui/Checkbox"
 import React from "react"
-import { Controller } from "react-hook-form" // Импортируйте ваш кастомный Checkbox
+import { Control, Controller, FieldErrors } from "react-hook-form"
+import { FormData } from "../../types/types"
 
 type CheckboxFieldProps = {
   name: string
@@ -13,11 +14,11 @@ type CheckboxFieldProps = {
   borderRadius?: string
   checkboxWidth?: string
   checkboxHeight?: string
-  control: any
-  errors: any
+  control: Control<FormData>
+  errors: FieldErrors<FormData>
 }
 
-const CheckboxField: React.FC<CheckboxFieldProps> = ({
+export const ControlledCheckbox: React.FC<CheckboxFieldProps> = ({
   name,
   label,
   isDisabled,
@@ -31,7 +32,7 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
       defaultValue={false}
       render={({ field: { onChange, value } }) => (
         <CustomCheckbox
-          value={value}
+          value={value as boolean}
           onChange={onChange}
           label={label}
           isDisabled={isDisabled}
@@ -47,5 +48,3 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
     />
   )
 }
-
-export default CheckboxField

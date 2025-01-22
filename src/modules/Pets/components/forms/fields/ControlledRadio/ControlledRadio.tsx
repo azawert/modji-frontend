@@ -1,4 +1,4 @@
-import { Controller } from "react-hook-form"
+import { Control, Controller, FieldErrors } from "react-hook-form"
 import {
   Radio,
   RadioGroup,
@@ -7,15 +7,19 @@ import {
   FormLabel,
   FormHelperText,
 } from "@mui/material"
-import { RadioField as RadioFieldType } from "../../types/types"
+import { FormData, RadioField as RadioFieldType } from "../../types/types"
 
 interface CustomRadioFieldProps {
   field: RadioFieldType
-  control: any
-  errors: any
+  control: Control<FormData>
+  errors: FieldErrors<FormData>
 }
 
-const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
+export const ControlledRadio = ({
+  field,
+  control,
+  errors,
+}: CustomRadioFieldProps) => {
   return (
     <Controller
       key={field.name}
@@ -37,7 +41,6 @@ const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
             }}
             value={value}
             onChange={e => {
-              // Преобразуем строку обратно в булевое значение
               const newValue = e.target.value === "true"
               onChange(newValue)
             }}
@@ -46,7 +49,7 @@ const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
             {field.options.map(option => (
               <FormControlLabel
                 key={option.label}
-                value={option.value.toString()} // Преобразуем булевое значение в строку
+                value={option.value.toString()}
                 control={<Radio />}
                 label={
                   <span className="text-sm text-gray-700">{option.label}</span>
@@ -56,7 +59,7 @@ const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
           </RadioGroup>
           {errors[field.id] && (
             <FormHelperText className="text-red-600">
-              {errors[field.name]?.message}
+              {errors[field.name]?.message as string}
             </FormHelperText>
           )}
         </FormControl>
@@ -64,4 +67,3 @@ const RadioField = ({ field, control, errors }: CustomRadioFieldProps) => {
     />
   )
 }
-export default RadioField

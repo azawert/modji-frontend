@@ -70,6 +70,7 @@ export interface InputTextField {
   width: WidthType
   valueFn?: (formState: { [key: string]: string }, value: string) => string
   disabledFn?: (formState: { [key: string]: string }) => boolean
+  isTextArea?: boolean
 }
 
 export type FormField =
@@ -80,7 +81,7 @@ export type FormField =
   | CheckboxField
   | SliderField
 
-type FormCategory = "commonInfo" | "health" | "behavior" | "feeding"
+type FormCategory = "commonInfo" | "health" | "behavior" | "feeding" | "comment"
 
 export interface FormConfig {
   categories: {
@@ -90,4 +91,12 @@ export interface FormConfig {
       fields: FormField[]
     }
   }
+}
+
+export type ExtractFieldNames<T> = T extends { name: infer N } ? N : never
+
+export type FormFieldNames = ExtractFieldNames<FormField>
+
+export type FormData = {
+  [key in FormFieldNames]: string | number | boolean
 }

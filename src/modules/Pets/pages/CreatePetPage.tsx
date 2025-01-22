@@ -2,15 +2,17 @@ import { useNavigate, useParams } from "react-router-dom"
 import FormBuilder from "../components/forms/builder/FormBuilder"
 import { useGetClientById } from "@/modules/Clients/api/queries"
 import { CircularProgress } from "@mui/material"
-import { PetPageTitle } from "../components/common/PetPageTitle/PetPageTitle"
 import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
 import { NewPetDto } from "@/generated/pets"
 import { useRef } from "react"
 import {
-  useAddErrorNotification,
-  useAddSuccessNotification,
+  addConfirmationNotification,
+  addErrorNotification,
+  addSuccessNotification,
 } from "@/shared/utils/utils"
+import { usePetFormStore } from "../store"
 import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG } from "../components"
+import { PetPageTitle } from "../components/common"
 import { useCreatePet } from "../api"
 
 const petConfig = {
@@ -37,8 +39,11 @@ const petConfig = {
 export const CreatePetPage = () => {
   const { id, petType } = useParams()
   const navigate = useNavigate()
-  const addSuccessNotification = useAddSuccessNotification()
-  const addErrorNotification = useAddErrorNotification()
+  const successNotification = addSuccessNotification()
+  const errorNotification = addErrorNotification()
+  const confirmationNotification = addConfirmationNotification()
+
+  const isDirty = usePetFormStore(state => state.isDirty)
 
   const { data: clientData, isLoading } = useGetClientById(Number(id))
   const { mutate: createPet } = useCreatePet()
@@ -53,7 +58,11 @@ export const CreatePetPage = () => {
   const onCloseForm = () => navigate(`/clients/${id}`)
 
   const handleNavigate = () => {
-    formRef.current?.leaveForm()
+    if (isDirty) {
+      confirmationNotification(onCloseForm)
+    } else {
+      onCloseForm()
+    }
   }
 
   const handleCreatePet = async (data: NewPetDto) => {
@@ -69,10 +78,10 @@ export const CreatePetPage = () => {
     createPet(payload as NewPetDto, {
       onSuccess: () => {
         onCloseForm()
-        addSuccessNotification("Питомец успешно создан")
+        successNotification("Питомец успешно создан")
       },
       onError: () => {
-        addErrorNotification("Произошла ошибка при создании питомца")
+        errorNotification("Произошла ошибка при создании питомца")
       },
     })
   }
@@ -87,7 +96,7 @@ export const CreatePetPage = () => {
         <FormBuilder
           ref={formRef}
           config={petConfig[currentPetType].config}
-          onSubmit={handleCreatePet}
+          onSubmit={handleCreatePet as never}
           onCloseForm={onCloseForm}
         />
 
@@ -96,7 +105,7 @@ export const CreatePetPage = () => {
           <div className="cursor-pointer">
             <CardClientSmall
               fullName={fullName}
-              rating={String(rating)}
+              rating={String(rating || 0)}
               petType={petConfig[currentPetType].ru}
               onClick={handleNavigate}
             />

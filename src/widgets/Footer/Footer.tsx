@@ -1,6 +1,8 @@
+import { usePetFormStore } from "@/modules/Pets/store"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { addConfirmationNotification } from "@/shared/utils/utils"
 import { styled } from "@mui/material"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 const StyledFooter = styled("footer")(({ theme }) => ({
   marginTop: "40px",
@@ -58,7 +60,19 @@ const BookingFooter = () => {
 }
 
 const CreatePetFooter = () => {
+  const { id } = useParams()
   const navigate = useNavigate()
+  const confirmNotification = addConfirmationNotification()
+  const isDirty = usePetFormStore(state => state.isDirty)
+  const onCloseForm = () => navigate(`/clients/${id}`)
+
+  const handleNavigate = () => {
+    if (isDirty) {
+      confirmNotification(onCloseForm)
+    } else {
+      onCloseForm()
+    }
+  }
   return (
     <>
       <Button
@@ -66,7 +80,7 @@ const CreatePetFooter = () => {
         size={EButtonSize.Large}
         fontSize={16}
         fontWeight={700}
-        onClick={() => navigate("/")}
+        onClick={handleNavigate}
       >
         Отмена
       </Button>

@@ -1,19 +1,19 @@
-import React, { useState } from "react"
-import { Controller } from "react-hook-form"
-import dayjs, { Dayjs } from "dayjs" // Замените на вашу библиотеку типов
+import { useState } from "react"
+import { Control, Controller, FieldErrors } from "react-hook-form"
+import { Dayjs } from "dayjs"
 import { TextField, TIconInputPosition } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
-import { DateField } from "../../types/types"
+import { DateField, FormData } from "../../types/types"
 
-const InputDataFormat = "DD.MM.YYYY" // Формат даты
+const InputDataFormat = "DD.MM.YYYY"
 
 type CustomDatePickerProps = {
   field: DateField
-  control: any
-  errors: any
+  control: Control<FormData>
+  errors: FieldErrors<FormData>
 }
 
-export const CustomDatePicker = ({
+export const ControlledDate = ({
   field,
   control,
   errors,
@@ -36,7 +36,7 @@ export const CustomDatePicker = ({
               value={dateValue ? dateValue.format(InputDataFormat) : ""}
               label={field.label}
               onClick={() => setOpenDatePickerId(field.id)}
-              error={errors[field.name]?.message}
+              error={errors[field.name]?.message as string | undefined}
               iconType="CalendarIcon"
               iconPosition={TIconInputPosition.RIGHT}
             />
@@ -57,7 +57,7 @@ export const CustomDatePicker = ({
           </div>
           {errors[field.id] && (
             <p className="mt-2 text-sm text-red-600">
-              {errors[field.name]?.message}
+              {errors[field.name]?.message as string}
             </p>
           )}
         </div>
