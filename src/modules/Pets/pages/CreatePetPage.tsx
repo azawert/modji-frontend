@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import FormBuilder from "../components/forms/builder/FormBuilder"
+import FormBuilder from "../components/forms/builder/PetFormBuilder"
 import { useGetClientById } from "@/modules/Clients/api/queries"
 import { CircularProgress } from "@mui/material"
 import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"

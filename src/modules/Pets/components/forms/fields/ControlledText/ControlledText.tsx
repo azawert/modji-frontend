@@ -27,9 +27,8 @@ export const ControlledText = ({
           field.valueFn && formValues ? field.valueFn(formValues, value) : value
         return (
           <TextField
-            id={field.id}
+            {...field}
             placeholder={field.label}
-            label={field.label}
             value={computedValue}
             onChange={onChange}
             className="w-px-1"

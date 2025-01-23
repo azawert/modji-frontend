@@ -39,6 +39,8 @@ const FormBuilder = forwardRef(({ config, onSubmit }: FormBuilderProps) => {
 
   const formValues = useWatch({ control })
 
+  console.log(formValues)
+
   const hasDirtyFields = Object.keys(dirtyFields).length > 0
 
   useEffect(() => {
@@ -99,8 +101,7 @@ const FormBuilder = forwardRef(({ config, onSubmit }: FormBuilderProps) => {
         return (
           <ControlledCheckbox
             key={field.name}
-            name={field.name}
-            label={field.label}
+            field={field}
             control={control}
             errors={errors}
           />

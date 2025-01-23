@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box"
-import Slider from "@mui/material/Slider"
 import { Control, Controller, FieldErrors } from "react-hook-form"
 import { FormData, SliderField } from "../../types/types"
+import { Slider } from "@/shared/ui/Slider"
 
 const marks = [
   { value: 0, label: "1" },
@@ -28,11 +28,9 @@ export const ControlledSlider = (props: CustomSliderFieldProps) => {
   const sliderValue = (value: number) => (Number(value) - 1) * 10
 
   const handleChange = (
-    event: Event,
     onChange: (value: number) => void,
     newValue: number | number[]
   ) => {
-    event.preventDefault()
     if (typeof newValue === "number") {
       const formValue = newValue / 10 + 1
       onChange(formValue)
@@ -48,14 +46,13 @@ export const ControlledSlider = (props: CustomSliderFieldProps) => {
         <Box sx={{ width: 700 }}>
           <span>{field.label}</span>
           <Slider
-            aria-label="Restricted values"
+            width="680px"
             value={sliderValue(value)}
-            onChange={(e, newValue) => handleChange(e, onChange, newValue)}
-            step={null}
-            valueLabelDisplay="off"
-            marks={marks}
-            min={0}
-            max={90}
+            onChange={newValue => handleChange(onChange, newValue)}
+            markers={marks}
+            step={10}
+            minValue={0}
+            maxValue={90}
           />
           {errors[field.name] && (
             <p className="mt-2 text-sm text-red-600">

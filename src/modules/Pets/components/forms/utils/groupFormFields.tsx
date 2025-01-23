@@ -4,6 +4,12 @@ import { FormField } from "../types/types"
 const typeHasWidth = (field: FormField) =>
   field.type === "text" || field.type === "date" || field.type === "select"
 
+const widthMap = {
+  "1/3": 1 / 3,
+  "1/2": 1 / 2,
+  full: 1,
+}
+
 export const groupFieldsByRows = (fields: FormField[]) => {
   const rows: FormField[][] = []
   let currentRow: FormField[] = []
@@ -14,12 +20,16 @@ export const groupFieldsByRows = (fields: FormField[]) => {
   }
 
   fields.forEach(field => {
-    if (!typeHasWidth(field)) {
+    const fieldWidth = typeHasWidth(field) ? widthMap[field.width] : 0
+
+    if (fieldWidth === 0) {
+      if (currentRow.length > 0) {
+        rows.push(currentRow)
+        currentRow = []
+        currentWidth = 0
+      }
       rows.push([field])
     } else {
-      const fieldWidth =
-        field.width === "1/3" ? 1 / 3 : field.width === "1/2" ? 1 / 2 : 1
-
       if (currentWidth + fieldWidth > 1) {
         rows.push(currentRow)
         currentRow = [field]
@@ -38,7 +48,7 @@ export const groupFieldsByRows = (fields: FormField[]) => {
   return rows
 }
 
-const WidthMap = {
+const WidthStyleMap = {
   "1/3": "w-1/3",
   "1/2": "w-1/2",
   full: "w-full",
@@ -53,7 +63,7 @@ export const renderFields = (
   const classNames = (field: FormField) => {
     if (!typeHasWidth(field)) return
 
-    return cn(WidthMap[field.width])
+    return cn(WidthStyleMap[field.width])
   }
 
   return rows.map((row, rowIndex) => (
