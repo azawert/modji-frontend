@@ -34,7 +34,7 @@ export const ClientPetsCardWrapper = ({
     </Box>
   )
   const renderCards = () =>
-    [...pets, ...pets].map(el => (
+    pets.map(el => (
       <CardWithPet
         key={el.breed}
         petName={el.petName}
