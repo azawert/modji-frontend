@@ -25,7 +25,9 @@ type TProps = {
   data?: SelectData[]
   placeholder?: string
   renderValue: (value: string) => ReactNode
-  onBlur?: () => void
+  onBlur?: (event: React.ChangeEvent) => void
+  width?: string
+  disabled?: boolean
 }
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
@@ -56,6 +58,8 @@ export const Select: React.FC<TProps> = props => {
     placeholder,
     renderValue,
     onBlur,
+    width,
+    disabled,
   } = props
   const handleSelectChange = (e: SelectChangeEvent) => onChange(e.target.value)
   const [preSelectedValue, setPreselectedValue] = useState<string>()
@@ -77,6 +81,7 @@ export const Select: React.FC<TProps> = props => {
       </span>
       <div style={{ marginBottom }}>
         <MUISelect
+          disabled={disabled}
           labelId={label}
           error={!!error}
           displayEmpty
@@ -86,8 +91,12 @@ export const Select: React.FC<TProps> = props => {
           value={selectedValue}
           sx={{
             borderRadius: "24px",
+            width,
             ".css-1uwzc1h-MuiSelect-select-MuiInputBase-input:focus": {
               borderRadius: "24px",
+            },
+            "& .MuiInputBase-input.Mui-disabled": {
+              WebkitTextFillColor: "#000000",
             },
           }}
           className={cn(`rounded-24px ${className}`, {
@@ -119,12 +128,11 @@ export const Select: React.FC<TProps> = props => {
                   },
                   "& .Mui-focused": {
                     borderColor: "black",
+                  },
                 },
               },
             },
-          }
-        }
-       }
+          }}
           placeholder={placeholder}
           onBlur={onBlur}
           notched={undefined}

@@ -26,12 +26,14 @@ module.exports = {
       small: "12px",
       medium: "14px",
       large: "16px",
+      xl: ["20px", "24px"],
+      "2xl": ["36px", "48px"],
     },
     fontWeight: {
-      light: "400px",
-      medium: "500px",
-      bold: "600px",
-      extraBold: "700px",
+      light: "400",
+      medium: "500",
+      bold: "600",
+      extraBold: "700",
     },
     extend: {
       colors: {

@@ -28,6 +28,7 @@ export interface IPropsForClientFullCard {
 }
 
 export interface Pet {
+  id: string | number
   petName: string
   petType: PetDtoType
   breed: string

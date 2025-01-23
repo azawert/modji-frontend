@@ -2,7 +2,7 @@ import { useCallback } from "react"
 import useBookingStore from "../../store/BookingStore"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ShortClientSchema } from "../../model/types/ShortClientValidationSchema"
-import { useForm } from "react-hook-form"
+import { useForm, UseFormReturn } from "react-hook-form"
 import {
   formatPhoneNumberToServerRequest,
   addErrorNotification,
@@ -71,7 +71,7 @@ const CreateShortClient = () => {
 
   return (
     <ShortClientModal
-      form={form}
+      form={form as UseFormReturn<NewOwnerDto>}
       isModalOpen={isModalOpen}
       onClose={handleCloseModalWindow}
       onSubmit={handleCreateClient}

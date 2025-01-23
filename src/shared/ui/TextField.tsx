@@ -76,15 +76,17 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
   const isLeftIconDisplayed =
     iconPosition === TIconInputPosition.LEFT && !isLoading
   return (
-    <label htmlFor={id} className="flex flex-col">
-      <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
-        {label}
-        <span className="font-semibold ml-0.5 text-basicGreyText text-small">
-          {isRequired ? "*" : ""}
+    <label htmlFor={id} className="flex flex-col" style={{ width }}>
+      {label && rest.value && (
+        <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
+          {rest.value ? label : " "}
+          <span className="font-semibold ml-0.5 text-basicGreyText text-small">
+            {isRequired ? "*" : ""}
+          </span>
         </span>
-      </span>
+      )}
 
-      <div style={{ marginBottom, position: "relative" }}>
+      <div style={{ marginBottom, position: "relative", width }}>
         <InputBase
           placeholder={placeholder}
           autoComplete="off"
@@ -118,6 +120,9 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
             "& .MuiInputBase-inputMultiline": {
               paddingLeft: "20px",
               paddingTop: "12px",
+            },
+            "& .MuiInputBase-input.Mui-disabled": {
+              WebkitTextFillColor: "black",
             },
           }}
           error={!!error}

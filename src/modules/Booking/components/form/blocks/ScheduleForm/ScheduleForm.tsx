@@ -80,7 +80,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-x-2">
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 items-center">
           <div className="relative">
             <TextField
               width="260px"
@@ -118,7 +118,6 @@ export const ScheduleForm = (props: ScheduleProps) => {
               <BookingSelect
                 className="w-64"
                 data={SCHEDULE_CHECKIN}
-                marginBottom="16px"
                 placeholder={Placeholder.TIME_FROM.valueOf()}
                 label={
                   field.value?.length ? Placeholder.TIME_FROM.valueOf() : ""
@@ -130,7 +129,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
           />
         </div>
 
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row gap-3 items-center">
           <div className="relative">
             <TextField
               width={"260px"}
@@ -165,7 +164,6 @@ export const ScheduleForm = (props: ScheduleProps) => {
               <BookingSelect
                 className="w-64"
                 data={SCHEDULE_DEPARTURE}
-                marginBottom="16px"
                 placeholder={Placeholder.TIME_TO.valueOf()}
                 label={field.value?.length ? Placeholder.TIME_TO.valueOf() : ""}
                 {...field}

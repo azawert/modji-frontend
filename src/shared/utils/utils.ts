@@ -41,8 +41,7 @@ export const addWarningNotification = () => {
       type: ENotificationType.WARNING,
       isOpened: true,
       text,
-      isAutoClosable: true,
-      onlyOneAction: true,
+      withConfirmationButtons: true,
       handleOneAction: handleButtonClick,
       onlyOneActionButtonText: buttonText,
     })
