@@ -121,6 +121,9 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
               paddingLeft: "20px",
               paddingTop: "12px",
             },
+            "& .MuiInputBase-input.Mui-disabled": {
+              WebkitTextFillColor: "black",
+            },
           }}
           error={!!error}
           multiline={isTextarea}

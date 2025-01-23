@@ -13,12 +13,14 @@ interface CustomRadioFieldProps {
   field: RadioFieldType
   control: Control<FormData>
   errors: FieldErrors<FormData>
+  readOnly?: boolean
 }
 
 export const ControlledRadio = ({
   field,
   control,
   errors,
+  readOnly,
 }: CustomRadioFieldProps) => {
   return (
     <Controller
@@ -48,6 +50,7 @@ export const ControlledRadio = ({
           >
             {field.options.map(option => (
               <FormControlLabel
+                disabled={readOnly}
                 key={option.label}
                 value={option.value.toString()}
                 control={<Radio />}

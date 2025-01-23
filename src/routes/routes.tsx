@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react"
 import { RouteObject } from "react-router-dom"
 import { Layout } from "@/shared/ui/Layouts/Layout"
 import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
-import { CreatePetPage } from "@/modules/Pets"
+import { CreatePetPage, PetPage } from "@/modules/Pets"
 
 const CategoriesPage = lazy(() =>
   import("@/modules/Categories/pages/CategoriesPage").then(module => ({
@@ -121,6 +121,10 @@ export const routes: RouteObject[] = [
       {
         path: "clients/:id/pets/:petType/create",
         element: <CreatePetPage />,
+      },
+      {
+        path: "clients/:id/pets/:petId",
+        element: <PetPage />,
       },
     ],
   },

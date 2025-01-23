@@ -20,10 +20,11 @@ interface CustomSliderFieldProps {
   field: SliderField
   control: Control<FormData>
   errors: FieldErrors<FormData>
+  readOnly?: boolean
 }
 
 export const ControlledSlider = (props: CustomSliderFieldProps) => {
-  const { control, field, errors } = props
+  const { control, field, errors, readOnly } = props
 
   const sliderValue = (value: number) => (Number(value) - 1) * 10
 
@@ -53,6 +54,7 @@ export const ControlledSlider = (props: CustomSliderFieldProps) => {
             step={10}
             minValue={0}
             maxValue={90}
+            isDisabled={readOnly}
           />
           {errors[field.name] && (
             <p className="mt-2 text-sm text-red-600">

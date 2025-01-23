@@ -15,6 +15,7 @@ type CheckboxFieldProps = {
   checkboxHeight?: string
   control: Control<FormData>
   errors: FieldErrors<FormData>
+  readOnly?: boolean
 }
 
 export const ControlledCheckbox: React.FC<CheckboxFieldProps> = ({
@@ -22,6 +23,7 @@ export const ControlledCheckbox: React.FC<CheckboxFieldProps> = ({
   isDisabled,
   isCheckedByDefault,
   control,
+  readOnly,
 }) => {
   return (
     <Controller
@@ -33,7 +35,7 @@ export const ControlledCheckbox: React.FC<CheckboxFieldProps> = ({
           value={value as boolean}
           onChange={onChange}
           label={field.label}
-          isDisabled={isDisabled}
+          isDisabled={isDisabled || readOnly}
           isCheckedByDefault={isCheckedByDefault}
           labelPlacement="end"
           labelSize="16px"

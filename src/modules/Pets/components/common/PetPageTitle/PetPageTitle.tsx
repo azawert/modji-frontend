@@ -1,11 +1,10 @@
 import { EButtonVariant } from "@/shared/ui/Button/Button"
 import { PageTitle } from "@/shared/ui/PageTitle"
 
-export const PetPageTitle: React.FC = () => {
-  return (
-    <PageTitle
-      title="Создание нового питомца"
-      buttonVariant={EButtonVariant.Secondary}
-    />
-  )
+interface Props {
+  title: string
+}
+
+export const PetPageTitle: React.FC<Props> = ({ title }) => {
+  return <PageTitle title={title} buttonVariant={EButtonVariant.Secondary} />
 }

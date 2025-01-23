@@ -7,6 +7,7 @@ interface ControlledTextFieldProps {
   errors: FieldErrors
   formValues: { [key: string]: string }
   field: InputTextField
+  readOnly?: boolean
 }
 
 export const ControlledText = ({
@@ -14,6 +15,7 @@ export const ControlledText = ({
   errors,
   formValues,
   field,
+  readOnly,
 }: ControlledTextFieldProps) => {
   return (
     <Controller
@@ -33,7 +35,7 @@ export const ControlledText = ({
             onChange={onChange}
             className="w-px-1"
             error={errors[field.name]?.message as string | undefined}
-            disabled={disabled}
+            disabled={disabled || readOnly}
             isTextarea={field.isTextArea}
           />
         )

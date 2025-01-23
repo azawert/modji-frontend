@@ -6,10 +6,11 @@ interface ControlledSelectProps {
   field: SelectField
   control: Control<FormData>
   errors: FieldErrors<FormData>
+  readOnly?: boolean
 }
 
 export const ControlledSelect = (props: ControlledSelectProps) => {
-  const { field, control, errors } = props
+  const { field, control, errors, readOnly } = props
 
   return (
     <Controller
@@ -30,6 +31,7 @@ export const ControlledSelect = (props: ControlledSelectProps) => {
           error={errors[field.name]?.message as string | undefined}
           isRequired={field.required}
           placeholder={field.label}
+          disabled={readOnly}
         />
       )}
     />

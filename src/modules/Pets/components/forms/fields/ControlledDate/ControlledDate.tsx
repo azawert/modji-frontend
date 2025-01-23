@@ -11,12 +11,14 @@ type CustomDatePickerProps = {
   field: DateField
   control: Control<FormData>
   errors: FieldErrors<FormData>
+  readOnly?: boolean
 }
 
 export const ControlledDate = ({
   field,
   control,
   errors,
+  readOnly,
 }: CustomDatePickerProps) => {
   const [openDatePickerId, setOpenDatePickerId] = useState<string | null>(null)
   const [dateValue, setDateValue] = useState<Dayjs | null>(null)
@@ -26,6 +28,7 @@ export const ControlledDate = ({
       key={field.name}
       name={field.name}
       control={control}
+      disabled={readOnly}
       defaultValue=""
       render={({ field: { onChange } }) => (
         <div>

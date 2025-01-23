@@ -89,7 +89,7 @@ export const CreatePetPage = () => {
   return (
     <div className="pb-36">
       <div className="pl-6">
-        <PetPageTitle />
+        <PetPageTitle title={`Создание питомца`} />
       </div>
 
       <div className="flex flex-row">
@@ -97,7 +97,6 @@ export const CreatePetPage = () => {
           ref={formRef}
           config={petConfig[currentPetType].config}
           onSubmit={handleCreatePet as never}
-          onCloseForm={onCloseForm}
         />
 
         {isLoading && <CircularProgress />}
