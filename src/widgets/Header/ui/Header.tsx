@@ -84,7 +84,7 @@ export const Header: React.FC<TPropsForHeader> = ({
         <Toolbar className="px-6">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center justify-between">
-              <Logo src={srcLogo} logoTitle={logoTitle} />
+              <Logo />
               <div className=" flex gap-7">
                 {links.map(link => (
                   <div

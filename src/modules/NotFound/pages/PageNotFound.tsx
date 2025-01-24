@@ -1,6 +1,8 @@
 import { Box, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import catImage from "@/assets/images/cat404.png"
+import bgImage from "@/assets/images/bg.png"
 
 export const PageNotFound: React.FC = () => {
   const navigate = useNavigate()
@@ -17,7 +19,8 @@ export const PageNotFound: React.FC = () => {
       top={0}
       zIndex={-1}
       sx={{
-        backgroundImage: "url(src/assets/images/bg.png)",
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: "repeat",
       }}
     >
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -85,7 +88,7 @@ export const PageNotFound: React.FC = () => {
             maxWidth: "100%",
             maxHeight: "100%",
           }}
-          src="src/assets/images/cat404.png"
+          src={catImage}
           alt="Кошка с надписью 404"
         />
       </Box>
