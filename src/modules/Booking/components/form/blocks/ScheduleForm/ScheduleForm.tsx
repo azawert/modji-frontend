@@ -78,7 +78,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
   }, [])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" style={{ scrollbarGutter: "stable" }}>
       <div className="flex flex-col gap-x-2">
         <div className="flex flex-row gap-4 items-center">
           <div className="relative">
@@ -107,7 +107,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
               minDate={dayjs()}
               maxDate={dateTo}
               onChange={onChangeDate("dateFrom")}
-              cls="absolute top-20 z-50"
+              cls="absolute top-10 z-50 scale-85"
               disablePastDates
             />
           </div>
@@ -153,7 +153,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
               value={dateTo}
               onChange={onChangeDate("dateTo")}
               minDate={dateFrom?.add(1, "day")}
-              cls="absolute top-20 z-50"
+              cls="absolute z-50 scale-85"
               disablePastDates
             />
           </div>
