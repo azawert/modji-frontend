@@ -78,6 +78,9 @@ export const BookingGridPage: FC = () => {
         <table className="table-fixed w-full">
           <thead className="relative">
             <tr>
+              <th className="w-1/5 bg-[#F6F8FF] text-left p-2 text-[#585858]">
+                Номера
+              </th>
               {daysForBookingGrid.map(({ day, isWeekend }) => (
                 <th
                   key={day.format("DD-MM-YYYY")}
@@ -110,8 +113,9 @@ export const BookingGridPage: FC = () => {
                   <tr key={room.roomId}>
                     <td className="w-1/5 border p-2 text-left bg-[#F6F8FF]">
                       <div className="flex">
-                        <div className="font-bold">{room.number}</div>
+                        <div className="font-bold">{room.number} </div>
                         <div className="text-sm text-gray-500">
+                          {" "}
                           {room.category}
                         </div>
                       </div>
@@ -154,11 +158,11 @@ export const BookingGridPage: FC = () => {
                                   BookingDtoStatus.STATUS_INITIAL
                               ]
                             const clientName = getFullName(
-                              bookingInfo.booking?.pets?.[0].ownerShortDto
+                              bookingInfo.booking?.pets?.[0]?.ownerShortDto
                                 ?.firstName || "",
-                              bookingInfo.booking?.pets?.[0].ownerShortDto
+                              bookingInfo.booking?.pets?.[0]?.ownerShortDto
                                 ?.lastName,
-                              bookingInfo.booking?.pets?.[0].ownerShortDto
+                              bookingInfo.booking?.pets?.[0]?.ownerShortDto
                                 ?.middleName
                             )
                             if (
