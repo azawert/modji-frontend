@@ -128,7 +128,7 @@ export const Select: React.FC<TProps> = props => {
           onBlur={onBlur}
           notched={undefined}
         >
-          {Array.isArray(data)
+          {Array.isArray(data) && data.length
             ? data?.map(element => {
                 return (
                   <MenuItem value={element.value} key={element.value}>
