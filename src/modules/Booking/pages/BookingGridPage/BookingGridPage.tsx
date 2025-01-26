@@ -78,9 +78,6 @@ export const BookingGridPage: FC = () => {
         <table className="table-fixed w-full">
           <thead className="relative">
             <tr>
-              <th className="w-1/5 bg-[#F6F8FF] text-left p-2 text-[#585858]">
-                Номера
-              </th>
               {daysForBookingGrid.map(({ day, isWeekend }) => (
                 <th
                   key={day.format("DD-MM-YYYY")}
