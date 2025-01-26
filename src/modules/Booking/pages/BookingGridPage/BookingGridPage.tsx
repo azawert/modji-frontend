@@ -1,63 +1,24 @@
 import { FC, useCallback, useState } from "react"
 import { useGetBookings } from "../../api/queries"
 import {
-  bookings,
   generateDaysForBookingGrid,
+  getBookingInfo,
   getFirstDateForBookingGridRequest,
   getLastDateForBookingGridRequest,
+  getRoomsProperType,
   HEADER_TABS,
-  isBetween,
+  mapBookingStatusToColor,
 } from "../../model/utils"
-import {
-  EBookingView,
-  TBookingGridDay,
-  TTabForHeader,
-} from "../../model/types/BookingGridTypes"
+import { EBookingView, TTabForHeader } from "../../model/types/BookingGridTypes"
 import { GridHeader } from "../../components/gridHeader/GridHeader"
 import { cn } from "@/lib/utils"
-import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
 import dayjs from "dayjs"
-import { BookingDto } from "@/generated/bookings"
-import BookingSideBar from "../../components/BookingSidebar/BookingSidebar"
-
-const rooms: { id: number; category: string }[] = bookings.map(el => ({
-  id: el.room.id,
-  category: el.room.categoryDto?.name,
-}))
-
-const isDateWithinBooking = (
-  date: string,
-  checkInDate: string,
-  checkOutDate: string
-) => {
-  return isBetween(date, checkInDate, checkOutDate, "[]")
-}
-
-const getBookingInfo = (
-  bookingsForRoom: BookingDto[],
-  currentDay: dayjs.Dayjs,
-  daysForBookingGrid: TBookingGridDay[]
-) => {
-  const booking = bookingsForRoom.find(booking =>
-    isDateWithinBooking(
-      currentDay.format("DD.MM.YYYY"),
-      booking.checkInDate,
-      booking.checkOutDate
-    )
-  )
-
-  if (booking) {
-    const startIndex = daysForBookingGrid.findIndex(
-      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkInDate
-    )
-    const endIndex = daysForBookingGrid.findIndex(
-      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkOutDate
-    )
-    return { booking, startIndex, endIndex }
-  }
-
-  return null
-}
+import { BookingDtoStatus } from "@/generated/bookings"
+import { getFullName } from "@/modules/Employee/utils"
+import { useGetAllRooms } from "@/modules/Rooms/api/queries"
+import { EPageMode } from "@/modules/Rooms/pages/RoomsPage"
+import { BookingCell } from "../../components/BookingCell/BookingCell"
+import { CircularProgress } from "@mui/material"
 
 export const BookingGridPage: FC = () => {
   const [activeTabHeader, setActiveTabHeader] = useState<TTabForHeader>(
@@ -71,17 +32,40 @@ export const BookingGridPage: FC = () => {
     setActiveTabHeader(selected ?? HEADER_TABS[0])
   }, [])
 
-  const { isLoading, isError } = useGetBookings({
+  const {
+    data: bookings,
+    isLoading,
+    isError,
+  } = useGetBookings({
     startDate: getFirstDateForBookingGridRequest(),
     endDate: getLastDateForBookingGridRequest(activeTabHeader.value),
   })
 
+  const { data: rooms } = useGetAllRooms(EPageMode.ACTIVE)
+
   const daysForBookingGrid = generateDaysForBookingGrid()
 
+  const todayIndex = daysForBookingGrid.findIndex(day =>
+    day.day.isSame(dayjs(), "day")
+  )
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <CircularProgress />
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <div className="text-red-500">Error not handled.</div>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex">
-    <BookingSideBar categories={rooms}/>
-    <div className="relative overflow-hidden py-6 w-10/12">
+    <div className="relative overflow-hidden py-6 ">
       <div className="overflow-x-auto">
         <div className="py-4 px-6">
           <GridHeader
@@ -92,8 +76,9 @@ export const BookingGridPage: FC = () => {
           />
         </div>
         <table className="table-fixed w-full">
-          <thead>
+          <thead className="relative">
             <tr>
+              <th className="w-1/5 bg-gray-100 text-left p-2">Категории</th>
               {daysForBookingGrid.map(({ day, isWeekend }) => (
                 <th
                   key={day.format("DD-MM-YYYY")}
@@ -115,72 +100,92 @@ export const BookingGridPage: FC = () => {
             </tr>
           </thead>
         </table>
-      </div>
-
-      {/* Таблица с комнатами */}
-      <div className="relative overflow-x-auto overflow-y-auto">
-        <table className="table-fixed w-full">
-          <tbody>
-            {rooms.map(room => {
-              const bookingsForRoom = bookings.filter(
-                booking => booking.room.id === room.id
-              )
-              return (
-                <tr key={room.id}>
-
-                  {daysForBookingGrid.map(({ isWeekend, day }, index) => {
-                    const bookingInfo = getBookingInfo(
-                      bookingsForRoom,
-                      day,
-                      daysForBookingGrid
-                    )
-                    const showBookingDiv =
-                      bookingInfo &&
-                      index >= bookingInfo.startIndex &&
-                      index <= bookingInfo.endIndex
-
-                    return (
-                      <td
-                        key={index}
-                        className={cn(
-                          `border p-6 border-t-0 text-center relative room-${room.id}`,
-                          {
-                            "bg-red-100": isWeekend,
-                          }
-                        )}
-                      >
-                        {showBookingDiv && index === bookingInfo.startIndex && (
-                          <div
-                            className="absolute left-0 top-0 right-0 bottom-0 bg-blue-200 flex items-center justify-center"
-                            style={{
-                              width: `${
-                                (bookingInfo.endIndex -
-                                  bookingInfo.startIndex) *
-                                100
-                              }%`,
-                              left:
-                                index === bookingInfo.startIndex ? "0" : "-1px",
-                              right:
-                                index === bookingInfo.endIndex ? "0" : "-1px",
-                              top: "12px",
-                              bottom: "12px",
-                              zIndex: "2",
-                            }}
-                          >
-                            1
-                          </div>
-                        )}
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <div className="relative overflow-x-auto overflow-y-auto">
+          <table className="table-fixed w-full">
+            <tbody>
+              {getRoomsProperType(rooms || []).map((room, trIdx) => {
+                const bookingsForRoom = bookings?.filter(
+                  booking => booking.room.id === room.roomId
+                )
+                return (
+                  <tr key={room.roomId}>
+                    <td className="w-1/5 border p-2 text-left">
+                      <div className="font-bold">{room.number}</div>
+                      <div className="text-sm text-gray-500">
+                        {room.category}
+                      </div>
+                    </td>
+                    {daysForBookingGrid.map(({ isWeekend, day }, index) => {
+                      const bookingInfos = getBookingInfo(
+                        bookingsForRoom || [],
+                        day,
+                        daysForBookingGrid
+                      )
+                      return (
+                        <td
+                          key={index}
+                          className={cn(
+                            "border p-2 border-t-0 text-center relative",
+                            {
+                              "bg-red-100": isWeekend,
+                            }
+                          )}
+                        >
+                          {todayIndex === index && (
+                            <div className="absolute inset-0">
+                              <div
+                                className={cn(
+                                  "today-line absolute w-[2px] h-full bg-blue-500 left-1/2 z-10",
+                                  {
+                                    "with-circle": trIdx === 0,
+                                  }
+                                )}
+                              />
+                            </div>
+                          )}
+                          {bookingInfos.map((bookingInfo, bookingIndex) => {
+                            const showBookingDiv =
+                              index >= bookingInfo.startIndex &&
+                              index <= bookingInfo.endIndex
+                            const color =
+                              mapBookingStatusToColor[
+                                bookingInfo.booking.status ??
+                                  BookingDtoStatus.STATUS_INITIAL
+                              ]
+                            const clientName = getFullName(
+                              bookingInfo.booking?.pets?.[0].ownerShortDto
+                                ?.firstName || "",
+                              bookingInfo.booking?.pets?.[0].ownerShortDto
+                                ?.lastName,
+                              bookingInfo.booking?.pets?.[0].ownerShortDto
+                                ?.middleName
+                            )
+                            if (
+                              showBookingDiv &&
+                              index === bookingInfo.startIndex
+                            ) {
+                              return (
+                                <BookingCell
+                                  bookingInfo={bookingInfo}
+                                  index={bookingIndex}
+                                  color={color}
+                                  clientName={clientName}
+                                />
+                              )
+                            } else {
+                              return null
+                            }
+                          })}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    </div>
-   
   )
 }

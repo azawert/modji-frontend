@@ -1,4 +1,8 @@
-import { BookingDto, NewBookingDto } from "@/generated/bookings"
+import {
+  BookingDto,
+  BookingDtoStatus,
+  NewBookingDto,
+} from "@/generated/bookings"
 import { IBookingForm } from "./types/BookingValidationSchema"
 import {
   TBookingGridDay,
@@ -7,11 +11,13 @@ import {
 } from "./types/BookingGridTypes"
 import dayjs, { Dayjs } from "dayjs"
 import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
-import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore"
+import isBetween from "dayjs/plugin/isBetween"
+import { isBetweenWrapper } from "@/shared/utils/utils"
+import { RoomDto } from "@/generated/room"
 
-dayjs.extend(isSameOrBefore)
-dayjs.extend(isSameOrAfter)
+dayjs.extend(isBetween)
+
+const dateDivider = "-"
 
 export const mapperBookingDTOToFormData = (
   data: BookingDto
@@ -27,7 +33,7 @@ export const mapperBookingDTOToFormData = (
     fullPrice: data.amount || 0,
     prepayment: data.prepaymentAmount,
     isPrepaymentPaid: data.isPrepaid,
-    categories: data.room.Category?.name || "",
+    categories: data.room.categoryDto?.name || "",
     rooms: data.room.number,
     daysAmount: data.daysOfBooking || 0,
     comment: data.comment || "",
@@ -52,10 +58,16 @@ export const mapperBookingFormDataToDTO = (
   }
 }
 
+//Функция вычисляющая первый день для запроса
 export const getFirstDateForBookingGridRequest = (): string => {
   return dayjs().subtract(2, "day").format(DATE_FRONT_FORMAT)
 }
 
+/**
+ * Функция рассчитывающая полсденюю дату запроса
+ * @param type Тип просмотра таблицы бронирований (в зависимости от него, необходимо отчиывать количество дней)
+ * @returns дату для запроса
+ */
 export const getLastDateForBookingGridRequest = (
   type: EBookingView
 ): string => {
@@ -119,120 +131,74 @@ export const HEADER_TABS: TTabForHeader[] = [
 
 export const isWeekend = (day: Dayjs) => day.day() === 0 || day.day() === 6
 
-export function isBetween(
-  date: string, // Дата для проверки
-  startDate: string, // Начальная дата диапазона
-  endDate: string, // Конечная дата диапазона
-  inclusivity: "[]" | "[)" | "(]" | "()" = "[]", // Опции включения/исключения границ
-  format: string = "DD.MM.YYYY" // Формат даты
-): boolean {
-  const targetDate = dayjs(date, format)
-  const start = dayjs(startDate, format)
-  const end = dayjs(endDate, format)
-
-  switch (inclusivity) {
-    case "[]":
-      return targetDate.isSameOrAfter(start) && targetDate.isSameOrBefore(end)
-    case "[)":
-      return targetDate.isSameOrAfter(start) && targetDate.isBefore(end)
-    case "(]":
-      return targetDate.isAfter(start) && targetDate.isSameOrBefore(end)
-    case "()":
-      return targetDate.isAfter(start) && targetDate.isBefore(end)
-    default:
-      throw new Error("Invalid inclusivity option")
-  }
+//Бывают случаи, когда с сервера приходит некорректная дата, ее нужно перебрать для dayjs, иначе он не будет понимать что мы ему даем  за дату
+export const convertServerDateToAnFormView = (date: string): string => {
+  if (!date.includes(dateDivider)) return date
+  const [year, month, day] = date.split(dateDivider)
+  return `${day}.${month}.${year}`
 }
 
-export const bookings: BookingDto[] = [
-  {
-    id: 1,
-    amount: 15000,
-    checkInDate: "01.10.2024",
-    checkInTime: "14:00",
-    checkOutDate: "05.10.2024",
-    checkOutTime: "12:00",
-    isPrepaid: true,
-    prepaymentAmount: 5000,
-    price: 3000,
-    status: "STATUS_CONFIRMED",
-    type: "TYPE_BOOKING",
-    room: {
-      id: 101,
-      number: "101",
-      categoryDto: { id: 1, name: "Стандарт" },
-    },
-  },
-  {
-    id: 2,
-    amount: 20000,
-    checkInDate: "03.10.2024",
-    checkInTime: "15:00",
-    checkOutDate: "07.10.2024",
-    checkOutTime: "11:00",
-    isPrepaid: false,
-    prepaymentAmount: 0,
-    price: 4000,
-    status: "STATUS_INITIAL",
-    type: "TYPE_BOOKING",
-    room: {
-      id: 102,
-      number: "102",
-      categoryDto: { id: 2, name: "Комфорт" },
-    },
-    comment: "Поздний заезд",
-  },
-  {
-    id: 3,
-    amount: 35000,
-    checkInDate: "05.10.2024",
-    checkOutDate: "10.10.2024",
-    isPrepaid: true,
-    prepaymentAmount: 15000,
-    price: 7000,
-    status: "STATUS_CONFIRMED",
-    type: "TYPE_BOOKING",
-    room: {
-      id: 201,
-      number: "201",
-      categoryDto: { id: 3, name: "Люкс" },
-    },
-  },
-  {
-    id: 4,
-    amount: 8000,
-    checkInDate: "02.10.2024",
-    checkInTime: "13:00",
-    checkOutDate: "03.10.2024",
-    checkOutTime: "10:00",
-    isPrepaid: true,
-    prepaymentAmount: 4000,
-    price: 8000,
-    status: "STATUS_CHECKED_IN",
-    type: "TYPE_BOOKING",
-    room: {
-      id: 103,
-      number: "103",
-      categoryDto: { id: 1, name: "Стандарт" },
-    },
-  },
-  {
-    id: 5,
-    amount: 12000,
-    checkInDate: "06.10.2024",
-    checkInTime: "16:00",
-    checkOutDate: "08.10.2024",
-    checkOutTime: "12:00",
-    isPrepaid: false,
-    prepaymentAmount: 0,
-    price: 6000,
-    status: "STATUS_CANCELLED",
-    type: "TYPE_BOOKING",
-    room: {
-      id: 202,
-      number: "202",
-      categoryDto: { id: 2, name: "Комфорт" },
-    },
-    reasonOfCancel: "Клиент отменил бронь",
-  },
-]
+/** Маппер для статуса бронирования к цвету отображения бронирования */
+export const mapBookingStatusToColor: Record<
+  Partial<BookingDtoStatus>,
+  "#A2E9FF" | "#FEE97E" | "#6EE38F" | "#EBAAFB" | undefined
+> = {
+  [BookingDtoStatus.STATUS_CHECKED_IN]: "#A2E9FF",
+  [BookingDtoStatus.STATUS_INITIAL]: "#FEE97E",
+  [BookingDtoStatus.STATUS_CONFIRMED]: "#6EE38F",
+  [BookingDtoStatus.STATUS_CHECKED_OUT]: "#EBAAFB",
+  [BookingDtoStatus.STATUS_CANCELLED]: undefined,
+} as const
+
+/**
+ * Функция для преобразования данных в тип который понятен таблице бронирований
+ * @param rooms список комнат
+ * @returns массив содержащий информацию по категории и комнате
+ */
+export const getRoomsProperType = (
+  rooms: RoomDto[]
+): { number: string; category: string; roomId: number }[] =>
+  rooms.map(el => ({
+    number: el.number,
+    category: el.categoryDto?.name || "",
+    roomId: el.id,
+  }))
+
+export const isDateWithinBooking = (
+  date: string,
+  checkInDate: string,
+  checkOutDate: string
+) => {
+  return isBetweenWrapper(date, checkInDate, checkOutDate)
+}
+
+/**
+ * Функция рассчитывающее начало и конец брони, и саму информацию о броне
+ * @param bookingsForRoom получаем список бронирований для определнной комнаты
+ * @param currentDay день, на котором нужно проверить бронирование
+ * @param daysForBookingGrid даты календаря
+ * @returns информацию про брони в виде {booking, startIndex, endIndex}
+ */
+export const getBookingInfo = (
+  bookingsForRoom: BookingDto[],
+  currentDay: dayjs.Dayjs,
+  daysForBookingGrid: TBookingGridDay[]
+) => {
+  const relevantBookings = bookingsForRoom.filter(booking =>
+    isDateWithinBooking(
+      currentDay.format(DATE_FRONT_FORMAT),
+      booking.checkInDate,
+      booking.checkOutDate
+    )
+  )
+
+  return relevantBookings.map(booking => {
+    const startIndex = daysForBookingGrid.findIndex(
+      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkInDate
+    )
+    const endIndex = daysForBookingGrid.findIndex(
+      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkOutDate
+    )
+    return { booking, startIndex, endIndex }
+  })
+}

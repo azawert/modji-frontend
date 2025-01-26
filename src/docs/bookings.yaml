@@ -1302,7 +1302,7 @@ components:
           type: number
           format: double
           example: 6.50
-        Category:
+        categoryDto:
           $ref: "#/components/schemas/CategoryDto"
         description:
           description: Описание номера
@@ -1345,7 +1345,7 @@ components:
           format: int64
           description: id питомца
           example: 1
-        owner:
+        ownerShortDto:
           $ref: "#/components/schemas/OwnerShortDto"
         type:
           type: string
@@ -1629,14 +1629,41 @@ components:
       description: Краткое Дто клиента
       type: object
       properties:
-        name:
+        firstName:
           maxLength: 30
           minLength: 1
           type: string
-          description: ФИО хозяина питомца
+          description: Имя хозяина
           example: Иванов И.И.
+        lastName:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: Фамилия
+          example: Иванов И.И.
+        middleName:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: Фамилия
+          example: Иванов И.И.
+        mainPhone:
+          maxLength: 20,
+          type: string
+          description: Номер телефона
+        optionalPhone:
+          maxLength: 20,
+          type: string
+
         rating:
           type: integer
           description: Рейтинг клиента (От 1 до 10)
           format: int32
           example: 7
+# "id": 2,
+#                     "lastName": "Kiehn",
+#                     "firstName": "Ava",
+#                     "middleName": "Jarrod",
+#                     "mainPhone": "+79382424117",
+#                     "optionalPhone": "+79399949941",
+#                     "registrationDate": "2024-10-03T14:11:26.133911"

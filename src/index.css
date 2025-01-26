@@ -87,3 +87,17 @@
 .selectWithCategories:focus {
   border-color: black;
 }
+
+.today-line.with-circle::before {
+  content: "";
+  position: absolute;
+  top: -5px; /* Смещение вверх для кружка */
+  left: 52%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%; /* Круглая форма */
+  z-index: 22222;
+  border: 1px solid blue;
+}

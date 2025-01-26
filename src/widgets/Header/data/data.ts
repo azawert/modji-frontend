@@ -27,7 +27,7 @@ export type TPropsForHeader = {
  * @prop icon Иконка для опции в выпадающем меню
  * @prop label лейбл для опции в выпадающем меню
  * @prop [handleLinkClick] обработчик клика по опции из выпадающего списка
- * */
+ */
 
 export type TDropdownMenuOption = {
   icon: TIcon
@@ -40,7 +40,7 @@ type TDropdownMenu = {
   options: TDropdownMenuOption[]
 }
 
-const LINKS_FOR_HEADER: HeaderPageLink[] = [
+export const LINKS_FOR_HEADER: HeaderPageLink[] = [
   {
     label: "Меню",
     href: "/",
@@ -91,8 +91,10 @@ const DROPDOWN_MENUS: TDropdownMenu[] = [
   },
 ]
 
-/** Функция определяющая какой выпадающий список нужно вернуть в зависимости от лейбла на который навелись
+/**
+ * Функция определяющая какой выпадающий список нужно вернуть в зависимости от лейбла на который навелись
  * @param label лейлб на который навелись
+ * @returns TDropdownMenuOption[] возвращает список который нужно вернуть в зависимости от лейбла на который навелись
  */
 export const getDropDownMenuOptions = (
   label?: string

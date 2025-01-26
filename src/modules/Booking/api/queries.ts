@@ -5,7 +5,10 @@ import {
   findAllBookingsInDates,
   getBookingById,
 } from "@/generated/bookings"
-import { mapperBookingDTOToFormData } from "../model/utils"
+import {
+  convertServerDateToAnFormView,
+  mapperBookingDTOToFormData,
+} from "../model/utils"
 
 export const useGetBookingById = (id: number) =>
   useQuery({
@@ -54,4 +57,10 @@ export const useGetBookings = ({
         }
       ),
     enabled: !!startDate && !!endDate,
+    select: data =>
+      data.map(({ checkInDate, checkOutDate, ...b }) => ({
+        ...b,
+        checkInDate: convertServerDateToAnFormView(checkInDate),
+        checkOutDate: convertServerDateToAnFormView(checkOutDate),
+      })),
   })
