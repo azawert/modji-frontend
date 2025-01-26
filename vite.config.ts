@@ -19,5 +19,19 @@ export default defineConfig(({ mode }) => {
     define: {
       __VITE_BACKEND_BASE_URL__: JSON.stringify(env.VITE_BACKEND_BASE_URL),
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              return id.toString().split("node_modules/")[1].split("/")[0]
+            }
+            if (id.includes("src/pages")) {
+              return "pages"
+            }
+          },
+        },
+      },
+    },
   }
 })

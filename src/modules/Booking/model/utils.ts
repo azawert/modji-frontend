@@ -52,9 +52,9 @@ export const mapperBookingFormDataToDTO = (
     amount: data.pricePerDay * (data.daysAmount || 1),
     prepaymentAmount: data.prepayment,
     isPrepaid: data.isPrepaymentPaid,
-    roomId: 22,
+    roomId: Number(data.rooms[0]),
     type: "TYPE_BOOKING",
-    petIds: [1],
+    petIds: data.petIds,
   }
 }
 

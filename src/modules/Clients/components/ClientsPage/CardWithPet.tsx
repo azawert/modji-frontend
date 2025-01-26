@@ -7,12 +7,14 @@ interface CardWithPetProps {
   petType: string
   breed: string
   isAvailableEdit?: boolean
+  onClick?: () => void
 }
 
 export const CardWithPet: React.FC<CardWithPetProps> = ({
   petName,
   petType,
   breed,
+  onClick,
 }) => {
   const infoItems: IInfoItem[] = [
     { title: "Кличка", value: petName },
@@ -21,7 +23,7 @@ export const CardWithPet: React.FC<CardWithPetProps> = ({
   ]
 
   return (
-    <InfoCard>
+    <InfoCard onClick={onClick}>
       {infoItems.map(el => (
         <Box key={el.title}>
           <InfoCard.Title>{el.title}</InfoCard.Title>

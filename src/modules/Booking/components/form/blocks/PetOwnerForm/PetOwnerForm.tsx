@@ -5,7 +5,7 @@ import { CardWithClient } from "@/shared/ui/CardWithClient"
 import { CardWithPet } from "@/shared/ui/CardWithPet"
 import { PetTag } from "@/shared/ui/PetTag"
 import useBookingStore from "@/modules/Booking/store/BookingStore"
-import { ShortClientModal } from "../../../modal/ShortClientModal/ShortClientModal"
+import CreateShortClient from "@/modules/Booking/features/createShortClient/CreateShortClient"
 
 interface IPetOwnerFormProps {
   isCreateBookingPage?: boolean
@@ -41,7 +41,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
           fullName="Иванов Иван Иванович"
           mainPhone="8 (999) 999-99-99"
           registrationDate="01.01.2022"
-          width="511px"
+          width="510px"
           tableView
         />
         <PetTag />
@@ -94,7 +94,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   return (
     <>
       {isCreateBookingPage ? renderBookingPageForm() : renderBookingModalForm()}
-      {<ShortClientModal />}
+      <CreateShortClient />
     </>
   )
 }

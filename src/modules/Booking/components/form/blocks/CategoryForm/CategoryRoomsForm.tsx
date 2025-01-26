@@ -19,14 +19,14 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
   } = form
 
   return (
-    <section className="flex gap-6">
+    <section className="flex justify-between">
       <Controller
         control={control}
         name="categories"
         render={({ field }) => {
           return (
             <CategorySelect
-              className="w-64"
+              className="w-60"
               onChange={field.onChange}
               value={bookingData.categories || field.value || ""}
               error={errors?.categories?.message}

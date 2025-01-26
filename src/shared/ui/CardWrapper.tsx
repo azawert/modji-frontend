@@ -22,11 +22,18 @@ export const CardWrapper: React.FC<CardWrapperProps> = ({
   children,
   bgColor,
   onClick,
+  width,
+  height,
 }) => {
   return (
     <StyledCard
-      style={{ backgroundColor: bgColor || "#FFFFFF" }}
-      onClick={() => onClick?.()}
+      style={{
+        backgroundColor: bgColor || "#FFFFFF",
+        width,
+        height,
+        cursor: "pointer",
+      }}
+      onClick={onClick}
     >
       <CardContent
         sx={{

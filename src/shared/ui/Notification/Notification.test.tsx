@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import { Notification } from "./Notification"
 import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { DATA_TEST_ID_GLOBAL_OBJECT } from "@/shared/constants/test-id"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
 
 const {
   notification: { success, error },
@@ -16,13 +16,12 @@ jest.mock("@/contexts/notificationContext/useNotificationContext", () => ({
 }))
 
 describe("Notification Component", () => {
-  const mockRemoveNotification = jest.fn()
-  const fn = useNotification as jest.Mock
+  let mockRemoveNotification: jest.SpyInstance
 
   beforeEach(() => {
-    fn.mockReturnValue({
-      removeNotification: mockRemoveNotification,
-    })
+    mockRemoveNotification = jest
+      .spyOn(eventEmitter, "emit")
+      .mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -87,7 +86,10 @@ describe("Notification Component", () => {
     const closeButton = screen.getByRole("button")
     fireEvent.click(closeButton)
 
-    expect(mockRemoveNotification).toHaveBeenCalledWith("4")
+    expect(mockRemoveNotification).toHaveBeenCalledWith(
+      "removeNotification",
+      "4"
+    )
   })
 
   it("Автоматическое закрытие нотификации", async () => {
@@ -106,7 +108,10 @@ describe("Notification Component", () => {
 
     await waitFor(
       () => {
-        expect(mockRemoveNotification).toHaveBeenCalledWith("5")
+        expect(mockRemoveNotification).toHaveBeenCalledWith(
+          "removeNotification",
+          "5"
+        )
       },
       { timeout: 1500 }
     )

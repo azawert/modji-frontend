@@ -20,6 +20,8 @@ interface InfoCardProps {
   children: React.ReactNode
   bgColor?: string
   onClick?: () => void
+  width?: string
+  height?: string
 }
 
 interface InfoCardTitleProps {
@@ -31,9 +33,14 @@ interface InfoCardValueProps {
 }
 
 const InfoCardComponent: React.FC<InfoCardProps> = memo(
-  ({ children, bgColor, onClick }) => {
+  ({ children, bgColor, onClick, width, height }) => {
     return (
-      <CardWrapper bgColor={bgColor || "#FFFFFF"} onClick={onClick}>
+      <CardWrapper
+        bgColor={bgColor || "#FFFFFF"}
+        onClick={onClick}
+        width={width}
+        height={height}
+      >
         {children}
       </CardWrapper>
     )

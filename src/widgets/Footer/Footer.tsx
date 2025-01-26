@@ -1,6 +1,8 @@
+import { usePetFormStore } from "@/modules/Pets/store"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { addConfirmationNotification } from "@/shared/utils/utils"
 import { styled } from "@mui/material"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 const StyledFooter = styled("footer")(({ theme }) => ({
   marginTop: "40px",
@@ -10,15 +12,27 @@ const StyledFooter = styled("footer")(({ theme }) => ({
   justifyContent: "flex-end",
   padding: "24px",
   gap: "8px",
+  position: "fixed",
+  bottom: 0,
+  width: "100%",
 }))
 
 export const Footer = () => {
   const { pathname } = useLocation()
   const isCreateBookingPage = pathname.includes("create-booking")
-  return <StyledFooter>{isCreateBookingPage && <BookingFooter />}</StyledFooter>
+
+  const regex = /\/clients\/(\d+)\/pets\/(dog|cat|other)\/create/
+  const isCreatePetPage = pathname.match(regex)
+
+  return (
+    <StyledFooter>
+      {isCreateBookingPage && <BookingFooter />}
+      {isCreatePetPage && <CreatePetFooter />}
+    </StyledFooter>
+  )
 }
 
-export const BookingFooter = () => {
+const BookingFooter = () => {
   const navigate = useNavigate()
   return (
     <>
@@ -40,6 +54,45 @@ export const BookingFooter = () => {
         fontWeight={700}
       >
         Сохранить
+      </Button>
+    </>
+  )
+}
+
+const CreatePetFooter = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const confirmNotification = addConfirmationNotification()
+  const isDirty = usePetFormStore(state => state.isDirty)
+  const onCloseForm = () => navigate(`/clients/${id}`)
+
+  const handleNavigate = () => {
+    if (isDirty) {
+      confirmNotification(onCloseForm)
+    } else {
+      onCloseForm()
+    }
+  }
+  return (
+    <>
+      <Button
+        variant={EButtonVariant.Secondary}
+        size={EButtonSize.Large}
+        fontSize={16}
+        fontWeight={700}
+        onClick={handleNavigate}
+      >
+        Отмена
+      </Button>
+      <Button
+        form="create-pet"
+        type="submit"
+        variant={EButtonVariant.Primary}
+        size={EButtonSize.Large}
+        fontSize={16}
+        fontWeight={700}
+      >
+        Создать
       </Button>
     </>
   )

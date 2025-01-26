@@ -17,7 +17,6 @@ const getIcon = (type: TIcon) => iconTypes.get(type)
 type TProps = {
   type?: TIcon
   className?: string
-  color?: string
   height?: string
   width?: string
   size?: string

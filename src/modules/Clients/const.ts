@@ -157,4 +157,5 @@ export const mapPetDtoToAnFormView = (pet: PetDtoForOwner): Pet => ({
   breed: pet.breed ?? "",
   petName: pet.name ?? "",
   petType: pet.type as PetDtoType,
+  id: pet.id ?? "",
 })

@@ -9,9 +9,11 @@ import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useEffect } from "react"
 import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
-import { generateUniqueId } from "@/shared/utils/utils"
+import { addConfirmationNotification } from "@/shared/utils/utils"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
 
-/** Пропы для модалки создания/редактирования категории
+/**
+ * Пропы для модалки создания/редактирования категории
  * @prop isOpen - флаг открытия модалки
  * @prop onClose - функция закрытия модального окна
  * @prop from - форма для модалки
@@ -46,8 +48,8 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
     formState: { errors, isDirty },
     setValue,
   } = form
-  const { addNotification, removeNotification, notifications } =
-    useNotification()
+  const { notifications } = useNotification()
+  const confirmationNotification = addConfirmationNotification()
 
   useEffect(() => {
     if (isEditing && categoryData) {
@@ -59,15 +61,7 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
 
   const handleCloseModalWindow = () => {
     if (isDirty) {
-      addNotification({
-        id: generateUniqueId(),
-        isOpened: true,
-        text: "Вы точно хотите выйти без сохранения введенных данных?",
-        type: ENotificationType.CONFIRMATION,
-        withConfirmationButtons: true,
-        handleCloseForm: onClose,
-        notificationWidth: "342",
-      })
+      confirmationNotification(onClose)
       return
     } else {
       onClose()
@@ -79,7 +73,8 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
     // Необходимо скрывать все нотификации вида confirmation при попытке засабмитить форму
     notifications.forEach(
       ({ id, type }) =>
-        type === ENotificationType.CONFIRMATION && removeNotification(id)
+        type === ENotificationType.CONFIRMATION &&
+        eventEmitter.emit("removeNotification", id)
     )
   }
 

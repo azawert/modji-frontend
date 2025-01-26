@@ -1,4 +1,5 @@
-import { PropsWithChildren, createContext, useCallback, useState } from "react"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
+import { PropsWithChildren, createContext, useEffect, useState } from "react"
 
 export enum ENotificationType {
   ERROR = "error",
@@ -45,21 +46,18 @@ export type TNotification = {
   onlyOneActionButtonText?: string
 }
 
-/** Тип для контекста нотификации
+/**
+ * Тип для контекста нотификации
  * @prop notifications массив нотификаций для отображения
  * @prop addNotification функция для добавления нотификации в массив
  * @prop removeNotification функция для удаления нотификации из массива
  */
 type TNotificationContext = {
   notifications: TNotification[]
-  addNotification: (notification: TNotification) => void
-  removeNotification: (id: string) => void
 }
 
 const initialStateForContext: TNotificationContext = {
-  addNotification: () => {},
   notifications: [],
-  removeNotification: () => {},
 }
 
 export const NotificationContext = createContext<TNotificationContext>(
@@ -71,8 +69,8 @@ export const NotificationProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [notifications, setNotifications] = useState<TNotification[]>([])
 
-  const addNotification = useCallback(
-    (not: TNotification) => {
+  useEffect(() => {
+    const addNotification = (not: TNotification) => {
       if (
         not.type === ENotificationType.CONFIRMATION &&
         notifications.some(
@@ -92,18 +90,20 @@ export const NotificationProvider: React.FC<PropsWithChildren> = ({
       } else {
         setNotifications(prev => [...prev, not])
       }
-    },
-    [notifications]
-  )
-  const removeNotification = useCallback(
-    (id: string) => setNotifications(prev => prev.filter(n => n.id !== id)),
-    []
-  )
+    }
+    const removeNotification = (id: string) =>
+      setNotifications(prev => prev.filter(n => n.id !== id))
 
+    eventEmitter.on("addNotification", addNotification)
+    eventEmitter.on("removeNotification", removeNotification)
+
+    return () => {
+      eventEmitter.off("addNotification", addNotification)
+      eventEmitter.off("removeNotification", removeNotification)
+    }
+  }, [notifications])
   return (
-    <NotificationContext.Provider
-      value={{ addNotification, removeNotification, notifications }}
-    >
+    <NotificationContext.Provider value={{ notifications }}>
       {children}
     </NotificationContext.Provider>
   )

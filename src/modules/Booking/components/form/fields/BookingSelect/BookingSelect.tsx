@@ -65,9 +65,7 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
     } = props
 
     const handleSelectChange = (e: SelectChangeEvent) => {
-      console.log(e)
       onChange(e.target.value)
-      console.log(value)
     }
 
     return (
