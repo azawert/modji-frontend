@@ -3,10 +3,53 @@
  * Do not edit manually.
  * PetHotel: Bookings Specification
  * Документация раздела по работе с бронированиями
- * OpenAPI spec version: v4
+ * OpenAPI spec version: v5
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+export type CheckUpdateBookingRoomAvailableInDatesParams = {
+  /**
+   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
+   */
+  checkInDate: CheckInDateParameter
+  /**
+   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
+   */
+  checkOutDate: CheckOutDateParameter
+}
+
+export type CheckRoomAvailableInDatesParams = {
+  /**
+   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
+   */
+  checkInDate: CheckInDateParameter
+  /**
+   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
+   */
+  checkOutDate: CheckOutDateParameter
+}
+
+/**
+ * Дата окончания периода в формате "dd.MM.yyyy". Должна быть равна или позже даты начала периода.
+ */
+export type EndDateParameter = string
+
+/**
+ * Дата начала периода в формате "dd.MM.yyyy". Должна быть до или равна дате окончания периода.
+ */
+export type StartDateParameter = string
+
+export type FindAllBookingsInDatesParams = {
+  /**
+   * Дата начала периода в формате "dd.MM.yyyy". Должна быть до или равна дате окончания периода.
+   */
+  startDate: StartDateParameter
+  /**
+   * Дата окончания периода в формате "dd.MM.yyyy". Должна быть равна или позже даты начала периода.
+   */
+  endDate: EndDateParameter
+}
+
 /**
  * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
  */
@@ -39,38 +82,35 @@ export type FindCrossingBookingsForRoomInDatesParams = {
   checkOutDate: CheckOutDateParameter
 }
 
-export type CheckUpdateBookingRoomAvailableInDatesParams = {
-  /**
-   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
-   */
-  checkInDate: CheckInDateParameter
-  /**
-   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
-   */
-  checkOutDate: CheckOutDateParameter
-}
-
-export type CheckRoomAvailableInDatesParams = {
-  /**
-   * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
-   */
-  checkInDate: CheckInDateParameter
-  /**
-   * Дата планируемого выезда в формате "dd.MM.yyyy". Должна быть равна или позже даты заезда.
-   */
-  checkOutDate: CheckOutDateParameter
-}
-
 /**
  * Краткое Дто клиента
  */
 export interface OwnerShortDto {
   /**
-   * ФИО хозяина питомца
+   * Имя хозяина
    * @minLength 1
    * @maxLength 30
    */
-  name?: string
+  firstName?: string
+  /**
+   * Фамилия
+   * @minLength 1
+   * @maxLength 30
+   */
+  lastName?: string
+  /**
+   * Номер телефона
+   * @maxLength 20,
+   */
+  mainPhone?: string
+  /**
+   * Фамилия
+   * @minLength 1
+   * @maxLength 30
+   */
+  middleName?: string
+  /** @maxLength 20, */
+  optionalPhone?: string
   /** Рейтинг клиента (От 1 до 10) */
   rating?: number
 }
@@ -254,7 +294,7 @@ export interface PetDto {
    * @maxLength 500
    */
   notLike?: string
-  owner?: OwnerShortDto
+  ownerShortDto?: OwnerShortDto
   /**
    * Дата обработки от глистов/паразитов
    * @maxLength 250
@@ -370,7 +410,7 @@ export interface RoomDto {
    * @minimum 0
    */
   area?: number
-  Category?: CategoryDto
+  categoryDto?: CategoryDto
   /**
    * Описание номера
    * @maxLength 250
@@ -802,6 +842,20 @@ export const updateBooking = (
 }
 
 /**
+ * Получение всех бронирований в указанные даты, кроме статуса "отменено" Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
+ * @summary Получить все неотмененные бронирования в указанные даты
+ */
+export const findAllBookingsInDates = (
+  params: FindAllBookingsInDatesParams,
+  options?: SecondParameter<typeof axiosInstance>
+) => {
+  return axiosInstance<BookingDto[]>(
+    { url: `/bookings/inDates`, method: "GET", params },
+    options
+  )
+}
+
+/**
  * Проверка бронирований, блокирующих использование номера в заданные даты. Используется при создании нового бронирования, либо при редактировании существующего бронирования со сменой номера. При наличии блокирующих бронирований возвращает ConflictException. Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
  * @summary Проверить доступность номера для бронирования в заданные даты при создании нового бронирования
  */
@@ -878,6 +932,34 @@ export const findBlockingBookingsForRoomInDates = (
   )
 }
 
+/**
+ * Поиск всех имеющихся бронирований на пребывание конкретного питомца. Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
+ * @summary Поиск всех имеющихся бронирований на пребывание конкретного питомца
+ */
+export const findAllBookingsByPet = (
+  petId: number,
+  options?: SecondParameter<typeof axiosInstance>
+) => {
+  return axiosInstance<BookingDto[]>(
+    { url: `/bookings/allByPet/pets/${petId}`, method: "GET" },
+    options
+  )
+}
+
+/**
+ * Поиск всех имеющихся бронирований на пребывание всех питомцев конкретного клиента. Доступно пользователям ROLE_BOSS и ROLE_ADMIN.
+ * @summary Поиск всех имеющихся бронирований на пребывание всех питомцев конкретного клиента
+ */
+export const findAllBookingsByOwner = (
+  ownerId: number,
+  options?: SecondParameter<typeof axiosInstance>
+) => {
+  return axiosInstance<BookingDto[]>(
+    { url: `/bookings/allByOwner/owners/${ownerId}`, method: "GET" },
+    options
+  )
+}
+
 export type AddBookingResult = NonNullable<
   Awaited<ReturnType<typeof addBooking>>
 >
@@ -890,6 +972,9 @@ export type DeleteBookingByIdResult = NonNullable<
 export type UpdateBookingResult = NonNullable<
   Awaited<ReturnType<typeof updateBooking>>
 >
+export type FindAllBookingsInDatesResult = NonNullable<
+  Awaited<ReturnType<typeof findAllBookingsInDates>>
+>
 export type CheckRoomAvailableInDatesResult = NonNullable<
   Awaited<ReturnType<typeof checkRoomAvailableInDates>>
 >
@@ -901,4 +986,10 @@ export type FindCrossingBookingsForRoomInDatesResult = NonNullable<
 >
 export type FindBlockingBookingsForRoomInDatesResult = NonNullable<
   Awaited<ReturnType<typeof findBlockingBookingsForRoomInDates>>
+>
+export type FindAllBookingsByPetResult = NonNullable<
+  Awaited<ReturnType<typeof findAllBookingsByPet>>
+>
+export type FindAllBookingsByOwnerResult = NonNullable<
+  Awaited<ReturnType<typeof findAllBookingsByOwner>>
 >

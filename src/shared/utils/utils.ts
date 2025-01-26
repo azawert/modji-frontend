@@ -1,5 +1,6 @@
 import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 import dayjs from "dayjs"
+import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
 import { eventEmitter } from "./eventEmitter"
 
 export const generateUniqueId = () => {
@@ -151,4 +152,28 @@ export function getRawValueAndIfItsMatchesTheMask(
     cleaned,
     match,
   }
+}
+
+/**
+ * Функция которая возвразает текущую дату в отформатированном виде
+ * @returns отформатированную дату в формате DD.MM.YYYY
+ */
+export const getTodayFormattedDate = () => dayjs().format(DATE_FRONT_FORMAT)
+
+/**
+ * Функция, которая удаляет повторяющиеся элементы из массива
+ * @param array массив из которого нужно получить новый только с уникальными значениями
+ * @returns новый массив состоящий только из уникальных символов
+ */
+export function getUniqueItems<T>(array: T[]): T[] {
+  return [...new Set(array)]
+}
+
+export const formatDate = (date: string, format?: string) => {
+  const dayjsDate = dayjs(date)
+  return dayjsDate.format(format || DATE_FRONT_FORMAT)
+}
+
+export const isBetweenWrapper = (date: string, end: string, start: string) => {
+  return dayjs(date).isBetween(start, end, "day", "[]")
 }

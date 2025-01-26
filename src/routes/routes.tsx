@@ -1,7 +1,9 @@
-import { lazy, Suspense } from "react"
-import { RouteObject } from "react-router-dom"
 import { Layout } from "@/shared/ui/Layouts/Layout"
+import { RouteObject } from "react-router-dom"
+import { BookingGridPage } from "@/modules/Booking/pages/BookingGridPage/BookingGridPage"
 import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
+import { LayoutBookingGrid } from "@/shared/ui/Layouts/LayoutBookingGrid"
+import { lazy, Suspense } from "react"
 import { CreatePetPage, PetPage } from "@/modules/Pets"
 
 const CategoriesPage = lazy(() =>
@@ -147,6 +149,26 @@ export const routes: RouteObject[] = [
           </LazyLoadWrapper>
         ),
         path: "",
+      },
+    ],
+  },
+  {
+    path: "/create-booking",
+    element: <LayoutWithFooter />,
+    children: [
+      {
+        index: true,
+        element: <CreateBookingPage />,
+      },
+    ],
+  },
+  {
+    path: "/bookings",
+    element: <LayoutBookingGrid />,
+    children: [
+      {
+        index: true,
+        element: <BookingGridPage />,
       },
     ],
   },

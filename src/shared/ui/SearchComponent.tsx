@@ -83,8 +83,8 @@ const SearchIcon = (props: SvgIconProps) => (
 
 type TProps = {
   placeholder?: string
-  completeOptions: OwnerDto[]
-  isLoading: boolean
+  completeOptions?: OwnerDto[]
+  isLoading?: boolean
   search: string
   onSearchChange: (value: string) => void
 }

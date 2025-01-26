@@ -1,7 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
 import { EQueryKeys } from "./keys"
-import { checkRoomAvailableInDates, getBookingById } from "@/generated/bookings"
-import { mapperBookingDTOToFormData } from "../model/utils"
+import {
+  checkRoomAvailableInDates,
+  findAllBookingsInDates,
+  getBookingById,
+} from "@/generated/bookings"
+import {
+  convertServerDateToAnFormView,
+  mapperBookingDTOToFormData,
+} from "../model/utils"
 
 export const useGetBookingById = (id: number) =>
   useQuery({
@@ -31,4 +38,29 @@ export const useGetIsDatesAvailable = (
         }
       ),
     enabled: !!roomId && !!checkInDate && !!checkOutDate,
+  })
+
+export const useGetBookings = ({
+  startDate,
+  endDate,
+}: {
+  startDate: string
+  endDate: string
+}) =>
+  useQuery({
+    queryKey: [EQueryKeys.GET_ALL_BOOKINGS],
+    queryFn: () =>
+      findAllBookingsInDates(
+        { startDate, endDate },
+        {
+          headers: { "X-PetHotel-User-Id": 1 },
+        }
+      ),
+    enabled: !!startDate && !!endDate,
+    select: data =>
+      data.map(({ checkInDate, checkOutDate, ...b }) => ({
+        ...b,
+        checkInDate: convertServerDateToAnFormView(checkInDate),
+        checkOutDate: convertServerDateToAnFormView(checkOutDate),
+      })),
   })
