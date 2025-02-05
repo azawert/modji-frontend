@@ -5,6 +5,8 @@ import {
   IBookingForm,
   ICategoryAndRoom,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
+import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
+
 
 interface CategoryRoomsProps {
   form: UseFormReturn<ICategoryAndRoom>
@@ -34,6 +36,7 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
           )
         }}
       />
+
       <Controller
         control={control}
         name="rooms"

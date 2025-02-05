@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { routes } from "./routes/routes"
 import { NotificationProvider } from "./contexts/notificationContext/NotificationContext"
 import { NotificationContainer } from "./contexts/notificationContext/NotificationContainer"
+import ErrorBar from "./shared/ui/ErrorBar/ErrorBar"
 
 function App() {
   const router = createBrowserRouter(routes)

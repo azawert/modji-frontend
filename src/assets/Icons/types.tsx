@@ -14,6 +14,10 @@ import { CategoryIcon } from "@/assets/Icons/CategoryIcon.tsx"
 import { ClientIcon } from "@/assets/Icons/ClientIcon.tsx"
 import { CalendarIcon } from "@/assets/Icons/CalendarIcon.tsx"
 import { DownArrowIcon } from "./DownArrowIcon"
+import { AttentionYellow } from "./AttentionYellow"
+import { AttentionBlue } from "./AttentionBlue"
+import { AttentionRed } from "./AttentionRed"
+
 
 export type TIcon =
   | "PlusIcon"
@@ -32,6 +36,9 @@ export type TIcon =
   | "AnimalIcon"
   | "CalendarIcon"
   | "DownArrowIcon"
+  | "AttentionYellow"
+  | "AttentionBlue"
+  | "AttentionRed"
 
 export type TIconProps = SVGProps<SVGSVGElement>
 
@@ -50,5 +57,8 @@ export const iconTypes = new Map<TIcon, React.JSX.Element>([
   ["CategoryIcon", <CategoryIcon key={"CategoryIcon"} />],
   ["ClientIcon", <ClientIcon key={"ClientIcon"} />],
   ["CalendarIcon", <CalendarIcon key={"CalendarIcon"} />],
-  ["DownArrowIcon", <DownArrowIcon key={"DownArrowIcon"}/>],
+  ["DownArrowIcon", <DownArrowIcon key={"DownArrowIcon"} />],
+  ["AttentionYellow", <AttentionYellow key={"AttentionYellow"} />],
+  ["AttentionBlue", <AttentionBlue key={"AttentionBlue"} />],
+  ["AttentionRed", <AttentionRed key={"AttentionRed"} />],
 ])

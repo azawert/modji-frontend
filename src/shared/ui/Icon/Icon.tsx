@@ -28,29 +28,29 @@ const Component: React.FC<TProps> = props => {
 
   const iconRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (iconRef.current) {
-      if (size && !height && !width) {
-        iconRef.current.style.setProperty(
-          "--icon-height",
-          formatToStringWithPx(size)
-        )
-        iconRef.current.style.setProperty(
-          "--icon-width",
-          formatToStringWithPx(size)
-        )
-      } else if (!size && height && width) {
-        iconRef.current.style.setProperty(
-          "--icon-height",
-          formatToStringWithPx(height)
-        )
-        iconRef.current.style.setProperty(
-          "--icon-width",
-          formatToStringWithPx(width)
-        )
-      }
-    }
-  }, [height, size, width])
+  // useEffect(() => {
+  //   if (iconRef.current) {
+  //     if (size && !height && !width) {
+  //       iconRef.current.style.setProperty(
+  //         "--icon-height",
+  //         formatToStringWithPx(size)
+  //       )
+  //       iconRef.current.style.setProperty(
+  //         "--icon-width",
+  //         formatToStringWithPx(size)
+  //       )
+  //     } else if (!size && height && width) {
+  //       iconRef.current.style.setProperty(
+  //         "--icon-height",
+  //         formatToStringWithPx(height)
+  //       )
+  //       iconRef.current.style.setProperty(
+  //         "--icon-width",
+  //         formatToStringWithPx(width)
+  //       )
+  //     }
+  //   }
+  // }, [height, size, width])
   if (!type) {
     return
   }
@@ -59,6 +59,10 @@ const Component: React.FC<TProps> = props => {
     <div
       className={cn(styles.Icon, className)}
       ref={iconRef}
+      style={{
+        width,
+        height
+      }}
       data-testid={dataTestId}
       {...rest}
     >
