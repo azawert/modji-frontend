@@ -1,5 +1,4 @@
 import { Box, Dialog, DialogTitle } from "@mui/material"
-import { memo } from "react"
 import { TextField } from "@/shared/ui/TextField"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { NewOwnerDto } from "@/generated/owners"
@@ -22,7 +21,7 @@ export const ShortClientModal: React.FC<ShortClientModalProps> = ({
   const {
     control,
     handleSubmit,
-    formState: { isDirty, errors, isSubmitting },
+    formState: { errors, isSubmitting },
   } = form
 
   return (
@@ -32,6 +31,7 @@ export const ShortClientModal: React.FC<ShortClientModalProps> = ({
       onClose={onClose}
       aria-labelledby="modal-booking-title"
       aria-describedby="modal-booking-description"
+      style={{ overflow: "visible !important" }}
       sx={{
         "& .MuiDialogTitle-root": {
           padding: "40px 64px 0",
@@ -39,6 +39,7 @@ export const ShortClientModal: React.FC<ShortClientModalProps> = ({
         "& .MuiPaper-root": {
           borderRadius: "16px",
           width: "656px",
+          overflow: "visible !important",
         },
       }}
     >
@@ -67,7 +68,9 @@ export const ShortClientModal: React.FC<ShortClientModalProps> = ({
                   onChange={onChange}
                   className="w-px-1"
                   error={
-                    errors[field.id as never]?.message as string | undefined
+                    errors[field.id as keyof typeof errors]?.message as
+                      | string
+                      | undefined
                   }
                 />
               )}

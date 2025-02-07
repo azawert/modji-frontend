@@ -1,11 +1,12 @@
 import { PageTitle } from "@/shared/ui/PageTitle"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
+  ExtendedIPayment,
   FullBookingSchema,
   IBookingForm,
   ICategoryAndRoom,
   IComment,
-  IPayment,
+  IPet,
   IScheduleForm,
 } from "../../model/types/BookingValidationSchema"
 import { useForm, UseFormReturn } from "react-hook-form"
@@ -52,6 +53,7 @@ export const CreateBookingPage = () => {
     resolver: yupResolver(FullBookingSchema),
     defaultValues: defaultValues,
     values: data as IBookingForm,
+    mode: "all",
   })
 
   const onSubmit = (bookingData: IBookingForm) => {
@@ -63,13 +65,17 @@ export const CreateBookingPage = () => {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} id="booking">
+    <form onSubmit={form.handleSubmit(onSubmit)} id="booking" className="pb-40">
       <PageTitle title="Бронирование" />
 
       <BookingPageWrapper>
         <div>
           <StepTitle title="Клиент и питомцы" />
-          <PetOwnerForm isCreateBookingPage />
+          <PetOwnerForm
+            isCreateBookingPage
+            form={form as unknown as UseFormReturn<IPet>}
+            bookingData={data!}
+          />
         </div>
 
         <div>
@@ -92,7 +98,7 @@ export const CreateBookingPage = () => {
           <StepTitle title="Стоимость" />
           <PriceForm
             bookingData={data!}
-            form={form as unknown as UseFormReturn<IPayment>}
+            form={form as unknown as UseFormReturn<ExtendedIPayment>}
           />
 
           <CommentForm

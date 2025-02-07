@@ -28,7 +28,7 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
         render={({ field }) => {
           return (
             <CategorySelect
-              className="w-60"
+              className="w-64"
               onChange={field.onChange}
               value={bookingData.categories || field.value || ""}
               error={errors?.categories?.message}

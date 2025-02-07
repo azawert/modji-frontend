@@ -17,7 +17,8 @@ import { DownArrowIcon } from "./DownArrowIcon"
 import { AttentionYellow } from "./AttentionYellow"
 import { AttentionBlue } from "./AttentionBlue"
 import { AttentionRed } from "./AttentionRed"
-
+import { DeletePetIcon } from "./DeletePetIcon"
+import { RoundedPlusIcon } from "./RoundedPlusIcon"
 
 export type TIcon =
   | "PlusIcon"
@@ -39,6 +40,8 @@ export type TIcon =
   | "AttentionYellow"
   | "AttentionBlue"
   | "AttentionRed"
+  | "DeletePetIcon"
+  | "RoundedPlusIcon"
 
 export type TIconProps = SVGProps<SVGSVGElement>
 
@@ -61,4 +64,6 @@ export const iconTypes = new Map<TIcon, React.JSX.Element>([
   ["AttentionYellow", <AttentionYellow key={"AttentionYellow"} />],
   ["AttentionBlue", <AttentionBlue key={"AttentionBlue"} />],
   ["AttentionRed", <AttentionRed key={"AttentionRed"} />],
+  ["DeletePetIcon", <DeletePetIcon key={"DeletePetIcon"} />],
+  ["RoundedPlusIcon", <RoundedPlusIcon key={"RoundedPlusIcon"} />],
 ])

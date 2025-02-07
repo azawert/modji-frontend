@@ -82,11 +82,13 @@ const SearchIcon = (props: SvgIconProps) => (
 )
 
 type TProps = {
+  onOptionClick?: (value: OwnerDto) => void
   placeholder?: string
   completeOptions?: OwnerDto[]
   isLoading?: boolean
   search: string
   onSearchChange: (value: string) => void
+  defaultValue?: OwnerDto
 }
 
 export const SearchComponent: React.FC<TProps> = props => {
@@ -96,6 +98,8 @@ export const SearchComponent: React.FC<TProps> = props => {
     isLoading,
     search,
     onSearchChange,
+    onOptionClick,
+    defaultValue,
   } = props
 
   const [open, setOpen] = useState(false)
@@ -114,6 +118,7 @@ export const SearchComponent: React.FC<TProps> = props => {
         noOptionsText="Клиент не найден"
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={option => (option as OwnerDto).firstName || ""}
+        value={defaultValue}
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
@@ -122,8 +127,12 @@ export const SearchComponent: React.FC<TProps> = props => {
         filterOptions={x => x}
         freeSolo={completeOptions?.length ? false : true}
         id="combo-box-demo"
-        sx={{ width: 400 }}
+        sx={{ width: 340 }}
+        className="w-80 h-10 p-0"
         options={completeOptions}
+        onChange={(_, value) =>
+          onOptionClick && onOptionClick(value as OwnerDto)
+        }
         onInputChange={handleDebounceInputChange}
         renderInput={params => (
           <StyledInputBase

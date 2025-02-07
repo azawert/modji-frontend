@@ -13,20 +13,16 @@ import { Logo } from "./Logo"
 import useBookingStore from "@/modules/Booking/store/BookingStore"
 import { DropDownMenu } from "@/widgets/Dropdown/DropdownMenu.tsx"
 import { useLocation, useNavigate } from "react-router-dom"
-import { getSelectedLink } from "../data/utils"
 
-export const Header: React.FC<TPropsForHeader> = ({
-  links,
-  srcLogo,
-  logoTitle,
-}) => {
-  const { pathname } = useLocation()
-  const [selectedLink, setSelectedLink] = useState(getSelectedLink(pathname))
+export const Header: React.FC<TPropsForHeader> = ({ links }) => {
+  const [selectedLink, setSelectedLink] = useState(links[0].label)
   const [hoveredLink, setHoveredLink] = useState<string | undefined>(undefined)
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false)
-  const [menuTimeout, setMenuTimeout] =
-    useState<ReturnType<typeof setTimeout>>()
+  const [menuTimeout, setMenuTimeout] = useState<NodeJS.Timeout | null>(null)
+  const { pathname } = useLocation()
   const navigate = useNavigate()
+
+  const isCreateBookingPage = pathname.includes("create-booking")
 
   const handleSelectedLink = (link: HeaderPageLink) => {
     setSelectedLink(link.label)
@@ -124,18 +120,20 @@ export const Header: React.FC<TPropsForHeader> = ({
               </div>
             </div>
             <div className="flex items-center justify-between gap-8">
-              <Button
-                size={EButtonSize.Medium}
-                variant={EButtonVariant.Primary}
-                fontSize={14}
-                fontWeight={700}
-                onClick={() => {
-                  setBookingStep(1)
-                  openModal(true)
-                }}
-              >
-                Добавить бронирование
-              </Button>
+              {!isCreateBookingPage && (
+                <Button
+                  size={EButtonSize.Medium}
+                  variant={EButtonVariant.Primary}
+                  fontSize={14}
+                  fontWeight={700}
+                  onClick={() => {
+                    setBookingStep(1)
+                    openModal(true)
+                  }}
+                >
+                  Добавить бронирование
+                </Button>
+              )}
               <IconButton
                 size="large"
                 edge="start"

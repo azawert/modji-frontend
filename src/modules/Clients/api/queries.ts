@@ -6,6 +6,7 @@ import {
   searchOwner,
   SearchOwnerDirection,
 } from "@/generated/owners"
+import { EMutationKeys } from "@/modules/Pets/api/keys"
 
 export const useGetAllClients = () =>
   useQuery({
@@ -18,7 +19,10 @@ export const useGetSuggestedClients = (
   direction: SearchOwnerDirection
 ) =>
   useQuery({
-    queryKey: [EQueryKeys.GET_SUGGESTED_CLIENTS + wanted],
+    queryKey: [
+      EQueryKeys.GET_SUGGESTED_CLIENTS + wanted,
+      EMutationKeys.CREATE_PET,
+    ],
     queryFn: () =>
       searchOwner(
         { wanted },
@@ -30,7 +34,7 @@ export const useGetSuggestedClients = (
 
 export const useGetClientById = (id: number) =>
   useQuery({
-    queryKey: [EQueryKeys.GET_CLIENT_BY_ID + id],
+    queryKey: [EQueryKeys.GET_CLIENT_BY_ID + id, EMutationKeys.CREATE_PET],
     queryFn: () => getOwnerById(id, { headers: { "X-PetHotel-User-Id": 1 } }),
     enabled: !!id,
   })

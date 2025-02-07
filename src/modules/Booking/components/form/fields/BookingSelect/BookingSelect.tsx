@@ -1,11 +1,8 @@
 import { cn } from "@/lib/utils"
-import {
-  InputBase,
-  Select as MUISelect,
-  MenuItem,
-  SelectChangeEvent,
-  styled,
-} from "@mui/material"
+import { CustomInputBase } from "@/shared/ui/Inputs/CustomInputBase/CustomInputBase"
+import { FieldError } from "@/shared/ui/Inputs/FieldError/FieldError"
+import { Label } from "@/shared/ui/Inputs/Label/Label"
+import { Select as MUISelect, MenuItem, SelectChangeEvent } from "@mui/material"
 import { forwardRef, SelectHTMLAttributes } from "react"
 import { FieldValues, UseFormRegister } from "react-hook-form"
 
@@ -32,20 +29,8 @@ interface TProps extends HTMLSelectProps {
   data?: SelectData[]
   placeholder?: string
   register?: UseFormRegister<FieldValues>
+  hasSpaceForLabel?: boolean
 }
-
-const CustomizedInput = styled(InputBase)(({ theme }) => ({
-  "& .MuiInputBase-input": {
-    borderRadius: 24,
-    position: "relative",
-    backgroundColor: "transparent",
-    border: "2px solid #D0CFCF",
-    fontSize: 16,
-    padding: "12px 20px 12px 20px",
-    transition: theme.transitions.create(["border-color", "box-shadow"]),
-    marginTop: 0,
-  },
-}))
 
 export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
   (props, ref) => {
@@ -70,12 +55,8 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
 
     return (
       <label htmlFor={label} className={cn({ ["w-full"]: fullWidth })}>
-        <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
-          {label}
-          <span className="font-semibold ml-0.5 text-basicGreyText ">
-            {isRequired ? "*" : ""}
-          </span>
-        </span>
+        <Label label={label || ""} isRequired={isRequired} />
+
         <div style={{ marginBottom }} className="flex flex-col">
           <MUISelect
             displayEmpty
@@ -85,20 +66,15 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
             onChange={handleSelectChange}
             value={value}
             sx={{
-              borderRadius: "24px",
-              marginBottom: "7px",
               ".css-1uwzc1h-MuiSelect-select-MuiInputBase-input:focus": {
                 borderRadius: "24px",
-              },
-              ".Mui-error": {
-                border: " 2px solid #ff7878",
               },
             }}
             className={cn(`rounded-24px ${className}`, {
               ["w-full"]: fullWidth,
               ["border-error"]: !!error,
             })}
-            input={<CustomizedInput />}
+            input={<CustomInputBase />}
             id={label}
             renderValue={selected => {
               if (selected.length === 0) {
@@ -135,9 +111,7 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
                 ))
               : renderNoData?.()}
           </MUISelect>
-          <span className="text-error font-semibold text-small h-2">
-            {error}
-          </span>
+          <FieldError error={error || ""} />
         </div>
       </label>
     )

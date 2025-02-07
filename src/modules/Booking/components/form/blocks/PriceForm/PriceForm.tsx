@@ -1,76 +1,94 @@
 import { TextField } from "@/shared/ui/TextField"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
-import dayjs from "dayjs"
-import { useState } from "react"
-import { Controller, DeepPartial, UseFormReturn } from "react-hook-form"
 import {
+  Controller,
+  DeepPartial,
+  UseFormReturn,
+  useWatch,
+} from "react-hook-form"
+import {
+  ExtendedIPayment,
   IBookingForm,
-  IPayment,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { CustomCheckbox } from "@/shared/ui/Checkbox"
+import { useEffect, useRef } from "react"
+import { useLocation } from "react-router-dom"
 
 interface PriceProps {
-  form: UseFormReturn<IPayment>
+  form: UseFormReturn<ExtendedIPayment>
   bookingData: DeepPartial<IBookingForm>
 }
 
 export const PriceForm = (props: PriceProps) => {
   const { form, bookingData } = props
   const {
-    register,
     formState: { errors },
     control,
   } = form
 
-  const dateForDayJs = (date: string) => {
-    if (!date) return dayjs()
-    const dateArr = date?.split(".").reverse()
-    const currentDate = new Date(
-      Number(dateArr[0]),
-      Number(dateArr[1]) - 1,
-      Number(dateArr[2])
-    )
-    return dayjs(currentDate)
-  }
+  const { pathname } = useLocation()
+  const isCreateBookingPage = pathname.includes("create-booking")
 
-  const bookingDaysAmount = dateForDayJs(bookingData.dateTo!).diff(
-    dateForDayJs(bookingData.dateFrom!),
-    "day"
-  )
+  const prevFullPriceRef = useRef(0)
+  const formState = form.getValues()
 
-  const [pricePerDay, setPricePerDay] = useState(bookingData.pricePerDay)
-  const [prepayment, setPrepayment] = useState(bookingData.prepayment)
-
-  const handleChangePrice =
-    (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value
-      if (isNaN(Number(value))) return
-      if (type === "pricePerDay") setPricePerDay(Number(value))
-      if (type === "prepayment") setPrepayment(Number(value))
+  const formValues = useWatch<ExtendedIPayment>({ control })
+  useEffect(() => {
+    let fullPrice
+    if (
+      !isCreateBookingPage &&
+      formValues?.pricePerDay &&
+      bookingData?.daysAmount &&
+      formValues.pricePerDay * bookingData?.daysAmount !==
+        prevFullPriceRef.current
+    ) {
+      fullPrice = formValues?.pricePerDay * bookingData?.daysAmount
+      form.setValue("fullPrice", fullPrice)
+      prevFullPriceRef.current = fullPrice
+    } else if (
+      isCreateBookingPage &&
+      formValues?.pricePerDay &&
+      formValues.daysAmount &&
+      formValues.pricePerDay * formValues?.daysAmount !==
+        prevFullPriceRef.current
+    ) {
+      fullPrice = formValues?.pricePerDay * formValues?.daysAmount
+      form.setValue("fullPrice", fullPrice)
+      prevFullPriceRef.current = fullPrice
     }
+  }, [bookingData, form, formValues, isCreateBookingPage])
 
   return (
     <section className="flex flex-col gap-3">
       <div className="flex gap-6">
-        <TextField
-          label={Placeholder.PRICE_PER_DAY.valueOf()}
-          id={Placeholder.PRICE_PER_DAY.valueOf()}
-          placeholder={Placeholder.PRICE_PER_DAY.valueOf()}
-          value={pricePerDay}
-          className="w-64"
-          error={errors?.pricePerDay?.message}
-          {...register("pricePerDay")}
-          onChange={e => handleChangePrice("pricePerDay")(e)}
+        <Controller
+          control={control}
+          name={"pricePerDay"}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label={Placeholder.PRICE_PER_DAY.valueOf()}
+              id={Placeholder.PRICE_PER_DAY.valueOf()}
+              placeholder={Placeholder.PRICE_PER_DAY.valueOf()}
+              className="w-64"
+              error={errors?.pricePerDay?.message}
+            />
+          )}
         />
-        <TextField
-          label={Placeholder.FULL_PRICE.valueOf()}
-          id={Placeholder.FULL_PRICE.valueOf()}
-          placeholder={Placeholder.FULL_PRICE.valueOf()}
-          value={Number(pricePerDay) * bookingDaysAmount || 0}
-          onChange={() => {}}
-          onClick={() => {}}
-          className="w-64"
-          disabled
+        <Controller
+          control={control}
+          name={"fullPrice"}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label={Placeholder.FULL_PRICE.valueOf()}
+              id={Placeholder.FULL_PRICE.valueOf()}
+              placeholder={Placeholder.FULL_PRICE.valueOf()}
+              value={formState?.fullPrice}
+              className="w-64"
+              disabled
+            />
+          )}
         />
       </div>
       <Controller
@@ -85,15 +103,19 @@ export const PriceForm = (props: PriceProps) => {
           />
         )}
       />
-      <TextField
-        label={Placeholder.PREPAYMENT.valueOf()}
-        id={Placeholder.PREPAYMENT.valueOf()}
-        placeholder={Placeholder.PREPAYMENT.valueOf()}
-        value={prepayment}
-        className="w-64"
-        error={errors?.prepayment?.message}
-        {...register("prepayment")}
-        onChange={e => handleChangePrice("prepayment")(e)}
+      <Controller
+        control={control}
+        name={"prepayment"}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label={Placeholder.PREPAYMENT.valueOf()}
+            id={Placeholder.PREPAYMENT.valueOf()}
+            placeholder={Placeholder.PREPAYMENT.valueOf()}
+            className="w-64"
+            error={errors?.prepayment?.message}
+          />
+        )}
       />
     </section>
   )

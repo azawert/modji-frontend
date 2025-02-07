@@ -72,7 +72,7 @@ const CreateShortClient = () => {
 
   return (
     <ShortClientModal
-      form={form as UseFormReturn<NewOwnerDto>}
+      form={form as unknown as UseFormReturn<NewOwnerDto>}
       isModalOpen={isModalOpen}
       onClose={handleCloseModalWindow}
       onSubmit={handleCreateClient}

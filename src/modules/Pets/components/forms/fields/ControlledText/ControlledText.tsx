@@ -5,7 +5,7 @@ import { InputTextField } from "../../types/types"
 interface ControlledTextFieldProps {
   control: Control
   errors: FieldErrors
-  formValues: { [key: string]: string }
+  formValues?: { [key: string]: string }
   field: InputTextField
   readOnly?: boolean
 }
@@ -22,9 +22,8 @@ export const ControlledText = ({
       name={field.name as never}
       control={control}
       render={({ field: { onChange, value } }) => {
-        const disabled = field?.disabledFn
-          ? field.disabledFn(formValues)
-          : false
+        const disabled =
+          field?.disabledFn && formValues ? field.disabledFn(formValues) : false
         const computedValue =
           field.valueFn && formValues ? field.valueFn(formValues, value) : value
         return (

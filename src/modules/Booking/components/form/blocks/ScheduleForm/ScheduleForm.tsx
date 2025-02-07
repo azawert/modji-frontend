@@ -7,13 +7,19 @@ import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import { TextField, TIconInputPosition } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
 import dayjs from "dayjs"
-import { useCallback, useState } from "react"
-import { Controller, DeepPartial, UseFormReturn } from "react-hook-form"
+import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  Controller,
+  DeepPartial,
+  UseFormReturn,
+  useWatch,
+} from "react-hook-form"
 import { BookingSelect } from "../../fields/BookingSelect/BookingSelect"
 import {
   IBookingForm,
   IScheduleForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
+import { getDayDifference } from "@/modules/Pets/components/forms/utils/calcDifference"
 
 interface ScheduleProps {
   form: UseFormReturn<IScheduleForm>
@@ -23,15 +29,12 @@ interface ScheduleProps {
 export const ScheduleForm = (props: ScheduleProps) => {
   const { form, bookingData } = props
   const {
-    register,
     formState: { errors },
     control,
     clearErrors,
     setValue,
   } = form
 
-  // TODO: Now dayjs wrong convert bookingData properties from string date to dayjs (month and day are swapped)
-  // TODO: Fix it and delete dateForDayJs
   const dateForDayJs = (date?: string) => {
     if (!date) return dayjs()
     const dateArr = date?.split(".").reverse()
@@ -46,7 +49,6 @@ export const ScheduleForm = (props: ScheduleProps) => {
   const isDateFromValid = dayjs(bookingData.dateFrom, InputDataFormat).isValid()
   const isDateToValid = dayjs(bookingData.dateTo, InputDataFormat).isValid()
 
-  //Datepicker
   const [dateFrom, setDateFrom] = useState<null | dayjs.Dayjs>(
     isDateFromValid ? dateForDayJs(bookingData.dateFrom) : null
   )
@@ -55,9 +57,20 @@ export const ScheduleForm = (props: ScheduleProps) => {
   )
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<string | null>(null)
 
-  const daysDifference = dateTo
-    ?.diff(dateFrom?.subtract(1, "day"), "day")
-    .toString()
+  const prevDateRef = useRef(0)
+
+  const formValues = useWatch({ control })
+
+  useEffect(() => {
+    const daysDifference = getDayDifference(
+      formValues?.dateTo as string,
+      formValues?.dateFrom as string
+    )
+    if (daysDifference && daysDifference !== prevDateRef.current) {
+      setValue("daysAmount", Number(daysDifference))
+      prevDateRef.current = daysDifference!
+    }
+  }, [formValues, dateFrom, dateTo, setValue])
 
   const onChangeDate = useCallback(
     (type: "dateFrom" | "dateTo") => (date: dayjs.Dayjs) => {
@@ -82,33 +95,43 @@ export const ScheduleForm = (props: ScheduleProps) => {
       <div className="flex flex-col gap-x-2">
         <div className="flex flex-row gap-4 items-center">
           <div className="relative">
-            <TextField
-              width="260px"
-              id={Placeholder.DATE_FROM.valueOf()}
-              placeholder={Placeholder.DATE_FROM}
-              value={dateFrom?.format(InputDataFormat)}
-              label={
-                dateFrom?.format(InputDataFormat)?.length
-                  ? Placeholder.DATE_FROM.valueOf()
-                  : ""
-              }
-              onClick={() =>
-                setIsDatePickerOpen(Placeholder.DATE_FROM.valueOf())
-              }
-              error={errors.dateFrom?.message}
-              {...register("dateFrom")}
-              iconType="CalendarIcon"
-              iconPosition={TIconInputPosition.RIGHT}
-            />
-            <DatePicker
-              onClose={() => setIsDatePickerOpen(null)}
-              isOpen={isDatePickerOpen === Placeholder.DATE_FROM.valueOf()}
-              value={dateFrom}
-              minDate={dayjs()}
-              maxDate={dateTo}
-              onChange={onChangeDate("dateFrom")}
-              cls="absolute top-10 z-50 scale-85"
-              disablePastDates
+            <Controller
+              control={control}
+              name="dateFrom"
+              render={({ field }) => (
+                <>
+                  <TextField
+                    width="260px"
+                    id={Placeholder.DATE_FROM.valueOf()}
+                    placeholder={Placeholder.DATE_FROM}
+                    value={field.value}
+                    label={
+                      field.value?.length ? Placeholder.DATE_FROM.valueOf() : ""
+                    }
+                    onClick={() =>
+                      setIsDatePickerOpen(Placeholder.DATE_FROM.valueOf())
+                    }
+                    error={errors.dateFrom?.message}
+                    iconType="CalendarIcon"
+                    iconPosition={TIconInputPosition.RIGHT}
+                  />
+                  <DatePicker
+                    onClose={() => setIsDatePickerOpen(null)}
+                    isOpen={
+                      isDatePickerOpen === Placeholder.DATE_FROM.valueOf()
+                    }
+                    value={dateFrom}
+                    minDate={dayjs()}
+                    maxDate={dateTo}
+                    onChange={date => {
+                      field.onChange(date.format(InputDataFormat))
+                      onChangeDate("dateFrom")(date)
+                    }}
+                    cls="absolute top-10 z-50"
+                    disablePastDates
+                  />
+                </>
+              )}
             />
           </div>
           <Controller
@@ -131,30 +154,40 @@ export const ScheduleForm = (props: ScheduleProps) => {
 
         <div className="flex flex-row gap-3 items-center">
           <div className="relative">
-            <TextField
-              width={"260px"}
-              id={Placeholder.DATE_TO.valueOf()}
-              placeholder={Placeholder.DATE_TO}
-              label={
-                dateTo?.format(InputDataFormat).length
-                  ? Placeholder.DATE_TO.valueOf()
-                  : ""
-              }
-              value={dateTo?.format(InputDataFormat)}
-              onClick={() => setIsDatePickerOpen(Placeholder.DATE_TO.valueOf())}
-              {...register("dateTo")}
-              error={errors.dateTo?.message}
-              iconType="CalendarIcon"
-              iconPosition={TIconInputPosition.RIGHT}
-            />
-            <DatePicker
-              onClose={handleCloseDatePicker}
-              isOpen={isDatePickerOpen === Placeholder.DATE_TO.valueOf()}
-              value={dateTo}
-              onChange={onChangeDate("dateTo")}
-              minDate={dateFrom?.add(1, "day")}
-              cls="absolute z-50 scale-85"
-              disablePastDates
+            <Controller
+              control={control}
+              name="dateTo"
+              render={({ field }) => (
+                <>
+                  <TextField
+                    width={"260px"}
+                    id={Placeholder.DATE_TO.valueOf()}
+                    placeholder={Placeholder.DATE_TO}
+                    label={
+                      field.value?.length ? Placeholder.DATE_TO.valueOf() : ""
+                    }
+                    value={field.value}
+                    onClick={() =>
+                      setIsDatePickerOpen(Placeholder.DATE_TO.valueOf())
+                    }
+                    error={errors.dateTo?.message}
+                    iconType="CalendarIcon"
+                    iconPosition={TIconInputPosition.RIGHT}
+                  />
+                  <DatePicker
+                    onClose={handleCloseDatePicker}
+                    isOpen={isDatePickerOpen === Placeholder.DATE_TO.valueOf()}
+                    value={dateTo}
+                    onChange={date => {
+                      field.onChange(date.format(InputDataFormat))
+                      onChangeDate("dateTo")(date)
+                    }}
+                    minDate={dateFrom?.add(1, "day")}
+                    cls="absolute z-50"
+                    disablePastDates
+                  />
+                </>
+              )}
             />
           </div>
           <Controller
@@ -173,13 +206,20 @@ export const ScheduleForm = (props: ScheduleProps) => {
           />
         </div>
       </div>
-      <TextField
-        label={Placeholder.DAYS_AMOUNT}
-        id={Placeholder.DAYS_AMOUNT.valueOf()}
-        placeholder={Placeholder.DAYS_AMOUNT}
-        value={daysDifference! + 1 || bookingData.daysAmount! + 1}
-        className="w-56"
-        {...register("daysAmount")}
+      <Controller
+        control={control}
+        name="daysAmount"
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label={Placeholder.DAYS_AMOUNT}
+            id={Placeholder.DAYS_AMOUNT.valueOf()}
+            placeholder={Placeholder.DAYS_AMOUNT}
+            className="w-56"
+            type="number"
+            disabled
+          />
+        )}
       />
     </div>
   )

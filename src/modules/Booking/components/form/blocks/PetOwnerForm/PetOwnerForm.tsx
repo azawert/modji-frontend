@@ -6,13 +6,60 @@ import { CardWithPet } from "@/shared/ui/CardWithPet"
 import { PetTag } from "@/shared/ui/PetTag"
 import useBookingStore from "@/modules/Booking/store/BookingStore"
 import CreateShortClient from "@/modules/Booking/features/createShortClient/CreateShortClient"
+import { OwnerDto, PetDtoForOwner } from "@/generated/owners"
+import { Icon } from "@/shared/ui/Icon/Icon"
+import { IconButton } from "@mui/material"
+import { IPet } from "@/modules/Booking/model/types/BookingValidationSchema"
+import { DeepPartial, UseFormReturn } from "react-hook-form"
+import { useState } from "react"
+import { PetSelectionModal } from "../../../modal/PetSelectionModal/PetSelectionModel"
+import { CreateShortPet } from "../../../modal/ShortPetModal/ShortPetModal"
+import { useGetClientById } from "@/modules/Clients/api/queries"
 
 interface IPetOwnerFormProps {
   isCreateBookingPage?: boolean
+  form: UseFormReturn<IPet>
+  bookingData: DeepPartial<IPet>
 }
 
 export const PetOwnerForm = (props: IPetOwnerFormProps) => {
-  const { isCreateBookingPage } = props
+  const { isCreateBookingPage, form, bookingData } = props
+
+  const [isSelectPetOpen, setIsSelectPetOpen] = useState(false)
+  const { setValue, watch } = form
+
+  const setOwner = useBookingStore(state => state.setOwner)
+  const storeOwner = useBookingStore(state => state.owner)
+  const setIsOpenShortPetModal = useBookingStore(
+    state => state.setIsCreateShortPet
+  )
+
+  const { data: client } = useGetClientById(Number(storeOwner?.id))
+
+  const owner = storeOwner || client
+  const petIds = watch("petIds") ?? []
+
+  const availablePets =
+    owner?.petsDto?.filter(pet => !petIds.includes(pet.id ?? 0)) ?? []
+
+  const selectedPets =
+    owner?.petsDto?.filter(pet => petIds.includes(pet.id ?? 0)) ?? []
+
+  const handleSelectPet = (petId: number) => {
+    const updatedPetIds = [...petIds, petId]
+    setValue("petIds", updatedPetIds)
+  }
+
+  const handleRemovePet = (petId: number) => {
+    const updatedPetIds = petIds.filter(id => id !== petId)
+    setValue("petIds", updatedPetIds)
+  }
+
+  const handleChooseClient = (value: OwnerDto) => {
+    setOwner(value)
+    if (!bookingData.petIds) return
+    setValue("petIds", [...(bookingData.petIds as number[])])
+  }
 
   const openModal = useBookingStore(state => state.setIsCreateShortClient)
 
@@ -20,45 +67,130 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
     openModal(true)
   }
 
+  const ownerFullName = `${owner?.firstName} ${owner?.lastName ?? ""} ${
+    owner?.middleName ?? ""
+  }`
+
+  const renderHelperText = () => {
+    if (!owner) {
+      return <p className="text-center text-medium mb-5">Клиент не выбран</p>
+    }
+    if (availablePets.length) {
+      return (
+        <p className="text-center text-medium mb-5">
+          <span
+            className="underline text-primaryTextBlue cursor-pointer"
+            onClick={() => setIsSelectPetOpen(true)}
+          >
+            Выберите карточку питомца
+          </span>{" "}
+          или <br />{" "}
+          <span
+            className="underline text-primaryTextBlue cursor-pointer"
+            onClick={() => setIsOpenShortPetModal(true)}
+          >
+            {" "}
+            создайте нового
+          </span>
+        </p>
+      )
+    } else {
+      return (
+        <span className=" text-center text-medium mb-5 underline text-primaryTextBlue cursor-pointer">
+          {" "}
+          Создайте нового питомца
+        </span>
+      )
+    }
+  }
+
+  const renderCardWithPet = (
+    petsToShow: PetDtoForOwner[],
+    selectPet: (id: number) => void
+  ) => {
+    return (
+      <div className="grid grid-cols-2 gap-4 overflow-y-auto h-64">
+        {owner &&
+          petsToShow.map(pet => (
+            <CardWithPet
+              key={pet.id}
+              onClick={() => selectPet(pet.id ?? 0)}
+              breed={pet.breed ?? "Нет породы"}
+              petName={pet.name ?? "Нет клички"}
+              petType={pet.type ?? "Собака или кошка?"}
+              width="234px"
+              height="244px"
+            />
+          ))}
+
+        {!petsToShow.length && (
+          <p className="my-3 mx-auto">Нет доступных питомцев</p>
+        )}
+      </div>
+    )
+  }
+
+  const renderPetTags = (
+    selected: PetDtoForOwner[],
+    removePet: (id: number) => void
+  ) => {
+    return (
+      <div className="flex flex-col gap-1">
+        {selected.map(pet => (
+          <div className="flex gap-2" key={pet.id}>
+            <PetTag
+              petName={pet.name ?? "Нет клички"}
+              petType={pet.type ?? "Собака или кошка?"}
+              breed={pet.breed ?? "Нет породы"}
+            />
+            <IconButton
+              onClick={() => removePet(pet.id ?? 0)}
+              className="p-0"
+              sx={{
+                "&.MuiButtonBase-root": {
+                  padding: 0,
+                },
+              }}
+            >
+              <Icon width="32" height="32" type="DeletePetIcon" />
+            </IconButton>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   const renderBookingModalForm = () => {
     return (
-      <div className="flex gap-3 flex-col mt-7">
+      <div className="flex gap-3 flex-col mt-4">
         <StepTitle title="Шаг 3: Клиент и питомцы" />
         <div className="flex gap-2">
-          <OwnersSearch />
+          <OwnersSearch onChooseOption={handleChooseClient} />
           <Button
             variant={EButtonVariant.Secondary}
             size={EButtonSize.Small}
             fontSize={12}
             fontWeight={600}
-            className="w-56"
+            className="w-56 h-8"
             onClick={handleOpenModal}
           >
             Создать клиента
           </Button>
         </div>
-        <CardWithClient
-          fullName="Иванов Иван Иванович"
-          mainPhone="8 (999) 999-99-99"
-          registrationDate="01.01.2022"
-          width="510px"
-          tableView
-        />
-        <PetTag />
-        <p className="text-center text-medium mb-5">
-          Выберите карточку питомца или <br />{" "}
-          <span className="underline text-primaryTextBlue">
-            {" "}
-            создайте нового
-          </span>
-        </p>
-        <CardWithPet
-          breed="Бульдог"
-          petName="Шарик"
-          petType="Собака"
-          width="234px"
-          height="244px"
-        />
+        {owner && (
+          <CardWithClient
+            fullName={ownerFullName}
+            mainPhone={owner?.mainPhone}
+            registrationDate={owner?.registrationDate}
+            width="510px"
+            tableView
+          />
+        )}
+        {renderPetTags(selectedPets, handleRemovePet)}
+
+        {renderHelperText()}
+
+        {renderCardWithPet(availablePets, handleSelectPet)}
       </div>
     )
   }
@@ -66,27 +198,39 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   const renderBookingPageForm = () => {
     return (
       <div className="flex gap-3 flex-col mt-7">
-        <CardWithClient
-          fullName="Иванов Иван Иванович"
-          mainPhone="8 (999) 999-99-99"
-          registrationDate="01.01.2022"
-          width="511px"
-          tableView
-        />
-        <PetTag />
-        <p className=" text-center text-medium mb-5 w-full">
-          <div>
-            <span className="underline text-primaryTextBlue">
-              Добавьте питомца из имеющихся{" "}
-            </span>{" "}
-            <br />
-            или
-            <span className="underline text-primaryTextBlue">
-              {" "}
-              создайте нового
-            </span>
-          </div>
-        </p>
+        <div className="flex gap-2">
+          <OwnersSearch onChooseOption={handleChooseClient} />
+          <Button
+            variant={EButtonVariant.Secondary}
+            size={EButtonSize.Small}
+            fontSize={12}
+            fontWeight={600}
+            className="w-56 h-8"
+            onClick={handleOpenModal}
+          >
+            Создать клиента
+          </Button>
+        </div>
+        {owner && (
+          <CardWithClient
+            fullName={ownerFullName}
+            mainPhone={owner?.mainPhone}
+            registrationDate={owner?.registrationDate}
+            width="510px"
+            tableView
+          />
+        )}
+        {renderPetTags(selectedPets, handleRemovePet)}
+
+        {renderHelperText()}
+
+        <PetSelectionModal
+          isOpen={isSelectPetOpen}
+          onClose={() => setIsSelectPetOpen(false)}
+        >
+          {renderPetTags(selectedPets, handleRemovePet)}
+          {renderCardWithPet(availablePets, handleSelectPet)}
+        </PetSelectionModal>
       </div>
     )
   }
@@ -95,6 +239,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
     <>
       {isCreateBookingPage ? renderBookingPageForm() : renderBookingModalForm()}
       <CreateShortClient />
+      <CreateShortPet />
     </>
   )
 }

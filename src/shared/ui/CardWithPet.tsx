@@ -1,6 +1,7 @@
 import React from "react"
-import { Typography, Box, styled } from "@mui/material"
+import { Typography, Box, styled, IconButton } from "@mui/material"
 import { CardWrapper } from "@/shared/ui/CardWrapper"
+import { Icon } from "./Icon/Icon"
 
 const StyledBox = styled(Box)(() => ({
   display: "flex",
@@ -22,6 +23,7 @@ const InfoValue = styled(Typography)(() => ({
 }))
 
 interface CardWithPetProps {
+  onClick?: () => void
   petName: string
   petType: string
   breed: string
@@ -35,6 +37,7 @@ export const CardWithPet: React.FC<CardWithPetProps> = ({
   breed,
   width,
   height,
+  onClick,
 }) => {
   return (
     <CardWrapper width={width} height={height}>
@@ -49,6 +52,11 @@ export const CardWithPet: React.FC<CardWithPetProps> = ({
       <StyledBox>
         <InfoTitle>Порода/вид</InfoTitle>
         <InfoValue>{breed}</InfoValue>
+        {onClick && (
+          <IconButton className="self-end" onClick={onClick}>
+            <Icon type="RoundedPlusIcon" width="30" height="30" />
+          </IconButton>
+        )}
       </StyledBox>
     </CardWrapper>
   )
