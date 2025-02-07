@@ -6,7 +6,7 @@ import { DeepPartial, UseFormHandleSubmit } from "react-hook-form"
 import { IBookingForm } from "../../../model/types/BookingValidationSchema"
 import { addConfirmationNotification } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
-import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
+
 
 type TProps = {
   children: React.ReactNode

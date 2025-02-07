@@ -1,6 +1,6 @@
 import { TIcon, iconTypes } from "@/assets/Icons/types"
-import { cn, formatToStringWithPx } from "@/lib/utils"
-import { DOMAttributes, memo, useEffect, useRef } from "react"
+import { cn } from "@/lib/utils"
+import { DOMAttributes, memo, useRef } from "react"
 import styles from "./Icon.module.scss"
 
 const getIcon = (type: TIcon) => iconTypes.get(type)

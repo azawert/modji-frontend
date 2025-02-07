@@ -5,7 +5,7 @@ import {
   IBookingForm,
   ICategoryAndRoom,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
-import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
+
 
 
 interface CategoryRoomsProps {
