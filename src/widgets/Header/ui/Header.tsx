@@ -34,7 +34,7 @@ export const Header: React.FC<TPropsForHeader> = ({ links }) => {
   const handleHoverOverLink = (link?: string) => {
     if (menuTimeout) {
       clearTimeout(menuTimeout)
-      setMenuTimeout(undefined)
+      setMenuTimeout(undefined as unknown as NodeJS.Timeout)
     }
     setHoveredLink(link)
     setIsDropdownMenuOpen(true)
@@ -51,7 +51,7 @@ export const Header: React.FC<TPropsForHeader> = ({ links }) => {
   const handleOnMenuEnter = () => {
     if (menuTimeout) {
       clearTimeout(menuTimeout)
-      setMenuTimeout(undefined)
+      setMenuTimeout(undefined as unknown as NodeJS.Timeout)
     }
   }
 

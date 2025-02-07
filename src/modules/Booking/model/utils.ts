@@ -55,6 +55,7 @@ export const mapperBookingFormDataToDTO = (
     roomId: Number(data.rooms[0]),
     type: "TYPE_BOOKING",
     petIds: data.petIds,
+    comment: data.comment,
   }
 }
 
