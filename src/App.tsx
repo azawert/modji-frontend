@@ -5,6 +5,8 @@ import { routes } from "./routes/routes"
 import { NotificationProvider } from "./contexts/notificationContext/NotificationContext"
 import { NotificationContainer } from "./contexts/notificationContext/NotificationContainer"
 
+
+
 function App() {
   const router = createBrowserRouter(routes)
   const [queryClient] = useState(

@@ -6,6 +6,8 @@ import {
   ICategoryAndRoom,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 
+
+
 interface CategoryRoomsProps {
   form: UseFormReturn<ICategoryAndRoom>
   bookingData: DeepPartial<IBookingForm>
@@ -34,6 +36,7 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
           )
         }}
       />
+
       <Controller
         control={control}
         name="rooms"
