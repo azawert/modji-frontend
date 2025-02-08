@@ -1,14 +1,6 @@
-import {
-  styled,
-  alpha,
-  SvgIcon,
-  Autocomplete,
-  TextField,
-  debounce,
-} from "@mui/material"
-import { SvgIconProps } from "@mui/material/SvgIcon"
+import { styled, alpha, Autocomplete, TextField, debounce } from "@mui/material"
 import { useState } from "react"
-import { OwnerDto } from "@/generated/owners"
+import { Icon } from "./Icon/Icon"
 
 const Search = styled("div")(({ theme }) => ({
   display: "flex",
@@ -46,84 +38,67 @@ const StyledInputBase = styled(TextField)(({ theme }) => ({
   "& fieldset": { border: "none" },
 }))
 
-const SearchIcon = (props: SvgIconProps) => (
-  <SvgIcon {...props}>
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      style={{ width: 16, height: 16 }}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clipPath="url(#clip0_4136_1067)">
-        <path
-          d="M7.33333 13.6667C10.8311 13.6667 13.6667 10.8311 13.6667 7.33333C13.6667 3.83553 10.8311 1 7.33333 1C3.83553 1 1 3.83553 1 7.33333C1 10.8311 3.83553 13.6667 7.33333 13.6667Z"
-          stroke="#181A1A"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14.3333 14.3333L13 13"
-          stroke="#181A1A"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_4136_1067">
-          <rect width="16" height="16" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
-  </SvgIcon>
-)
-
-type TProps = {
+type TProps<T extends { id: number }> = {
+  onOptionClick?: (value: T) => void
   placeholder?: string
-  completeOptions?: OwnerDto[]
+  completeOptions: T[]
   isLoading?: boolean
   search: string
   onSearchChange: (value: string) => void
+  defaultValue?: T
+  optionName?: keyof T
 }
 
-export const SearchComponent: React.FC<TProps> = props => {
+export const SearchComponent = <T extends { id: number }>(props: TProps<T>) => {
   const {
     placeholder,
     completeOptions = [],
     isLoading,
     search,
     onSearchChange,
+    onOptionClick,
+    defaultValue,
+    optionName,
   } = props
 
   const [open, setOpen] = useState(false)
 
-  const handleDebounceInputChange = debounce((_, value) => {
+  const handleDebounceInputChange = debounce((_, value: string) => {
     onSearchChange(value)
   }, 300)
 
   return (
     <Search>
       <SearchIconWrapper>
-        <SearchIcon width={"16px"} height={"16px"} />
+        <Icon type="SearchIcon" width="16px" height="16px" />
       </SearchIconWrapper>
 
       <Autocomplete
         noOptionsText="Клиент не найден"
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        getOptionLabel={option => (option as OwnerDto).firstName || ""}
+        getOptionLabel={option => {
+          if (
+            optionName &&
+            typeof option !== "string" &&
+            optionName in option
+          ) {
+            return String(option[optionName])
+          }
+          return ""
+        }}
+        value={defaultValue ?? null}
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         loading={isLoading}
         loadingText="Поиск..."
         filterOptions={x => x}
-        freeSolo={completeOptions?.length ? false : true}
+        freeSolo={completeOptions.length === 0}
         id="combo-box-demo"
-        sx={{ width: 400 }}
+        sx={{ width: 340 }}
+        className="w-80 h-10 p-0"
         options={completeOptions}
+        onChange={(_, value) => onOptionClick?.(value as T)}
         onInputChange={handleDebounceInputChange}
         renderInput={params => (
           <StyledInputBase

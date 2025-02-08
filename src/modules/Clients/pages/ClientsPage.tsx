@@ -5,7 +5,7 @@ import { TableWithClients } from "@/modules/Clients/components/ClientsPage/Table
 import { SearchComponent } from "@/shared/ui/SearchComponent"
 import { useGetAllClients, useGetSuggestedClients } from "../api/queries"
 import { useCreateClient } from "../api/mutation"
-import { NewOwnerDto, OwnerDto } from "@/generated/owners"
+import { NewOwnerDto } from "@/generated/owners"
 import {
   formatPhoneNumberToServerRequest,
   addErrorNotification,
@@ -72,10 +72,11 @@ export const ClientsPage: React.FC = () => {
       <ClientsTitle onClick={handleOpenCreateModal} />
       <SearchComponent
         placeholder="Введите ФИО или телефон клиента"
-        completeOptions={options as OwnerDto[]}
+        completeOptions={options!}
         search={search}
         isLoading={isLoadingSuggestions}
         onSearchChange={handleSearchChange}
+        optionName="firstName"
       />
       <TableWithClients
         data={data ?? []}

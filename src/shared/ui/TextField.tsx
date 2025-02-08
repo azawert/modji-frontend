@@ -1,9 +1,11 @@
 import { TIcon } from "@/assets/Icons/types"
 import { cn } from "@/lib/utils"
-import { CircularProgress, InputBase } from "@mui/material"
+import { CircularProgress } from "@mui/material"
 import { forwardRef, memo } from "react"
 import { Icon } from "./Icon/Icon"
-import { EErrorColor, ErrorText } from "@/shared/ui/ErrorText.tsx"
+import { FieldError } from "./Inputs/FieldError/FieldError"
+import { Label } from "./Inputs/Label/Label"
+import { CustomInputBase } from "./Inputs/CustomInputBase/CustomInputBase"
 
 export enum TIconInputPosition {
   LEFT = "left",
@@ -43,14 +45,12 @@ type TProps = {
   rowsToDisplay?: number
   type?: string
   isPhone?: boolean
+  hasSpaceForLabel?: boolean
 } & React.PropsWithChildren &
   Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     "color" | "size" | "itemRef"
   >
-
-const disabled = "opacity-50 hover:bg-indigo-100"
-const errored = "border-error"
 
 const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
   const {
@@ -70,74 +70,42 @@ const Component = forwardRef<HTMLInputElement, TProps>((props, ref) => {
     rowsToDisplay = 3,
     type,
     width,
+    hasSpaceForLabel = true,
     ...rest
   } = props
 
   const isLeftIconDisplayed =
     iconPosition === TIconInputPosition.LEFT && !isLoading
+  const isRightIconDisplayed =
+    iconPosition === TIconInputPosition.RIGHT && !isLoading
+
+  const LoadingContent = isLoading ? <CircularProgress size={16} /> : null
+  const IconContent = isLoading ? LoadingContent : <Icon type={iconType} />
+
+  const labelValue = rest.value ? label || "" : ""
+
   return (
     <label htmlFor={id} className="flex flex-col" style={{ width }}>
-      {label && rest.value && (
-        <span className="mb-1 text-sm text-basicGreyText active:border-basicBlack text-small">
-          {rest.value ? label : " "}
-          <span className="font-semibold ml-0.5 text-basicGreyText text-small">
-            {isRequired ? "*" : ""}
-          </span>
-        </span>
-      )}
+      {hasSpaceForLabel && <Label label={labelValue} isRequired={isRequired} />}
 
       <div style={{ marginBottom, position: "relative", width }}>
-        <InputBase
+        <CustomInputBase
           placeholder={placeholder}
           autoComplete="off"
           disabled={isDisabled || isLoading}
           id={id}
           type={type}
-          className={cn(
-            `border-2 border-basicGrey  rounded-24px focus-within:border-basicBlack py-3 px-5 w-full ${className}`,
-            {
-              [disabled]: isDisabled,
-              [errored]: error,
-              ["px-5"]: isTextarea,
-            }
-          )}
-          startAdornment={
-            isLeftIconDisplayed ? (
-              <Icon type={iconType} />
-            ) : isLoading ? (
-              <CircularProgress size={16} />
-            ) : null
-          }
-          endAdornment={iconPosition === "right" && <Icon type={iconType} />}
+          className={cn(className, { ["px-5"]: isTextarea })}
+          startAdornment={isLeftIconDisplayed && IconContent}
+          endAdornment={isRightIconDisplayed && IconContent}
           ref={ref}
-          inputProps={{
-            maxLength,
-          }}
-          sx={{
-            "& .MuiInputBase-input": {
-              padding: 0,
-            },
-            "& .MuiInputBase-inputMultiline": {
-              paddingLeft: "20px",
-              paddingTop: "12px",
-            },
-            "& .MuiInputBase-input.Mui-disabled": {
-              WebkitTextFillColor: "black",
-            },
-          }}
+          inputProps={{ maxLength }}
           error={!!error}
           multiline={isTextarea}
           minRows={rowsToDisplay}
           {...rest}
-        />
-        {error && (
-          <ErrorText
-            color={EErrorColor.RED}
-            className="top-full left-0 pt-1 pl-[22px] text-red-500 text-xs"
-          >
-            {error}
-          </ErrorText>
-        )}
+        />{" "}
+        <FieldError error={error || ""} />
       </div>
     </label>
   )

@@ -3,6 +3,7 @@ import { BookingModal } from "../modal/BookingModal/BookingModal"
 import { useForm, UseFormReturn } from "react-hook-form"
 import {
   ICategoryAndRoom,
+  IPet,
   IScheduleForm,
   ScreenSchema3,
 } from "../../model/types/BookingValidationSchema"
@@ -37,7 +38,10 @@ const BookingScreen4 = () => {
           bookingData={bookingData}
           form={form as unknown as UseFormReturn<IScheduleForm>}
         />
-        <PetOwnerForm />
+        <PetOwnerForm
+          bookingData={bookingData}
+          form={form as unknown as UseFormReturn<IPet>}
+        />
       </div>
     </BookingModal>
   )

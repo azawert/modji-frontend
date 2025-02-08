@@ -1,11 +1,11 @@
-
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
+  ExtendedIPayment,
   FullBookingSchema,
   IBookingForm,
   ICategoryAndRoom,
   IComment,
-  IPayment,
+  IPet,
   IScheduleForm,
 } from "../../model/types/BookingValidationSchema"
 import { useForm, UseFormReturn } from "react-hook-form"
@@ -68,7 +68,11 @@ export const BookingPage = () => {
       <BookingPageWrapper>
         <div>
           <StepTitle title="Клиент и питомцы" />
-          <PetOwnerForm isCreateBookingPage />
+          <PetOwnerForm
+            isCreateBookingPage
+            form={form as unknown as UseFormReturn<IPet>}
+            bookingData={data!}
+          />
         </div>
 
         <div>
@@ -91,7 +95,7 @@ export const BookingPage = () => {
           <StepTitle title="Стоимость" />
           <PriceForm
             bookingData={data!}
-            form={form as unknown as UseFormReturn<IPayment>}
+            form={form as unknown as UseFormReturn<ExtendedIPayment>}
           />
 
           <CommentForm

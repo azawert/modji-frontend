@@ -3,7 +3,7 @@ import {
   IComment,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { TextField } from "@/shared/ui/TextField"
-import { DeepPartial, UseFormReturn } from "react-hook-form"
+import { Controller, DeepPartial, UseFormReturn } from "react-hook-form"
 
 interface CommentFormProps {
   form: UseFormReturn<IComment>
@@ -12,15 +12,21 @@ interface CommentFormProps {
 
 export const CommentForm = (props: CommentFormProps) => {
   const { form } = props
-  const { register } = form
+  const { control } = form
   return (
-    <TextField
-      id="comment"
-      placeholder="Комментарий"
-      label="Комментарий"
-      isTextarea
-      width={541}
-      {...register("comment")}
+    <Controller
+      control={control}
+      name={"comment"}
+      render={({ field }) => (
+        <TextField
+          id="comment"
+          placeholder="Комментарий"
+          label="Комментарий"
+          isTextarea
+          width={541}
+          {...field}
+        />
+      )}
     />
   )
 }

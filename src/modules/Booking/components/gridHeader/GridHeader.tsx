@@ -4,6 +4,7 @@ import { HEADER_TABS } from "../../model/utils"
 import { Tab } from "@/shared/ui/Tab"
 import { SearchComponent } from "@/shared/ui/SearchComponent"
 import { useMemo } from "react"
+import { BookingDto } from "@/generated/bookings"
 
 type TProps = {
   onChangeTab: (tab: EBookingView) => void
@@ -36,7 +37,12 @@ export const GridHeader = ({
         {tabs}
       </Stack>
       <Stack>
-        <SearchComponent onSearchChange={onQueueChange} search={queue} />
+        <SearchComponent<BookingDto>
+          completeOptions={[]}
+          onSearchChange={onQueueChange}
+          search={queue}
+          optionName="price"
+        />
       </Stack>
     </Stack>
   )

@@ -46,7 +46,7 @@ export const CreatePetPage = () => {
   const isDirty = usePetFormStore(state => state.isDirty)
 
   const { data: clientData, isLoading } = useGetClientById(Number(id))
-  const { mutate: createPet } = useCreatePet()
+  const { mutate: createPet } = useCreatePet(clientData?.id || 0)
 
   const formRef = useRef<{ leaveForm: () => void }>(null)
   const currentPetType = petType as keyof typeof petConfig

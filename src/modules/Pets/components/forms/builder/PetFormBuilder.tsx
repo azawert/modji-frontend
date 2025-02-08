@@ -144,9 +144,7 @@ const FormBuilder = forwardRef(
               className="bg-white shadow-sm rounded-lg p-6"
             >
               <CategoryTitle title={category.title} />
-              <div className="space-y-4">
-                {renderFields(fieldsToShow, renderField)}
-              </div>
+              <div>{renderFields(fieldsToShow, renderField)}</div>
               {category.fields.length > category.expandedFields && (
                 <button
                   type="button"

@@ -23,7 +23,6 @@ export const Footer = () => {
 
   const regex = /\/clients\/(\d+)\/pets\/(dog|cat|other)\/create/
   const isCreatePetPage = pathname.match(regex)
-
   return (
     <StyledFooter>
       {isCreateBookingPage && <BookingFooter />}

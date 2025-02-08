@@ -79,6 +79,9 @@ export const BookingModal: React.FC<TProps> = memo(props => {
           borderRadius: "16px",
           width: "656px ",
         },
+        "& .MuiDialog-paperScrollPaper": {
+          overflowY: "visible",
+        },
       }}
     >
       <DialogTitle
@@ -90,18 +93,24 @@ export const BookingModal: React.FC<TProps> = memo(props => {
       >
         Новое бронирование
       </DialogTitle>
-      <form className="pb-10 px-16" onSubmit={onSubmit(handleSubmit)}>
+      <form
+        className="pb-10 px-16 flex flex-col"
+        style={{ height: "100%" }}
+        onSubmit={onSubmit(handleSubmit)}
+      >
         <Box
           display="flex"
           alignItems="center"
           justifyContent="center"
-          marginBottom={"15px"}
+          marginBottom="auto"
         >
           <Box
             display="flex"
             justifyContent="flex-start"
             flexDirection="column"
             width="100%"
+            height={"100%"}
+            marginBottom={"auto"}
           >
             {children}
           </Box>

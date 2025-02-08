@@ -2,7 +2,7 @@ import { useForm, UseFormReturn } from "react-hook-form"
 import { BookingModal } from "../modal/BookingModal/BookingModal"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
-  IPayment,
+  ExtendedIPayment,
   ScreenSchema4,
 } from "../../model/types/BookingValidationSchema"
 import useBookingStore from "../../store/BookingStore"
@@ -26,7 +26,7 @@ const BookingScreen5 = () => {
       <StepTitle title="Шаг 4: Стоимость" />
       <PriceForm
         bookingData={bookingData}
-        form={form as unknown as UseFormReturn<IPayment>}
+        form={form as unknown as UseFormReturn<ExtendedIPayment>}
       />
     </BookingModal>
   )
