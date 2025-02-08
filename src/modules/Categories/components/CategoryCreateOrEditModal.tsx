@@ -110,6 +110,7 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
           },
         })}
       />
+
       <TextField
         placeholder="Описание"
         id="categoryDescription"

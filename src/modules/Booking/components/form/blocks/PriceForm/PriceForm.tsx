@@ -11,8 +11,8 @@ import {
   IBookingForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { CustomCheckbox } from "@/shared/ui/Checkbox"
-import { useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
+import { useFormPriceControl } from "./useFullPriceControl"
 
 interface PriceProps {
   form: UseFormReturn<ExtendedIPayment>
@@ -29,34 +29,16 @@ export const PriceForm = (props: PriceProps) => {
   const { pathname } = useLocation()
   const isCreateBookingPage = pathname.includes("create-booking")
 
-  const prevFullPriceRef = useRef(0)
   const formState = form.getValues()
 
   const formValues = useWatch<ExtendedIPayment>({ control })
-  useEffect(() => {
-    let fullPrice
-    if (
-      !isCreateBookingPage &&
-      formValues?.pricePerDay &&
-      bookingData?.daysAmount &&
-      formValues.pricePerDay * bookingData?.daysAmount !==
-        prevFullPriceRef.current
-    ) {
-      fullPrice = formValues?.pricePerDay * bookingData?.daysAmount
-      form.setValue("fullPrice", fullPrice)
-      prevFullPriceRef.current = fullPrice
-    } else if (
-      isCreateBookingPage &&
-      formValues?.pricePerDay &&
-      formValues.daysAmount &&
-      formValues.pricePerDay * formValues?.daysAmount !==
-        prevFullPriceRef.current
-    ) {
-      fullPrice = formValues?.pricePerDay * formValues?.daysAmount
-      form.setValue("fullPrice", fullPrice)
-      prevFullPriceRef.current = fullPrice
-    }
-  }, [bookingData, form, formValues, isCreateBookingPage])
+
+  useFormPriceControl(
+    isCreateBookingPage,
+    form,
+    formValues as ExtendedIPayment,
+    bookingData as IBookingForm
+  )
 
   return (
     <section className="flex flex-col gap-3">

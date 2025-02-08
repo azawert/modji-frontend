@@ -12,7 +12,7 @@ import { IconButton } from "@mui/material"
 import { IPet } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { DeepPartial, UseFormReturn } from "react-hook-form"
 import { useState } from "react"
-import { PetSelectionModal } from "../../../modal/PetSelectionModal/PetSelectionModel"
+import { PetSelectionModal } from "../../../modal/PetSelectionModal/PetSelectionModal"
 import { CreateShortPet } from "../../../modal/ShortPetModal/ShortPetModal"
 import { useGetClientById } from "@/modules/Clients/api/queries"
 
@@ -63,9 +63,11 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
 
   const openModal = useBookingStore(state => state.setIsCreateShortClient)
 
-  const handleOpenModal = () => {
-    openModal(true)
-  }
+  const handleOpenModal = () => openModal(true)
+
+  const handleOpenSelctionModal = () => setIsSelectPetOpen(true)
+
+  const handleOpenCreatePetModal = () => setIsOpenShortPetModal(true)
 
   const ownerFullName = `${owner?.firstName} ${owner?.lastName ?? ""} ${
     owner?.middleName ?? ""
@@ -80,24 +82,25 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
         <p className="text-center text-medium mb-5">
           <span
             className="underline text-primaryTextBlue cursor-pointer"
-            onClick={() => setIsSelectPetOpen(true)}
+            onClick={handleOpenSelctionModal}
           >
             Выберите карточку питомца
           </span>{" "}
           или <br />{" "}
           <span
             className="underline text-primaryTextBlue cursor-pointer"
-            onClick={() => setIsOpenShortPetModal(true)}
+            onClick={handleOpenCreatePetModal}
           >
-            {" "}
             создайте нового
           </span>
         </p>
       )
     } else {
       return (
-        <span className=" text-center text-medium mb-5 underline text-primaryTextBlue cursor-pointer">
-          {" "}
+        <span
+          className=" text-center text-medium mb-5 underline text-primaryTextBlue cursor-pointer"
+          onClick={handleOpenCreatePetModal}
+        >
           Создайте нового питомца
         </span>
       )
@@ -109,7 +112,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
     selectPet: (id: number) => void
   ) => {
     return (
-      <div className="grid grid-cols-2 gap-4 overflow-y-auto h-64">
+      <div className="grid grid-cols-2 gap-4 overflow-y-auto overflow-x-hidden h-64">
         {owner &&
           petsToShow.map(pet => (
             <CardWithPet

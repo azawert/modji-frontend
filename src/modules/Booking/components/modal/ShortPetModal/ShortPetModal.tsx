@@ -57,7 +57,7 @@ export const CreateShortPet = () => {
           successNotification("Питомец успешно создан")
           setIsShortPetModal(false)
           setOwner({
-            ...owner,
+            ...owner!,
             petsDto: [...(owner?.petsDto || []), res],
           })
         },
@@ -141,7 +141,7 @@ export const CreateShortPet = () => {
         fontSize={24}
         fontWeight={800}
       >
-        Новый клиент
+        Новый питомец
       </DialogTitle>
       <form className="pb-10 px-16">
         <Box display="flex" flexDirection="column" gap={2}>

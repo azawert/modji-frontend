@@ -483,7 +483,7 @@ export interface OwnerDto {
   /** Имя клиента */
   firstName?: string
   /** Id клиента */
-  id?: number
+  id: number
   /** Фамилия клиента */
   lastName?: string
   /** Основной номер телефона клиента */
@@ -495,7 +495,7 @@ export interface OwnerDto {
   /** Прочие контакты клиента */
   otherContacts?: string
   /** Список питомцев клиента */
-  petsDto?: PetDtoForOwner[]
+  petsDto: PetDtoForOwner[]
   /** Рейтинг клиента */
   rating?: number
   /** Дата регистрации клиента */
@@ -713,7 +713,7 @@ export const searchOwner = (
   params?: SearchOwnerParams,
   options?: SecondParameter<typeof axiosInstance>
 ) => {
-  return axiosInstance<OwnerDto>(
+  return axiosInstance<OwnerDto[]>(
     {
       url: `/owners/search`,
       method: "POST",

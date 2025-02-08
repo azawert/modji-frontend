@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils"
 import { InputBase, InputBaseProps, styled } from "@mui/material"
+import { forwardRef } from "react"
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
   "& .MuiInputBase-input": {
@@ -27,14 +28,14 @@ interface ICustomInputBase {
   error?: boolean
 }
 
-export const CustomInputBase: React.FC<InputBaseProps & ICustomInputBase> = ({
-  isDisabled,
-  error,
-  className,
-  ...rest
-}) => {
+export const CustomInputBase = forwardRef<
+  HTMLInputElement,
+  InputBaseProps & ICustomInputBase
+>((props, ref) => {
+  const { isDisabled, error, className, ...rest } = props
   return (
     <CustomizedInput
+      ref={ref}
       {...rest}
       className={cn(
         `border-2 border-basicGrey  rounded-24px focus-within:border-basicBlack py-3 px-5 w-full ${className}`,
@@ -45,4 +46,4 @@ export const CustomInputBase: React.FC<InputBaseProps & ICustomInputBase> = ({
       )}
     />
   )
-}
+})

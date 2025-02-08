@@ -1,17 +1,19 @@
-import { useMutation } from "@tanstack/react-query"
-import { EMutationKeys } from "./keys"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { addPet, NewPetDto } from "@/generated/pets"
-import { useGetClientById } from "@/modules/Clients/api/queries"
+import { EMutationKeys } from "./keys"
+import { EQueryKeys } from "@/modules/Clients/api/keys"
 
-export const useCreatePet = (userId: number) => {
-  const { refetch } = useGetClientById(userId)
+export const useCreatePet = (clientId: number) => {
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationKey: [EMutationKeys.CREATE_PET],
     mutationFn: (data: NewPetDto) =>
       addPet(data, { headers: { "X-PetHotel-User-Id": 1 } }),
     onSuccess: () => {
-      refetch()
+      queryClient.invalidateQueries({
+        queryKey: [EQueryKeys.GET_CLIENT_BY_ID + clientId],
+      })
     },
   })
 }

@@ -16,7 +16,7 @@ export const OwnersSearch = ({ onChooseOption }: IOwnersSearch) => {
     refetch,
   } = useGetSuggestedClients(search, "name")
 
-  const ownwer = useBookingStore(state => state.owner)
+  const owner = useBookingStore(state => state.owner)
 
   const handleSearchChange = (value: string) => {
     setSearch(value)
@@ -24,20 +24,21 @@ export const OwnersSearch = ({ onChooseOption }: IOwnersSearch) => {
   }
 
   useEffect(() => {
-    if (ownwer && !search) {
-      onChooseOption(ownwer)
+    if (owner && !search) {
+      onChooseOption(owner)
     }
-  }, [ownwer, onChooseOption, search])
+  }, [owner, onChooseOption, search])
 
   return (
-    <SearchComponent
+    <SearchComponent<OwnerDto>
       onOptionClick={onChooseOption}
       placeholder="Поиск по ФИО или телефону"
       completeOptions={options as OwnerDto[]}
       search={search}
       isLoading={isLoadingSuggestions}
       onSearchChange={handleSearchChange}
-      defaultValue={ownwer as OwnerDto}
+      defaultValue={owner ?? undefined}
+      optionName="firstName"
     />
   )
 }
