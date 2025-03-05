@@ -1,0 +1,29 @@
+name: Deploy to server
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build-and-push-image:
+    name: Build and Publish Docker Image
+    uses: Modgy/modgy-devops/.github/workflows/publish_docker_image.yml@main
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      API_URL: ${{ vars.API_URL }}
+  
+  deploy-to-test-server:
+    name: Update App on Test Server
+    needs: build-and-push-image
+    uses: Modgy/modgy-devops/.github/workflows/update_service.yml@main
+    secrets:
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
+      SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+    with:
+      DOCKER_SERVICE: frontend
