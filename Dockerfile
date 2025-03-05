@@ -2,13 +2,13 @@ FROM node:20.18.0-slim AS build
 
 WORKDIR /app
 
-ARG VITE_BACKEND_BASE_URL
+ARG ARG API_URL
 
 COPY package*.json ./
 RUN npm ci --legacy-peer-deps
 
 COPY ./ ./
-RUN VITE_BACKEND_BASE_URL=$VITE_BACKEND_BASE_URL npm run build
+RUN VITE_BACKEND_BASE_URL=$API_URL npm run build
 
 FROM nginx:alpine AS run
 
