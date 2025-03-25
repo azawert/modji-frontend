@@ -10,7 +10,7 @@ import { OwnerDto, PetDtoForOwner } from "@/generated/owners"
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { IconButton } from "@mui/material"
 import { IPet } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { DeepPartial, UseFormReturn } from "react-hook-form"
+import { DeepPartial, UseFormReturn, useWatch } from "react-hook-form"
 import { useState } from "react"
 import { PetSelectionModal } from "../../../modal/PetSelectionModal/PetSelectionModal"
 import { CreateShortPet } from "../../../modal/ShortPetModal/ShortPetModal"
@@ -28,15 +28,17 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   const [isSelectPetOpen, setIsSelectPetOpen] = useState(false)
   const { setValue, watch } = form
 
+  const values = useWatch({ control: form.control })
   const setOwner = useBookingStore(state => state.setOwner)
   const storeOwner = useBookingStore(state => state.owner)
   const setIsOpenShortPetModal = useBookingStore(
     state => state.setIsCreateShortPet
   )
+  const setBookingData = useBookingStore(state => state.setBookingData)
 
   const { data: client } = useGetClientById(Number(storeOwner?.id))
 
-  const owner = storeOwner || client
+  const owner = storeOwner || client || null
   const petIds = watch("petIds") ?? []
 
   const availablePets =
@@ -47,12 +49,15 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
 
   const handleSelectPet = (petId: number) => {
     const updatedPetIds = [...petIds, petId]
+    setBookingData({ ...bookingData, ...values, petIds: updatedPetIds })
     setValue("petIds", updatedPetIds)
   }
 
   const handleRemovePet = (petId: number) => {
     const updatedPetIds = petIds.filter(id => id !== petId)
+    setBookingData({ ...bookingData, ...values, petIds: updatedPetIds })
     setValue("petIds", updatedPetIds)
+    console.log(bookingData)
   }
 
   const handleChooseClient = (value: OwnerDto) => {
@@ -112,24 +117,26 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
     selectPet: (id: number) => void
   ) => {
     return (
-      <div className="grid grid-cols-2 gap-4 overflow-y-auto overflow-x-hidden h-64">
-        {owner &&
-          petsToShow.map(pet => (
-            <CardWithPet
-              key={pet.id}
-              onClick={() => selectPet(pet.id ?? 0)}
-              breed={pet.breed ?? "Нет породы"}
-              petName={pet.name ?? "Нет клички"}
-              petType={pet.type ?? "Собака или кошка?"}
-              width="234px"
-              height="244px"
-            />
-          ))}
-
+      <>
+        {owner && petsToShow.length !== 0 && (
+          <div className="grid grid-cols-2 gap-4 overflow-y-auto overflow-x-hidden h-64 py-3">
+            {petsToShow.map(pet => (
+              <CardWithPet
+                key={pet.id}
+                onClick={() => selectPet(pet.id ?? 0)}
+                breed={pet.breed ?? "Нет породы"}
+                petName={pet.name ?? "Нет клички"}
+                petType={pet.type ?? "Собака или кошка?"}
+                width="234px"
+                height="244px"
+              />
+            ))}
+          </div>
+        )}
         {!petsToShow.length && (
           <p className="my-3 mx-auto">Нет доступных питомцев</p>
         )}
-      </div>
+      </>
     )
   }
 

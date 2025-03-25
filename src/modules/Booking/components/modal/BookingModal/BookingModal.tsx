@@ -7,7 +7,6 @@ import { IBookingForm } from "../../../model/types/BookingValidationSchema"
 import { addConfirmationNotification } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
 
-
 type TProps = {
   children: React.ReactNode
   onSubmit: UseFormHandleSubmit<DeepPartial<IBookingForm>>
@@ -82,6 +81,9 @@ export const BookingModal: React.FC<TProps> = memo(props => {
         "& .MuiDialog-paperScrollPaper": {
           overflowY: "visible",
         },
+        "& .MuiDialog-container": {
+          overflowY: "auto",
+        },
       }}
     >
       <DialogTitle
@@ -94,8 +96,7 @@ export const BookingModal: React.FC<TProps> = memo(props => {
         Новое бронирование
       </DialogTitle>
       <form
-        className="pb-10 px-16 flex flex-col"
-        style={{ height: "100%" }}
+        className="pb-10 px-16 flex flex-col bg-white rounded-lg"
         onSubmit={onSubmit(handleSubmit)}
       >
         <Box
@@ -137,7 +138,6 @@ export const BookingModal: React.FC<TProps> = memo(props => {
           </Button>
         </Box>
       </form>
-
     </Dialog>
   )
 })

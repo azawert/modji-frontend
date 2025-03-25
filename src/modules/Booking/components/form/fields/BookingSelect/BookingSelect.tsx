@@ -47,6 +47,7 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
       placeholder,
       register,
       onChange,
+      disabled,
     } = props
 
     const handleSelectChange = (e: SelectChangeEvent) => {
@@ -59,6 +60,7 @@ export const BookingSelect = forwardRef<HTMLSelectElement, TProps>(
 
         <div style={{ marginBottom }} className="flex flex-col">
           <MUISelect
+            disabled={disabled}
             displayEmpty
             ref={ref}
             labelId={label}

@@ -38,8 +38,8 @@ export const ShortClientModal: React.FC<ShortClientModalProps> = ({
 
   const renderBody = () => {
     return (
-      <form className="pb-10" id="create-short-client">
-        <Box display="flex" flexDirection="column" gap={2}>
+      <form className="pb-4 overflow-auto" id="create-short-client">
+        <Box display="flex" flexDirection="column">
           {ShortClientFieldsConfig.map(field => {
             if (PhoneIds.includes(field.id)) {
               return (
@@ -95,13 +95,7 @@ export const ShortClientModal: React.FC<ShortClientModalProps> = ({
 
   const renderFooter = () => {
     return (
-      <Box
-        display="flex"
-        justifyContent="space-evenly"
-        width={"100%"}
-        mt={4}
-        gap={4}
-      >
+      <Box display="flex" justifyContent="space-evenly" width={"100%"} gap={4}>
         <Button
           onClick={onClose}
           variant={EButtonVariant.Secondary}

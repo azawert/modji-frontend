@@ -7,15 +7,16 @@ import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
 
 const BookingScreen1 = () => {
   const bookingData = useBookingStore(state => state.bookingData)
+  const { dateFrom, dateTo, timeFrom, timeTo, daysAmount } = bookingData
 
   const form = useForm({
     resolver: yupResolver(ScreenSchema1),
     defaultValues: {
-      dateFrom: bookingData.dateFrom || "",
-      dateTo: bookingData.dateTo || "",
-      timeFrom: bookingData.timeFrom || "",
-      timeTo: bookingData.timeTo || "",
-      daysAmount: bookingData.daysAmount || 0,
+      dateFrom,
+      dateTo,
+      timeFrom,
+      timeTo,
+      daysAmount,
     },
   })
 

@@ -1,7 +1,6 @@
 import { useForm, useWatch } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { createValidationSchema } from "./createValidationSchema"
-import {} from "../fields"
 import { forwardRef, useEffect, useState } from "react"
 import { CategoryTitle } from "../../common/CategoryTitle/CategoryTitle"
 import { ControlledDate } from "../fields/ControlledDate/ControlledDate"

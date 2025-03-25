@@ -21,6 +21,12 @@ import { mapperBookingFormDataToDTO } from "../../model/utils"
 import { PetOwnerForm } from "../../components/form/blocks/PetOwnerForm/PetOwnerForm"
 import { styled } from "@mui/material"
 
+import {
+  addErrorNotification,
+  addSuccessNotification,
+} from "@/shared/utils/utils"
+import { useNavigate } from "react-router-dom"
+
 export const BookingPageWrapper = styled("div")(() => ({
   width: "541px",
   display: "flex",
@@ -47,7 +53,10 @@ const defaultValues = {
 export const CreateBookingPage = () => {
   const data = useBookingStore(state => state.bookingData)
   const setBookingData = useBookingStore(state => state.setBookingData)
-  const { mutate: createBooking, isSuccess } = useCreateBooking()
+  const { mutate: createBooking, isSuccess, error } = useCreateBooking()
+  const navigate = useNavigate()
+  const notificateError = addErrorNotification()
+  const notificateSuccess = addSuccessNotification()
 
   const form = useForm({
     resolver: yupResolver(FullBookingSchema),
@@ -60,7 +69,11 @@ export const CreateBookingPage = () => {
     const data = mapperBookingFormDataToDTO(bookingData)
     createBooking(data)
     if (isSuccess) {
+      notificateSuccess("Бронирование успешно создано")
       setBookingData(defaultValues)
+      navigate("/bookings")
+    } else {
+      notificateError(error.response.data.message)
     }
   }
 
@@ -76,6 +89,9 @@ export const CreateBookingPage = () => {
             form={form as unknown as UseFormReturn<IPet>}
             bookingData={data!}
           />
+          {data?.petIds?.length === 0 && (
+            <p className="text-center text-error">Выберите питомца!</p>
+          )}
         </div>
 
         <div>

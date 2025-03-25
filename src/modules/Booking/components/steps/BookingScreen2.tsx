@@ -8,12 +8,13 @@ import { StepTitle } from "../typography/StepTitle/StepTitle"
 
 const BookingScreen2 = () => {
   const bookingData = useBookingStore(state => state.bookingData)
+  const { categories, rooms } = bookingData
 
   const form = useForm({
     resolver: yupResolver(ScreenSchema2),
     defaultValues: {
-      categories: bookingData.categories || "",
-      rooms: bookingData.rooms || "",
+      categories: categories || "",
+      rooms: rooms || "",
     },
   })
 

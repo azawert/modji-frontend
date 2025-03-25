@@ -2,28 +2,36 @@ import { SelectData } from "@/shared/ui/Select"
 import { Typography } from "@mui/material"
 import { BookingSelect } from "../BookingSelect/BookingSelect"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
-import { useGetAllRooms } from "@/modules/Rooms/api/queries"
+import { RoomDto } from "@/generated/room"
 
 type TProps = {
   onChange: (value: string) => void
   value: string
   error?: string
   className?: string
+  rooms: RoomDto[]
+  disabled?: boolean
+  isErrorRequest: boolean
 }
 
 export const RoomSelect: React.FC<TProps> = props => {
-  const { onChange, value, error, className } = props
-  const { data: rooms, isError } = useGetAllRooms("1")
+  const { onChange, value, error, className, rooms, isErrorRequest } = props
+
+  const hasRooms = rooms.length
+  const placeholder = !hasRooms
+    ? "Нет доступных комнат"
+    : Placeholder.ROOMS.valueOf()
 
   const mappedDataFromRooms = (): SelectData[] | undefined =>
     rooms?.map(element => ({
       label: element.number,
       value: String(element.number),
     }))
+
   const renderNoData = (): React.ReactNode => {
-    if (!isError && rooms?.length === 0) {
+    if (!isErrorRequest && rooms?.length === 0) {
       return <Typography>Комнаты не найдены</Typography>
-    } else if (isError) {
+    } else if (isErrorRequest) {
       return <Typography>Ошибка загрузки комнат</Typography>
     }
   }
@@ -37,8 +45,9 @@ export const RoomSelect: React.FC<TProps> = props => {
       renderNoData={renderNoData}
       error={error}
       marginBottom="16px"
-      placeholder={Placeholder.ROOMS.valueOf()}
+      placeholder={placeholder}
       className={className}
+      disabled={!hasRooms}
     />
   )
 }

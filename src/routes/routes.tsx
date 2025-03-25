@@ -4,6 +4,9 @@ import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
 import { LayoutBookingGrid } from "@/shared/ui/Layouts/LayoutBookingGrid"
 import { CreatePetPage, PetPage } from "@/modules/Pets"
 import { BookingGridPage } from "@/modules/Booking/pages/BookingGridPage/BookingGridPage"
+import { UpdatePetPage } from "@/modules/Pets/pages/UpdatePetPage"
+import { Layout } from "@/shared/ui/Layouts/Layout"
+import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
 
 const CategoriesPage = lazy(() =>
   import("@/modules/Categories/pages/CategoriesPage").then(module => ({
@@ -40,13 +43,13 @@ const BookingPage = lazy(() =>
     default: module.BookingPage,
   }))
 )
-const CreateBookingPage = lazy(() =>
-  import("@/modules/Booking/pages/CreateBookingPage/CreateBookingPage").then(
-    module => ({
-      default: module.CreateBookingPage,
-    })
-  )
-)
+// const CreateBookingPage = lazy(() =>
+//   import("@/modules/Booking/pages/CreateBookingPage/CreateBookingPage").then(
+//     module => ({
+//       default: module.CreateBookingPage,
+//     })
+//   )
+// )
 const ClientPage = lazy(() =>
   import("@/modules/Clients/pages/ClientPage.tsx").then(module => ({
     default: module.ClientPage,
@@ -61,7 +64,7 @@ const LazyLoadWrapper = ({ children }: { children: React.ReactNode }) => (
 export const routes: RouteObject[] = [
   {
     path: "/",
-    element: <LayoutWithFooter />,
+    element: <Layout />,
     children: [
       {
         index: true,
@@ -124,6 +127,10 @@ export const routes: RouteObject[] = [
         element: <CreatePetPage />,
       },
       {
+        path: "clients/:id/pets/:petId/update",
+        element: <UpdatePetPage />,
+      },
+      {
         path: "clients/:id/pets/:petId",
         element: <PetPage />,
       },
@@ -136,20 +143,6 @@ export const routes: RouteObject[] = [
         <AuthorizationPage />
       </LazyLoadWrapper>
     ),
-  },
-  {
-    path: "/create-booking",
-    element: <LayoutWithFooter />,
-    children: [
-      {
-        element: (
-          <LazyLoadWrapper>
-            <CreateBookingPage />
-          </LazyLoadWrapper>
-        ),
-        path: "",
-      },
-    ],
   },
   {
     path: "/create-booking",

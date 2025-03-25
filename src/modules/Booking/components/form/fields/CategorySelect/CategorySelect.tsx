@@ -1,29 +1,30 @@
-import { useGetCategories } from "@/modules/Categories/api/queries"
 import { SelectData } from "@/shared/ui/Select"
 import { Typography } from "@mui/material"
 import { BookingSelect } from "../BookingSelect/BookingSelect"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
+import { CategoryDto } from "@/generated/bookings"
 
 type TProps = {
   onChange: (value: string) => void
   value: string
   error?: string
   className: string
+  isErrorRequest: boolean
+  categories: CategoryDto[]
 }
 
 export const CategorySelect: React.FC<TProps> = props => {
-  const { onChange, value, error, className } = props
-  const { data: categories, isError } = useGetCategories()
-
+  const { onChange, value, error, className, categories, isErrorRequest } =
+    props
   const mappedDataFromCategories = (): SelectData[] | undefined =>
     categories?.map(element => ({
       label: element.name,
       value: String(element.name),
     }))
   const renderNoData = (): React.ReactNode => {
-    if (!isError && categories?.length === 0) {
+    if (!isErrorRequest && categories?.length === 0) {
       return <Typography>Категории не найдены</Typography>
-    } else if (isError) {
+    } else if (isErrorRequest) {
       return <Typography>Ошибка загрузки категорий</Typography>
     }
   }
