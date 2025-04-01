@@ -15,7 +15,7 @@ import { renderFields } from "../utils/groupFormFields"
 
 interface FormBuilderProps {
   config: FormConfig
-  onSubmit: (data: FormData) => void
+  onSubmit?: (data: FormData) => void
   defaultValues?: FormData
   viewMode?: boolean
   formId: string
@@ -30,6 +30,8 @@ const FormBuilder = forwardRef(
     }>({})
 
     const setIsDirty = usePetFormStore(state => state.setIsDirty)
+    const setDirtyFields = usePetFormStore(state => state.setDirtyFields)
+
     const validationSchema = createValidationSchema(allFields)
     const {
       control,
@@ -47,10 +49,12 @@ const FormBuilder = forwardRef(
     useEffect(() => {
       if (hasDirtyFields) {
         setIsDirty(true)
+        setDirtyFields(dirtyFields)
       } else {
         setIsDirty(false)
+        setDirtyFields({})
       }
-    }, [hasDirtyFields, setIsDirty])
+    }, [hasDirtyFields, setIsDirty, setDirtyFields, dirtyFields])
 
     const toggleExpandCategory = (categoryKey: string) => {
       setExpandedCategories(prev => ({
@@ -80,6 +84,7 @@ const FormBuilder = forwardRef(
               control={control}
               errors={errors}
               readOnly={viewMode}
+              formValues={formValues}
             />
           )
         case "select":

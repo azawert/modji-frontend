@@ -13,6 +13,7 @@ import styled from "@emotion/styled"
 import { formatDate } from "@/widgets/DatePicker/utils.ts"
 import dayjs from "dayjs"
 import { Gap } from "@/shared/ui/Gap.tsx"
+import { StarIcon } from "@/assets/Icons/StarIcon"
 
 export const SectionHeader = styled(Box)`
   background-color: #d5e1ff;
@@ -42,12 +43,25 @@ export const ClientFullCard = ({
     rating,
   } = clientInfo
 
+  const RatingComponent = () => (
+    <Box>
+      <InfoCard.Title>ФИО</InfoCard.Title>
+      <InfoCard.Value>
+        {getFullName(firstName, lastName, middleName)}
+        <span className="inline-flex items-center ml-1">
+          <StarIcon />
+          {rating || 0}
+        </span>
+      </InfoCard.Value>
+    </Box>
+  )
+
   const prepareClientInfoData = useCallback(
     (): IInfoItem[] => [
       {
         title: "ФИО",
-        value:
-          getFullName(firstName, lastName, middleName) + ` ★ ${rating || 0}`,
+        value: getFullName(firstName, lastName, middleName) + ` ${rating || 0}`,
+        component: RatingComponent,
       },
       {
         title: "Основной телефон",
@@ -108,10 +122,12 @@ export const ClientFullCard = ({
             .slice(0, 4)
             .map((el, idx) => (
               <React.Fragment key={el.title}>
-                <Box>
-                  <InfoCard.Title>{el.title}</InfoCard.Title>
-                  <InfoCard.Value>{el.value}</InfoCard.Value>
-                </Box>
+                {(el?.component && el?.component()) || (
+                  <Box>
+                    <InfoCard.Title>{el.title}</InfoCard.Title>
+                    <InfoCard.Value>{el.value}</InfoCard.Value>
+                  </Box>
+                )}
                 {idx !== 3 && <Gap gap={20} />}
               </React.Fragment>
             ))}

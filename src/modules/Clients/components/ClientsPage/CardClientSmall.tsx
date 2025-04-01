@@ -20,8 +20,8 @@ export const CardClientSmall: React.FC<CardWithPetProps> = ({
         <InfoCard.Title>ФИО клиента</InfoCard.Title>
         <InfoCard.Value>
           <div className="flex items-center">
-            {fullName} {rating}
-            <StarIcon />
+            {fullName} &nbsp;
+            <StarIcon /> {rating}
           </div>
         </InfoCard.Value>
       </Box>

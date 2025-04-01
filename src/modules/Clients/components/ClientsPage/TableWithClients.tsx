@@ -12,6 +12,7 @@ import { ERROR_MESSAGES } from "@/shared/constants/errors.ts"
 import { useNavigate } from "react-router-dom"
 import { Pet } from "../../types.ts"
 import { useCallback } from "react"
+import { APP_ROUTES } from "@/routes/types.ts"
 
 interface IProps {
   isLoading: boolean
@@ -53,8 +54,14 @@ export const TableWithClients: React.FC<IProps> = ({
   error,
 }) => {
   const navigate = useNavigate()
-  const handleCardClick = useCallback(
-    (id: string) => navigate(`/clients/${id}`),
+  const handleOpenClientPage = useCallback(
+    (id: string) => navigate(APP_ROUTES.client(id)),
+    [navigate]
+  )
+
+  const handleOpenPetPage = useCallback(
+    (clientId: string, petId: string) =>
+      navigate(APP_ROUTES.pet(clientId, petId)),
     [navigate]
   )
   const rows = mapResponseToTableView(data).map(data => ({
@@ -65,7 +72,7 @@ export const TableWithClients: React.FC<IProps> = ({
         optionalPhone={data.client.optionalPhone}
         registrationDate={data.client.registrationDate}
         id={data.client.id}
-        handleCardClick={() => handleCardClick(data.client.id)}
+        handleCardClick={() => handleOpenClientPage(data.client.id)}
       />
     ),
     pets: (
@@ -76,6 +83,7 @@ export const TableWithClients: React.FC<IProps> = ({
             petName={pet.petName}
             petType={mapperForValuePetTypeToAnLabel[pet.petType]}
             breed={pet.breed}
+            onClick={() => handleOpenPetPage(data.client.id, String(pet.id))}
           />
         ))}
       </Box>

@@ -6,9 +6,14 @@ export const ViewPetFooter = () => {
   const { id, petId } = useParams()
   const navigate = useNavigate()
 
-  const handleNavigate = () => {
+  const handleUpdatePet = () => {
     navigate(APP_ROUTES.updatePet(Number(id), Number(petId)))
   }
+
+  const handleClosePetPage = () => {
+    navigate(APP_ROUTES.client(Number(id)))
+  }
+
   return (
     <>
       <Button
@@ -16,7 +21,7 @@ export const ViewPetFooter = () => {
         size={EButtonSize.Large}
         fontSize={16}
         fontWeight={700}
-        onClick={handleNavigate}
+        onClick={handleUpdatePet}
       >
         Редактировать
       </Button>
@@ -26,7 +31,7 @@ export const ViewPetFooter = () => {
         size={EButtonSize.Large}
         fontSize={16}
         fontWeight={700}
-        onClick={handleNavigate}
+        onClick={handleClosePetPage}
       >
         Закрыть
       </Button>

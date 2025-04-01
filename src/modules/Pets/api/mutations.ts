@@ -22,13 +22,15 @@ export const useCreatePet = (clientId: number) => {
 export const useUpdatePet = (petId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: [EMutationKeys.UPDATE_PET],
+    mutationKey: [EMutationKeys.UPDATE_PET, petId],
     mutationFn: (data: UpdatePetDto) =>
       updatePet(petId, data, { headers: { "X-PetHotel-User-Id": 1 } }),
-    onSuccess: petId => {
+    onSuccess: updatedPet => {
       queryClient.invalidateQueries({
-        queryKey: [EPetQueryKeys.GET_PET_BY_ID + petId],
+        queryKey: [EPetQueryKeys.GET_PET_BY_ID, petId],
       })
+
+      queryClient.setQueryData([EPetQueryKeys.GET_PET_BY_ID, petId], updatedPet)
     },
   })
 }

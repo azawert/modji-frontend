@@ -62,7 +62,6 @@ export const PetPage = () => {
         <FormBuilder
           ref={formRef}
           config={petConfig[petData?.type as keyof typeof petConfig]}
-          onSubmit={() => {}}
           defaultValues={petData as PetFormData}
           viewMode
           formId="pet-form"

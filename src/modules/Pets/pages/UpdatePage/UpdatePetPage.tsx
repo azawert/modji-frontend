@@ -30,7 +30,7 @@ const petConfig = {
     dtoName: "CAT",
     ru: "Кошка",
   },
-  other: {
+  exotic: {
     name: "other",
     config: EXOT_CONFIG,
     dtoName: "EXOTIC",
@@ -46,6 +46,7 @@ export const UpdatePetPage = () => {
   const confirmationNotification = addConfirmationNotification()
 
   const isDirty = usePetFormStore(state => state.isDirty)
+  const dirtyFields = usePetFormStore(state => state.dirtyFields)
 
   const { data: clientData, isLoading } = useGetClientById(Number(id))
   const { data: petData, isLoading: isPetLoading } = useGetPetById(
@@ -61,6 +62,7 @@ export const UpdatePetPage = () => {
   const fullName = `${firstName} ${lastName || ""} ${middleName || ""}`
 
   const onCloseForm = () => navigate(APP_ROUTES.client(Number(id)))
+  const onSubmitForm = () => navigate(APP_ROUTES.pet(Number(id), Number(petId)))
 
   const handleNavigate = () => {
     if (isDirty) {
@@ -74,14 +76,26 @@ export const UpdatePetPage = () => {
     const cleanObj = (obj: {}) =>
       Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== ""))
 
+    const filtered = Object.keys(dirtyFields).reduce((acc, key) => {
+      if (dirtyFields[key] === true && key in data) {
+        const petKey = key as keyof NewPetDto
+        const value = data[petKey]
+
+        if (typeof value === "string") {
+          acc[petKey] = value as unknown as undefined
+        }
+      }
+      return acc
+    }, {} as Partial<NewPetDto>)
+
     const payload = {
-      ...cleanObj(data),
+      ...cleanObj(filtered),
       ownerId: Number(id),
     }
 
     updatePet(payload as NewPetDto, {
       onSuccess: () => {
-        onCloseForm()
+        onSubmitForm()
         successNotification("Питомец успешно изменён")
       },
       onError: () => {

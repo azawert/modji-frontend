@@ -4,12 +4,15 @@ import {
   generateDaysForBookingGrid,
   getBookingInfo,
   getFirstDateForBookingGridRequest,
-  getLastDateForBookingGridRequest,
   getRoomsProperType,
   HEADER_TABS,
   mapBookingStatusToColor,
 } from "../../model/utils"
-import { EBookingView, TTabForHeader } from "../../model/types/BookingGridTypes"
+import {
+  EBookingView,
+  TBookingGridDay,
+  TTabForHeader,
+} from "../../model/types/BookingGridTypes"
 import { GridHeader } from "../../components/gridHeader/GridHeader"
 import { cn } from "@/lib/utils"
 import dayjs from "dayjs"
@@ -20,6 +23,39 @@ import { EPageMode } from "@/modules/Rooms/pages/RoomsPage"
 import { BookingCell } from "../../components/BookingCell/BookingCell"
 import { CircularProgress } from "@mui/material"
 
+const generateWeekDaysForBookingGrid = (): TBookingGridDay[] => {
+  const days: TBookingGridDay[] = []
+  const today = dayjs()
+
+  const startOfWeek = today.startOf("week")
+
+  for (let i = 0; i < 7; i++) {
+    const day = startOfWeek.add(i, "day")
+    days.push({
+      day,
+      isWeekend: i === 5 || i === 6,
+      isToday: day.isSame(today, "day"),
+    })
+  }
+
+  return days
+}
+
+const getLastDateForBookingGridRequest = (view: EBookingView): string => {
+  switch (view) {
+    case EBookingView.DAY:
+      return dayjs().add(1, "day").format("YYYY-MM-DD")
+    case EBookingView.WEEK:
+      return dayjs().endOf("week").format("YYYY-MM-DD")
+    case EBookingView.MONTH:
+      return dayjs().endOf("month").format("YYYY-MM-DD")
+    case EBookingView.THREE_MONTHS:
+      return dayjs().add(3, "month").endOf("month").format("YYYY-MM-DD")
+    default:
+      return dayjs().add(1, "day").format("YYYY-MM-DD")
+  }
+}
+
 export const BookingGridPage: FC = () => {
   const [activeTabHeader, setActiveTabHeader] = useState<TTabForHeader>(
     HEADER_TABS[0]
@@ -28,9 +64,13 @@ export const BookingGridPage: FC = () => {
 
   const handleTabChange = useCallback((tab: EBookingView) => {
     const selected = HEADER_TABS.find(el => el.value === tab)
-
     setActiveTabHeader(selected ?? HEADER_TABS[0])
   }, [])
+
+  const daysForBookingGrid =
+    activeTabHeader.value === EBookingView.WEEK
+      ? generateWeekDaysForBookingGrid()
+      : generateDaysForBookingGrid()
 
   const {
     data: bookings,
@@ -43,11 +83,10 @@ export const BookingGridPage: FC = () => {
 
   const { data: rooms } = useGetAllRooms(EPageMode.ACTIVE)
 
-  const daysForBookingGrid = generateDaysForBookingGrid()
-
   const todayIndex = daysForBookingGrid.findIndex(day =>
     day.day.isSame(dayjs(), "day")
   )
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -65,7 +104,7 @@ export const BookingGridPage: FC = () => {
   }
 
   return (
-    <div className="relative overflow-hidden py-6 ">
+    <div className="relative overflow-hidden py-6">
       <div className="overflow-x-auto">
         <div className="py-4 px-6">
           <GridHeader
@@ -90,9 +129,7 @@ export const BookingGridPage: FC = () => {
                     <span>{day.format("DD")}</span>
                     <div
                       className="text-sm text-gray-500"
-                      style={{
-                        fontWeight: 400,
-                      }}
+                      style={{ fontWeight: 400 }}
                     >
                       {day.format("dd")}
                     </div>
@@ -113,9 +150,8 @@ export const BookingGridPage: FC = () => {
                   <tr key={room.roomId}>
                     <td className="w-1/5 border p-2 text-left bg-[#F6F8FF]">
                       <div className="flex">
-                        <div className="font-bold">{room.number} </div>
+                        <div className="font-bold">{room.number}</div>
                         <div className="text-sm text-gray-500">
-                          {" "}
                           {room.category}
                         </div>
                       </div>
@@ -141,9 +177,7 @@ export const BookingGridPage: FC = () => {
                               <div
                                 className={cn(
                                   "today-line absolute w-[2px] h-full bg-blue-500 left-1/2 z-10",
-                                  {
-                                    "with-circle": trIdx === 0,
-                                  }
+                                  { "with-circle": trIdx === 0 }
                                 )}
                               />
                             </div>
@@ -171,15 +205,16 @@ export const BookingGridPage: FC = () => {
                             ) {
                               return (
                                 <BookingCell
+                                  key={`${room.roomId}-${bookingIndex}`}
                                   bookingInfo={bookingInfo}
                                   index={bookingIndex}
                                   color={color}
                                   clientName={clientName}
+                                  activeTabHeader={activeTabHeader}
                                 />
                               )
-                            } else {
-                              return null
                             }
+                            return null
                           })}
                         </td>
                       )

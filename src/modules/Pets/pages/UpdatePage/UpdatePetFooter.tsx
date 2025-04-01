@@ -5,17 +5,18 @@ import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { APP_ROUTES } from "@/routes/types"
 
 export const UpdatePetFooter = () => {
-  const { id } = useParams()
+  const { id, petId } = useParams()
   const navigate = useNavigate()
   const confirmNotification = addConfirmationNotification()
   const isDirty = usePetFormStore(state => state.isDirty)
-  const onCloseForm = () => navigate(APP_ROUTES.client(Number(id)))
+  const onCloseEditMode = () =>
+    navigate(APP_ROUTES.pet(Number(id), Number(petId)))
 
-  const handleNavigate = () => {
+  const handleCloseEditMode = () => {
     if (isDirty) {
-      confirmNotification(onCloseForm)
+      confirmNotification(onCloseEditMode)
     } else {
-      onCloseForm()
+      onCloseEditMode()
     }
   }
   return (
@@ -25,7 +26,7 @@ export const UpdatePetFooter = () => {
         size={EButtonSize.Large}
         fontSize={16}
         fontWeight={700}
-        onClick={handleNavigate}
+        onClick={handleCloseEditMode}
       >
         Отмена
       </Button>
