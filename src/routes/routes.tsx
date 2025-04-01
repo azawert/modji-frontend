@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react"
 import { RouteObject } from "react-router-dom"
 import { CreatePetPage, PetPage } from "@/modules/Pets"
 import { BookingGridPage } from "@/modules/Booking/pages/BookingGridPage/BookingGridPage"
-// import { UpdatePetPage } from "@/modules/Pets/pages/UpdatePetPage"
 import { Layout } from "@/shared/ui/Layouts/Layout"
 import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
 import { APP_ROUTES } from "./types"
@@ -49,12 +48,10 @@ const ClientPage = lazy(() =>
   }))
 )
 
-// 4. Компонент для ленивой загрузки
 const LazyLoadWrapper = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 )
 
-// 5. Типизированные маршруты
 export const routes: RouteObject[] = [
   {
     path: APP_ROUTES.home,
