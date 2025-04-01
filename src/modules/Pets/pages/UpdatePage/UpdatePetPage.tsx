@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom"
-import FormBuilder from "../components/forms/builder/PetFormBuilder"
 import { useGetClientById } from "@/modules/Clients/api/queries"
 import { CircularProgress } from "@mui/material"
 import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
@@ -10,11 +9,13 @@ import {
   addErrorNotification,
   addSuccessNotification,
 } from "@/shared/utils/utils"
-import { usePetFormStore } from "../store"
-import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG, FormData } from "../components"
-import { PetPageTitle } from "../components/common"
-import { useCreatePet } from "../api"
-import { useGetPetById } from "../api/queries"
+import { usePetFormStore } from "../../store"
+import { useGetPetById } from "../../api/queries"
+import { useUpdatePet } from "../../api"
+import { PetPageTitle } from "../../components/common"
+import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG, FormData } from "../../components"
+import FormBuilder from "../../components/forms/builder/PetFormBuilder"
+import { APP_ROUTES } from "@/routes/types"
 
 const petConfig = {
   dog: {
@@ -51,7 +52,7 @@ export const UpdatePetPage = () => {
     Number(petId)
   )
 
-  const { mutate: createPet } = useCreatePet(clientData?.id || 0)
+  const { mutate: updatePet } = useUpdatePet(petData?.id || 0)
 
   const formRef = useRef<{ leaveForm: () => void }>(null)
 
@@ -59,7 +60,7 @@ export const UpdatePetPage = () => {
 
   const fullName = `${firstName} ${lastName || ""} ${middleName || ""}`
 
-  const onCloseForm = () => navigate(`/clients/${id}`)
+  const onCloseForm = () => navigate(APP_ROUTES.client(Number(id)))
 
   const handleNavigate = () => {
     if (isDirty) {
@@ -75,17 +76,16 @@ export const UpdatePetPage = () => {
 
     const payload = {
       ...cleanObj(data),
-      ownerId: Number(id), // ошибка owner на беке
-      type: petConfig[currentPetType as keyof typeof petConfig]?.dtoName, // ошибка typeOfPet на беке
+      ownerId: Number(id),
     }
 
-    createPet(payload as NewPetDto, {
+    updatePet(payload as NewPetDto, {
       onSuccess: () => {
         onCloseForm()
-        successNotification("Питомец успешно создан")
+        successNotification("Питомец успешно изменён")
       },
       onError: () => {
-        errorNotification("Произошла ошибка при создании питомца")
+        errorNotification("Произошла ошибка при изменении питомца")
       },
     })
   }
@@ -97,15 +97,19 @@ export const UpdatePetPage = () => {
   return (
     <div className="pb-36">
       <div className="pl-6">
-        <PetPageTitle title={`Создание питомца`} />
+        <PetPageTitle title={`Редактирование питомца`} />
       </div>
 
       <div className="flex flex-row">
         <FormBuilder
           ref={formRef}
-          config={petConfig[currentPetType].config}
+          config={
+            petConfig[petData.type?.toLowerCase() as keyof typeof petConfig]
+              ?.config
+          }
           onSubmit={handleUpdatePet as never}
           defaultValues={petData as FormData}
+          formId="update-pet"
         />
 
         {(isLoading || isPetLoading) && <CircularProgress />}
@@ -114,7 +118,7 @@ export const UpdatePetPage = () => {
             <CardClientSmall
               fullName={fullName}
               rating={String(rating || 0)}
-              petType={petConfig[petData.type].ru}
+              petType={petData.type!}
               onClick={handleNavigate}
             />
           </div>

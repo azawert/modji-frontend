@@ -53,7 +53,7 @@ const defaultValues = {
 export const CreateBookingPage = () => {
   const data = useBookingStore(state => state.bookingData)
   const setBookingData = useBookingStore(state => state.setBookingData)
-  const { mutate: createBooking, isSuccess, error } = useCreateBooking()
+  const { mutate: createBooking, isSuccess, error, status } = useCreateBooking()
   const navigate = useNavigate()
   const notificateError = addErrorNotification()
   const notificateSuccess = addSuccessNotification()
@@ -65,15 +65,19 @@ export const CreateBookingPage = () => {
     mode: "all",
   })
 
-  const onSubmit = (bookingData: IBookingForm) => {
+  const onSubmit = async (bookingData: IBookingForm) => {
     const data = mapperBookingFormDataToDTO(bookingData)
-    createBooking(data)
+    await createBooking(data)
+    console.log(status)
     if (isSuccess) {
+      console.log(isSuccess, "Успех??")
       notificateSuccess("Бронирование успешно создано")
       setBookingData(defaultValues)
       navigate("/bookings")
     } else {
-      notificateError(error.response.data.message)
+      notificateError(
+        error.response.data.message || "Произошла ошибка, попробуйте ещё раз"
+      )
     }
   }
 

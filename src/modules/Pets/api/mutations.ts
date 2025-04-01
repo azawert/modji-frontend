@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { addPet, NewPetDto } from "@/generated/pets"
+import { addPet, NewPetDto, updatePet, UpdatePetDto } from "@/generated/pets"
 import { EMutationKeys } from "./keys"
 import { EQueryKeys } from "@/modules/Clients/api/keys"
+import { EQueryKeys as EPetQueryKeys } from "@/modules/Pets/api/keys"
 
 export const useCreatePet = (clientId: number) => {
   const queryClient = useQueryClient()
@@ -13,6 +14,20 @@ export const useCreatePet = (clientId: number) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [EQueryKeys.GET_CLIENT_BY_ID + clientId],
+      })
+    },
+  })
+}
+
+export const useUpdatePet = (petId: number) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: [EMutationKeys.UPDATE_PET],
+    mutationFn: (data: UpdatePetDto) =>
+      updatePet(petId, data, { headers: { "X-PetHotel-User-Id": 1 } }),
+    onSuccess: petId => {
+      queryClient.invalidateQueries({
+        queryKey: [EPetQueryKeys.GET_PET_BY_ID + petId],
       })
     },
   })

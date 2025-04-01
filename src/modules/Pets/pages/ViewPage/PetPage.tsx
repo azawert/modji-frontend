@@ -1,20 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom"
-import FormBuilder from "../components/forms/builder/PetFormBuilder"
+import FormBuilder from "../../components/forms/builder/PetFormBuilder"
 import { useGetClientById } from "@/modules/Clients/api/queries"
 import { CircularProgress } from "@mui/material"
 import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
 import { useRef } from "react"
 import { addConfirmationNotification } from "@/shared/utils/utils"
-import { usePetFormStore } from "../store"
+import { usePetFormStore } from "../../store"
 import {
   CAT_CONFIG,
   DOG_CONFIG,
   EXOT_CONFIG,
   FormData as PetFormData,
-} from "../components"
-import { PetPageTitle } from "../components/common"
-import { useGetPetById } from "../api/queries"
-import { PetTranslatedTypes } from "../components/forms/types/enums"
+} from "../../components"
+import { PetPageTitle } from "../../components/common"
+import { useGetPetById } from "../../api/queries"
+import { PetTranslatedTypes } from "../../components/forms/types/enums"
 
 const petConfig = {
   DOG: DOG_CONFIG,
@@ -65,6 +65,7 @@ export const PetPage = () => {
           onSubmit={() => {}}
           defaultValues={petData as PetFormData}
           viewMode
+          formId="pet-form"
         />
 
         {isLoading && <CircularProgress />}

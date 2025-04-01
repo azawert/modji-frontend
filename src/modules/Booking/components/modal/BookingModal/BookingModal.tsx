@@ -15,7 +15,7 @@ type TProps = {
 }
 
 export const BookingModal: React.FC<TProps> = memo(props => {
-  const { children, onSubmit, isDirty, isReadyToSubmit } = props
+  const { children, onSubmit, isDirty, isReadyToSubmit = true } = props
   const navigate = useNavigate()
   const confirmationNotification = addConfirmationNotification()
 
@@ -132,7 +132,7 @@ export const BookingModal: React.FC<TProps> = memo(props => {
             size={EButtonSize.Large}
             fontSize={16}
             fontWeight={700}
-            disabled={isReadyToSubmit}
+            disabled={!isReadyToSubmit}
           >
             {btnText[bookingStep - 1]}
           </Button>

@@ -18,12 +18,13 @@ interface FormBuilderProps {
   onSubmit: (data: FormData) => void
   defaultValues?: FormData
   viewMode?: boolean
+  formId: string
 }
 
 const FormBuilder = forwardRef(
-  ({ config, onSubmit, defaultValues, viewMode }: FormBuilderProps) => {
-    const categories = Object.values(config.categories)
-    const allFields = categories.flatMap(category => category.fields)
+  ({ config, onSubmit, defaultValues, viewMode, formId }: FormBuilderProps) => {
+    const categories = Object.values(config?.categories || {})
+    const allFields = categories.flatMap(category => category?.fields)
     const [expandedCategories, setExpandedCategories] = useState<{
       [key: string]: boolean
     }>({})
@@ -129,7 +130,7 @@ const FormBuilder = forwardRef(
       <form
         onSubmit={handleSubmit(onSubmit as never)}
         className="space-y-6"
-        id="create-pet"
+        id={formId}
       >
         {Object.entries(config.categories).map(([categoryKey, category]) => {
           const isExpanded = expandedCategories[categoryKey]

@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { IBookingForm } from "../model/types/BookingValidationSchema"
 import { DeepPartial } from "react-hook-form"
 import { OwnerDto } from "@/generated/owners"
+import { RoomDto } from "@/generated/bookings"
 
 interface IBookingStore {
   isCreateShortPet: boolean
@@ -10,12 +11,14 @@ interface IBookingStore {
   bookingStep: number
   bookingData: DeepPartial<IBookingForm>
   owner: OwnerDto | null
+  room: RoomDto | null
   setIsCreateShortClient: (value: boolean) => void
   setIsBookingInProgress: (value: boolean) => void
   setBookingStep: (value: number) => void
   setSpecificBookingData: (value: string, setter: string) => void
   setBookingData: (value: DeepPartial<IBookingForm>) => void
   setOwner: (value: OwnerDto) => void
+  setRoom: (value: RoomDto) => void
   setIsCreateShortPet: (value: boolean) => void
 }
 
@@ -25,6 +28,7 @@ const useBookingStore = create<IBookingStore>(set => ({
   isBookingInProgress: false,
   bookingStep: 1,
   owner: null,
+  room: null,
   bookingData: {
     dateFrom: "",
     dateTo: "",
@@ -44,6 +48,7 @@ const useBookingStore = create<IBookingStore>(set => ({
   setIsCreateShortPet: value => set({ isCreateShortPet: value }),
   setIsBookingInProgress: value => set({ isBookingInProgress: value }),
   setOwner: value => set({ owner: value }),
+  setRoom: value => set({ room: value }),
   setBookingStep: value => set({ bookingStep: value }),
   setSpecificBookingData: (value, setter) =>
     set(state => ({

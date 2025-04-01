@@ -44,7 +44,7 @@ export const Modal: React.FC<TProps> = memo(props => {
           borderRadius: "16px",
           width: "616px",
           scrollbarGutter: "stable",
-          overflow: "auto !important",
+          // overflow: "auto !important",
           maxHeight: "unset !important",
         },
         "&.MuiModal-root": {

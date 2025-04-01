@@ -12,8 +12,9 @@ import {
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { useGetAllRooms } from "@/modules/Rooms/api/queries"
 import { useGetCategories } from "@/modules/Categories/api/queries"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import useBookingStore from "@/modules/Booking/store/BookingStore"
+import { RoomDto } from "@/generated/bookings"
 
 interface CategoryRoomsProps {
   form: UseFormReturn<ICategoryAndRoom>
@@ -29,19 +30,24 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
   } = form
 
   const setBookingData = useBookingStore(state => state.setBookingData)
+  const setRoom = useBookingStore(state => state.setRoom)
+
   const { data: rooms, isError: isErrorRooms } = useGetAllRooms("booking")
   const { data: categories, isError: isErrorCategories } = useGetCategories()
-  const { categories: categoryValue } = useWatch({ control })
+  const { categories: categoryValue, rooms: roomValue } = useWatch({ control })
 
   const filteredRooms = useMemo(() => {
-    resetField("rooms")
-    setBookingData({ ...bookingData, rooms: "" })
     const filtered = rooms?.filter(
       room => room.categoryDto?.name === categoryValue
     )
 
     return filtered
-  }, [rooms, categoryValue, resetField])
+  }, [rooms, categoryValue])
+
+  useEffect(() => {
+    const curRoom = rooms?.find(room => room.number === roomValue) as RoomDto
+    if (curRoom) setRoom(curRoom)
+  }, [roomValue, rooms, setRoom])
 
   return (
     <section className="flex justify-between">
@@ -52,7 +58,11 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
           return (
             <CategorySelect
               className="w-64"
-              onChange={field.onChange}
+              onChange={args => {
+                resetField("rooms")
+                setBookingData({ ...bookingData, rooms: "" })
+                return field.onChange(args)
+              }}
               value={field.value || bookingData.categories || ""}
               error={errors?.categories?.message}
               categories={categories || []}
@@ -71,7 +81,14 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
             return (
               <RoomSelect
                 className="w-64"
-                onChange={field.onChange}
+                onChange={args => {
+                  const curRoom = rooms?.find(
+                    room => room.number === field.value
+                  ) as RoomDto
+                  if (curRoom) setRoom(curRoom)
+                  console.log(curRoom, rooms, field.value)
+                  return field.onChange(args)
+                }}
                 value={field.value || bookingData.rooms || ""}
                 error={errors?.rooms?.message}
                 rooms={filteredRooms || []}

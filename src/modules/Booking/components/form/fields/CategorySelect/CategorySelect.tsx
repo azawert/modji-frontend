@@ -6,6 +6,7 @@ import { CategoryDto } from "@/generated/bookings"
 
 type TProps = {
   onChange: (value: string) => void
+  onChangeCategory?: () => void
   value: string
   error?: string
   className: string

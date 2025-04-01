@@ -1,12 +1,12 @@
 import { lazy, Suspense } from "react"
 import { RouteObject } from "react-router-dom"
-import { LayoutWithFooter } from "@/shared/ui/Layouts/LayoutWithFooter"
-import { LayoutBookingGrid } from "@/shared/ui/Layouts/LayoutBookingGrid"
 import { CreatePetPage, PetPage } from "@/modules/Pets"
 import { BookingGridPage } from "@/modules/Booking/pages/BookingGridPage/BookingGridPage"
-import { UpdatePetPage } from "@/modules/Pets/pages/UpdatePetPage"
+// import { UpdatePetPage } from "@/modules/Pets/pages/UpdatePetPage"
 import { Layout } from "@/shared/ui/Layouts/Layout"
 import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
+import { APP_ROUTES } from "./types"
+import { UpdatePetPage } from "@/modules/Pets/pages/UpdatePage/UpdatePetPage"
 
 const CategoriesPage = lazy(() =>
   import("@/modules/Categories/pages/CategoriesPage").then(module => ({
@@ -43,27 +43,21 @@ const BookingPage = lazy(() =>
     default: module.BookingPage,
   }))
 )
-// const CreateBookingPage = lazy(() =>
-//   import("@/modules/Booking/pages/CreateBookingPage/CreateBookingPage").then(
-//     module => ({
-//       default: module.CreateBookingPage,
-//     })
-//   )
-// )
 const ClientPage = lazy(() =>
   import("@/modules/Clients/pages/ClientPage.tsx").then(module => ({
     default: module.ClientPage,
   }))
 )
 
+// 4. Компонент для ленивой загрузки
 const LazyLoadWrapper = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 )
 
-//TODO: вынести все path в общий объект, чтобы избежать опечаток в будущем
+// 5. Типизированные маршруты
 export const routes: RouteObject[] = [
   {
-    path: "/",
+    path: APP_ROUTES.home,
     element: <Layout />,
     children: [
       {
@@ -75,7 +69,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "*",
+        path: APP_ROUTES.notFound,
         element: (
           <LazyLoadWrapper>
             <PageNotFound />
@@ -83,7 +77,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "categories",
+        path: APP_ROUTES.categories,
         element: (
           <LazyLoadWrapper>
             <CategoriesPage />
@@ -91,7 +85,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "rooms",
+        path: APP_ROUTES.rooms,
         element: (
           <LazyLoadWrapper>
             <RoomsPage />
@@ -99,7 +93,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "clients",
+        path: APP_ROUTES.clients,
         element: (
           <LazyLoadWrapper>
             <ClientsPage />
@@ -107,7 +101,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "booking/:bookingId",
+        path: APP_ROUTES.booking(":bookingId"),
         element: (
           <LazyLoadWrapper>
             <BookingPage />
@@ -115,7 +109,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "clients/:id",
+        path: APP_ROUTES.client(":id"),
         element: (
           <LazyLoadWrapper>
             <ClientPage />
@@ -123,45 +117,41 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "clients/:id/pets/:petType/create",
+        path: APP_ROUTES.createPet(":id", ":petType"),
         element: <CreatePetPage />,
       },
       {
-        path: "clients/:id/pets/:petId/update",
+        path: APP_ROUTES.updatePet(":id", ":petId"),
         element: <UpdatePetPage />,
       },
       {
-        path: "clients/:id/pets/:petId",
+        path: APP_ROUTES.pet(":id", ":petId"),
         element: <PetPage />,
+      },
+      {
+        path: APP_ROUTES.createBooking,
+        element: (
+          <LazyLoadWrapper>
+            <CreateBookingPage />
+          </LazyLoadWrapper>
+        ),
+      },
+      {
+        path: APP_ROUTES.bookings,
+        element: (
+          <LazyLoadWrapper>
+            <BookingGridPage />
+          </LazyLoadWrapper>
+        ),
       },
     ],
   },
   {
-    path: "/authorization",
+    path: APP_ROUTES.authorization,
     element: (
       <LazyLoadWrapper>
         <AuthorizationPage />
       </LazyLoadWrapper>
     ),
-  },
-  {
-    path: "/create-booking",
-    element: <LayoutWithFooter />,
-    children: [
-      {
-        index: true,
-        element: <CreateBookingPage />,
-      },
-    ],
-  },
-  {
-    path: "/bookings",
-    element: <LayoutBookingGrid />,
-    children: [
-      {
-        index: true,
-        element: <BookingGridPage />,
-      },
-    ],
   },
 ]

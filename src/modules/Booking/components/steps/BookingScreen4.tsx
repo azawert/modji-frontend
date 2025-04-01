@@ -5,17 +5,20 @@ import {
   ICategoryAndRoom,
   IPet,
   IScheduleForm,
-  ScreenSchema3,
+  ScreenSchema3WithPets,
 } from "../../model/types/BookingValidationSchema"
 import useBookingStore from "../../store/BookingStore"
 import { PetOwnerForm } from "../form/blocks/PetOwnerForm/PetOwnerForm"
 import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
 import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
+import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
+import { ErrorMessages } from "../../consts/errors"
+
 const BookingScreen4 = () => {
   const bookingData = useBookingStore(state => state.bookingData)
 
   const form = useForm({
-    resolver: yupResolver(ScreenSchema3),
+    resolver: yupResolver(ScreenSchema3WithPets),
     defaultValues: {
       categories: bookingData.categories || "",
       rooms: bookingData.rooms || "",
@@ -24,12 +27,25 @@ const BookingScreen4 = () => {
       timeFrom: bookingData.timeFrom || "",
       timeTo: bookingData.timeTo || "",
       daysAmount: bookingData.daysAmount || 0,
+      petIds: bookingData.petIds || [],
     },
+    mode: "onSubmit",
   })
+
+  const noPets = Boolean(form.formState.errors.petIds?.message)
 
   return (
     <BookingModal isDirty={true} onSubmit={form.handleSubmit}>
       <div className="flex flex-col">
+        {noPets && (
+          <div className="py-4">
+            <ErrorBar
+              title={ErrorMessages.NO_PETS_TITLE}
+              body={ErrorMessages.NO_PETS}
+              style="Red"
+            />
+          </div>
+        )}
         <CategoryRoomsForm
           bookingData={bookingData}
           form={form as unknown as UseFormReturn<ICategoryAndRoom>}

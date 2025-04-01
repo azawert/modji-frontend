@@ -8,7 +8,7 @@ export const createValidationSchema = (fields: FormField[]) => {
     let fieldSchema
     switch (field.type) {
       case "text":
-        fieldSchema = yup.string()
+        fieldSchema = yup.string().nullable()
         if (field.required) {
           fieldSchema = fieldSchema.required(
             field.validationErr || "This field is required"
@@ -24,7 +24,7 @@ export const createValidationSchema = (fields: FormField[]) => {
       case "date":
       case "select":
       case "radio":
-        fieldSchema = yup.string()
+        fieldSchema = yup.string().nullable()
         if (field.required) {
           fieldSchema = fieldSchema.required(
             field.validationErr || "This field is required"
@@ -32,7 +32,7 @@ export const createValidationSchema = (fields: FormField[]) => {
         }
         break
       case "checkbox":
-        fieldSchema = yup.boolean()
+        fieldSchema = yup.boolean().nullable()
         if (field.required) {
           fieldSchema = fieldSchema.oneOf(
             [true],

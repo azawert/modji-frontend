@@ -41,6 +41,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   const owner = storeOwner || client || null
   const petIds = watch("petIds") ?? []
 
+  console.log(values, "values")
   const availablePets =
     owner?.petsDto?.filter(pet => !petIds.includes(pet.id ?? 0)) ?? []
 
@@ -57,7 +58,6 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
     const updatedPetIds = petIds.filter(id => id !== petId)
     setBookingData({ ...bookingData, ...values, petIds: updatedPetIds })
     setValue("petIds", updatedPetIds)
-    console.log(bookingData)
   }
 
   const handleChooseClient = (value: OwnerDto) => {

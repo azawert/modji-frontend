@@ -15,6 +15,10 @@ export interface IScheduleForm {
   daysAmount?: number
 }
 
+export interface IPet {
+  petIds: number[]
+}
+
 export interface IOwnerForm {
   owner: OwnerShortDto
   pets: PetDto[]
@@ -33,10 +37,6 @@ export type ExtendedIPayment = IPayment & {
 
 export interface IComment {
   comment?: string
-}
-
-export interface IPet {
-  petIds: number[]
 }
 
 export interface IBookingForm
@@ -91,7 +91,17 @@ export const ScreenSchema2 = yup.object<ICategoryAndRoom>().shape({
   rooms: yup.string().required("Пожалуйста выберите комнату"),
 })
 
+export const PetSchema = yup.object<IPet>().shape({
+  petIds: yup
+    .array()
+    .of(yup.number())
+    .min(1)
+    .required("Пожалуйста выберите животных"),
+})
+
 export const ScreenSchema3 = ScreenSchema1.concat(ScreenSchema2)
+
+export const ScreenSchema3WithPets = ScreenSchema3.concat(PetSchema)
 
 export const ScreenSchema4 = yup.object<IBookingForm>().shape({
   pricePerDay: yup
