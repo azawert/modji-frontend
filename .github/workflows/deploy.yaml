@@ -7,8 +7,12 @@ on:
       - main
 
 jobs:
+  test-js-code:
+    name: Testing js code
+    uses: Modgy/modgy-front/.github/workflows/test.yml@develop
   build-and-push-image:
     name: Build and Publish Docker Image
+    needs: test-js-code
     uses: Modgy/modgy-devops/.github/workflows/publish_docker_image.yml@main
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
