@@ -4,10 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import {
   ExtendedIPayment,
   ScreenSchema4,
-} from "../../model/types/BookingValidationSchema"
-import useBookingStore from "../../store/BookingStore"
+} from "../../../model/types/BookingValidationSchema"
+import useBookingStore from "../../../store/BookingStore"
 import { PriceForm } from "../form/blocks/PriceForm/PriceForm"
-import { StepTitle } from "../typography/StepTitle/StepTitle"
+import { StepTitle } from "../../typography/StepTitle/StepTitle"
 
 const BookingScreen5 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

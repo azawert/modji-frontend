@@ -26,11 +26,10 @@ export const useUpdatePet = (petId: number) => {
     mutationFn: (data: UpdatePetDto) =>
       updatePet(petId, data, { headers: { "X-PetHotel-User-Id": 1 } }),
     onSuccess: updatedPet => {
-      queryClient.invalidateQueries({
-        queryKey: [EPetQueryKeys.GET_PET_BY_ID, petId],
-      })
-
-      queryClient.setQueryData([EPetQueryKeys.GET_PET_BY_ID, petId], updatedPet)
+      queryClient.setQueryData(
+        [EPetQueryKeys.GET_PET_BY_ID + petId],
+        updatedPet
+      )
     },
   })
 }

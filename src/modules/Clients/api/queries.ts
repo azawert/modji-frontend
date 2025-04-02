@@ -34,11 +34,7 @@ export const useGetSuggestedClients = (
 
 export const useGetClientById = (id: number) =>
   useQuery({
-    queryKey: [
-      EQueryKeys.GET_CLIENT_BY_ID + id,
-      EMutationKeys.CREATE_PET,
-      EMutationKeys.UPDATE_PET,
-    ],
+    queryKey: [EQueryKeys.GET_CLIENT_BY_ID + id],
     queryFn: () => getOwnerById(id, { headers: { "X-PetHotel-User-Id": 1 } }),
     enabled: !!id,
   })

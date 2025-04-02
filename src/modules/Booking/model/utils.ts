@@ -110,6 +110,24 @@ export const generateDaysForBookingGrid = (
   return days
 }
 
+export const generateWeekDaysForBookingGrid = (): TBookingGridDay[] => {
+  const days: TBookingGridDay[] = []
+  const today = dayjs()
+
+  const startOfWeek = today.startOf("week")
+
+  for (let i = 0; i < 7; i++) {
+    const day = startOfWeek.add(i, "day")
+    days.push({
+      day,
+      isWeekend: i === 5 || i === 6,
+      isToday: day.isSame(today, "day"),
+    })
+  }
+
+  return days
+}
+
 export const HEADER_TABS: TTabForHeader[] = [
   {
     label: "Месяц",

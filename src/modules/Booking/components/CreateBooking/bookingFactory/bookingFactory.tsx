@@ -1,4 +1,4 @@
-import useBookingStore from "../../store/BookingStore"
+import useBookingStore from "../../../store/BookingStore"
 import BookingScreen1 from "../steps/BookingScreen1"
 import BookingScreen2 from "../steps/BookingScreen2"
 import BookingScreen3 from "../steps/BookingScreen3"

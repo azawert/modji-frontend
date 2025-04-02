@@ -6,13 +6,13 @@ import {
   IPet,
   IScheduleForm,
   ScreenSchema3WithPets,
-} from "../../model/types/BookingValidationSchema"
-import useBookingStore from "../../store/BookingStore"
+} from "../../../model/types/BookingValidationSchema"
+import useBookingStore from "../../../store/BookingStore"
 import { PetOwnerForm } from "../form/blocks/PetOwnerForm/PetOwnerForm"
 import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
 import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
 import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
-import { ErrorMessages } from "../../consts/errors"
+import { ErrorMessages } from "../../../consts/errors"
 
 const BookingScreen4 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

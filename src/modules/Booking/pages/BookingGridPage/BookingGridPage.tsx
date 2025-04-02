@@ -1,45 +1,23 @@
 import { FC, useCallback, useState } from "react"
 import { useGetBookings } from "../../api/queries"
 import {
-  generateDaysForBookingGrid,
   getBookingInfo,
   getFirstDateForBookingGridRequest,
   getRoomsProperType,
   HEADER_TABS,
   mapBookingStatusToColor,
 } from "../../model/utils"
-import {
-  EBookingView,
-  TBookingGridDay,
-  TTabForHeader,
-} from "../../model/types/BookingGridTypes"
-import { GridHeader } from "../../components/gridHeader/GridHeader"
+import { EBookingView, TTabForHeader } from "../../model/types/BookingGridTypes"
 import { cn } from "@/lib/utils"
 import dayjs from "dayjs"
 import { BookingDtoStatus } from "@/generated/bookings"
 import { getFullName } from "@/modules/Employee/utils"
 import { useGetAllRooms } from "@/modules/Rooms/api/queries"
 import { EPageMode } from "@/modules/Rooms/pages/RoomsPage"
-import { BookingCell } from "../../components/BookingCell/BookingCell"
+import { BookingCell } from "../../components/BookingGrid/BookingCell/BookingCell"
 import { CircularProgress } from "@mui/material"
-
-const generateWeekDaysForBookingGrid = (): TBookingGridDay[] => {
-  const days: TBookingGridDay[] = []
-  const today = dayjs()
-
-  const startOfWeek = today.startOf("week")
-
-  for (let i = 0; i < 7; i++) {
-    const day = startOfWeek.add(i, "day")
-    days.push({
-      day,
-      isWeekend: i === 5 || i === 6,
-      isToday: day.isSame(today, "day"),
-    })
-  }
-
-  return days
-}
+import { GridHeader } from "../../components/BookingGrid/gridHeader/GridHeader"
+import { useBookingGridGenerator } from "../../model/useBookingGridGenerator"
 
 const getLastDateForBookingGridRequest = (view: EBookingView): string => {
   switch (view) {
@@ -62,15 +40,12 @@ export const BookingGridPage: FC = () => {
   )
   const [queue, setQueue] = useState<string>("")
 
+  const daysForBookingGrid = useBookingGridGenerator(activeTabHeader.value)
+
   const handleTabChange = useCallback((tab: EBookingView) => {
     const selected = HEADER_TABS.find(el => el.value === tab)
     setActiveTabHeader(selected ?? HEADER_TABS[0])
   }, [])
-
-  const daysForBookingGrid =
-    activeTabHeader.value === EBookingView.WEEK
-      ? generateWeekDaysForBookingGrid()
-      : generateDaysForBookingGrid()
 
   const {
     data: bookings,

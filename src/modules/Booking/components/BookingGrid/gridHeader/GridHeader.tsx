@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material"
-import { EBookingView } from "../../model/types/BookingGridTypes"
-import { HEADER_TABS } from "../../model/utils"
 import { Tab } from "@/shared/ui/Tab"
 import { SearchComponent } from "@/shared/ui/SearchComponent"
 import { useMemo } from "react"
 import { BookingDto } from "@/generated/bookings"
+import { HEADER_TABS } from "@/modules/Booking/model/utils"
+import { EBookingView } from "@/modules/Booking/model/types/BookingGridTypes"
 
 type TProps = {
   onChangeTab: (tab: EBookingView) => void

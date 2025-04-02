@@ -10,15 +10,15 @@ import {
   IScheduleForm,
 } from "../../model/types/BookingValidationSchema"
 import { useForm, UseFormReturn } from "react-hook-form"
-import { ScheduleForm } from "../../components/form/blocks/ScheduleForm/ScheduleForm"
-import { CategoryRoomsForm } from "../../components/form/blocks/CategoryForm/CategoryRoomsForm"
-import { PriceForm } from "../../components/form/blocks/PriceForm/PriceForm"
+import { ScheduleForm } from "../../components/CreateBooking/form/blocks/ScheduleForm/ScheduleForm"
+import { CategoryRoomsForm } from "../../components/CreateBooking/form/blocks/CategoryForm/CategoryRoomsForm"
+import { PriceForm } from "../../components/CreateBooking/form/blocks/PriceForm/PriceForm"
 import { StepTitle } from "../../components/typography/StepTitle/StepTitle"
 import useBookingStore from "../../store/BookingStore"
-import { CommentForm } from "../../components/form/blocks/CommentForm/CommentForm"
+import { CommentForm } from "../../components/CreateBooking/form/blocks/CommentForm/CommentForm"
 import { useCreateBooking } from "../../api/mutations"
 import { mapperBookingFormDataToDTO } from "../../model/utils"
-import { PetOwnerForm } from "../../components/form/blocks/PetOwnerForm/PetOwnerForm"
+import { PetOwnerForm } from "../../components/CreateBooking/form/blocks/PetOwnerForm/PetOwnerForm"
 import { styled } from "@mui/material"
 
 import {
@@ -53,7 +53,7 @@ const defaultValues = {
 export const CreateBookingPage = () => {
   const data = useBookingStore(state => state.bookingData)
   const setBookingData = useBookingStore(state => state.setBookingData)
-  const { mutate: createBooking, isSuccess, error, status } = useCreateBooking()
+  const { mutate: createBooking, isSuccess, error } = useCreateBooking()
   const navigate = useNavigate()
   const notificateError = addErrorNotification()
   const notificateSuccess = addSuccessNotification()
@@ -68,9 +68,7 @@ export const CreateBookingPage = () => {
   const onSubmit = async (bookingData: IBookingForm) => {
     const data = mapperBookingFormDataToDTO(bookingData)
     await createBooking(data)
-    console.log(status)
     if (isSuccess) {
-      console.log(isSuccess, "Успех??")
       notificateSuccess("Бронирование успешно создано")
       setBookingData(defaultValues)
       navigate("/bookings")

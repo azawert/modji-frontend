@@ -9,18 +9,18 @@ import {
   IScheduleForm,
 } from "../../model/types/BookingValidationSchema"
 import { useForm, UseFormReturn } from "react-hook-form"
-import { ScheduleForm } from "../../components/form/blocks/ScheduleForm/ScheduleForm"
-import { CategoryRoomsForm } from "../../components/form/blocks/CategoryForm/CategoryRoomsForm"
-import { PriceForm } from "../../components/form/blocks/PriceForm/PriceForm"
+import { ScheduleForm } from "../../components/CreateBooking/form/blocks/ScheduleForm/ScheduleForm"
+import { CategoryRoomsForm } from "../../components/CreateBooking/form/blocks/CategoryForm/CategoryRoomsForm"
+import { PriceForm } from "../../components/CreateBooking/form/blocks/PriceForm/PriceForm"
 import { useGetBookingById } from "../../api/queries"
 import { useParams } from "react-router-dom"
 import { StepTitle } from "../../components/typography/StepTitle/StepTitle"
-import { PetOwnerForm } from "../../components/form/blocks/PetOwnerForm/PetOwnerForm"
+import { PetOwnerForm } from "../../components/CreateBooking/form/blocks/PetOwnerForm/PetOwnerForm"
 import { BookingPageWrapper } from "../CreateBookingPage/CreateBookingPage"
 import { useCreateBooking } from "../../api/mutations"
 import { mapperBookingFormDataToDTO } from "../../model/utils"
 import useBookingStore from "../../store/BookingStore"
-import { CommentForm } from "../../components/form/blocks/CommentForm/CommentForm"
+import { CommentForm } from "../../components/CreateBooking/form/blocks/CommentForm/CommentForm"
 import { PageTitle } from "@/shared/ui/PageTitle"
 
 const defaultValues = {

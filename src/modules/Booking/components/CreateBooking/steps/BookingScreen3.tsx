@@ -5,14 +5,14 @@ import {
   ICategoryAndRoom,
   IScheduleForm,
   ScreenSchema3,
-} from "../../model/types/BookingValidationSchema"
-import useBookingStore from "../../store/BookingStore"
+} from "../../../model/types/BookingValidationSchema"
+import useBookingStore from "../../../store/BookingStore"
 import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
 import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
-import { StepTitle } from "../typography/StepTitle/StepTitle"
-import { useGetIsDatesAvailable } from "../../api/queries"
+import { StepTitle } from "../../typography/StepTitle/StepTitle"
+import { useGetIsDatesAvailable } from "../../../api/queries"
 import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
-import { ErrorMessages } from "../../consts/errors"
+import { ErrorMessages } from "../../../consts/errors"
 
 const BookingScreen3 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

@@ -86,7 +86,6 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
                     room => room.number === field.value
                   ) as RoomDto
                   if (curRoom) setRoom(curRoom)
-                  console.log(curRoom, rooms, field.value)
                   return field.onChange(args)
                 }}
                 value={field.value || bookingData.rooms || ""}

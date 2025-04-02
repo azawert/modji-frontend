@@ -1,5 +1,5 @@
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { StepTitle } from "../../../typography/StepTitle/StepTitle"
+import { StepTitle } from "../../../../typography/StepTitle/StepTitle"
 import { OwnersSearch } from "../../fields/OwnersSearch/OwnersSearch"
 import { CardWithClient } from "@/shared/ui/CardWithClient"
 import { CardWithPet } from "@/shared/ui/CardWithPet"
@@ -41,7 +41,6 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   const owner = storeOwner || client || null
   const petIds = watch("petIds") ?? []
 
-  console.log(values, "values")
   const availablePets =
     owner?.petsDto?.filter(pet => !petIds.includes(pet.id ?? 0)) ?? []
 

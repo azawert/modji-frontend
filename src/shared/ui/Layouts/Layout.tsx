@@ -1,4 +1,4 @@
-import { BookingFactory } from "@/modules/Booking/components/bookingFactory/bookingFactory"
+import { BookingFactory } from "@/modules/Booking/components/CreateBooking/bookingFactory/bookingFactory"
 import { PropsForHeader } from "@/widgets/Header/data/data"
 import { Header } from "@/widgets/Header/ui/Header"
 import { CircularProgress } from "@mui/material"
