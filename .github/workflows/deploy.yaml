@@ -9,7 +9,7 @@ on:
 jobs:
   test-js-code:
     name: Testing js code
-    uses: Modgy/modgy-front/.github/workflows/test.yml@develop
+    uses: Modgy/modgy-front/.github/workflows/test.yaml@develop
   build-and-push-image:
     name: Build and Publish Docker Image
     needs: test-js-code
