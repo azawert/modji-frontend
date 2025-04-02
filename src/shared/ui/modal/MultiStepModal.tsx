@@ -3,8 +3,8 @@ import { useState } from "react"
 import { Controller, FieldError, FieldValues } from "react-hook-form"
 import { Button, EButtonSize, EButtonVariant } from "../Button/Button"
 import { Box, Dialog, DialogTitle, Typography } from "@mui/material"
-import { TextField } from "../TextField"
-import { PhoneInput } from "../PhoneInput"
+import { TextField } from "../Inputs/TextField/TextField"
+import { PhoneInput } from "../Inputs"
 
 export const MultiStepModal = <K extends FieldValues>({
   ariaDescribedby,

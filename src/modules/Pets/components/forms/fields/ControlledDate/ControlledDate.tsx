@@ -1,7 +1,10 @@
 import { useState } from "react"
 import { Control, Controller, FieldErrors } from "react-hook-form"
 import dayjs, { Dayjs } from "dayjs"
-import { TextField, TIconInputPosition } from "@/shared/ui/TextField"
+import {
+  TextField,
+  TIconInputPosition,
+} from "@/shared/ui/Inputs/TextField/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
 import { DateField, FormData } from "../../types/types"
 import { FieldError } from "@/shared/ui/Inputs/FieldError/FieldError"

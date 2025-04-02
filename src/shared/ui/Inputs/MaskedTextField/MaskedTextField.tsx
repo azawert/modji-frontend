@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, useEffect, forwardRef } from "react"
-import { TextField } from "./TextField"
+import { TextField } from "../TextField/TextField"
 
 /** Пропы для маскированного текст филда
  * @prop mask маска по которой нужно вводить (example XXXX,XX)

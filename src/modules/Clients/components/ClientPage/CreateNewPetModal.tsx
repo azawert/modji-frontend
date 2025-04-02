@@ -2,7 +2,7 @@ import { Box, Dialog, DialogTitle, IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material"
 import { Gap } from "@/shared/ui/Gap.tsx"
 import { LabeledRow } from "@/shared/ui/LabeledRow.tsx"
-import { Select } from "@/shared/ui/Select.tsx"
+import { Select } from "@/shared/ui/Inputs/Select/Select"
 import { useCallback } from "react"
 import { NEW_PET_SELECT_DATA } from "@/modules/Clients/const.ts"
 import {

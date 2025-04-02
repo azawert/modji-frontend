@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box"
 import { Control, Controller, FieldErrors } from "react-hook-form"
 import { FormData, SliderField } from "../../types/types"
-import { Slider } from "@/shared/ui/Slider"
+import { Slider } from "@/shared/ui/Inputs/SliderInput/Slider"
 
 const marks = [
   { value: 0, label: "1" },

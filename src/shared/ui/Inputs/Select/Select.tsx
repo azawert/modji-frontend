@@ -1,86 +1,58 @@
 import { cn } from "@/lib/utils"
-import { CustomInputBase } from "@/shared/ui/Inputs/CustomInputBase/CustomInputBase"
-import { FieldError } from "@/shared/ui/Inputs/FieldError/FieldError"
-import { Label } from "@/shared/ui/Inputs/Label/Label"
 import {
+  InputBase,
   Select as MUISelect,
   MenuItem,
   SelectChangeEvent,
-  MenuItemProps,
+  styled,
 } from "@mui/material"
-import {
-  forwardRef,
-  SelectHTMLAttributes,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react"
-import { FieldValues, UseFormRegister } from "react-hook-form"
+import { ReactNode, useEffect, useState } from "react"
+import { FieldError } from "../FieldError/FieldError"
+import { Label } from "../Label/Label"
 
 export type SelectData = {
   value: string
   label: string
 }
-
-type HTMLSelectProps = Omit<
-  SelectHTMLAttributes<HTMLSelectElement>,
-  "onChange" | "value" | "accept"
->
-
-interface TProps extends HTMLSelectProps {
+type TProps = {
   onChange: (value: string) => void
   label?: string
-  value?: string
+  selectedValue?: string
   error?: string
   fullWidth?: boolean
   isRequired?: boolean
   className?: string
   marginBottom?: string
   renderNoData?: () => ReactNode
-  data?: ItemProps[]
+  data?: SelectData[]
   placeholder?: string
-  register?: UseFormRegister<FieldValues>
-  selectedValue?: string
+  onBlur?: (event: React.ChangeEvent) => void
+  width?: string
+  disabled?: boolean
+  renderValue?: (value: string) => ReactNode
+  hasSpaceForLabel?: boolean
+  value?: string
 }
 
-const MenuOptionStyles = {
-  borderRadius: "24px",
-  border: "2px solid #D0CFCF",
-  marginTop: "5px",
-  "& .MuiMenuItem-root:active": {
-    backgroundColor: "#D5E1FF",
+const CustomizedInput = styled(InputBase)(({ theme }) => ({
+  "& .MuiInputBase-input": {
+    borderRadius: 24,
+    position: "relative",
+    backgroundColor: "transparent",
+    border: "2px solid #D0CFCF",
+    fontSize: 16,
+    padding: "12px 20px 12px 20px",
+    transition: theme.transitions.create(["border-color", "box-shadow"]),
+    marginTop: 0,
   },
-  "& .MuiMenuItem-root:hover": {
-    backgroundColor: "#E8E8E8",
-  },
-}
+}))
 
-type ItemProps = MenuItemProps & { value: string; label: string }
-
-interface OptionsListProps {
-  data?: ItemProps[]
-  renderNoData?: () => ReactNode
-}
-
-const OptionsList: React.FC<OptionsListProps> = ({ data, renderNoData }) => {
-  return (
-    <>
-      {data && data.length > 0
-        ? data.map(element => (
-            <MenuItem value={element.value} key={element.value}>
-              {element.label}
-            </MenuItem>
-          ))
-        : renderNoData?.()}
-    </>
-  )
-}
-
-export const Select = forwardRef<HTMLSelectElement, TProps>((props, ref) => {
+export const Select: React.FC<TProps> = props => {
   const {
     data,
     label,
-    value,
+    onChange,
+    selectedValue,
     error,
     fullWidth,
     isRequired,
@@ -88,89 +60,109 @@ export const Select = forwardRef<HTMLSelectElement, TProps>((props, ref) => {
     marginBottom,
     renderNoData,
     placeholder,
-    register,
-    onChange,
+    onBlur,
+    width,
+    value,
+    renderValue,
+    disabled,
+    hasSpaceForLabel = true,
   } = props
-
+  const handleSelectChange = (e: SelectChangeEvent) => onChange(e.target.value)
   const [preSelectedValue, setPreselectedValue] = useState<string>()
 
-  const handleSelectChange = (e: SelectChangeEvent) => {
-    onChange(e.target.value)
-  }
-
-  const renderValueFn = (selected: string) =>
-    selected || <div className="text-basicGreyText">{placeholder}</div>
+  const labelValue = label || ""
 
   useEffect(() => {
-    if (value) {
+    if (selectedValue) {
       setPreselectedValue(
-        () => data?.find(element => element.value === value)?.value
+        () => data?.find(element => element.value === selectedValue)?.value
       )
     }
-  }, [data, value])
-
+  }, [data, selectedValue])
   return (
-    <label htmlFor={label} className={cn({ ["w-full"]: fullWidth })}>
-      <Label label={label || ""} isRequired={isRequired} />
-
-      <div style={{ marginBottom }} className="flex flex-col">
+    <label htmlFor={label}>
+      {hasSpaceForLabel && <Label label={labelValue} isRequired={isRequired} />}
+      <div style={{ marginBottom }}>
         <MUISelect
-          displayEmpty
-          ref={ref}
+          disabled={disabled}
           labelId={label}
           error={!!error}
-          defaultValue={preSelectedValue}
+          displayEmpty
+          renderValue={
+            renderValue
+              ? () => renderValue(selectedValue || "")
+              : selected => {
+                  if (!selected || selected.length === 0) {
+                    return (
+                      <div className="text-basicGreyText">{placeholder}</div>
+                    )
+                  }
+                  return <>{selected}</>
+                }
+          }
           onChange={handleSelectChange}
+          defaultValue={preSelectedValue}
           value={value}
           sx={{
+            borderRadius: "24px",
+            width,
             ".css-1uwzc1h-MuiSelect-select-MuiInputBase-input:focus": {
               borderRadius: "24px",
             },
-            borderRadius: "24px",
-            border: "2px solid #D0CFCF",
-            marginTop: "5px",
-            maxHeight: "200px",
-            overflowY: "auto",
-            "& .MuiMenuItem-root:active": {
-              backgroundColor: "#D5E1FF",
-            },
-            "& .MuiMenuItem-root:hover": {
-              backgroundColor: "#E8E8E8",
-            },
-            "& .Mui-selected": {
-              backgroundColor: "transparent",
-            },
-            "& .MuiSelect-select": {
-              borderRadius: "24px !important",
-            },
-            "& .Mui-focused": {
-              borderColor: "black",
-            },
-            "& .css-p7w5m5-MuiInputBase-root .Mui-error": {
-              border: "none",
+            "& .MuiInputBase-input.Mui-disabled": {
+              WebkitTextFillColor: "#000000",
             },
           }}
           className={cn(`rounded-24px ${className}`, {
             ["w-full"]: fullWidth,
             ["border-error"]: !!error,
           })}
-          input={<CustomInputBase />}
+          input={<CustomizedInput />}
           id={label}
-          renderValue={renderValueFn}
           MenuProps={{
             slotProps: {
               paper: {
-                sx: MenuOptionStyles,
+                sx: {
+                  borderRadius: "24px",
+                  border: "2px solid #D0CFCF",
+                  marginTop: "5px",
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                  "& .MuiMenuItem-root:active": {
+                    backgroundColor: "#D5E1FF",
+                  },
+                  "& .MuiMenuItem-root:hover": {
+                    backgroundColor: "#E8E8E8",
+                  },
+                  "& .Mui-selected": {
+                    backgroundColor: "transparent",
+                  },
+                  "& .MuiSelect-select": {
+                    borderRadius: "24px !important",
+                  },
+                  "& .Mui-focused": {
+                    borderColor: "black",
+                  },
+                },
               },
             },
           }}
           placeholder={placeholder}
-          {...register}
+          onBlur={onBlur}
+          notched={undefined}
         >
-          <OptionsList data={data} renderNoData={renderNoData} />
+          {Array.isArray(data) && data.length
+            ? data?.map(element => {
+                return (
+                  <MenuItem value={element.value} key={element.value}>
+                    {element.label}
+                  </MenuItem>
+                )
+              })
+            : renderNoData?.()}
         </MUISelect>
         <FieldError error={error || ""} />
       </div>
     </label>
   )
-})
+}

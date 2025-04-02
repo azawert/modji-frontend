@@ -89,7 +89,7 @@ export const CreatePetPage = () => {
   return (
     <div className="pb-36">
       <div className="pl-6">
-        <PetPageTitle title={`Создание питомца`} />
+        <PetPageTitle title={`Создание нового питомца`} />
       </div>
 
       <div className="flex flex-row">

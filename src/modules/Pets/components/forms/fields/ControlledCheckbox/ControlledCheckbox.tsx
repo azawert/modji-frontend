@@ -1,4 +1,4 @@
-import { CustomCheckbox } from "@/shared/ui/Checkbox"
+import { CustomCheckbox } from "@/shared/ui/Inputs/Checkbox/Checkbox"
 import React from "react"
 import { Control, Controller, FieldErrors } from "react-hook-form"
 import { CheckboxField, FormData } from "../../types/types"

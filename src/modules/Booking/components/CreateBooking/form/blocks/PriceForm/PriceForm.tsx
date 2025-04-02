@@ -1,4 +1,4 @@
-import { TextField } from "@/shared/ui/TextField"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import {
   Controller,
@@ -10,7 +10,7 @@ import {
   ExtendedIPayment,
   IBookingForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { CustomCheckbox } from "@/shared/ui/Checkbox"
+import { CustomCheckbox } from "@/shared/ui/Inputs/Checkbox/Checkbox"
 import { useLocation } from "react-router-dom"
 import { useFormPriceControl } from "./useFullPriceControl"
 

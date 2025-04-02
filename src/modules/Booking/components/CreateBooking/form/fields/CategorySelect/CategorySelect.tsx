@@ -1,6 +1,5 @@
-import { SelectData } from "@/shared/ui/Select"
+import { Select, SelectData } from "@/shared/ui/Inputs/Select/Select"
 import { Typography } from "@mui/material"
-import { BookingSelect } from "../BookingSelect/BookingSelect"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import { CategoryDto } from "@/generated/bookings"
 
@@ -31,11 +30,11 @@ export const CategorySelect: React.FC<TProps> = props => {
   }
 
   return (
-    <BookingSelect
+    <Select
       data={mappedDataFromCategories()}
       label={value?.length ? "Категория*" : ""}
       onChange={onChange}
-      value={String(value)}
+      value={value}
       renderNoData={renderNoData}
       error={error}
       fullWidth={!className}

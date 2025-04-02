@@ -1,11 +1,11 @@
 import { Box } from "@mui/material"
-import { TextField } from "@/shared/ui/TextField"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { NewOwnerDto } from "@/generated/owners"
 import { UseFormReturn, Controller } from "react-hook-form"
 import { ShortClientFieldsConfig } from "./ShortClientConfig"
 import { Modal } from "@/shared/ui/modal/Modal"
-import { PhoneInput } from "@/shared/ui/PhoneInput"
+import { PhoneInput } from "@/shared/ui/Inputs"
 
 interface ShortClientModalProps {
   form: UseFormReturn<NewOwnerDto>

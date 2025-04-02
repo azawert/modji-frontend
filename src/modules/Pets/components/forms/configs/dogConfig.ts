@@ -47,6 +47,7 @@ export const DOG_CONFIG: FormConfig = {
           validationErr: "Укажите дату рождения",
           width: "1/3",
           valueFn: (data: { [key: string]: string }) => calcAge(data.birthDate),
+          disabledFn: () => true,
         },
         {
           name: "sex",

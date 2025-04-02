@@ -6,7 +6,7 @@ import {
   UseFormReturn,
 } from "react-hook-form"
 import { ReactNode } from "react"
-import { SelectData } from "../ui/Select"
+import { SelectData } from "../ui/Inputs/Select/Select"
 
 /**Тип для определения открытой модалки (создание или редактирование)
  * @prop isOpen - открыта ли модалка

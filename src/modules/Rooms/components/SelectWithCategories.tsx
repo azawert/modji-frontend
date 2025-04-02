@@ -1,5 +1,5 @@
 import { useGetCategories } from "@/modules/Categories/api/queries"
-import { Select, SelectData } from "@/shared/ui/Select"
+import { Select, SelectData } from "@/shared/ui/Inputs/Select/Select"
 import { Typography } from "@mui/material"
 import { ReactNode } from "react"
 
