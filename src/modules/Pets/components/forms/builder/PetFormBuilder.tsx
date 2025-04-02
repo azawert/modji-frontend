@@ -144,10 +144,7 @@ const FormBuilder = forwardRef(
             : category.fields.slice(0, category.expandedFields)
 
           return (
-            <div
-              key={categoryKey}
-              className="bg-white shadow-sm rounded-lg p-6"
-            >
+            <div key={categoryKey} className="bg-white rounded-lg p-6">
               <CategoryTitle title={category.title} />
               <div>{renderFields(fieldsToShow, renderField)}</div>
               {category.fields.length > category.expandedFields && (

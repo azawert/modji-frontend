@@ -1,3 +1,4 @@
+import { formatPhoneNumber } from "@/shared/utils/utils"
 import {
   ChangeEvent,
   FocusEvent,
@@ -7,8 +8,7 @@ import {
   KeyboardEvent,
   useEffect,
 } from "react"
-import { TextField } from "./TextField"
-import { formatPhoneNumber } from "../utils/utils"
+import { TextField } from "../TextField/TextField"
 
 /** Пропсы для компонента кастомного инпута под номер телефона
  * @prop value значение инпута

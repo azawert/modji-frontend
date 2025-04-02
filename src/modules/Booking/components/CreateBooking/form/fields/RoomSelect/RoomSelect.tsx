@@ -1,6 +1,5 @@
-import { SelectData } from "@/shared/ui/Select"
+import { Select, SelectData } from "@/shared/ui/Inputs/Select/Select"
 import { Typography } from "@mui/material"
-import { BookingSelect } from "../BookingSelect/BookingSelect"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import { RoomDto } from "@/generated/room"
 
@@ -37,11 +36,11 @@ export const RoomSelect: React.FC<TProps> = props => {
   }
 
   return (
-    <BookingSelect
+    <Select
       data={mappedDataFromRooms()}
+      value={value}
       label={value.length ? "Комната*" : ""}
       onChange={onChange}
-      value={String(value)}
       renderNoData={renderNoData}
       error={error}
       marginBottom="16px"

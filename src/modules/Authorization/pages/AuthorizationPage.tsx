@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { Box, Avatar, Typography } from "@mui/material"
-import { TextField } from "@/shared/ui/TextField"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 import { TAuthUser } from "@/modules/Booking/const"

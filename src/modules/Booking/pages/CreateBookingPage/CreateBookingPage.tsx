@@ -26,6 +26,7 @@ import {
   addSuccessNotification,
 } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
+import { APP_ROUTES } from "@/routes/types"
 
 export const BookingPageWrapper = styled("div")(() => ({
   width: "541px",
@@ -71,7 +72,7 @@ export const CreateBookingPage = () => {
     if (isSuccess) {
       notificateSuccess("Бронирование успешно создано")
       setBookingData(defaultValues)
-      navigate("/bookings")
+      navigate(APP_ROUTES.bookings)
     } else {
       notificateError(
         error.response.data.message || "Произошла ошибка, попробуйте ещё раз"

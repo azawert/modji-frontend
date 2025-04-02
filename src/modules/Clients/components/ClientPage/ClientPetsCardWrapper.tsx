@@ -10,6 +10,7 @@ import {
 import { Pet } from "../../types"
 import { useNavigate, useParams } from "react-router-dom"
 import { APP_ROUTES } from "@/routes/types"
+import { mapperForValuePetTypeToAnLabel } from "../../utils"
 
 export const ClientPetsCardWrapper = ({
   pets,
@@ -41,7 +42,7 @@ export const ClientPetsCardWrapper = ({
       <CardWithPet
         key={el.id}
         petName={el.petName}
-        petType={el.petType}
+        petType={mapperForValuePetTypeToAnLabel[el.petType]}
         breed={el.breed}
         onClick={() => handleNavigatePetPage(el.id)}
       />

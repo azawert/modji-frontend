@@ -1,5 +1,5 @@
 import { Control, Controller, FieldErrors } from "react-hook-form"
-import { TextField } from "@/shared/ui/TextField"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
 import { InputTextField } from "../../types/types"
 
 interface ControlledTextFieldProps {

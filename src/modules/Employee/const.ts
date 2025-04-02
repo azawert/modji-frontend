@@ -1,5 +1,5 @@
 import { NewUserDtoRole, UserDtoRole } from "@/generated/user"
-import { SelectData } from "@/shared/ui/Select"
+import { SelectData } from "@/shared/ui/Inputs/Select/Select"
 
 /** Тип для формы создания / редактирования пользователя
  * @prop email почта пользователя от 6 символов до 254

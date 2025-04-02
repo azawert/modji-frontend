@@ -8,8 +8,8 @@ import {
 } from "../const"
 import { IconButton, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material/"
-import { TextField } from "@/shared/ui/TextField"
-import { Select } from "@/shared/ui/Select"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+import { Select } from "@/shared/ui/Inputs/Select/Select"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import {
   mapperCreateUserFormToAnUserCreateRequest,

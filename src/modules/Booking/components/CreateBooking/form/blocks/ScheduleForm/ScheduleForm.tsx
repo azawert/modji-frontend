@@ -4,7 +4,10 @@ import {
   SCHEDULE_DEPARTURE,
 } from "@/modules/Booking/consts/DateData"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
-import { TextField, TIconInputPosition } from "@/shared/ui/TextField"
+import {
+  TextField,
+  TIconInputPosition,
+} from "@/shared/ui/Inputs/TextField/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
 import dayjs from "dayjs"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -14,12 +17,12 @@ import {
   UseFormReturn,
   useWatch,
 } from "react-hook-form"
-import { BookingSelect } from "../../fields/BookingSelect/BookingSelect"
 import {
   IBookingForm,
   IScheduleForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { getDayDifference } from "@/modules/Pets/components/forms/utils/calcDifference"
+import { Select } from "@/shared/ui/Inputs"
 
 interface ScheduleProps {
   form: UseFormReturn<IScheduleForm>
@@ -138,7 +141,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
             control={control}
             name={"timeFrom"}
             render={({ field }) => (
-              <BookingSelect
+              <Select
                 className="w-64"
                 data={SCHEDULE_CHECKIN}
                 placeholder={Placeholder.TIME_FROM.valueOf()}
@@ -194,7 +197,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
             control={control}
             name={"timeTo"}
             render={({ field }) => (
-              <BookingSelect
+              <Select
                 className="w-64"
                 data={SCHEDULE_DEPARTURE}
                 placeholder={Placeholder.TIME_TO.valueOf()}
