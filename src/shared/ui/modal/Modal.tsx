@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogTitle } from "@mui/material"
+import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import { memo } from "react"
 
 /**
@@ -38,18 +38,24 @@ export const Modal: React.FC<TProps> = memo(props => {
       onClose={onClose}
       aria-labelledby={ariaLabelledby}
       aria-describedby={ariaDescribedby}
+      scroll="body"
       sx={{
         "& .MuiPaper-root": {
           borderRadius: "16px",
           width: "616px",
-          overflow: "visible !important",
+          scrollbarGutter: "stable",
+          // overflow: "auto !important",
+          maxHeight: "unset !important",
+        },
+        "&.MuiModal-root": {
+          // overflow: "auto !important",
         },
       }}
     >
       <DialogTitle display="flex" padding="0">
         {renderHeader()}
       </DialogTitle>
-      <div className="pb-10 px-16">
+      <DialogContent dividers={true} className="pb-10 px-16">
         <Box
           display="flex"
           alignItems="center"
@@ -80,7 +86,7 @@ export const Modal: React.FC<TProps> = memo(props => {
         <Box display={"flex"} marginTop="8px" justifyContent={"space-between"}>
           {renderFooter()}
         </Box>
-      </div>
+      </DialogContent>
     </Dialog>
   )
 })

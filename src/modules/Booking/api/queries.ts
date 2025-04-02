@@ -3,6 +3,7 @@ import { EQueryKeys } from "./keys"
 import {
   checkRoomAvailableInDates,
   findAllBookingsInDates,
+  findBlockingBookingsForRoomInDates,
   getBookingById,
 } from "@/generated/bookings"
 import {
@@ -63,4 +64,25 @@ export const useGetBookings = ({
         checkInDate: convertServerDateToAnFormView(checkInDate),
         checkOutDate: convertServerDateToAnFormView(checkOutDate),
       })),
+  })
+
+export const useBlockingBookingsForRoomInDates = (
+  roomId: number,
+  checkInDate: string,
+  checkOutDate: string
+) =>
+  useQuery({
+    queryKey: [EQueryKeys.GET_BOOKING_BY_ID + roomId],
+    queryFn: () =>
+      findBlockingBookingsForRoomInDates(
+        roomId,
+        {
+          checkInDate,
+          checkOutDate,
+        },
+        {
+          headers: { "X-PetHotel-User-Id": 1 },
+        }
+      ),
+    enabled: !!roomId && !!checkInDate && !!checkOutDate,
   })

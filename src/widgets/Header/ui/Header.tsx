@@ -15,12 +15,14 @@ import { DropDownMenu } from "@/widgets/Dropdown/DropdownMenu.tsx"
 import { useLocation, useNavigate } from "react-router-dom"
 
 export const Header: React.FC<TPropsForHeader> = ({ links }) => {
-  const [selectedLink, setSelectedLink] = useState(links[0].label)
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  const currentLink = links.find(l => l.href === pathname)
+  const [selectedLink, setSelectedLink] = useState(currentLink?.label)
   const [hoveredLink, setHoveredLink] = useState<string | undefined>(undefined)
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false)
   const [menuTimeout, setMenuTimeout] = useState<NodeJS.Timeout | null>(null)
-  const { pathname } = useLocation()
-  const navigate = useNavigate()
 
   const isCreateBookingPage = pathname.includes("create-booking")
 

@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { Control, Controller, FieldErrors } from "react-hook-form"
-import { Dayjs } from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 import { TextField, TIconInputPosition } from "@/shared/ui/TextField"
 import { DatePicker } from "@/widgets/DatePicker/DatePicker"
 import { DateField, FormData } from "../../types/types"
+import { FieldError } from "@/shared/ui/Inputs/FieldError/FieldError"
 
 const InputDataFormat = "DD.MM.YYYY"
 
@@ -12,6 +13,7 @@ type CustomDatePickerProps = {
   control: Control<FormData>
   errors: FieldErrors<FormData>
   readOnly?: boolean
+  formValues?: { [key: string]: string }
 }
 
 export const ControlledDate = ({
@@ -19,9 +21,12 @@ export const ControlledDate = ({
   control,
   errors,
   readOnly,
+  formValues,
 }: CustomDatePickerProps) => {
   const [openDatePickerId, setOpenDatePickerId] = useState<string | null>(null)
-  const [dateValue, setDateValue] = useState<Dayjs | null>(null)
+  const [dateValue, setDateValue] = useState<Dayjs | null>(
+    formValues?.[field.name] ? dayjs(formValues?.[field.name]) : null
+  )
 
   return (
     <Controller
@@ -59,9 +64,7 @@ export const ControlledDate = ({
             )}
           </div>
           {errors[field.id] && (
-            <p className="mt-2 text-sm text-red-600">
-              {errors[field.name]?.message as string}
-            </p>
+            <FieldError error={errors[field.id]!.message as string} />
           )}
         </div>
       )}

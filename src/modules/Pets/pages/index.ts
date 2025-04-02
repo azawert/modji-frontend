@@ -1,2 +1,2 @@
-export * from "./CreatePetPage"
-export * from "./PetPage"
+export * from "./CreatePage/CreatePetPage"
+export * from "./ViewPage/PetPage"

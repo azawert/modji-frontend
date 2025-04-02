@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { EQueryKeys } from "./keys"
-import { RoomDto, checkUniqueRoomNumber, getAllRooms } from "@/generated/room"
+import {
+  RoomDto,
+  checkUniqueRoomNumber,
+  getAllRooms,
+  getRoomById,
+} from "@/generated/room"
 export const useGetAllRooms = (key: string) =>
   useQuery({
     queryKey: [`${EQueryKeys.GET_ALL_ROOMS} ${key}`],
@@ -9,6 +14,12 @@ export const useGetAllRooms = (key: string) =>
         { isVisible: key !== "Удаленные" },
         { headers: { "X-PetHotel-User-Id": 1 } }
       ) as Promise<RoomDto[]>,
+  })
+
+export const useGetRoomById = (id: number) =>
+  useQuery({
+    queryKey: [`${EQueryKeys.GET_ALL_ROOMS} ${id}`],
+    queryFn: () => getRoomById(id, { headers: { "X-PetHotel-User-Id": 1 } }),
   })
 
 export const useCheckUniqueRoomNumber = (

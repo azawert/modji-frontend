@@ -1,7 +1,6 @@
 import { useForm, useWatch } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { createValidationSchema } from "./createValidationSchema"
-import {} from "../fields"
 import { forwardRef, useEffect, useState } from "react"
 import { CategoryTitle } from "../../common/CategoryTitle/CategoryTitle"
 import { ControlledDate } from "../fields/ControlledDate/ControlledDate"
@@ -16,20 +15,23 @@ import { renderFields } from "../utils/groupFormFields"
 
 interface FormBuilderProps {
   config: FormConfig
-  onSubmit: (data: FormData) => void
+  onSubmit?: (data: FormData) => void
   defaultValues?: FormData
   viewMode?: boolean
+  formId: string
 }
 
 const FormBuilder = forwardRef(
-  ({ config, onSubmit, defaultValues, viewMode }: FormBuilderProps) => {
-    const categories = Object.values(config.categories)
-    const allFields = categories.flatMap(category => category.fields)
+  ({ config, onSubmit, defaultValues, viewMode, formId }: FormBuilderProps) => {
+    const categories = Object.values(config?.categories || {})
+    const allFields = categories.flatMap(category => category?.fields)
     const [expandedCategories, setExpandedCategories] = useState<{
       [key: string]: boolean
     }>({})
 
     const setIsDirty = usePetFormStore(state => state.setIsDirty)
+    const setDirtyFields = usePetFormStore(state => state.setDirtyFields)
+
     const validationSchema = createValidationSchema(allFields)
     const {
       control,
@@ -47,10 +49,12 @@ const FormBuilder = forwardRef(
     useEffect(() => {
       if (hasDirtyFields) {
         setIsDirty(true)
+        setDirtyFields(dirtyFields)
       } else {
         setIsDirty(false)
+        setDirtyFields({})
       }
-    }, [hasDirtyFields, setIsDirty])
+    }, [hasDirtyFields, setIsDirty, setDirtyFields, dirtyFields])
 
     const toggleExpandCategory = (categoryKey: string) => {
       setExpandedCategories(prev => ({
@@ -80,6 +84,7 @@ const FormBuilder = forwardRef(
               control={control}
               errors={errors}
               readOnly={viewMode}
+              formValues={formValues}
             />
           )
         case "select":
@@ -130,7 +135,7 @@ const FormBuilder = forwardRef(
       <form
         onSubmit={handleSubmit(onSubmit as never)}
         className="space-y-6"
-        id="create-pet"
+        id={formId}
       >
         {Object.entries(config.categories).map(([categoryKey, category]) => {
           const isExpanded = expandedCategories[categoryKey]

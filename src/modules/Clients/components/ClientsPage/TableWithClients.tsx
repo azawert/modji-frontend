@@ -1,17 +1,10 @@
 import { OwnerDto } from "@/generated/owners.ts"
-import { CardWithClient } from "@/modules/Clients/components/ClientsPage/CardWithClient.tsx"
-import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet.tsx"
 import { TableComponent } from "@/shared/ui/TableComponent.tsx"
 import { Box } from "@mui/material"
-import {
-  mapperForValuePetTypeToAnLabel,
-  mapResponseToTableView,
-} from "../../utils.ts"
 
 import { ERROR_MESSAGES } from "@/shared/constants/errors.ts"
-import { useNavigate } from "react-router-dom"
 import { Pet } from "../../types.ts"
-import { useCallback } from "react"
+import { useClientTableRows } from "../../hooks/useClientTableRows.tsx"
 
 interface IProps {
   isLoading: boolean
@@ -52,35 +45,7 @@ export const TableWithClients: React.FC<IProps> = ({
   isError,
   error,
 }) => {
-  const navigate = useNavigate()
-  const handleCardClick = useCallback(
-    (id: string) => navigate(`/clients/${id}`),
-    [navigate]
-  )
-  const rows = mapResponseToTableView(data).map(data => ({
-    client: (
-      <CardWithClient
-        fullName={data.client.fullName}
-        mainPhone={data.client.mainPhone}
-        optionalPhone={data.client.optionalPhone}
-        registrationDate={data.client.registrationDate}
-        id={data.client.id}
-        handleCardClick={() => handleCardClick(data.client.id)}
-      />
-    ),
-    pets: (
-      <Box display="flex" flexDirection="row" flexWrap="wrap" gap="12px 16px">
-        {data.pets.map((pet, petIndex) => (
-          <CardWithPet
-            key={petIndex}
-            petName={pet.petName}
-            petType={mapperForValuePetTypeToAnLabel[pet.petType]}
-            breed={pet.breed}
-          />
-        ))}
-      </Box>
-    ),
-  }))
+  const rows = useClientTableRows(data)
 
   return (
     <Box>

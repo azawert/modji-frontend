@@ -9,7 +9,7 @@ import {
   addSuccessNotification,
   addConfirmationNotification,
 } from "@/shared/utils/utils"
-import { ShortClientModal } from "../../components/modal/ShortClientModal/ShortClientModal"
+import { ShortClientModal } from "../../components/CreateBooking/modal/ShortClientModal/ShortClientModal"
 import { NewOwnerDto } from "@/generated/owners"
 import { useCreateClient } from "@/modules/Clients/api/mutation"
 

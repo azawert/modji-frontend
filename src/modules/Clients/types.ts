@@ -4,6 +4,7 @@ import { PetDtoType } from "@/generated/pets"
 export interface IInfoItem {
   title: string
   value?: string
+  component?: () => JSX.Element
 }
 
 /** Интерфейс для данных которые нужны в карточке клиента */
