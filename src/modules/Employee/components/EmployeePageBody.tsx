@@ -74,7 +74,7 @@ export const EmployeePageBody: React.FC<TProps> = props => {
                 </TableCell>
               </TableRow>
             ) : (
-              (employees || []).map(employee => (
+              (employees || [])?.map(employee => (
                 <EmployeeRowItem
                   key={employee.id}
                   employee={employee}

@@ -1,10 +1,9 @@
 import { Stack } from "@mui/material"
 import { Tab } from "@/shared/ui/Tab"
-import { SearchComponent } from "@/shared/ui/SearchComponent"
 import { useMemo } from "react"
-import { BookingDto } from "@/generated/bookings"
 import { HEADER_TABS } from "@/modules/Booking/model/utils"
 import { EBookingView } from "@/modules/Booking/model/types/BookingGridTypes"
+import { BookingSearchBar } from "../../BookingSearch/BookingSearchBar"
 
 type TProps = {
   onChangeTab: (tab: EBookingView) => void
@@ -37,11 +36,10 @@ export const GridHeader = ({
         {tabs}
       </Stack>
       <Stack>
-        <SearchComponent<BookingDto>
-          completeOptions={[]}
+        <BookingSearchBar
           onSearchChange={onQueueChange}
           search={queue}
-          optionName="price"
+          placeholder="Введите ФИО, телефон или кличку питомца"
         />
       </Stack>
     </Stack>
