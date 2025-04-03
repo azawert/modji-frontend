@@ -29,6 +29,7 @@ interface CardWithPetProps {
   breed: string
   width?: string
   height?: string
+  readOnly?: boolean
 }
 
 export const CardWithPet: React.FC<CardWithPetProps> = ({
@@ -38,9 +39,10 @@ export const CardWithPet: React.FC<CardWithPetProps> = ({
   width,
   height,
   onClick,
+  readOnly = false,
 }) => {
   return (
-    <CardWrapper width={width} height={height}>
+    <CardWrapper onClick={onClick} width={width} height={height}>
       <StyledBox>
         <InfoTitle>Кличка</InfoTitle>
         <InfoValue>{petName}</InfoValue>
@@ -52,7 +54,7 @@ export const CardWithPet: React.FC<CardWithPetProps> = ({
       <StyledBox>
         <InfoTitle>Порода/вид</InfoTitle>
         <InfoValue>{breed}</InfoValue>
-        {onClick && (
+        {!readOnly && (
           <IconButton className="self-end" onClick={onClick}>
             <Icon type="RoundedPlusIcon" width="30" height="30" />
           </IconButton>

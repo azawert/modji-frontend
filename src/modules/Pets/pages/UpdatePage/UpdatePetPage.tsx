@@ -122,7 +122,7 @@ export const UpdatePetPage = () => {
               ?.config
           }
           onSubmit={handleUpdatePet as never}
-          defaultValues={petData as FormData}
+          defaultValues={petData as unknown as FormData}
           formId="update-pet"
         />
 

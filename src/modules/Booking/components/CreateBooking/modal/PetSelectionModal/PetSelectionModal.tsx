@@ -6,12 +6,15 @@ interface ShortClientModalProps {
   isOpen: boolean
   onClose: () => void
   children: React.ReactNode
+  withFooter?: boolean
+
 }
 
 export const PetSelectionModal: React.FC<ShortClientModalProps> = ({
   children,
   isOpen: isModalOpen,
   onClose,
+  withFooter = true,
 }) => {
   const renderFooter = () => {
     return (
@@ -61,7 +64,7 @@ export const PetSelectionModal: React.FC<ShortClientModalProps> = ({
       ariaLabelledby="pet-create"
       isOpen={isModalOpen}
       onClose={onClose}
-      renderFooter={renderFooter}
+      renderFooter={withFooter ? renderFooter : () => <></>}
       renderMainContent={renderBody}
       renderHeader={renderHeader}
     />
