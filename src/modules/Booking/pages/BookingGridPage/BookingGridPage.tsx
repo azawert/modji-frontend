@@ -33,12 +33,33 @@ const getLastDateForBookingGridRequest = (view: EBookingView): string => {
       return dayjs().add(1, "day").format("YYYY-MM-DD")
   }
 }
+import { BookingDt } from "../../components/BookingSearch/BookingType"
+import { BookingSearchList } from "../../components/BookingSearch/BookingSearchBarList"
+
+
+const Bookings: BookingDt[] = [
+  { id: 1, PetDt: { name: 'Барсик', ownerShortDt: { firstName: "Иван", lastName: "Иванов", phoneNumber: "+7 (900) 123-45-67" } } },
+  { id: 2, PetDt: { name: 'Кеша', ownerShortDt: { firstName: "Петр", lastName: "Ильич", phoneNumber: "+7 (900) 123-45-67" } } },
+  { id: 3, PetDt: { name: 'Лелик', ownerShortDt: { firstName: "Федр", lastName: "Александрович", phoneNumber: "+7 (900) 123-45-67" } } },
+]
 
 export const BookingGridPage: FC = () => {
+  const [queue, setQueue] = useState<string>("")
+  const searchBookingsFilter = Bookings?.filter(Booking => {
+    return Booking.PetDt.name.toLowerCase().includes(queue.toLowerCase())
+  })
+  const handleSearchChange = (inputStr: string) => {
+    setQueue(inputStr)
+  }
+
+
+
+
+
   const [activeTabHeader, setActiveTabHeader] = useState<TTabForHeader>(
     HEADER_TABS[0]
   )
-  const [queue, setQueue] = useState<string>("")
+
 
   const daysForBookingGrid = useBookingGridGenerator(activeTabHeader.value)
 
@@ -84,7 +105,7 @@ export const BookingGridPage: FC = () => {
         <div className="py-4 px-6">
           <GridHeader
             onChangeTab={handleTabChange}
-            onQueueChange={setQueue}
+            onQueueChange={handleSearchChange}
             queue={queue}
             selectedTab={activeTabHeader.value}
           />
@@ -163,8 +184,8 @@ export const BookingGridPage: FC = () => {
                               index <= bookingInfo.endIndex
                             const color =
                               mapBookingStatusToColor[
-                                bookingInfo.booking.status ??
-                                  BookingDtoStatus.STATUS_INITIAL
+                              bookingInfo.booking.status ??
+                              BookingDtoStatus.STATUS_INITIAL
                               ]
                             const clientName = getFullName(
                               bookingInfo.booking?.pets?.[0]?.ownerShortDto
@@ -201,6 +222,7 @@ export const BookingGridPage: FC = () => {
           </table>
         </div>
       </div>
+      {queue && <BookingSearchList Bookings={searchBookingsFilter} />}
     </div>
   )
 }

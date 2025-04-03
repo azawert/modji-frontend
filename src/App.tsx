@@ -7,7 +7,10 @@ import { NotificationContainer } from "./contexts/notificationContext/Notificati
 
 
 
+
+
 function App() {
+
   const router = createBrowserRouter(routes)
   const [queryClient] = useState(
     () =>
