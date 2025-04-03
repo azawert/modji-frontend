@@ -62,7 +62,7 @@ export const PetPage = () => {
         <FormBuilder
           ref={formRef}
           config={petConfig[petData?.type as keyof typeof petConfig]}
-          defaultValues={petData as PetFormData}
+          defaultValues={petData as unknown as PetFormData}
           viewMode
           formId="pet-form"
         />
@@ -75,7 +75,7 @@ export const PetPage = () => {
               rating={String(rating || 0)}
               petType={
                 PetTranslatedTypes[
-                  petData?.type as keyof typeof PetTranslatedTypes
+                petData?.type as keyof typeof PetTranslatedTypes
                 ]
               }
               onClick={handleNavigate}

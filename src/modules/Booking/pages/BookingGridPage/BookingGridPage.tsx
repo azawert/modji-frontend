@@ -18,6 +18,12 @@ import { BookingCell } from "../../components/BookingGrid/BookingCell/BookingCel
 import { CircularProgress } from "@mui/material"
 import { GridHeader } from "../../components/BookingGrid/gridHeader/GridHeader"
 import { useBookingGridGenerator } from "../../model/useBookingGridGenerator"
+import { useNavigate } from "react-router-dom"
+import { PetDtoForOwner } from "@/generated/owners"
+import { CardWithPet } from "@/shared/ui/CardWithPet"
+import { PetSelectionModal } from "../../components/CreateBooking/modal/PetSelectionModal/PetSelectionModal"
+import { APP_ROUTES } from "@/routes/types"
+import { PetDto } from "@/generated/pets"
 
 const getLastDateForBookingGridRequest = (view: EBookingView): string => {
   switch (view) {
@@ -57,6 +63,42 @@ export const BookingGridPage: FC = () => {
   })
 
   const { data: rooms } = useGetAllRooms(EPageMode.ACTIVE)
+
+
+  const [isSelectPetOpen, setIsSelectPetOpen] = useState(false)
+  const navigate = useNavigate()
+  const renderCardWithPet = (
+    petsToShow: PetDtoForOwner[],
+  ) => {
+    return (
+      <>
+        {petsToShow.length !== 0 && (
+          <div className="grid grid-cols-2 gap-4 overflow-y-auto overflow-x-hidden h-64 py-3">
+            {petsToShow.map(pet => (
+              <CardWithPet
+                readOnly
+                onClick={() => navigate(APP_ROUTES.pet(pet?.ownerShortDto?.id!, pet.id!))}
+                key={pet.id}
+                breed={pet.breed ?? "Нет породы"}
+                petName={pet.name ?? "Нет клички"}
+                petType={pet.type ?? "Собака или кошка?"}
+                width="234px"
+                height="244px"
+              />
+            ))}
+          </div>
+        )}
+
+      </>
+    )
+  }
+  const handleBookingClick = (pets: PetDto[]) => {
+    if (pets.length < 2) {
+      return navigate(APP_ROUTES.pet(pets[0]?.ownerShortDto?.id, pets[0].id!))
+    }
+    setIsSelectPetOpen(true)
+  }
+
 
   const todayIndex = daysForBookingGrid.findIndex(day =>
     day.day.isSame(dayjs(), "day")
@@ -163,9 +205,10 @@ export const BookingGridPage: FC = () => {
                               index <= bookingInfo.endIndex
                             const color =
                               mapBookingStatusToColor[
-                                bookingInfo.booking.status ??
-                                  BookingDtoStatus.STATUS_INITIAL
+                              bookingInfo.booking.status ??
+                              BookingDtoStatus.STATUS_INITIAL
                               ]
+                            console.log(bookingInfo)
                             const clientName = getFullName(
                               bookingInfo.booking?.pets?.[0]?.ownerShortDto
                                 ?.firstName || "",
@@ -179,14 +222,25 @@ export const BookingGridPage: FC = () => {
                               index === bookingInfo.startIndex
                             ) {
                               return (
-                                <BookingCell
-                                  key={`${room.roomId}-${bookingIndex}`}
-                                  bookingInfo={bookingInfo}
-                                  index={bookingIndex}
-                                  color={color}
-                                  clientName={clientName}
-                                  activeTabHeader={activeTabHeader}
-                                />
+                                <>
+                                  <PetSelectionModal
+                                    withFooter={false}
+                                    isOpen={isSelectPetOpen}
+                                    onClose={() => setIsSelectPetOpen(false)}
+                                  >
+                                    {renderCardWithPet(bookingInfo.booking.pets as PetDto[])}
+                                  </PetSelectionModal>
+                                  <div className="cursor-pointer" onClick={() => handleBookingClick(bookingInfo.booking.pets as PetDto[])}>
+                                    <BookingCell
+                                      key={`${room.roomId}-${bookingIndex}`}
+                                      bookingInfo={bookingInfo}
+                                      index={bookingIndex}
+                                      color={color}
+                                      clientName={clientName}
+                                      activeTabHeader={activeTabHeader}
+                                    />
+                                  </div>
+                                </>
                               )
                             }
                             return null
@@ -201,6 +255,7 @@ export const BookingGridPage: FC = () => {
           </table>
         </div>
       </div>
+
     </div>
   )
 }

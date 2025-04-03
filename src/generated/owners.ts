@@ -151,6 +151,9 @@ export const PetDtoForOwnerSex = {
 } as const
 
 export interface PetDtoForOwner {
+  ownerShortDto?: {
+    id: string
+  }
   /**
    * Дополнительные комментарии, особенности поведения
    * @maxLength 1000
