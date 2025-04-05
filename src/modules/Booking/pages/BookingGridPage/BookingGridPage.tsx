@@ -1,23 +1,27 @@
 import { FC, useCallback, useState } from "react"
-import { useGetBookings } from "../../api/queries"
-import {
-  getBookingInfo,
-  getFirstDateForBookingGridRequest,
-  getRoomsProperType,
-  HEADER_TABS,
-  mapBookingStatusToColor,
-} from "../../model/utils"
-import { EBookingView, TTabForHeader } from "../../model/types/BookingGridTypes"
-import { cn } from "@/lib/utils"
+
+import { CircularProgress } from "@mui/material"
 import dayjs from "dayjs"
-import { BookingDtoStatus } from "@/generated/bookings"
+
 import { getFullName } from "@/modules/Employee/utils"
 import { useGetAllRooms } from "@/modules/Rooms/api/queries"
 import { EPageMode } from "@/modules/Rooms/pages/RoomsPage"
+
+import { BookingDtoStatus } from "@/generated/bookings"
+import { cn } from "@/lib/utils"
+
+import { useGetBookings } from "../../api/queries"
 import { BookingCell } from "../../components/BookingGrid/BookingCell/BookingCell"
-import { CircularProgress } from "@mui/material"
 import { GridHeader } from "../../components/BookingGrid/gridHeader/GridHeader"
+import { EBookingView, TTabForHeader } from "../../model/types/BookingGridTypes"
 import { useBookingGridGenerator } from "../../model/useBookingGridGenerator"
+import {
+  HEADER_TABS,
+  getBookingInfo,
+  getFirstDateForBookingGridRequest,
+  getRoomsProperType,
+  mapBookingStatusToColor,
+} from "../../model/utils"
 
 const getLastDateForBookingGridRequest = (view: EBookingView): string => {
   switch (view) {
@@ -36,7 +40,7 @@ const getLastDateForBookingGridRequest = (view: EBookingView): string => {
 
 export const BookingGridPage: FC = () => {
   const [activeTabHeader, setActiveTabHeader] = useState<TTabForHeader>(
-    HEADER_TABS[0]
+    HEADER_TABS[0],
   )
   const [queue, setQueue] = useState<string>("")
 
@@ -59,7 +63,7 @@ export const BookingGridPage: FC = () => {
   const { data: rooms } = useGetAllRooms(EPageMode.ACTIVE)
 
   const todayIndex = daysForBookingGrid.findIndex(day =>
-    day.day.isSame(dayjs(), "day")
+    day.day.isSame(dayjs(), "day"),
   )
 
   if (isLoading) {
@@ -119,7 +123,7 @@ export const BookingGridPage: FC = () => {
             <tbody>
               {getRoomsProperType(rooms || []).map((room, trIdx) => {
                 const bookingsForRoom = bookings?.filter(
-                  booking => booking.room.id === room.roomId
+                  booking => booking.room.id === room.roomId,
                 )
                 return (
                   <tr key={room.roomId}>
@@ -135,7 +139,7 @@ export const BookingGridPage: FC = () => {
                       const bookingInfos = getBookingInfo(
                         bookingsForRoom || [],
                         day,
-                        daysForBookingGrid
+                        daysForBookingGrid,
                       )
                       return (
                         <td
@@ -144,7 +148,7 @@ export const BookingGridPage: FC = () => {
                             "border p-2 border-t-0 text-center relative",
                             {
                               "bg-red-100": isWeekend,
-                            }
+                            },
                           )}
                         >
                           {todayIndex === index && (
@@ -152,7 +156,7 @@ export const BookingGridPage: FC = () => {
                               <div
                                 className={cn(
                                   "today-line absolute w-[2px] h-full bg-blue-500 left-1/2 z-10",
-                                  { "with-circle": trIdx === 0 }
+                                  { "with-circle": trIdx === 0 },
                                 )}
                               />
                             </div>
@@ -172,7 +176,7 @@ export const BookingGridPage: FC = () => {
                               bookingInfo.booking?.pets?.[0]?.ownerShortDto
                                 ?.lastName,
                               bookingInfo.booking?.pets?.[0]?.ownerShortDto
-                                ?.middleName
+                                ?.middleName,
                             )
                             if (
                               showBookingDiv &&

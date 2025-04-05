@@ -1,25 +1,30 @@
 import { useEffect, useMemo, useState } from "react"
-import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
-import { IconButton, Typography } from "@mui/material"
+import { useCallback } from "react"
+
 import { Close } from "@mui/icons-material/"
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+import { IconButton, Typography } from "@mui/material"
+import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
+
+import { useDebounce } from "@/shared/hooks/hooks.ts"
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
-import { addConfirmationNotification } from "@/shared/utils/utils"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { MaskedTextField } from "@/shared/ui/Inputs/MaskedTextField/MaskedTextField"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
 import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
-import { TRoomCreateForm } from "../pages/RoomsPage"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
+import { addConfirmationNotification } from "@/shared/utils/utils"
+
+import { useCheckUniqueRoomNumber } from "@/modules/Rooms/api/queries.ts"
+
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
 import { NewRoomDto, RoomDto } from "@/generated/room"
+
+import { TRoomCreateForm } from "../pages/RoomsPage"
 import {
   mapperFormToAnCreateRequest,
   mapperFormToAnUpdateRequest,
 } from "../utils"
 import { SelectWithCategories } from "./SelectWithCategories"
-import { MaskedTextField } from "@/shared/ui/Inputs/MaskedTextField/MaskedTextField"
-import { useCheckUniqueRoomNumber } from "@/modules/Rooms/api/queries.ts"
-import { useDebounce } from "@/shared/hooks/hooks.ts"
-import { useCallback } from "react"
-import { eventEmitter } from "@/shared/utils/eventEmitter"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -68,12 +73,12 @@ export const RoomCreateOrEditModal: React.FC<TProps> = props => {
    */
   const hasRoomNumberNotChanged = useCallback(
     () => roomNumber === prevRoomNumberValue,
-    [roomNumber, prevRoomNumberValue]
+    [roomNumber, prevRoomNumberValue],
   )
 
   const { data: isRoomNumberAvailable } = useCheckUniqueRoomNumber(
     debouncedValue,
-    !hasRoomNumberNotChanged()
+    !hasRoomNumberNotChanged(),
   )
 
   /** Автозаполнение полей при наличии флага и данных */

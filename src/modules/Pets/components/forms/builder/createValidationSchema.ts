@@ -1,4 +1,5 @@
 import * as yup from "yup"
+
 import { FormField } from "../types/types"
 
 export const createValidationSchema = (fields: FormField[]) => {
@@ -11,13 +12,13 @@ export const createValidationSchema = (fields: FormField[]) => {
         fieldSchema = yup.string().nullable()
         if (field.required) {
           fieldSchema = fieldSchema.required(
-            field.validationErr || "This field is required"
+            field.validationErr || "This field is required",
           )
         }
         if (field.minLetters) {
           fieldSchema = fieldSchema.min(
             field.minLetters,
-            `Minimum ${field.minLetters} letters`
+            `Minimum ${field.minLetters} letters`,
           )
         }
         break
@@ -27,7 +28,7 @@ export const createValidationSchema = (fields: FormField[]) => {
         fieldSchema = yup.string().nullable()
         if (field.required) {
           fieldSchema = fieldSchema.required(
-            field.validationErr || "This field is required"
+            field.validationErr || "This field is required",
           )
         }
         break
@@ -36,7 +37,7 @@ export const createValidationSchema = (fields: FormField[]) => {
         if (field.required) {
           fieldSchema = fieldSchema.oneOf(
             [true],
-            field.validationErr || "This field is required"
+            field.validationErr || "This field is required",
           )
         }
         break

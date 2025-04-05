@@ -1,6 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { BookingModal } from "../modal/BookingModal/BookingModal"
-import { useForm, UseFormReturn } from "react-hook-form"
+import { UseFormReturn, useForm } from "react-hook-form"
+
+import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
+
+import { ErrorMessages } from "../../../consts/errors"
 import {
   ICategoryAndRoom,
   IPet,
@@ -8,11 +11,10 @@ import {
   ScreenSchema3WithPets,
 } from "../../../model/types/BookingValidationSchema"
 import useBookingStore from "../../../store/BookingStore"
-import { PetOwnerForm } from "../form/blocks/PetOwnerForm/PetOwnerForm"
 import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
+import { PetOwnerForm } from "../form/blocks/PetOwnerForm/PetOwnerForm"
 import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
-import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
-import { ErrorMessages } from "../../../consts/errors"
+import { BookingModal } from "../modal/BookingModal/BookingModal"
 
 const BookingScreen4 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

@@ -1,15 +1,17 @@
+import { useEffect, useRef } from "react"
+
+import { UseFormReturn } from "react-hook-form"
+
 import {
   ExtendedIPayment,
   IBookingForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { useEffect, useRef } from "react"
-import { UseFormReturn } from "react-hook-form"
 
 export const useFormPriceControl = (
   isCreateBookingPage: boolean,
   form: UseFormReturn<ExtendedIPayment>,
   formValues: ExtendedIPayment,
-  bookingData: IBookingForm
+  bookingData: IBookingForm,
 ) => {
   const prevFullPriceRef = useRef(0)
 

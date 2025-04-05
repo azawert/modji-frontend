@@ -1,5 +1,6 @@
-import { PageTitle } from "@/shared/ui/PageTitle"
 import { memo } from "react"
+
+import { PageTitle } from "@/shared/ui/PageTitle"
 
 /**
  * @prop onClick обработчик для клика по кнопке в хедере

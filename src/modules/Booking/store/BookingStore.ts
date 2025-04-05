@@ -1,8 +1,10 @@
-import { create } from "zustand"
-import { IBookingForm } from "../model/types/BookingValidationSchema"
 import { DeepPartial } from "react-hook-form"
-import { OwnerDto } from "@/generated/owners"
+import { create } from "zustand"
+
 import { RoomDto } from "@/generated/bookings"
+import { OwnerDto } from "@/generated/owners"
+
+import { IBookingForm } from "../model/types/BookingValidationSchema"
 
 interface IBookingStore {
   isCreateShortPet: boolean

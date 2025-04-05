@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
-import { EQueryKeys } from "./keys"
+
 import { getPetById } from "@/generated/pets"
+
+import { EQueryKeys } from "./keys"
 
 export const useGetPetById = (id: number) =>
   useQuery({

@@ -1,6 +1,5 @@
-import { RoomDto } from "@/generated/room"
 import { memo } from "react"
-import { EPageMode } from "../pages/RoomsPage"
+
 import {
   CircularProgress,
   Paper,
@@ -12,6 +11,10 @@ import {
   TableRow,
   Typography,
 } from "@mui/material"
+
+import { RoomDto } from "@/generated/room"
+
+import { EPageMode } from "../pages/RoomsPage"
 import { RoomRowItem } from "./RoomRowItem"
 
 type TProps = {

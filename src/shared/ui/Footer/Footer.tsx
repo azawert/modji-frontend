@@ -1,7 +1,8 @@
-import { FooterMap } from "@/routes/types"
-import { getRouteKeyByPath } from "@/routes/utils"
 import { styled } from "@mui/material"
 import { useLocation } from "react-router-dom"
+
+import { FooterMap } from "@/routes/types"
+import { getRouteKeyByPath } from "@/routes/utils"
 
 const StyledFooter = styled("footer")(({ theme }) => ({
   marginTop: "40px",

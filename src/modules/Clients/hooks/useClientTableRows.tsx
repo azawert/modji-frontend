@@ -1,30 +1,34 @@
-import { useMemo, useCallback } from "react"
+import { useCallback, useMemo } from "react"
+
+import { Box } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { APP_ROUTES } from "@/routes/types"
+
 import { CardWithClient } from "@/modules/Clients/components/ClientsPage/CardWithClient"
 import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet"
+
+import { OwnerDto } from "@/generated/owners"
+import { APP_ROUTES } from "@/routes/types"
+
 import {
   mapResponseToTableView,
   mapperForValuePetTypeToAnLabel,
 } from "../utils"
-import { OwnerDto } from "@/generated/owners"
-import { Box } from "@mui/material"
 
 export const useClientTableRows = (data: OwnerDto[]) => {
   const navigate = useNavigate()
 
   const handleOpenClientPage = useCallback(
     (id: string) => navigate(APP_ROUTES.client(id)),
-    [navigate]
+    [navigate],
   )
 
   const handleOpenPetPage = useCallback(
     (clientId: string, petId: string) =>
       navigate(APP_ROUTES.pet(clientId, petId)),
-    [navigate]
+    [navigate],
   )
 
-  const rows = useMemo(() => {
+  return useMemo(() => {
     return mapResponseToTableView(data).map(data => ({
       client: (
         <CardWithClient
@@ -53,6 +57,4 @@ export const useClientTableRows = (data: OwnerDto[]) => {
       ),
     }))
   }, [data, handleOpenClientPage, handleOpenPetPage])
-
-  return rows
 }

@@ -1,16 +1,20 @@
-import { SubmitHandler, UseFormReturn } from "react-hook-form"
-import { TCategoryForm } from "../const"
-import { CategoryDto, NewCategoryDto } from "@/generated/categories"
-import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
-import { IconButton, Typography } from "@mui/material"
-import { Close } from "@mui/icons-material"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useEffect } from "react"
-import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
-import { addConfirmationNotification } from "@/shared/utils/utils"
+
+import { Close } from "@mui/icons-material"
+import { IconButton, Typography } from "@mui/material"
+import { SubmitHandler, UseFormReturn } from "react-hook-form"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
 import { eventEmitter } from "@/shared/utils/eventEmitter"
+import { addConfirmationNotification } from "@/shared/utils/utils"
+
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { useNotification } from "@/contexts/notificationContext/useNotificationContext"
+import { CategoryDto, NewCategoryDto } from "@/generated/categories"
+
+import { TCategoryForm } from "../const"
 
 /**
  * Пропы для модалки создания/редактирования категории
@@ -54,7 +58,7 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
   useEffect(() => {
     if (isEditing && categoryData) {
       Object.entries(categoryData).forEach(([name, key]) =>
-        setValue(name as keyof TCategoryForm, key)
+        setValue(name as keyof TCategoryForm, key),
       )
     }
   }, [isEditing, categoryData, setValue])
@@ -74,7 +78,7 @@ export const CategoryCreateOrEditModal: React.FC<TProps> = props => {
     notifications.forEach(
       ({ id, type }) =>
         type === ENotificationType.CONFIRMATION &&
-        eventEmitter.emit("removeNotification", id)
+        eventEmitter.emit("removeNotification", id),
     )
   }
 

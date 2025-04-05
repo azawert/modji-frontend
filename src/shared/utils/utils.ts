@@ -1,6 +1,9 @@
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
 import dayjs from "dayjs"
+
 import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
+
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+
 import { eventEmitter } from "./eventEmitter"
 
 export const generateUniqueId = () => {
@@ -92,7 +95,7 @@ export const formatServerPhoneNumberToForm = (phoneNumber: string) => {
   }
   const { match } = getRawValueAndIfItsMatchesTheMask(
     phoneNumber,
-    /^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/
+    /^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/,
   )
 
   if (!match) {
@@ -110,7 +113,7 @@ export const formatServerPhoneNumberToForm = (phoneNumber: string) => {
 export const formatPhoneNumber = (phoneNumber: string): string => {
   const { cleaned, match } = getRawValueAndIfItsMatchesTheMask(
     phoneNumber,
-    /^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/
+    /^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/,
   )
 
   if (match) {
@@ -143,7 +146,7 @@ export const formatPhoneNumber = (phoneNumber: string): string => {
  */
 export function getRawValueAndIfItsMatchesTheMask(
   value: string,
-  mask: RegExp
+  mask: RegExp,
 ): { cleaned: string; match: RegExpMatchArray | null } {
   const cleaned = value.replace(/\D/g, "")
   const match = cleaned.match(mask)

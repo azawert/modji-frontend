@@ -1,19 +1,24 @@
-import { useNavigate, useParams } from "react-router-dom"
-import FormBuilder from "../../components/forms/builder/PetFormBuilder"
-import { useGetClientById } from "@/modules/Clients/api/queries"
-import { CircularProgress } from "@mui/material"
-import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
-import { NewPetDto } from "@/generated/pets"
 import { useRef } from "react"
+
+import { CircularProgress } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
+
 import {
   addConfirmationNotification,
   addErrorNotification,
   addSuccessNotification,
 } from "@/shared/utils/utils"
-import { usePetFormStore } from "../../store"
+
+import { useGetClientById } from "@/modules/Clients/api/queries"
+import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
+
+import { NewPetDto } from "@/generated/pets"
+
+import { useCreatePet } from "../../api"
 import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG } from "../../components"
 import { PetPageTitle } from "../../components/common"
-import { useCreatePet } from "../../api"
+import FormBuilder from "../../components/forms/builder/PetFormBuilder"
+import { usePetFormStore } from "../../store"
 
 const petConfig = {
   dog: {

@@ -5,7 +5,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jsdoc/recommended-typescript"
+    "plugin:jsdoc/recommended-typescript",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
@@ -24,6 +24,6 @@ module.exports = {
       },
     ],
     "no-console": "warn",
-    "jsdoc/check-tag-names": ["error" | "warn", { "typed": true }],
+    "jsdoc/check-tag-names": ["error" | "warn", { typed: true }],
   },
 }

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material"
 import { Typography, styled } from "@mui/material"
+
 import { Icon } from "../Icon/Icon"
 import { BarStyle } from "./utils"
 

@@ -1,25 +1,29 @@
 import { useCallback, useState } from "react"
-import { CategoriesTitle } from "../components/CategoriesTitle"
-import { TOpenModal } from "@/shared/types/types"
-import { useGetCategories } from "../api/queries"
-import { CategoriesPageBody } from "../components/CategoriesPageBody"
-import { CategoryCreateOrEditModal } from "../components/CategoryCreateOrEditModal"
+
 import { useForm } from "react-hook-form"
-import { TCategoryForm } from "../const"
+import { useNavigate } from "react-router-dom"
+
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { TOpenModal } from "@/shared/types/types"
+import { addWarningNotification } from "@/shared/utils/utils"
+
 import { CategoryDto } from "@/generated/categories"
-import { CategoriesDeleteModal } from "../components/CategoriesDeleteModal"
+
 import {
   useCreateCategory,
   useDeleteCategory,
   useUpdateCategory,
 } from "../api/mutation"
+import { useGetCategories } from "../api/queries"
+import { CategoriesDeleteModal } from "../components/CategoriesDeleteModal"
+import { CategoriesPageBody } from "../components/CategoriesPageBody"
+import { CategoriesTitle } from "../components/CategoriesTitle"
+import { CategoryCreateOrEditModal } from "../components/CategoryCreateOrEditModal"
+import { TCategoryForm } from "../const"
 import {
   mapperCategoryFormToAnCreateRequest,
   mapperCategoryFromToAnUpdateRequest,
 } from "../utils"
-import { addWarningNotification } from "@/shared/utils/utils"
-import { useNavigate } from "react-router-dom"
-import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 type TDeleteModalData = {
   name: string
@@ -88,7 +92,7 @@ export const CategoriesPage: React.FC = () => {
           warningNotification(
             `Удаление категории ${deleteModalData.name} невозможно из-за наличия номеров данной категории`,
             handleNavigateToRoomPage,
-            "Перейти в раздел Номера"
+            "Перейти в раздел Номера",
           )
         }
         setIsDeleteModalOpened(false)
@@ -114,7 +118,7 @@ export const CategoriesPage: React.FC = () => {
               onSuccess: () => {
                 handleCloseCreateOrEditModal()
               },
-            }
+            },
           )
         : createCategory(mapperCategoryFormToAnCreateRequest(category), {
             onSuccess: () => {
@@ -137,7 +141,7 @@ export const CategoriesPage: React.FC = () => {
       handleCloseCreateOrEditModal,
       isCreateOrEditModalOpen.isEdit,
       updateCategory,
-    ]
+    ],
   )
 
   return (

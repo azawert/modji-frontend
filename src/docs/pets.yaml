@@ -22,72 +22,72 @@ paths:
         admin или boss
       operationId: addPet
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewPetDto'
+              $ref: "#/components/schemas/NewPetDto"
         description: данные добавляемого питомца
         required: true
       responses:
-        '201':
+        "201":
           description: Питомец добавлен
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PetDto'
-        '400':
+                $ref: "#/components/schemas/PetDto"
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: >-
                   Required request header X-PetHotel-User-Id for method
                   parameter type Long is not present
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно
-        '403':
+        "403":
           description: Доступ запрещён
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Пользователь не найден
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "User with id=1 is not found"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '409':
+                $ref: "#/components/schemas/Error"
+        "409":
           description: У этого клиента уже есть питомец с такой кличкой
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: CONFLICT
                 reason: For the requested operation the conditions are not met.
                 message: "The client with id = 1 already has a pet with name = Бобик."
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -109,9 +109,9 @@ paths:
                   values (?,?,?,?,?,?,?,?,?,?)]; SQL [insert into pets
                   (age_pet,breed_pet,comments_pet,diet_pet,contact_pet,photographed_pet,medication_pet,sex_pet,type_pet,weight_pet)
                   values (?,?,?,?,?,?,?,?,?,?)]
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /pets/{id}:
     get:
       tags:
@@ -119,54 +119,54 @@ paths:
       summary: Получение питомца по его идентификатору
       operationId: getPetById
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/petId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/petId"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PetDto'
-        '400':
+                $ref: "#/components/schemas/PetDto"
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: >-
                   Required request header X-PetHotel-User-Id for method
                   parameter type Long is not present
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно
-        '403':
+        "403":
           description: Доступ запрещён
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Питомец или пользователь не найден
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "User with id=1 is not found"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -188,60 +188,60 @@ paths:
                   values (?,?,?,?,?,?,?,?,?,?)]; SQL [insert into pets
                   (age_pet,breed_pet,comments_pet,diet_pet,contact_pet,photographed_pet,medication_pet,sex_pet,type_pet,weight_pet)
                   values (?,?,?,?,?,?,?,?,?,?)]
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - pet-controller
       summary: Удаление питомца по его идентификатору
-      description: 'Обратите внимание: удаление питомца не должно быть доступно пользователю'
+      description: "Обратите внимание: удаление питомца не должно быть доступно пользователю"
       operationId: deletePet
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/petId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/petId"
       responses:
-        '204':
+        "204":
           description: Питомец удалён
-        '400':
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: >-
                   Required request header X-PetHotel-User-Id for method
                   parameter type Long is not present
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно
-        '403':
+        "403":
           description: Доступ запрещён
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Питомец или пользователь не найден
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "User with id=1 is not found"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -263,9 +263,9 @@ paths:
                   values (?,?,?,?,?,?,?,?,?,?)]; SQL [insert into pets
                   (age_pet,breed_pet,comments_pet,diet_pet,contact_pet,photographed_pet,medication_pet,sex_pet,type_pet,weight_pet)
                   values (?,?,?,?,?,?,?,?,?,?)]
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     patch:
       tags:
         - pet-controller
@@ -275,73 +275,73 @@ paths:
         admin или boss
       operationId: updatePet
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/petId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/petId"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdatePetDto'
+              $ref: "#/components/schemas/UpdatePetDto"
         required: true
         description: данные изменяемого питомца
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PetDto'
-        '400':
+                $ref: "#/components/schemas/PetDto"
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: >-
                   Required request header X-PetHotel-User-Id for method
                   parameter type Long is not present
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно
-        '403':
+        "403":
           description: Доступ запрещён
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Питомец или пользователь не найден
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: "User with id=1 is not found"
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '409':
+                $ref: "#/components/schemas/Error"
+        "409":
           description: У этого клиента уже есть питомец с такой кличкой
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: CONFLICT
                 reason: For the requested operation the conditions are not met.
                 message: "The client with id = 1 already has a pet with name = Бобик."
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -363,9 +363,9 @@ paths:
                   values (?,?,?,?,?,?,?,?,?,?)]; SQL [insert into pets
                   (age_pet,breed_pet,comments_pet,diet_pet,contact_pet,photographed_pet,medication_pet,sex_pet,type_pet,weight_pet)
                   values (?,?,?,?,?,?,?,?,?,?)]
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /pets/search:
     get:
       tags:
@@ -378,7 +378,7 @@ paths:
         - осуществлять поиск питомца может пользователь с ролью admin или boss
       operationId: getPetsBySearch
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
         - name: text
           description: Текст для поиска в кличках питомцев
           in: query
@@ -402,51 +402,51 @@ paths:
             format: int64
             default: 0
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PagePetDto'
-        '400':
+                $ref: "#/components/schemas/PagePetDto"
+        "400":
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: BAD_REQUEST
                 reason: Incorrectly made request.
                 message: >-
                   Required request header X-PetHotel-User-Id for method
                   parameter type Long is not present
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Запрос составлен некорректно
-        '403':
+        "403":
           description: Доступ запрещён
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: FORBIDDEN
                 reason: Operation is denied for this user.
                 message: User with role = %s, can not access for this action
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: Питомец или пользователь не найден
           content:
             application/json:
               example:
-                error: '[]'
+                error: "[]"
                 status: NOT_FOUND
                 reason: The required object was not found.
                 message: User with id=2 was not found
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -468,9 +468,9 @@ paths:
                   values (?,?,?,?,?,?,?,?,?,?)]; SQL [insert into pets
                   (age_pet,breed_pet,comments_pet,diet_pet,contact_pet,photographed_pet,medication_pet,sex_pet,type_pet,weight_pet)
                   values (?,?,?,?,?,?,?,?,?,?)]
-                timestamp: '2022-09-07 09:10:50'
+                timestamp: "2022-09-07 09:10:50"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 components:
   parameters:
     requesterHeader:
@@ -500,7 +500,7 @@ components:
           items:
             type: string
             description: Список стектрейсов или описания ошибок
-            example: '[]'
+            example: "[]"
         message:
           type: string
           description: Сообщение об ошибке
@@ -587,7 +587,7 @@ components:
           description: >-
             Дата и время когда произошла ошибка (в формате "yyyy-MM-dd
             HH:mm:ss")
-          example: '2022-06-09 06:27:23'
+          example: "2022-06-09 06:27:23"
     NewPetDto:
       description: Дто для создания нового питомца
       required:
@@ -901,7 +901,7 @@ components:
           description: id питомца
           example: 1
         owner:
-          $ref: '#/components/schemas/OwnerShortDto'
+          $ref: "#/components/schemas/OwnerShortDto"
         type:
           type: string
           enum:
@@ -1443,7 +1443,7 @@ components:
           example: В 8 часов вечера
         feedingQuantity:
           type: integer
-          description: 'Количество кормлений в день (От 1 до 9) '
+          description: "Количество кормлений в день (От 1 до 9) "
           format: int32
           example: 7
         feedType:
@@ -1521,7 +1521,7 @@ components:
           description: Общее количество доступных найденных питомцев
           example: 25
         pageable:
-          $ref: '#/components/schemas/PageableObject'
+          $ref: "#/components/schemas/PageableObject"
         first:
           type: boolean
           description: Является ли эта страница первой?
@@ -1539,14 +1539,14 @@ components:
           type: array
           description: Полученные питомцы
           items:
-            $ref: '#/components/schemas/PetDto'
+            $ref: "#/components/schemas/PetDto"
         number:
           type: integer
           format: int32
           description: Номер страницы
           example: 1
         sort:
-          $ref: '#/components/schemas/SortObject'
+          $ref: "#/components/schemas/SortObject"
         numberOfElements:
           type: integer
           format: int32
@@ -1574,7 +1574,7 @@ components:
           description: Номер страницы
           example: 0
         sort:
-          $ref: '#/components/schemas/SortObject'
+          $ref: "#/components/schemas/SortObject"
         paged:
           type: boolean
           example: true

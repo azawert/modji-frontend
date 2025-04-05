@@ -1,5 +1,6 @@
-import { Box, Typography, styled } from "@mui/material"
 import { memo } from "react"
+
+import { Box, Typography, styled } from "@mui/material"
 import MUISlider from "@mui/material/Slider"
 
 /**

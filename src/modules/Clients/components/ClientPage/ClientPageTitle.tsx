@@ -1,5 +1,5 @@
-import { PageTitle } from "@/shared/ui/PageTitle.tsx"
 import { EButtonVariant } from "@/shared/ui/Button/Button.tsx"
+import { PageTitle } from "@/shared/ui/PageTitle.tsx"
 
 /**
  * Пропсы для заголовка страницы клиентов

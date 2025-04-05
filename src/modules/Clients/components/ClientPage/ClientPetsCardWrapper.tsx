@@ -1,15 +1,20 @@
 import { useCallback } from "react"
-import { SectionHeader } from "@/modules/Clients/components/ClientPage/ClientFullCard.tsx"
+
 import { Box, Typography } from "@mui/material"
-import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet.tsx"
+import { useNavigate, useParams } from "react-router-dom"
+
 import {
   Button,
   EButtonSize,
   EButtonVariant,
 } from "@/shared/ui/Button/Button.tsx"
-import { Pet } from "../../types"
-import { useNavigate, useParams } from "react-router-dom"
+
+import { SectionHeader } from "@/modules/Clients/components/ClientPage/ClientFullCard.tsx"
+import { CardWithPet } from "@/modules/Clients/components/ClientsPage/CardWithPet.tsx"
+
 import { APP_ROUTES } from "@/routes/types"
+
+import { Pet } from "../../types"
 import { mapperForValuePetTypeToAnLabel } from "../../utils"
 
 export const ClientPetsCardWrapper = ({
@@ -27,7 +32,7 @@ export const ClientPetsCardWrapper = ({
 
   const renderHeader = useCallback(
     () => <SectionHeader component="div">Питомцы</SectionHeader>,
-    []
+    [],
   )
 
   const isZeroState = pets?.length === 0

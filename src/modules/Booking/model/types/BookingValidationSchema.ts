@@ -1,6 +1,7 @@
+import * as yup from "yup"
+
 import { PetDto } from "@/generated/bookings"
 import { OwnerShortDto } from "@/generated/owners"
-import * as yup from "yup"
 
 export interface ICategoryAndRoom {
   categories: string
@@ -71,7 +72,7 @@ export const ScreenSchema1 = yup.object<IBookingForm>().shape({
     .test(
       "is-valid-date",
       "Неверный формат даты. Используйте DD.MM.YYYY",
-      isValidDate
+      isValidDate,
     ),
   dateTo: yup
     .string()
@@ -79,7 +80,7 @@ export const ScreenSchema1 = yup.object<IBookingForm>().shape({
     .test(
       "is-valid-date",
       "Неверный формат даты. Используйте DD.MM.YYYY",
-      isValidDate
+      isValidDate,
     ),
   timeFrom: yup.string(),
   timeTo: yup.string(),
@@ -110,7 +111,7 @@ export const ScreenSchema4 = yup.object<IBookingForm>().shape({
     .test(
       "is-valid-numeric-string",
       "Неверный формат числа. Используйте только цифры",
-      isValidateNumericString
+      isValidateNumericString,
     ),
   prepayment: yup
     .number()
@@ -118,7 +119,7 @@ export const ScreenSchema4 = yup.object<IBookingForm>().shape({
     .test(
       "is-valid-numeric-string",
       "Неверный формат числа. Используйте только цифры",
-      isValidateNumericString
+      isValidateNumericString,
     ),
   isPrepaymentPaid: yup.boolean(),
   fullPrice: yup.number(),

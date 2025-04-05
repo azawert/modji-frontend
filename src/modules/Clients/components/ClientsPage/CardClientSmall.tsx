@@ -1,6 +1,9 @@
-import { StarIcon } from "@/assets/Icons/StarIcon"
-import { InfoCard } from "@/shared/ui/InfoCard.tsx"
 import { Box } from "@mui/material"
+
+import { InfoCard } from "@/shared/ui/InfoCard.tsx"
+
+import { StarIcon } from "@/assets/Icons/StarIcon"
+
 interface CardWithPetProps {
   fullName: string
   rating: string

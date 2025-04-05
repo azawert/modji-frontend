@@ -1,5 +1,7 @@
 import React, { memo } from "react"
-import { Typography, styled, Box } from "@mui/material"
+
+import { Box, Typography, styled } from "@mui/material"
+
 import { CardWrapper } from "@/shared/ui/CardWrapper"
 
 const InfoTitle = styled(Typography)(() => ({
@@ -44,7 +46,7 @@ const InfoCardComponent: React.FC<InfoCardProps> = memo(
         {children}
       </CardWrapper>
     )
-  }
+  },
 )
 
 const InfoCardTitleComponent: React.FC<InfoCardTitleProps> = memo(
@@ -52,7 +54,7 @@ const InfoCardTitleComponent: React.FC<InfoCardTitleProps> = memo(
     <Box>
       <InfoTitle>{children}</InfoTitle>
     </Box>
-  )
+  ),
 )
 
 const InfoCardValueComponent: React.FC<InfoCardValueProps> = memo(
@@ -60,7 +62,7 @@ const InfoCardValueComponent: React.FC<InfoCardValueProps> = memo(
     <Box>
       <InfoValue>{children}</InfoValue>
     </Box>
-  )
+  ),
 )
 
 export const InfoCard = Object.assign(InfoCardComponent, {

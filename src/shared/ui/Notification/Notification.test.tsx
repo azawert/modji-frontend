@@ -1,8 +1,11 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
-import { Notification } from "./Notification"
-import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+
 import { DATA_TEST_ID_GLOBAL_OBJECT } from "@/shared/constants/test-id"
 import { eventEmitter } from "@/shared/utils/eventEmitter"
+
+import { ENotificationType } from "@/contexts/notificationContext/NotificationContext"
+
+import { Notification } from "./Notification"
 
 const {
   notification: { success, error },
@@ -36,12 +39,12 @@ describe("Notification Component", () => {
         title="Success Title"
         text="This is a success notification"
         isOpened={true}
-      />
+      />,
     )
 
     expect(screen.getByText("Success Title")).toBeInTheDocument()
     expect(
-      screen.getByText("This is a success notification")
+      screen.getByText("This is a success notification"),
     ).toBeInTheDocument()
   })
 
@@ -52,7 +55,7 @@ describe("Notification Component", () => {
         type={ENotificationType.SUCCESS}
         text="Success notification"
         isOpened={true}
-      />
+      />,
     )
 
     const successIcon = screen.getByTestId(success)
@@ -66,7 +69,7 @@ describe("Notification Component", () => {
         type={ENotificationType.ERROR}
         text="Error notification"
         isOpened={true}
-      />
+      />,
     )
 
     const errorIcon = screen.getByTestId(error)
@@ -80,7 +83,7 @@ describe("Notification Component", () => {
         type={ENotificationType.WARNING}
         text="Warning notification"
         isOpened={true}
-      />
+      />,
     )
 
     const closeButton = screen.getByRole("button")
@@ -88,7 +91,7 @@ describe("Notification Component", () => {
 
     expect(mockRemoveNotification).toHaveBeenCalledWith(
       "removeNotification",
-      "4"
+      "4",
     )
   })
 
@@ -101,7 +104,7 @@ describe("Notification Component", () => {
         isOpened={true}
         isAutoClosable={true}
         timeout={1000}
-      />
+      />,
     )
 
     expect(screen.getByText("Auto close notification")).toBeInTheDocument()
@@ -110,10 +113,10 @@ describe("Notification Component", () => {
       () => {
         expect(mockRemoveNotification).toHaveBeenCalledWith(
           "removeNotification",
-          "5"
+          "5",
         )
       },
-      { timeout: 1500 }
+      { timeout: 1500 },
     )
   })
 
@@ -125,7 +128,7 @@ describe("Notification Component", () => {
         text="Manual close notification"
         isOpened={true}
         isAutoClosable={false}
-      />
+      />,
     )
 
     expect(screen.getByText("Manual close notification")).toBeInTheDocument()
@@ -134,7 +137,7 @@ describe("Notification Component", () => {
       () => {
         expect(mockRemoveNotification).not.toHaveBeenCalled()
       },
-      { timeout: 1500 }
+      { timeout: 1500 },
     )
   })
 
@@ -148,7 +151,7 @@ describe("Notification Component", () => {
         withConfirmationButtons={true}
         confirmButtonText={confirmButtonText}
         cancelButtonText={cancelButtonText}
-      />
+      />,
     )
 
     expect(screen.getByText(confirmButtonText)).toBeInTheDocument()

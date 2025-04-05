@@ -1,4 +1,3 @@
-import { UserDto, UserDtoRole } from "@/generated/user"
 import {
   CircularProgress,
   Paper,
@@ -10,6 +9,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material"
+
+import { UserDto, UserDtoRole } from "@/generated/user"
+
 import { EmployeeRowItem } from "./EmployeeRowItem"
 
 /**

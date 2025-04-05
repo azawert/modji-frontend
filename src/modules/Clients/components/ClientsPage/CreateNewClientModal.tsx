@@ -1,10 +1,13 @@
-import { MultiStepModal } from "@/shared/ui/modal/MultiStepModal.tsx"
-import { steps } from "../../const.ts"
-import { IconButton } from "@mui/material"
 import { Close } from "@mui/icons-material"
-import { NewOwnerDto } from "@/generated/owners.ts"
+import { IconButton } from "@mui/material"
 import { useForm } from "react-hook-form"
+
+import { MultiStepModal } from "@/shared/ui/modal/MultiStepModal.tsx"
 import { addConfirmationNotification } from "@/shared/utils/utils.ts"
+
+import { NewOwnerDto } from "@/generated/owners.ts"
+
+import { steps } from "../../const.ts"
 
 type TProps = {
   onClose: () => void

@@ -1,51 +1,55 @@
-import { lazy, Suspense } from "react"
+import { Suspense, lazy } from "react"
+
 import { RouteObject } from "react-router-dom"
-import { CreatePetPage, PetPage } from "@/modules/Pets"
-import { BookingGridPage } from "@/modules/Booking/pages/BookingGridPage/BookingGridPage"
+
 import { Layout } from "@/shared/ui/Layouts/Layout"
+
+import { BookingGridPage } from "@/modules/Booking/pages/BookingGridPage/BookingGridPage"
 import { CreateBookingPage } from "@/modules/Booking/pages/CreateBookingPage/CreateBookingPage"
-import { APP_ROUTES } from "./types"
+import { CreatePetPage, PetPage } from "@/modules/Pets"
 import { UpdatePetPage } from "@/modules/Pets/pages/UpdatePage/UpdatePetPage"
+
+import { APP_ROUTES } from "./types"
 
 const CategoriesPage = lazy(() =>
   import("@/modules/Categories/pages/CategoriesPage").then(module => ({
     default: module.CategoriesPage,
-  }))
+  })),
 )
 const EmployeePage = lazy(() =>
   import("@/modules/Employee").then(module => ({
     default: module.EmployeePage,
-  }))
+  })),
 )
 const PageNotFound = lazy(() =>
   import("@/modules/NotFound/pages/PageNotFound").then(module => ({
     default: module.PageNotFound,
-  }))
+  })),
 )
 const RoomsPage = lazy(() =>
   import("@/modules/Rooms/pages/RoomsPage").then(module => ({
     default: module.RoomsPage,
-  }))
+  })),
 )
 const AuthorizationPage = lazy(() =>
   import("@/modules/Authorization/pages/AuthorizationPage").then(module => ({
     default: module.AuthorizationPage,
-  }))
+  })),
 )
 const ClientsPage = lazy(() =>
   import("@/modules/Clients/pages/ClientsPage").then(module => ({
     default: module.ClientsPage,
-  }))
+  })),
 )
 const BookingPage = lazy(() =>
   import("@/modules/Booking/pages/BookingPage/BookingPage").then(module => ({
     default: module.BookingPage,
-  }))
+  })),
 )
 const ClientPage = lazy(() =>
   import("@/modules/Clients/pages/ClientPage.tsx").then(module => ({
     default: module.ClientPage,
-  }))
+  })),
 )
 
 const LazyLoadWrapper = ({ children }: { children: React.ReactNode }) => (

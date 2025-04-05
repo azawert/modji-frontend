@@ -1,6 +1,8 @@
 import React, { memo, useCallback, useMemo } from "react"
-import { InfoCard } from "@/shared/ui/InfoCard.tsx"
+
 import { Box } from "@mui/material"
+
+import { InfoCard } from "@/shared/ui/InfoCard.tsx"
 
 interface CardWithClientProps {
   fullName: string
@@ -44,5 +46,5 @@ export const CardWithClient: React.FC<CardWithClientProps> = memo(
         ))}
       </InfoCard>
     )
-  }
+  },
 )

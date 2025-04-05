@@ -1,15 +1,19 @@
-import { Box, Dialog, DialogTitle, IconButton, Typography } from "@mui/material"
-import { Close } from "@mui/icons-material"
-import { Gap } from "@/shared/ui/Gap.tsx"
-import { LabeledRow } from "@/shared/ui/LabeledRow.tsx"
-import { Select } from "@/shared/ui/Inputs/Select/Select"
 import { useCallback } from "react"
-import { NEW_PET_SELECT_DATA } from "@/modules/Clients/const.ts"
+
+import { Close } from "@mui/icons-material"
+import { Box, Dialog, DialogTitle, IconButton, Typography } from "@mui/material"
+
 import {
   Button,
   EButtonSize,
   EButtonVariant,
 } from "@/shared/ui/Button/Button.tsx"
+import { Gap } from "@/shared/ui/Gap.tsx"
+import { Select } from "@/shared/ui/Inputs/Select/Select"
+import { LabeledRow } from "@/shared/ui/LabeledRow.tsx"
+
+import { NEW_PET_SELECT_DATA } from "@/modules/Clients/const.ts"
+
 import { PetDtoType } from "@/generated/pets.ts"
 
 /**
@@ -63,7 +67,7 @@ export const CreateNewPetModal = ({
       ) : (
         <Typography color="#757575">Выберите тип животного</Typography>
       ),
-    []
+    [],
   )
 
   const renderBody = () => (

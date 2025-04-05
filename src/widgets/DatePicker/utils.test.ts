@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
-import { formatDate } from "./utils"
+
 import { DATE_FRONT_FORMAT, IDateRange } from "./types"
+import { formatDate } from "./utils"
 
 const randomDate = (): dayjs.Dayjs => {
   const currentDate = dayjs()
@@ -27,22 +28,22 @@ describe("formatDate", () => {
     const { end, start } = randomDateRange()
     expect(formatDate({ end, start })).toEqual(
       `${dayjs(start).format(DATE_FRONT_FORMAT)} - ${dayjs(end).format(
-        DATE_FRONT_FORMAT
-      )}`
+        DATE_FRONT_FORMAT,
+      )}`,
     )
   })
 
   it("Корректно отображается только с датой окончания", () => {
     const { end } = randomDateRange()
     expect(formatDate({ end, start: null })).toEqual(
-      ` - ${dayjs(end).format(DATE_FRONT_FORMAT)}`
+      ` - ${dayjs(end).format(DATE_FRONT_FORMAT)}`,
     )
   })
 
   it("Корректно отображается со стартовой датой", () => {
     const { start } = randomDateRange()
     expect(formatDate({ start, end: null })).toEqual(
-      `${dayjs(start).format(DATE_FRONT_FORMAT)} - `
+      `${dayjs(start).format(DATE_FRONT_FORMAT)} - `,
     )
   })
 

@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query"
-import { EQueryKeys } from "./keys"
+
+import { EMutationKeys } from "@/modules/Pets/api/keys"
+
 import {
+  SearchOwnerDirection,
   getAllOwners,
   getOwnerById,
   searchOwner,
-  SearchOwnerDirection,
 } from "@/generated/owners"
-import { EMutationKeys } from "@/modules/Pets/api/keys"
+
+import { EQueryKeys } from "./keys"
 
 export const useGetAllClients = () =>
   useQuery({
@@ -16,7 +19,7 @@ export const useGetAllClients = () =>
 
 export const useGetSuggestedClients = (
   wanted: string,
-  direction: SearchOwnerDirection
+  direction: SearchOwnerDirection,
 ) =>
   useQuery({
     queryKey: [
@@ -27,7 +30,7 @@ export const useGetSuggestedClients = (
       searchOwner(
         { wanted },
         { direction },
-        { headers: { "X-PetHotel-User-Id": 1 } }
+        { headers: { "X-PetHotel-User-Id": 1 } },
       ),
     enabled: !!wanted,
   })

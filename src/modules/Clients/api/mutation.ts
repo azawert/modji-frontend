@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { EMutationKeys, EQueryKeys } from "./keys"
+
 import { NewOwnerDto, addOwner } from "@/generated/owners"
+
+import { EMutationKeys, EQueryKeys } from "./keys"
 
 export const useCreateClient = () => {
   const queryClient = useQueryClient()
@@ -11,8 +13,8 @@ export const useCreateClient = () => {
       addOwner(data, { headers: { "X-PetHotel-User-Id": 1 } }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [EQueryKeys.GET_ALL_CLIENTS]
+        queryKey: [EQueryKeys.GET_ALL_CLIENTS],
       })
-    }
+    },
   })
 }

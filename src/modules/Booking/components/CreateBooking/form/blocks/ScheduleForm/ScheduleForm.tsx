@@ -1,3 +1,21 @@
+import { useCallback, useEffect, useRef, useState } from "react"
+
+import dayjs from "dayjs"
+import {
+  Controller,
+  DeepPartial,
+  UseFormReturn,
+  useWatch,
+} from "react-hook-form"
+
+import { Select } from "@/shared/ui/Inputs"
+import {
+  TIconInputPosition,
+  TextField,
+} from "@/shared/ui/Inputs/TextField/TextField"
+
+import { DatePicker } from "@/widgets/DatePicker/DatePicker"
+
 import {
   InputDataFormat,
   SCHEDULE_CHECKIN,
@@ -5,24 +23,10 @@ import {
 } from "@/modules/Booking/consts/DateData"
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import {
-  TextField,
-  TIconInputPosition,
-} from "@/shared/ui/Inputs/TextField/TextField"
-import { DatePicker } from "@/widgets/DatePicker/DatePicker"
-import dayjs from "dayjs"
-import { useCallback, useEffect, useRef, useState } from "react"
-import {
-  Controller,
-  DeepPartial,
-  UseFormReturn,
-  useWatch,
-} from "react-hook-form"
-import {
   IBookingForm,
   IScheduleForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
 import { getDayDifference } from "@/modules/Pets/components/forms/utils/calcDifference"
-import { Select } from "@/shared/ui/Inputs"
 
 interface ScheduleProps {
   form: UseFormReturn<IScheduleForm>
@@ -44,7 +48,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
     const currentDate = new Date(
       Number(dateArr[0]),
       Number(dateArr[1]) - 1,
-      Number(dateArr[2])
+      Number(dateArr[2]),
     )
     return dayjs(currentDate)
   }
@@ -53,10 +57,10 @@ export const ScheduleForm = (props: ScheduleProps) => {
   const isDateToValid = dayjs(bookingData.dateTo, InputDataFormat).isValid()
 
   const [dateFrom, setDateFrom] = useState<null | dayjs.Dayjs>(
-    isDateFromValid ? dateForDayJs(bookingData.dateFrom) : null
+    isDateFromValid ? dateForDayJs(bookingData.dateFrom) : null,
   )
   const [dateTo, setDateTo] = useState<null | dayjs.Dayjs>(
-    isDateToValid ? dateForDayJs(bookingData.dateTo) : null
+    isDateToValid ? dateForDayJs(bookingData.dateTo) : null,
   )
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<string | null>(null)
 
@@ -67,7 +71,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
   useEffect(() => {
     const daysDifference = getDayDifference(
       formValues?.dateTo as string,
-      formValues?.dateFrom as string
+      formValues?.dateFrom as string,
     )
     if (daysDifference && daysDifference !== prevDateRef.current) {
       setValue("daysAmount", Number(daysDifference))
@@ -86,7 +90,7 @@ export const ScheduleForm = (props: ScheduleProps) => {
       setValue(type, date.format(InputDataFormat))
       clearErrors(type)
     },
-    [setValue, clearErrors]
+    [setValue, clearErrors],
   )
 
   const handleCloseDatePicker = useCallback(() => {

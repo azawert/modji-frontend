@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query"
+
+import { NewBookingDto, addBooking } from "@/generated/bookings"
+
 import { EMutationKeys } from "./keys"
-import { addBooking, NewBookingDto } from "@/generated/bookings"
 
 export const useCreateBooking = () =>
   useMutation({

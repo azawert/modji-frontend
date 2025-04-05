@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import catImage from "@/assets/images/cat404.png"
+
 import bgImage from "@/assets/images/bg.png"
+import catImage from "@/assets/images/cat404.png"
 
 export const PageNotFound: React.FC = () => {
   const navigate = useNavigate()

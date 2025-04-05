@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { mutationKeys, queryKeys } from "./keys"
-import { UserDto, addUser, deleteUserById, updateUser } from "@/generated/user"
+
 import { addErrorNotification } from "@/shared/utils/utils"
+
+import { UserDto, addUser, deleteUserById, updateUser } from "@/generated/user"
+
+import { mutationKeys, queryKeys } from "./keys"
 
 export const useCreateNewUser = () => {
   const errorNotification = addErrorNotification()
@@ -16,7 +19,7 @@ export const useCreateNewUser = () => {
     onError: e => {
       if (e?.response?.status === 409) {
         errorNotification(
-          "Сотрудник с таким адресом электронной почты уже существует в системе"
+          "Сотрудник с таким адресом электронной почты уже существует в системе",
         )
       } else {
         errorNotification("Произошла непредвиденная ошибка")
@@ -51,7 +54,7 @@ export const useEditUser = () => {
     onError: e => {
       if (e?.response?.status === 409) {
         errorNotification(
-          "Сотрудник с таким адресом электронной почты уже существует в системе"
+          "Сотрудник с таким адресом электронной почты уже существует в системе",
         )
       } else {
         errorNotification("Произошла непредвиденная ошибка")

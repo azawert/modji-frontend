@@ -1,8 +1,10 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { DeleteModal } from "@/shared/ui/modal/DeleteModal"
+import { useCallback } from "react"
+
 import { Close } from "@mui/icons-material"
 import { Box, IconButton, Typography } from "@mui/material"
-import { useCallback } from "react"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { DeleteModal } from "@/shared/ui/modal/DeleteModal"
 
 /**
  * Пропы для модалки
@@ -31,7 +33,7 @@ export const CategoriesDeleteModal: React.FC<TProps> = props => {
         </IconButton>
       </Box>
     ),
-    [onCancel]
+    [onCancel],
   )
   const renderMainContent = useCallback(
     (): React.ReactNode => (
@@ -41,7 +43,7 @@ export const CategoriesDeleteModal: React.FC<TProps> = props => {
         </Typography>
       </>
     ),
-    []
+    [],
   )
   const renderSubText = useCallback(
     () => (
@@ -54,7 +56,7 @@ export const CategoriesDeleteModal: React.FC<TProps> = props => {
         </Typography>
       </>
     ),
-    [categoryName, categoryDescription]
+    [categoryName, categoryDescription],
   )
 
   const renderFooter = useCallback(
@@ -80,7 +82,7 @@ export const CategoriesDeleteModal: React.FC<TProps> = props => {
         </Button>
       </>
     ),
-    [onConfirm, onCancel]
+    [onConfirm, onCancel],
   )
   return (
     <DeleteModal

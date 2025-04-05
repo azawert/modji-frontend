@@ -1,9 +1,12 @@
+import React, { CSSProperties, forwardRef, useMemo } from "react"
+
 import { ButtonBase, CircularProgress, Typography } from "@mui/material"
-import React, { useMemo, forwardRef, CSSProperties } from "react"
-import { COLORS } from "../../constants/colors"
+
 import { TIcon } from "@/assets/Icons/types"
-import { Icon } from "../Icon/Icon"
 import { cn } from "@/lib/utils"
+
+import { COLORS } from "../../constants/colors"
+import { Icon } from "../Icon/Icon"
 
 type TFontWeight = 400 | 500 | 600 | 700
 type TFontSize = 12 | 14 | 16

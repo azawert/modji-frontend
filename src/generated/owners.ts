@@ -7,6 +7,7 @@
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+
 export type SearchOwnerDirection =
   (typeof SearchOwnerDirection)[keyof typeof SearchOwnerDirection]
 
@@ -586,7 +587,7 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
  */
 export const addOwner = (
   newOwnerDto: BodyType<NewOwnerDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerDto>(
     {
@@ -595,7 +596,7 @@ export const addOwner = (
       headers: { "Content-Type": "application/json" },
       data: newOwnerDto,
     },
-    options
+    options,
   )
 }
 
@@ -604,7 +605,7 @@ export const addOwner = (
  * @summary Получение списка всех клиентов
  */
 export const getAllOwners = (
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerDto[]>({ url: `/owners`, method: "GET" }, options)
 }
@@ -615,11 +616,11 @@ export const getAllOwners = (
  */
 export const getOwnerById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerDto>(
     { url: `/owners/${id}`, method: "GET" },
-    options
+    options,
   )
 }
 
@@ -629,11 +630,11 @@ export const getOwnerById = (
  */
 export const deleteOwnerById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>(
     { url: `/owners/${id}`, method: "DELETE" },
-    options
+    options,
   )
 }
 
@@ -644,7 +645,7 @@ export const deleteOwnerById = (
 export const updateOwner = (
   id: number,
   updateOwnerDto: BodyType<UpdateOwnerDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerDto>(
     {
@@ -653,7 +654,7 @@ export const updateOwner = (
       headers: { "Content-Type": "application/json" },
       data: updateOwnerDto,
     },
-    options
+    options,
   )
 }
 
@@ -663,11 +664,11 @@ export const updateOwner = (
  */
 export const getSomeShortOwners = (
   params?: GetSomeShortOwnersParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerShortDto[]>(
     { url: `/owners/short`, method: "GET", params },
-    options
+    options,
   )
 }
 
@@ -677,11 +678,11 @@ export const getSomeShortOwners = (
  */
 export const getShortOwnerById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerShortDto>(
     { url: `/owners/short/${id}`, method: "GET" },
-    options
+    options,
   )
 }
 
@@ -691,7 +692,7 @@ export const getShortOwnerById = (
  */
 export const checkOwnerPhoneNumber = (
   checkOwnerDto: BodyType<CheckOwnerDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerDto>(
     {
@@ -700,7 +701,7 @@ export const checkOwnerPhoneNumber = (
       headers: { "Content-Type": "application/json" },
       data: checkOwnerDto,
     },
-    options
+    options,
   )
 }
 
@@ -711,7 +712,7 @@ export const checkOwnerPhoneNumber = (
 export const searchOwner = (
   searchOwnerDto: BodyType<SearchOwnerDto>,
   params?: SearchOwnerParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<OwnerDto[]>(
     {
@@ -721,7 +722,7 @@ export const searchOwner = (
       data: searchOwnerDto,
       params,
     },
-    options
+    options,
   )
 }
 

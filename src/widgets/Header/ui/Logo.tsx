@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils"
 import img from "@/assets/images/logo.png"
+import { cn } from "@/lib/utils"
 
 type TProps = {
   className?: string

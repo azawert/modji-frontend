@@ -1,16 +1,20 @@
+import { useCallback, useState } from "react"
+
+import { useForm } from "react-hook-form"
+
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { TOpenModal } from "@/shared/types/types"
+
+import { UserDto } from "@/generated/user"
+
+import { useCreateNewUser, useDeleteUser, useEditUser } from "../api/mutation"
+import { useGetAllUsers } from "../api/queries"
+import { EmployeeCreateOrEditModal } from "../components/EmployeeCreateOrEditModal"
+import { EmployeeDeleteModal } from "../components/EmployeeDeleteModal"
 import { EmployeePageBody } from "../components/EmployeePageBody"
 import { EmployeePageTitle } from "../components/EmployeePageTitle"
-import { useCallback, useState } from "react"
-import { EmployeeCreateOrEditModal } from "../components/EmployeeCreateOrEditModal"
-import { useGetAllUsers } from "../api/queries"
-import { useCreateNewUser, useDeleteUser, useEditUser } from "../api/mutation"
-import { useForm } from "react-hook-form"
 import { DEFAULT_VALUES_FOR_CREATE_USER_FORM, TCreateUser } from "../const"
-import { UserDto } from "@/generated/user"
 import { getFullName, roleMapperForRussianLanguage } from "../utils"
-import { EmployeeDeleteModal } from "../components/EmployeeDeleteModal"
-import { TOpenModal } from "@/shared/types/types"
-import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
 
 type TModalDeleteData = {
   employeeName: string
@@ -58,7 +62,7 @@ export const EmployeePage: React.FC = () => {
       employeeName: getFullName(
         employee.firstName,
         employee.lastName,
-        employee.middleName
+        employee.middleName,
       ),
       employeeRole: roleMapperForRussianLanguage[employee.role],
     }))
@@ -95,7 +99,7 @@ export const EmployeePage: React.FC = () => {
               onSuccess: () => {
                 handleCloseCreateOrEditModal()
               },
-            }
+            },
           )
         : createUser(data, {
             onSuccess: () => {
@@ -108,7 +112,7 @@ export const EmployeePage: React.FC = () => {
       editUser,
       handleCloseCreateOrEditModal,
       isOpenedCreateOrEditModal.isEdit,
-    ]
+    ],
   )
 
   return (

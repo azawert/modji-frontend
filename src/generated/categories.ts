@@ -7,6 +7,7 @@
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+
 export interface UpdateCategoryDto {
   /**
    * Описание категории
@@ -142,11 +143,11 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
  * @summary Получить список всех категорий номеров
  */
 export const getAllCategories = (
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<CategoryDto[]>(
     { url: `/categories`, method: "GET" },
-    options
+    options,
   )
 }
 
@@ -156,7 +157,7 @@ export const getAllCategories = (
  */
 export const addCategory = (
   newCategoryDto: BodyType<NewCategoryDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<CategoryDto>(
     {
@@ -165,7 +166,7 @@ export const addCategory = (
       headers: { "Content-Type": "application/json" },
       data: newCategoryDto,
     },
-    options
+    options,
   )
 }
 
@@ -175,11 +176,11 @@ export const addCategory = (
  */
 export const getCategoryById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<CategoryDto>(
     { url: `/categories/${id}`, method: "GET" },
-    options
+    options,
   )
 }
 
@@ -189,11 +190,11 @@ export const getCategoryById = (
  */
 export const deleteCategoryById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>(
     { url: `/categories/${id}`, method: "DELETE" },
-    options
+    options,
   )
 }
 
@@ -204,7 +205,7 @@ export const deleteCategoryById = (
 export const updateCategoryById = (
   id: number,
   updateCategoryDto: BodyType<UpdateCategoryDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<CategoryDto>(
     {
@@ -213,7 +214,7 @@ export const updateCategoryById = (
       headers: { "Content-Type": "application/json" },
       data: updateCategoryDto,
     },
-    options
+    options,
   )
 }
 

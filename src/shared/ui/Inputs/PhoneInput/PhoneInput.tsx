@@ -1,13 +1,15 @@
-import { formatPhoneNumber } from "@/shared/utils/utils"
 import {
   ChangeEvent,
   FocusEvent,
-  useState,
-  forwardRef,
-  Ref,
   KeyboardEvent,
+  Ref,
+  forwardRef,
   useEffect,
+  useState,
 } from "react"
+
+import { formatPhoneNumber } from "@/shared/utils/utils"
+
 import { TextField } from "../TextField/TextField"
 
 /** Пропсы для компонента кастомного инпута под номер телефона
@@ -38,7 +40,7 @@ export const PhoneInput = forwardRef(
       label,
       isRequired,
     }: PhoneInputProps,
-    ref: Ref<HTMLInputElement>
+    ref: Ref<HTMLInputElement>,
   ) => {
     const [inputValue, setInputValue] = useState<string>(value || "")
 
@@ -97,5 +99,5 @@ export const PhoneInput = forwardRef(
         isRequired={isRequired}
       />
     )
-  }
+  },
 )

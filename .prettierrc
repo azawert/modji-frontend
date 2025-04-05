@@ -2,5 +2,21 @@
   "tabWidth": 2,
   "semi": false,
   "singleQuote": false,
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^(react|react-dom)$",
+    "^(fs|path|os|crypto|util|url|stream)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/shared/.*",
+    "^@/entities/.*",
+    "^@/features/.*",
+    "^@/widgets/.*",
+    "^@/pages/.*",
+    "^@/modules/.*",
+    "^@/.*",
+    "^\\.{1,2}/.*"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

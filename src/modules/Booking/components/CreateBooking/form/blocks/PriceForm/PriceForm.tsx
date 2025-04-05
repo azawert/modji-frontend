@@ -1,17 +1,20 @@
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
-import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import {
   Controller,
   DeepPartial,
   UseFormReturn,
   useWatch,
 } from "react-hook-form"
+import { useLocation } from "react-router-dom"
+
+import { CustomCheckbox } from "@/shared/ui/Inputs/Checkbox/Checkbox"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+
+import { Placeholder } from "@/modules/Booking/consts/Placeholders"
 import {
   ExtendedIPayment,
   IBookingForm,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { CustomCheckbox } from "@/shared/ui/Inputs/Checkbox/Checkbox"
-import { useLocation } from "react-router-dom"
+
 import { useFormPriceControl } from "./useFullPriceControl"
 
 interface PriceProps {
@@ -37,7 +40,7 @@ export const PriceForm = (props: PriceProps) => {
     isCreateBookingPage,
     form,
     formValues as ExtendedIPayment,
-    bookingData as IBookingForm
+    bookingData as IBookingForm,
   )
 
   return (

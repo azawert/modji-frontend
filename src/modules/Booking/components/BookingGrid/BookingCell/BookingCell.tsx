@@ -1,5 +1,7 @@
-import { BookingDto } from "@/generated/bookings"
 import { useEffect, useRef, useState } from "react"
+
+import { BookingDto } from "@/generated/bookings"
+
 import { TTabForHeader } from "../../../model/types/BookingGridTypes"
 
 type BookingCellProps = {

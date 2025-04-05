@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
+
 import { Button, EButtonSize, EButtonVariant } from "./Button"
 
 describe("Компонент кнопки", () => {
@@ -6,7 +7,7 @@ describe("Компонент кнопки", () => {
     render(
       <Button size={EButtonSize.Medium} variant={EButtonVariant.Primary}>
         Click Me
-      </Button>
+      </Button>,
     )
     expect(screen.getByText("Click Me")).toBeInTheDocument()
   })
@@ -15,7 +16,7 @@ describe("Компонент кнопки", () => {
     render(
       <Button size={EButtonSize.Small} variant={EButtonVariant.Primary}>
         Small Button
-      </Button>
+      </Button>,
     )
     const button = screen.getByText("Small Button").closest("button")
     expect(button).toHaveStyle("padding: 7px 16px 7px 16px")
@@ -26,7 +27,7 @@ describe("Компонент кнопки", () => {
     render(
       <Button size={EButtonSize.Medium} variant={EButtonVariant.Secondary}>
         Secondary Button
-      </Button>
+      </Button>,
     )
     const button = screen.getByText("Secondary Button").closest("button")
     expect(button).toHaveStyle("color: #181A1A")
@@ -42,10 +43,10 @@ describe("Компонент кнопки", () => {
         leftIcon="CategoryIcon"
       >
         Button with Icon
-      </Button>
+      </Button>,
     )
     expect(
-      screen.getByText("Button with Icon").previousSibling
+      screen.getByText("Button with Icon").previousSibling,
     ).toBeInTheDocument()
   })
 
@@ -57,7 +58,7 @@ describe("Компонент кнопки", () => {
         rightIcon="DeleteIcon"
       >
         Button with Icon
-      </Button>
+      </Button>,
     )
     expect(screen.getByText("Button with Icon").nextSibling).toBeInTheDocument()
   })
@@ -70,7 +71,7 @@ describe("Компонент кнопки", () => {
         isLoading
       >
         Loading Button
-      </Button>
+      </Button>,
     )
     expect(screen.getByRole("progressbar")).toBeInTheDocument()
   })
@@ -83,7 +84,7 @@ describe("Компонент кнопки", () => {
         isDisabled
       >
         Disabled Button
-      </Button>
+      </Button>,
     )
     const button = screen.getByText("Disabled Button").closest("button")
     expect(button).toBeDisabled()
@@ -98,7 +99,7 @@ describe("Компонент кнопки", () => {
         onClick={handleClick}
       >
         Clickable Button
-      </Button>
+      </Button>,
     )
     const button = screen.getByText("Clickable Button")
     fireEvent.click(button)

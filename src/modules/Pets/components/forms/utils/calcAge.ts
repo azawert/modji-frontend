@@ -25,7 +25,7 @@ export const calcAge = (date: string) => {
     const lastMonth = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      0
+      0,
     )
     ageDays += lastMonth.getDate()
   }

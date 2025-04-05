@@ -6,6 +6,7 @@
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+
 export type GetPetsBySearchParams = {
   /**
    * Текст для поиска в кличках питомцев
@@ -1001,7 +1002,7 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
  */
 export const addPet = (
   newPetDto: BodyType<NewPetDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<PetDto>(
     {
@@ -1010,7 +1011,7 @@ export const addPet = (
       headers: { "Content-Type": "application/json" },
       data: newPetDto,
     },
-    options
+    options,
   )
 }
 
@@ -1019,7 +1020,7 @@ export const addPet = (
  */
 export const getPetById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<PetDto>({ url: `/pets/${id}`, method: "GET" }, options)
 }
@@ -1030,7 +1031,7 @@ export const getPetById = (
  */
 export const deletePet = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>({ url: `/pets/${id}`, method: "DELETE" }, options)
 }
@@ -1042,7 +1043,7 @@ export const deletePet = (
 export const updatePet = (
   id: number,
   updatePetDto: BodyType<UpdatePetDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<PetDto>(
     {
@@ -1051,7 +1052,7 @@ export const updatePet = (
       headers: { "Content-Type": "application/json" },
       data: updatePetDto,
     },
-    options
+    options,
   )
 }
 
@@ -1062,11 +1063,11 @@ export const updatePet = (
  */
 export const getPetsBySearch = (
   params?: GetPetsBySearchParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<PagePetDto>(
     { url: `/pets/search`, method: "GET", params },
-    options
+    options,
   )
 }
 

@@ -1,8 +1,11 @@
-import { OwnerDto } from "@/generated/owners"
+import { useEffect, useState } from "react"
+
+import { SearchComponent } from "@/shared/ui/SearchComponent"
+
 import useBookingStore from "@/modules/Booking/store/BookingStore"
 import { useGetSuggestedClients } from "@/modules/Clients/api/queries"
-import { SearchComponent } from "@/shared/ui/SearchComponent"
-import { useEffect, useState } from "react"
+
+import { OwnerDto } from "@/generated/owners"
 
 export interface IOwnersSearch {
   onChooseOption: (option: OwnerDto) => void

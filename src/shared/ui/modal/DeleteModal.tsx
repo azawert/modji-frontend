@@ -1,5 +1,6 @@
-import { Box, Dialog, DialogTitle } from "@mui/material"
 import { memo } from "react"
+
+import { Box, Dialog, DialogTitle } from "@mui/material"
 
 /**
  * @prop isOpen флаг открытия модального окна

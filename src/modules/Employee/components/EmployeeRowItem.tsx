@@ -1,4 +1,6 @@
-import { UserDto } from "@/generated/user"
+import { useCallback, useState } from "react"
+
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 import {
   Collapse,
   IconButton,
@@ -9,10 +11,12 @@ import {
   Typography,
   tableCellClasses,
 } from "@mui/material"
-import { getFullName, roleMapperForRussianLanguage } from "../utils"
+
 import { Icon } from "@/shared/ui/Icon/Icon"
-import { useCallback, useState } from "react"
-import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
+
+import { UserDto } from "@/generated/user"
+
+import { getFullName, roleMapperForRussianLanguage } from "../utils"
 
 /**
  * @prop employee данные для отображения сотрудника
@@ -35,7 +39,7 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
 
   const toggleAdditionalFields = useCallback(
     () => setIsAdditionalFieldsShown(p => !p),
-    []
+    [],
   )
 
   const handleIconButtonClick = useCallback((e: React.MouseEvent) => {
@@ -58,7 +62,7 @@ export const EmployeeRowItem: React.FC<TProps> = props => {
           {getFullName(
             employee.firstName,
             employee.lastName,
-            employee.middleName
+            employee.middleName,
           )}
         </TableCell>
         <TableCell>{roleMapperForRussianLanguage[employee.role]}</TableCell>

@@ -1,18 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { BookingModal } from "../modal/BookingModal/BookingModal"
-import { useForm, UseFormReturn } from "react-hook-form"
+import { UseFormReturn, useForm } from "react-hook-form"
+
+import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
+
+import { useGetIsDatesAvailable } from "../../../api/queries"
+import { ErrorMessages } from "../../../consts/errors"
 import {
   ICategoryAndRoom,
   IScheduleForm,
   ScreenSchema3,
 } from "../../../model/types/BookingValidationSchema"
 import useBookingStore from "../../../store/BookingStore"
+import { StepTitle } from "../../typography/StepTitle/StepTitle"
 import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
 import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
-import { StepTitle } from "../../typography/StepTitle/StepTitle"
-import { useGetIsDatesAvailable } from "../../../api/queries"
-import ErrorBar from "@/shared/ui/ErrorBar/ErrorBar"
-import { ErrorMessages } from "../../../consts/errors"
+import { BookingModal } from "../modal/BookingModal/BookingModal"
 
 const BookingScreen3 = () => {
   const bookingData = useBookingStore(state => state.bookingData)
@@ -21,7 +23,7 @@ const BookingScreen3 = () => {
   const { failureReason } = useGetIsDatesAvailable(
     Number(room?.id),
     bookingData.dateFrom!,
-    bookingData.dateTo!
+    bookingData.dateTo!,
   )
 
   const form = useForm({

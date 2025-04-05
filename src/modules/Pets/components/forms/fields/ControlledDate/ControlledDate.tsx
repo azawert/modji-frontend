@@ -1,13 +1,17 @@
 import { useState } from "react"
-import { Control, Controller, FieldErrors } from "react-hook-form"
+
 import dayjs, { Dayjs } from "dayjs"
-import {
-  TextField,
-  TIconInputPosition,
-} from "@/shared/ui/Inputs/TextField/TextField"
-import { DatePicker } from "@/widgets/DatePicker/DatePicker"
-import { DateField, FormData } from "../../types/types"
+import { Control, Controller, FieldErrors } from "react-hook-form"
+
 import { FieldError } from "@/shared/ui/Inputs/FieldError/FieldError"
+import {
+  TIconInputPosition,
+  TextField,
+} from "@/shared/ui/Inputs/TextField/TextField"
+
+import { DatePicker } from "@/widgets/DatePicker/DatePicker"
+
+import { DateField, FormData } from "../../types/types"
 
 const InputDataFormat = "DD.MM.YYYY"
 
@@ -28,7 +32,7 @@ export const ControlledDate = ({
 }: CustomDatePickerProps) => {
   const [openDatePickerId, setOpenDatePickerId] = useState<string | null>(null)
   const [dateValue, setDateValue] = useState<Dayjs | null>(
-    formValues?.[field.name] ? dayjs(formValues?.[field.name]) : null
+    formValues?.[field.name] ? dayjs(formValues?.[field.name]) : null,
   )
 
   return (

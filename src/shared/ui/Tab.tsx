@@ -1,5 +1,6 @@
-import { Chip, SxProps } from "@mui/material"
 import { useMemo } from "react"
+
+import { Chip, SxProps } from "@mui/material"
 
 type TProps = {
   isSelected?: boolean

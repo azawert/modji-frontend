@@ -1,5 +1,6 @@
-import { PetDto } from "@/generated/bookings"
 import * as yup from "yup"
+
+import { PetDto } from "@/generated/bookings"
 
 export const ShortPetSchema = yup.object<PetDto>().shape({
   type: yup.string().required("Выберите тип животного"),

@@ -1,14 +1,19 @@
 import { Box } from "@mui/material"
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+import { Controller, UseFormReturn } from "react-hook-form"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { NewOwnerDto } from "@/generated/owners"
-import { UseFormReturn, Controller } from "react-hook-form"
-import { ShortClientFieldsConfig } from "./ShortClientConfig"
-import { Modal } from "@/shared/ui/modal/Modal"
 import { PhoneInput } from "@/shared/ui/Inputs"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+import { Modal } from "@/shared/ui/modal/Modal"
+
+import { ShortClientForm } from "@/modules/Booking/model/types/ShortClientValidationSchema.ts"
+
+import { NewOwnerDto } from "@/generated/owners"
+
+import { ShortClientFieldsConfig } from "./ShortClientConfig"
 
 interface ShortClientModalProps {
-  form: UseFormReturn<NewOwnerDto>
+  form: UseFormReturn<ShortClientForm>
   isModalOpen: boolean
   onClose: () => void
   onSubmit: (data: NewOwnerDto) => void

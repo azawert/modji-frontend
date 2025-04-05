@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+
 import { FormField } from "../types/types"
 
 const typeHasWidth = (field: FormField) =>
@@ -56,7 +57,7 @@ const WidthStyleMap = {
 
 export const renderFields = (
   fields: FormField[],
-  renderField: (field: FormField) => JSX.Element
+  renderField: (field: FormField) => JSX.Element,
 ) => {
   const rows = groupFieldsByRows(fields)
 
