@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
-import { EQueryKeys } from "./keys"
+
 import { getAllCategories } from "@/generated/categories"
+
+import { EQueryKeys } from "./keys"
 
 export const useGetCategories = () =>
   useQuery({

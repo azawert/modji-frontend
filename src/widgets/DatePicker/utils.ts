@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+
 import { DATE_FRONT_FORMAT, IDateRange } from "./types"
 
 /**
@@ -22,7 +23,7 @@ export const formatDate = (date: dayjs.Dayjs | IDateRange): string => {
  */
 export const isDateInSelectedMonth = (
   date: dayjs.Dayjs,
-  selectedMonth: number
+  selectedMonth: number,
 ): boolean => {
   return date.month() === selectedMonth
 }
@@ -39,7 +40,7 @@ export const transformFirstLetterToUpperCase = (string: string): string => {
 export const checkIsDateIsBetween = (
   date: dayjs.Dayjs,
   firstDate: dayjs.Dayjs | null,
-  secondDate: dayjs.Dayjs | null
+  secondDate: dayjs.Dayjs | null,
 ) => {
   if (!firstDate || !secondDate) return
   return date > firstDate && date < secondDate
@@ -52,7 +53,7 @@ export const checkIsDateIsBetween = (
  */
 export function updateRange(
   date: dayjs.Dayjs,
-  range: IDateRange | null
+  range: IDateRange | null,
 ): IDateRange {
   if (!range?.start || (range?.start && range?.end)) {
     return { start: date, end: null }

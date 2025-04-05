@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+
 import { EBookingView, TBookingGridDay } from "./types/BookingGridTypes"
 import {
   generateDaysForBookingGrid,
@@ -6,7 +7,7 @@ import {
 } from "./utils"
 
 export const useBookingGridGenerator = (
-  view: EBookingView
+  view: EBookingView,
 ): TBookingGridDay[] => {
   const generators: Record<EBookingView, () => TBookingGridDay[]> = {
     [EBookingView.WEEK]: generateWeekDaysForBookingGrid,

@@ -1,17 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { ClientPageTitle } from "@/modules/Clients/components/ClientPage/ClientPageTitle.tsx"
-import { useGetClientById } from "@/modules/Clients/api/queries.ts"
-import { CircularProgress } from "@mui/material"
-import { ClientFullCard } from "@/modules/Clients/components/ClientPage/ClientFullCard.tsx"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { mapDataFromServerToAnFormView } from "@/modules/Clients/utils.ts"
-import { ClientPetsCardWrapper } from "@/modules/Clients/components/ClientPage/ClientPetsCardWrapper.tsx"
-import { Gap } from "@/shared/ui/Gap.tsx"
-import { CreateNewPetModal } from "@/modules/Clients/components/ClientPage/CreateNewPetModal.tsx"
-import { PetDtoType } from "@/generated/pets.ts"
-import { getFullName } from "@/modules/Employee/utils.ts"
-import { mapPetDtoToAnFormView } from "../const"
+
+import { CircularProgress } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
+
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { Gap } from "@/shared/ui/Gap.tsx"
+
+import { useGetClientById } from "@/modules/Clients/api/queries.ts"
+import { ClientFullCard } from "@/modules/Clients/components/ClientPage/ClientFullCard.tsx"
+import { ClientPageTitle } from "@/modules/Clients/components/ClientPage/ClientPageTitle.tsx"
+import { ClientPetsCardWrapper } from "@/modules/Clients/components/ClientPage/ClientPetsCardWrapper.tsx"
+import { CreateNewPetModal } from "@/modules/Clients/components/ClientPage/CreateNewPetModal.tsx"
+import { mapDataFromServerToAnFormView } from "@/modules/Clients/utils.ts"
+import { getFullName } from "@/modules/Employee/utils.ts"
+
+import { PetDtoType } from "@/generated/pets.ts"
+
+import { mapPetDtoToAnFormView } from "../const"
 
 export const ClientPage = () => {
   const { id } = useParams()
@@ -28,7 +33,7 @@ export const ClientPage = () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       clientData?.firstName!,
       clientData?.lastName,
-      clientData?.middleName
+      clientData?.middleName,
     ),
   })
   /** Очистка ошибки при выборе какого-либо типа питомца */
@@ -40,7 +45,7 @@ export const ClientPage = () => {
 
   const handlePetChange = useCallback(
     (val: string) => setSelectedPetType(val as PetDtoType),
-    []
+    [],
   )
 
   const clientInfo = useMemo(() => {
@@ -51,7 +56,7 @@ export const ClientPage = () => {
 
   const handleEditClientNavigate = useCallback(
     () => navigate(`/client/edit/${id}`),
-    [id, navigate]
+    [id, navigate],
   )
   /** Необходимо сбрасывать ошибку, состояние поля, и состояние открытости модалки */
   const handleCloseModalWindow = useCallback(() => {
@@ -62,7 +67,7 @@ export const ClientPage = () => {
 
   const handleOpenModalWindow = useCallback(
     () => setIsNewPetCreateModalOpen(true),
-    []
+    [],
   )
 
   const handleNavigateToANewPetCreationPage = useCallback(() => {
@@ -109,7 +114,7 @@ export const ClientPage = () => {
         clientName={getFullName(
           clientInfo?.firstName || "",
           clientInfo?.lastName,
-          clientInfo?.middleName
+          clientInfo?.middleName,
         )}
         rating={Number(clientInfo?.rating) || 0}
         onSuccess={handleNavigateToANewPetCreationPage}

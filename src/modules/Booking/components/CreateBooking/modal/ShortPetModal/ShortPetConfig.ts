@@ -1,10 +1,11 @@
+import { nanoid } from "nanoid"
+
 import {
   DateField,
   InputTextField,
   SelectField,
 } from "@/modules/Pets/components"
 import { calcAge } from "@/modules/Pets/components/forms/utils/calcAge"
-import { nanoid } from "nanoid"
 
 type FormFieldShortPet = InputTextField | DateField | SelectField
 

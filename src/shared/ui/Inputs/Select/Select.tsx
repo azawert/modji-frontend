@@ -1,4 +1,5 @@
-import { cn } from "@/lib/utils"
+import { ReactNode, useEffect, useState } from "react"
+
 import {
   InputBase,
   Select as MUISelect,
@@ -6,7 +7,9 @@ import {
   SelectChangeEvent,
   styled,
 } from "@mui/material"
-import { ReactNode, useEffect, useState } from "react"
+
+import { cn } from "@/lib/utils"
+
 import { FieldError } from "../FieldError/FieldError"
 import { Label } from "../Label/Label"
 
@@ -75,7 +78,7 @@ export const Select: React.FC<TProps> = props => {
   useEffect(() => {
     if (selectedValue) {
       setPreselectedValue(
-        () => data?.find(element => element.value === selectedValue)?.value
+        () => data?.find(element => element.value === selectedValue)?.value,
       )
     }
   }, [data, selectedValue])

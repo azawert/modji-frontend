@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { EMutationKeys, EQueryKeys } from "./keys"
+
+import {
+  addErrorNotification,
+  addSuccessNotification,
+} from "@/shared/utils/utils"
+
 import {
   NewCategoryDto,
   UpdateCategoryDto,
@@ -7,10 +12,8 @@ import {
   deleteCategoryById,
   updateCategoryById,
 } from "@/generated/categories"
-import {
-  addErrorNotification,
-  addSuccessNotification,
-} from "@/shared/utils/utils"
+
+import { EMutationKeys, EQueryKeys } from "./keys"
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient()

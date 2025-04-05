@@ -1,6 +1,8 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { Typography } from "@mui/material"
 import { memo } from "react"
+
+import { Typography } from "@mui/material"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 
 /** Пропс для заголовка отдельной страницы
  * @prop title тайтл для отображения хедера страницы

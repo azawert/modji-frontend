@@ -1,6 +1,9 @@
 import React from "react"
-import { Typography, Box, styled, IconButton } from "@mui/material"
+
+import { Box, IconButton, Typography, styled } from "@mui/material"
+
 import { CardWrapper } from "@/shared/ui/CardWrapper"
+
 import { Icon } from "./Icon/Icon"
 
 const StyledBox = styled(Box)(() => ({

@@ -1,12 +1,13 @@
-import { Control, Controller, FieldErrors } from "react-hook-form"
 import {
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
   Radio,
   RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  FormHelperText,
 } from "@mui/material"
+import { Control, Controller, FieldErrors } from "react-hook-form"
+
 import { FormData, RadioField as RadioFieldType } from "../../types/types"
 
 interface CustomRadioFieldProps {

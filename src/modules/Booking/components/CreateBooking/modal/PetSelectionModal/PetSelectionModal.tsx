@@ -1,6 +1,7 @@
+import { Box } from "@mui/material"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { Modal } from "@/shared/ui/modal/Modal"
-import { Box } from "@mui/material"
 
 interface ShortClientModalProps {
   isOpen: boolean

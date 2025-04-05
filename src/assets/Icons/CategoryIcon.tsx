@@ -1,5 +1,6 @@
-import { TIconProps } from "@/assets/Icons/types.tsx"
 import { memo } from "react"
+
+import { TIconProps } from "@/assets/Icons/types.tsx"
 
 const Component: React.FC<TIconProps> = props => {
   const { width = 16, height = 16, ...rest } = props

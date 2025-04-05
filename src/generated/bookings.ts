@@ -7,6 +7,7 @@
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+
 export type CheckUpdateBookingRoomAvailableInDatesParams = {
   /**
    * Дата планируемого заезда в формате "dd.MM.yyyy". Должна быть до или равна дате выезда.
@@ -780,7 +781,7 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
  */
 export const addBooking = (
   newBookingDto: BodyType<NewBookingDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto>(
     {
@@ -789,7 +790,7 @@ export const addBooking = (
       headers: { "Content-Type": "application/json" },
       data: newBookingDto,
     },
-    options
+    options,
   )
 }
 
@@ -799,11 +800,11 @@ export const addBooking = (
  */
 export const getBookingById = (
   bookingId: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto>(
     { url: `/bookings/${bookingId}`, method: "GET" },
-    options
+    options,
   )
 }
 
@@ -813,11 +814,11 @@ export const getBookingById = (
  */
 export const deleteBookingById = (
   bookingId: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>(
     { url: `/bookings/${bookingId}`, method: "DELETE" },
-    options
+    options,
   )
 }
 
@@ -828,7 +829,7 @@ export const deleteBookingById = (
 export const updateBooking = (
   bookingId: number,
   updateBookingDto: BodyType<UpdateBookingDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto>(
     {
@@ -837,7 +838,7 @@ export const updateBooking = (
       headers: { "Content-Type": "application/json" },
       data: updateBookingDto,
     },
-    options
+    options,
   )
 }
 
@@ -847,11 +848,11 @@ export const updateBooking = (
  */
 export const findAllBookingsInDates = (
   params: FindAllBookingsInDatesParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto[]>(
     { url: `/bookings/inDates`, method: "GET", params },
-    options
+    options,
   )
 }
 
@@ -862,7 +863,7 @@ export const findAllBookingsInDates = (
 export const checkRoomAvailableInDates = (
   roomId: number,
   params: CheckRoomAvailableInDatesParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>(
     {
@@ -870,7 +871,7 @@ export const checkRoomAvailableInDates = (
       method: "GET",
       params,
     },
-    options
+    options,
   )
 }
 
@@ -882,7 +883,7 @@ export const checkUpdateBookingRoomAvailableInDates = (
   bookingId: number,
   roomId: number,
   params: CheckUpdateBookingRoomAvailableInDatesParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>(
     {
@@ -890,7 +891,7 @@ export const checkUpdateBookingRoomAvailableInDates = (
       method: "GET",
       params,
     },
-    options
+    options,
   )
 }
 
@@ -901,7 +902,7 @@ export const checkUpdateBookingRoomAvailableInDates = (
 export const findCrossingBookingsForRoomInDates = (
   roomId: number,
   params: FindCrossingBookingsForRoomInDatesParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto[]>(
     {
@@ -909,7 +910,7 @@ export const findCrossingBookingsForRoomInDates = (
       method: "GET",
       params,
     },
-    options
+    options,
   )
 }
 
@@ -920,7 +921,7 @@ export const findCrossingBookingsForRoomInDates = (
 export const findBlockingBookingsForRoomInDates = (
   roomId: number,
   params: FindBlockingBookingsForRoomInDatesParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto[]>(
     {
@@ -928,7 +929,7 @@ export const findBlockingBookingsForRoomInDates = (
       method: "GET",
       params,
     },
-    options
+    options,
   )
 }
 
@@ -938,11 +939,11 @@ export const findBlockingBookingsForRoomInDates = (
  */
 export const findAllBookingsByPet = (
   petId: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto[]>(
     { url: `/bookings/allByPet/pets/${petId}`, method: "GET" },
-    options
+    options,
   )
 }
 
@@ -952,11 +953,11 @@ export const findAllBookingsByPet = (
  */
 export const findAllBookingsByOwner = (
   ownerId: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<BookingDto[]>(
     { url: `/bookings/allByOwner/owners/${ownerId}`, method: "GET" },
-    options
+    options,
   )
 }
 

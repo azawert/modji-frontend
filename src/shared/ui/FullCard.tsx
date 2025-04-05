@@ -1,5 +1,6 @@
-import { ICardFullProps } from "@/shared/types/types.ts"
 import { Box } from "@mui/material"
+
+import { ICardFullProps } from "@/shared/types/types.ts"
 
 export const FullCard = ({
   renderErrorState,

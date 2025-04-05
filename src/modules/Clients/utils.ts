@@ -1,16 +1,19 @@
-import { OwnerDto } from "@/generated/owners"
-import { ClientData } from "./components/ClientsPage/TableWithClients.tsx"
 import {
   convertServerDataToClientData,
   formatServerPhoneNumberToForm,
 } from "@/shared/utils/utils"
+
 import {
   IClientDataForCard,
   TMapperValuePetType,
 } from "@/modules/Clients/types.ts"
 import { getFullName } from "@/modules/Employee/utils.ts"
-import { mapPetDtoToAnFormView } from "./const.ts"
+
+import { OwnerDto } from "@/generated/owners"
 import { PetDtoType } from "@/generated/pets.ts"
+
+import { ClientData } from "./components/ClientsPage/TableWithClients.tsx"
+import { mapPetDtoToAnFormView } from "./const.ts"
 
 export const mapResponseToTableView = (data: OwnerDto[]): ClientData[] => {
   return data.map(owner => ({
@@ -19,7 +22,7 @@ export const mapResponseToTableView = (data: OwnerDto[]): ClientData[] => {
       fullName: getFullName(
         owner.firstName || "",
         owner.lastName,
-        owner.middleName
+        owner.middleName,
       ),
       ...(owner.mainPhone && {
         mainPhone: formatServerPhoneNumberToForm(owner.mainPhone),
@@ -34,7 +37,7 @@ export const mapResponseToTableView = (data: OwnerDto[]): ClientData[] => {
 }
 
 export const mapDataFromServerToAnFormView = (
-  data: OwnerDto
+  data: OwnerDto,
 ): IClientDataForCard => ({
   fromWhere: data.source,
   lastName: data.lastName,

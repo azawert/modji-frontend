@@ -1,4 +1,3 @@
-import { TDropdownMenuOption } from "@/widgets/Header/data/data.ts"
 import {
   ListItemIcon,
   ListItemText,
@@ -6,8 +5,11 @@ import {
   MenuList,
   Paper,
 } from "@mui/material"
-import { Icon } from "@/shared/ui/Icon/Icon.tsx"
 import { useNavigate } from "react-router-dom"
+
+import { Icon } from "@/shared/ui/Icon/Icon.tsx"
+
+import { TDropdownMenuOption } from "@/widgets/Header/data/data.ts"
 
 export const DropDownMenu = ({
   options,

@@ -1,18 +1,23 @@
-import { IInfoItem, IPropsForClientFullCard } from "@/modules/Clients/types.ts"
-import { FullCard } from "@/shared/ui/FullCard.tsx"
 import React, { useCallback } from "react"
+
+import styled from "@emotion/styled"
 import { Box } from "@mui/material"
-import { getFullName } from "@/modules/Employee/utils.ts"
-import { InfoCard } from "@/shared/ui/InfoCard.tsx"
+import dayjs from "dayjs"
+
 import {
   Button,
   EButtonSize,
   EButtonVariant,
 } from "@/shared/ui/Button/Button.tsx"
-import styled from "@emotion/styled"
-import { formatDate } from "@/widgets/DatePicker/utils.ts"
-import dayjs from "dayjs"
+import { FullCard } from "@/shared/ui/FullCard.tsx"
 import { Gap } from "@/shared/ui/Gap.tsx"
+import { InfoCard } from "@/shared/ui/InfoCard.tsx"
+
+import { formatDate } from "@/widgets/DatePicker/utils.ts"
+
+import { IInfoItem, IPropsForClientFullCard } from "@/modules/Clients/types.ts"
+import { getFullName } from "@/modules/Employee/utils.ts"
+
 import { StarIcon } from "@/assets/Icons/StarIcon"
 
 export const SectionHeader = styled(Box)`
@@ -100,7 +105,7 @@ export const ClientFullCard = ({
       realAddress,
       registrationDate,
       secondaryPhone,
-    ]
+    ],
   )
 
   const renderHeader = useCallback(() => {

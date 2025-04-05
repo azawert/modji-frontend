@@ -1,26 +1,30 @@
+import dayjs, { Dayjs } from "dayjs"
+import isBetween from "dayjs/plugin/isBetween"
+
+import { isBetweenWrapper } from "@/shared/utils/utils"
+
+import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
+
 import {
   BookingDto,
   BookingDtoStatus,
   NewBookingDto,
 } from "@/generated/bookings"
-import { IBookingForm } from "./types/BookingValidationSchema"
+import { RoomDto } from "@/generated/room"
+
 import {
-  TBookingGridDay,
   EBookingView,
+  TBookingGridDay,
   TTabForHeader,
 } from "./types/BookingGridTypes"
-import dayjs, { Dayjs } from "dayjs"
-import { DATE_FRONT_FORMAT } from "@/widgets/DatePicker/types"
-import isBetween from "dayjs/plugin/isBetween"
-import { isBetweenWrapper } from "@/shared/utils/utils"
-import { RoomDto } from "@/generated/room"
+import { IBookingForm } from "./types/BookingValidationSchema"
 
 dayjs.extend(isBetween)
 
 const dateDivider = "-"
 
 export const mapperBookingDTOToFormData = (
-  data: BookingDto
+  data: BookingDto,
 ): IBookingForm | undefined => {
   if (!data) return
   return {
@@ -41,7 +45,7 @@ export const mapperBookingDTOToFormData = (
 }
 
 export const mapperBookingFormDataToDTO = (
-  data: IBookingForm
+  data: IBookingForm,
 ): NewBookingDto => {
   return {
     checkInDate: data.dateFrom,
@@ -70,7 +74,7 @@ export const getFirstDateForBookingGridRequest = (): string => {
  * @returns дату для запроса
  */
 export const getLastDateForBookingGridRequest = (
-  type: EBookingView
+  type: EBookingView,
 ): string => {
   switch (type) {
     case EBookingView.MONTH:
@@ -92,7 +96,7 @@ export const getLastDateForBookingGridRequest = (
 export const generateDaysForBookingGrid = (
   startDate?: Dayjs,
   daysCount?: number,
-  subtract?: number
+  subtract?: number,
 ): TBookingGridDay[] => {
   const days: TBookingGridDay[] = []
   const wholeDays = daysCount ?? 33
@@ -175,7 +179,7 @@ export const mapBookingStatusToColor: Record<
  * @returns массив содержащий информацию по категории и комнате
  */
 export const getRoomsProperType = (
-  rooms: RoomDto[]
+  rooms: RoomDto[],
 ): { number: string; category: string; roomId: number }[] =>
   rooms.map(el => ({
     number: el.number,
@@ -186,7 +190,7 @@ export const getRoomsProperType = (
 export const isDateWithinBooking = (
   date: string,
   checkInDate: string,
-  checkOutDate: string
+  checkOutDate: string,
 ) => {
   return isBetweenWrapper(date, checkInDate, checkOutDate)
 }
@@ -201,22 +205,22 @@ export const isDateWithinBooking = (
 export const getBookingInfo = (
   bookingsForRoom: BookingDto[],
   currentDay: dayjs.Dayjs,
-  daysForBookingGrid: TBookingGridDay[]
+  daysForBookingGrid: TBookingGridDay[],
 ) => {
   const relevantBookings = bookingsForRoom.filter(booking =>
     isDateWithinBooking(
       currentDay.format(DATE_FRONT_FORMAT),
       booking.checkInDate,
-      booking.checkOutDate
-    )
+      booking.checkOutDate,
+    ),
   )
 
   return relevantBookings.map(booking => {
     const startIndex = daysForBookingGrid.findIndex(
-      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkInDate
+      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkInDate,
     )
     const endIndex = daysForBookingGrid.findIndex(
-      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkOutDate
+      d => d.day.format(DATE_FRONT_FORMAT) === booking.checkOutDate,
     )
     return { booking, startIndex, endIndex }
   })

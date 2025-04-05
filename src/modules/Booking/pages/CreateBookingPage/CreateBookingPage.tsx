@@ -1,5 +1,23 @@
-import { PageTitle } from "@/shared/ui/PageTitle"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { styled } from "@mui/material"
+import { UseFormReturn, useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
+
+import { PageTitle } from "@/shared/ui/PageTitle"
+import {
+  addErrorNotification,
+  addSuccessNotification,
+} from "@/shared/utils/utils"
+
+import { APP_ROUTES } from "@/routes/types"
+
+import { useCreateBooking } from "../../api/mutations"
+import { CategoryRoomsForm } from "../../components/CreateBooking/form/blocks/CategoryForm/CategoryRoomsForm"
+import { CommentForm } from "../../components/CreateBooking/form/blocks/CommentForm/CommentForm"
+import { PetOwnerForm } from "../../components/CreateBooking/form/blocks/PetOwnerForm/PetOwnerForm"
+import { PriceForm } from "../../components/CreateBooking/form/blocks/PriceForm/PriceForm"
+import { ScheduleForm } from "../../components/CreateBooking/form/blocks/ScheduleForm/ScheduleForm"
+import { StepTitle } from "../../components/typography/StepTitle/StepTitle"
 import {
   ExtendedIPayment,
   FullBookingSchema,
@@ -9,24 +27,8 @@ import {
   IPet,
   IScheduleForm,
 } from "../../model/types/BookingValidationSchema"
-import { useForm, UseFormReturn } from "react-hook-form"
-import { ScheduleForm } from "../../components/CreateBooking/form/blocks/ScheduleForm/ScheduleForm"
-import { CategoryRoomsForm } from "../../components/CreateBooking/form/blocks/CategoryForm/CategoryRoomsForm"
-import { PriceForm } from "../../components/CreateBooking/form/blocks/PriceForm/PriceForm"
-import { StepTitle } from "../../components/typography/StepTitle/StepTitle"
-import useBookingStore from "../../store/BookingStore"
-import { CommentForm } from "../../components/CreateBooking/form/blocks/CommentForm/CommentForm"
-import { useCreateBooking } from "../../api/mutations"
 import { mapperBookingFormDataToDTO } from "../../model/utils"
-import { PetOwnerForm } from "../../components/CreateBooking/form/blocks/PetOwnerForm/PetOwnerForm"
-import { styled } from "@mui/material"
-
-import {
-  addErrorNotification,
-  addSuccessNotification,
-} from "@/shared/utils/utils"
-import { useNavigate } from "react-router-dom"
-import { APP_ROUTES } from "@/routes/types"
+import useBookingStore from "../../store/BookingStore"
 
 export const BookingPageWrapper = styled("div")(() => ({
   width: "541px",
@@ -75,7 +77,7 @@ export const CreateBookingPage = () => {
       navigate(APP_ROUTES.bookings)
     } else {
       notificateError(
-        error.response.data.message || "Произошла ошибка, попробуйте ещё раз"
+        error.response.data.message || "Произошла ошибка, попробуйте ещё раз",
       )
     }
   }

@@ -1,11 +1,14 @@
-import { Box, Dialog, DialogTitle } from "@mui/material"
 import { memo, useCallback } from "react"
-import useBookingStore from "../../../../store/BookingStore"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+
+import { Box, Dialog, DialogTitle } from "@mui/material"
 import { DeepPartial, UseFormHandleSubmit } from "react-hook-form"
-import { IBookingForm } from "../../../../model/types/BookingValidationSchema"
-import { addConfirmationNotification } from "@/shared/utils/utils"
 import { useNavigate } from "react-router-dom"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { addConfirmationNotification } from "@/shared/utils/utils"
+
+import { IBookingForm } from "../../../../model/types/BookingValidationSchema"
+import useBookingStore from "../../../../store/BookingStore"
 
 type TProps = {
   children: React.ReactNode

@@ -49,7 +49,7 @@ export const useDebounce = <T>(value: T, delay: number): T => {
  * };
  */
 export const useClickOutside = <T extends HTMLElement>(
-  cb: () => void
+  cb: () => void,
 ): RefObject<T> => {
   const ref = useRef<T>(null)
 

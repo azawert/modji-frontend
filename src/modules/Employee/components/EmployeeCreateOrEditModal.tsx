@@ -1,23 +1,27 @@
-import { UserDto, UserDtoRole } from "@/generated/user"
 import { useCallback, useEffect } from "react"
+
+import { Close } from "@mui/icons-material/"
+import { IconButton, Typography } from "@mui/material"
 import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { Select } from "@/shared/ui/Inputs/Select/Select"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
+import { addConfirmationNotification } from "@/shared/utils/utils"
+
+import { UserDto, UserDtoRole } from "@/generated/user"
+
 import {
   EMAIL_VALIDATION_PATTERN,
   ROLE_SELECT_DATA,
   TCreateUser,
 } from "../const"
-import { IconButton, Typography } from "@mui/material"
-import { Close } from "@mui/icons-material/"
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
-import { Select } from "@/shared/ui/Inputs/Select/Select"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import {
   mapperCreateUserFormToAnUserCreateRequest,
   mapperCreateUserFormToAnUserUpdateRequest,
   roleMapperForRussianLanguage,
 } from "../utils"
-import { addConfirmationNotification } from "@/shared/utils/utils"
-import { CreateOrEditModal } from "@/shared/ui/modal/CreateOrEditModal"
 
 /**
  * @prop isOpen флаг открытия модального окна
@@ -56,7 +60,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
   useEffect(() => {
     if (isEditing && editUserData) {
       Object.entries(editUserData).forEach(([name, value]) =>
-        setValue(name as keyof TCreateUser, value)
+        setValue(name as keyof TCreateUser, value),
       )
       if (editUserData.password) {
         setValue("confirmPassword", editUserData.password)
@@ -88,7 +92,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
       isEditing
         ? // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           mapperCreateUserFormToAnUserUpdateRequest(data, editUserData?.id!)
-        : mapperCreateUserFormToAnUserCreateRequest(data)
+        : mapperCreateUserFormToAnUserCreateRequest(data),
     )
   }
 
@@ -106,7 +110,7 @@ export const EmployeeCreateOrEditModal: React.FC<TProps> = props => {
       ) : (
         <Typography color="#757575">Должность*</Typography>
       ),
-    []
+    [],
   )
 
   const renderBody = () => (

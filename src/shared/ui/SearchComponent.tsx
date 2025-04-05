@@ -1,5 +1,7 @@
-import { styled, alpha, Autocomplete, TextField, debounce } from "@mui/material"
 import { useState } from "react"
+
+import { Autocomplete, TextField, alpha, debounce, styled } from "@mui/material"
+
 import { Icon } from "./Icon/Icon"
 
 const Search = styled("div")(({ theme }) => ({

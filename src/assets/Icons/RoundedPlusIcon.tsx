@@ -1,4 +1,5 @@
 import { memo } from "react"
+
 import { TIconProps } from "./types"
 
 const Component: React.FC<TIconProps> = props => {

@@ -1,5 +1,7 @@
-import { Select } from "@/shared/ui/Inputs/Select/Select"
 import { Control, Controller, FieldErrors } from "react-hook-form"
+
+import { Select } from "@/shared/ui/Inputs/Select/Select"
+
 import { FormData, SelectField } from "../../types/types"
 
 interface ControlledSelectProps {

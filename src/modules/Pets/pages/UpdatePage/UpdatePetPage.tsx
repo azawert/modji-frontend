@@ -1,21 +1,26 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { useGetClientById } from "@/modules/Clients/api/queries"
-import { CircularProgress } from "@mui/material"
-import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
-import { NewPetDto } from "@/generated/pets"
 import { useRef } from "react"
+
+import { CircularProgress } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
+
 import {
   addConfirmationNotification,
   addErrorNotification,
   addSuccessNotification,
 } from "@/shared/utils/utils"
-import { usePetFormStore } from "../../store"
-import { useGetPetById } from "../../api/queries"
-import { useUpdatePet } from "../../api"
-import { PetPageTitle } from "../../components/common"
-import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG, FormData } from "../../components"
-import FormBuilder from "../../components/forms/builder/PetFormBuilder"
+
+import { useGetClientById } from "@/modules/Clients/api/queries"
+import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
+
+import { NewPetDto } from "@/generated/pets"
 import { APP_ROUTES } from "@/routes/types"
+
+import { useUpdatePet } from "../../api"
+import { useGetPetById } from "../../api/queries"
+import { CAT_CONFIG, DOG_CONFIG, EXOT_CONFIG, FormData } from "../../components"
+import { PetPageTitle } from "../../components/common"
+import FormBuilder from "../../components/forms/builder/PetFormBuilder"
+import { usePetFormStore } from "../../store"
 
 const petConfig = {
   dog: {
@@ -50,7 +55,7 @@ export const UpdatePetPage = () => {
 
   const { data: clientData, isLoading } = useGetClientById(Number(id))
   const { data: petData, isLoading: isPetLoading } = useGetPetById(
-    Number(petId)
+    Number(petId),
   )
 
   const { mutate: updatePet } = useUpdatePet(petData?.id || 0)

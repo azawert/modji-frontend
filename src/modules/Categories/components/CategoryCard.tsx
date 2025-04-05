@@ -1,9 +1,12 @@
-import { CategoryDto } from "@/generated/categories"
-import { useClickOutside } from "@/shared/hooks/hooks"
-import { Icon } from "@/shared/ui/Icon/Icon"
+import { memo, useCallback, useState } from "react"
+
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 import { Box, Card, Collapse, IconButton, Typography } from "@mui/material"
-import { memo, useCallback, useState } from "react"
+
+import { useClickOutside } from "@/shared/hooks/hooks"
+import { Icon } from "@/shared/ui/Icon/Icon"
+
+import { CategoryDto } from "@/generated/categories"
 
 const defaultHeightOfCard = 180
 /**

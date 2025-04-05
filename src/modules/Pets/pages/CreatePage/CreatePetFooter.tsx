@@ -1,8 +1,11 @@
-import { addConfirmationNotification } from "@/shared/utils/utils"
 import { useNavigate, useParams } from "react-router-dom"
-import { usePetFormStore } from "../../store"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { addConfirmationNotification } from "@/shared/utils/utils"
+
 import { APP_ROUTES } from "@/routes/types"
+
+import { usePetFormStore } from "../../store"
 
 export const CreatePetFooter = () => {
   const { id } = useParams()

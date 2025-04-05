@@ -1,4 +1,5 @@
-import { ChangeEvent, useState, useEffect, forwardRef } from "react"
+import { ChangeEvent, forwardRef, useEffect, useState } from "react"
+
 import { TextField } from "../TextField/TextField"
 
 /** Пропы для маскированного текст филда
@@ -68,5 +69,5 @@ export const MaskedTextField = forwardRef<HTMLInputElement, IMaskedTextField>(
         label={label}
       />
     )
-  }
+  },
 )

@@ -1,10 +1,13 @@
-import { TMultiStepModal } from "@/shared/types/types"
 import { useState } from "react"
-import { Controller, FieldError, FieldValues } from "react-hook-form"
-import { Button, EButtonSize, EButtonVariant } from "../Button/Button"
+
 import { Box, Dialog, DialogTitle, Typography } from "@mui/material"
-import { TextField } from "../Inputs/TextField/TextField"
+import { Controller, FieldError, FieldValues } from "react-hook-form"
+
+import { TMultiStepModal } from "@/shared/types/types"
+
+import { Button, EButtonSize, EButtonVariant } from "../Button/Button"
 import { PhoneInput } from "../Inputs"
+import { TextField } from "../Inputs/TextField/TextField"
 
 export const MultiStepModal = <K extends FieldValues>({
   ariaDescribedby,
@@ -146,7 +149,7 @@ export const MultiStepModal = <K extends FieldValues>({
                     )
                   }}
                 />
-              )
+              ),
           )}
           <Box
             display={"flex"}

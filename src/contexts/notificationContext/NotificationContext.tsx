@@ -1,5 +1,6 @@
-import { eventEmitter } from "@/shared/utils/eventEmitter"
 import { PropsWithChildren, createContext, useEffect, useState } from "react"
+
+import { eventEmitter } from "@/shared/utils/eventEmitter"
 
 export enum ENotificationType {
   ERROR = "error",
@@ -61,7 +62,7 @@ const initialStateForContext: TNotificationContext = {
 }
 
 export const NotificationContext = createContext<TNotificationContext>(
-  initialStateForContext
+  initialStateForContext,
 )
 
 export const NotificationProvider: React.FC<PropsWithChildren> = ({
@@ -74,18 +75,18 @@ export const NotificationProvider: React.FC<PropsWithChildren> = ({
       if (
         not.type === ENotificationType.CONFIRMATION &&
         notifications.some(
-          n => n.type === ENotificationType.CONFIRMATION && n.isOpened
+          n => n.type === ENotificationType.CONFIRMATION && n.isOpened,
         )
       ) {
         setNotifications(prev =>
           prev.map(n =>
             n.id ===
             notifications.find(
-              nd => nd.type === ENotificationType.CONFIRMATION && nd.isOpened
+              nd => nd.type === ENotificationType.CONFIRMATION && nd.isOpened,
             )?.id
               ? not
-              : n
-          )
+              : n,
+          ),
         )
       } else {
         setNotifications(prev => [...prev, not])

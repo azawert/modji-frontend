@@ -1,10 +1,14 @@
-import { Stack } from "@mui/material"
-import { Tab } from "@/shared/ui/Tab"
-import { SearchComponent } from "@/shared/ui/SearchComponent"
 import { useMemo } from "react"
-import { BookingDto } from "@/generated/bookings"
-import { HEADER_TABS } from "@/modules/Booking/model/utils"
+
+import { Stack } from "@mui/material"
+
+import { SearchComponent } from "@/shared/ui/SearchComponent"
+import { Tab } from "@/shared/ui/Tab"
+
 import { EBookingView } from "@/modules/Booking/model/types/BookingGridTypes"
+import { HEADER_TABS } from "@/modules/Booking/model/utils"
+
+import { BookingDto } from "@/generated/bookings"
 
 type TProps = {
   onChangeTab: (tab: EBookingView) => void
@@ -29,7 +33,7 @@ export const GridHeader = ({
           key={tab.value}
         />
       )),
-    [selectedTab, onChangeTab]
+    [selectedTab, onChangeTab],
   )
   return (
     <Stack display="flex" direction="row" justifyContent="space-between">

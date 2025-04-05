@@ -1,6 +1,6 @@
-import { RoomDto } from "@/generated/room"
 import { memo, useState } from "react"
-import { EPageMode } from "../pages/RoomsPage"
+
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 import {
   Collapse,
   IconButton,
@@ -11,10 +11,14 @@ import {
   Typography,
   tableCellClasses,
 } from "@mui/material"
-import { Icon } from "@/shared/ui/Icon/Icon"
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
-import { renderValueWithPostfix } from "@/shared/utils/utils"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { Icon } from "@/shared/ui/Icon/Icon"
+import { renderValueWithPostfix } from "@/shared/utils/utils"
+
+import { RoomDto } from "@/generated/room"
+
+import { EPageMode } from "../pages/RoomsPage"
 
 type TProps = {
   room: RoomDto

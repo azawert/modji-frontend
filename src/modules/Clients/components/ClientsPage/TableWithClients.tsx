@@ -1,10 +1,12 @@
-import { OwnerDto } from "@/generated/owners.ts"
-import { TableComponent } from "@/shared/ui/TableComponent.tsx"
 import { Box } from "@mui/material"
 
 import { ERROR_MESSAGES } from "@/shared/constants/errors.ts"
-import { Pet } from "../../types.ts"
+import { TableComponent } from "@/shared/ui/TableComponent.tsx"
+
+import { OwnerDto } from "@/generated/owners.ts"
+
 import { useClientTableRows } from "../../hooks/useClientTableRows.tsx"
+import { Pet } from "../../types.ts"
 
 interface IProps {
   isLoading: boolean
@@ -34,7 +36,7 @@ const columns = [
 const getErrorMessage = (error: Error | null): string | null => {
   if (!error) return null
   const matchedError = Object.keys(ERROR_MESSAGES).find(code =>
-    error.message.includes(code)
+    error.message.includes(code),
   )
   return matchedError ? ERROR_MESSAGES[matchedError] : "Неизвестная ошибка"
 }

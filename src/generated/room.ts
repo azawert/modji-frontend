@@ -6,6 +6,7 @@
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+
 export type CheckUniqueRoomNumberParams = {
   roomNumber: string
 }
@@ -206,11 +207,11 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
  */
 export const getAllRooms = (
   params: GetAllRoomsParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto[]>(
     { url: `/rooms`, method: "GET", params },
-    options
+    options,
   )
 }
 
@@ -220,7 +221,7 @@ export const getAllRooms = (
  */
 export const addRoom = (
   newRoomDto: BodyType<NewRoomDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto>(
     {
@@ -229,7 +230,7 @@ export const addRoom = (
       headers: { "Content-Type": "application/json" },
       data: newRoomDto,
     },
-    options
+    options,
   )
 }
 
@@ -239,7 +240,7 @@ export const addRoom = (
  */
 export const getRoomById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto>({ url: `/rooms/${id}`, method: "GET" }, options)
 }
@@ -250,7 +251,7 @@ export const getRoomById = (
  */
 export const deleteRoomById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>({ url: `/rooms/${id}`, method: "DELETE" }, options)
 }
@@ -262,7 +263,7 @@ export const deleteRoomById = (
 export const updateRoom = (
   id: number,
   updateRoomDto: BodyType<UpdateRoomDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto>(
     {
@@ -271,7 +272,7 @@ export const updateRoom = (
       headers: { "Content-Type": "application/json" },
       data: updateRoomDto,
     },
-    options
+    options,
   )
 }
 
@@ -281,11 +282,11 @@ export const updateRoom = (
  */
 export const unhideRoomById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto>(
     { url: `/rooms/${id}/unhide`, method: "PATCH" },
-    options
+    options,
   )
 }
 
@@ -295,11 +296,11 @@ export const unhideRoomById = (
  */
 export const hideRoomById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto>(
     { url: `/rooms/${id}/hide`, method: "PATCH" },
-    options
+    options,
   )
 }
 
@@ -310,11 +311,11 @@ export const hideRoomById = (
 export const getAvailableRoomsByCategoryInDates = (
   catId: number,
   params: GetAvailableRoomsByCategoryInDatesParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<RoomDto[]>(
     { url: `/rooms/${catId}/getAvailableRooms`, method: "GET", params },
-    options
+    options,
   )
 }
 
@@ -324,11 +325,11 @@ export const getAvailableRoomsByCategoryInDates = (
  */
 export const checkUniqueRoomNumber = (
   params: CheckUniqueRoomNumberParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<boolean>(
     { url: `/rooms/checkUniqueNumber`, method: "GET", params },
-    options
+    options,
   )
 }
 

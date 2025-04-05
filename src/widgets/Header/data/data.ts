@@ -1,5 +1,6 @@
-import logo from "../../../assets/logo.svg"
 import { TIcon } from "@/assets/Icons/types.tsx"
+
+import logo from "../../../assets/logo.svg"
 
 /**
  * @prop label текст для отображения
@@ -97,6 +98,6 @@ const DROPDOWN_MENUS: TDropdownMenu[] = [
  * @returns TDropdownMenuOption[] возвращает список который нужно вернуть в зависимости от лейбла на который навелись
  */
 export const getDropDownMenuOptions = (
-  label?: string
+  label?: string,
 ): TDropdownMenuOption[] | undefined =>
   DROPDOWN_MENUS.find(({ labelLink }) => labelLink === label)?.options

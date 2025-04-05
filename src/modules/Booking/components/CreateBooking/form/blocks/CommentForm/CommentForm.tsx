@@ -1,9 +1,11 @@
+import { Controller, DeepPartial, UseFormReturn } from "react-hook-form"
+
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+
 import {
   IBookingForm,
   IComment,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
-import { Controller, DeepPartial, UseFormReturn } from "react-hook-form"
 
 interface CommentFormProps {
   form: UseFormReturn<IComment>

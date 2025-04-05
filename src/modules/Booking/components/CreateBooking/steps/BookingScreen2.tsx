@@ -1,10 +1,11 @@
-import { useForm } from "react-hook-form"
-import { BookingModal } from "../modal/BookingModal/BookingModal"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useForm } from "react-hook-form"
+
 import { ScreenSchema2 } from "../../../model/types/BookingValidationSchema"
 import useBookingStore from "../../../store/BookingStore"
-import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
 import { StepTitle } from "../../typography/StepTitle/StepTitle"
+import { CategoryRoomsForm } from "../form/blocks/CategoryForm/CategoryRoomsForm"
+import { BookingModal } from "../modal/BookingModal/BookingModal"
 
 const BookingScreen2 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

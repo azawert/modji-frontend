@@ -1,5 +1,16 @@
+import { yupResolver } from "@hookform/resolvers/yup"
 import { Box, Dialog, DialogTitle } from "@mui/material"
+import { Control, FieldErrors, useForm, useWatch } from "react-hook-form"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import {
+  addConfirmationNotification,
+  addErrorNotification,
+  addSuccessNotification,
+} from "@/shared/utils/utils"
+
+import useBookingStore from "@/modules/Booking/store/BookingStore"
+import { useCreatePet } from "@/modules/Pets/api"
 import { FormField } from "@/modules/Pets/components"
 import {
   ControlledDate,
@@ -7,17 +18,10 @@ import {
   ControlledText,
 } from "@/modules/Pets/components/forms/fields"
 import { renderFields } from "@/modules/Pets/components/forms/utils/groupFormFields"
-import { ShortPetFieldsConfig } from "./ShortPetConfig"
-import {
-  addConfirmationNotification,
-  addErrorNotification,
-  addSuccessNotification,
-} from "@/shared/utils/utils"
-import { useCreatePet } from "@/modules/Pets/api"
+
 import { NewPetDto } from "@/generated/pets"
-import useBookingStore from "@/modules/Booking/store/BookingStore"
-import { Control, FieldErrors, useForm, useWatch } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+
+import { ShortPetFieldsConfig } from "./ShortPetConfig"
 import { ShortPetSchema } from "./types"
 
 interface PetFormData {

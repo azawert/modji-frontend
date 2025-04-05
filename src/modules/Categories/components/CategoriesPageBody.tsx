@@ -1,6 +1,9 @@
-import { CategoryDto } from "@/generated/categories"
-import { Box, CircularProgress, Typography } from "@mui/material"
 import { memo } from "react"
+
+import { Box, CircularProgress, Typography } from "@mui/material"
+
+import { CategoryDto } from "@/generated/categories"
+
 import { CategoryCard } from "./CategoryCard"
 
 type TProps = {

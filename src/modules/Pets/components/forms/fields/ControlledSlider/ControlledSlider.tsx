@@ -1,7 +1,9 @@
 import Box from "@mui/material/Box"
 import { Control, Controller, FieldErrors } from "react-hook-form"
-import { FormData, SliderField } from "../../types/types"
+
 import { Slider } from "@/shared/ui/Inputs/SliderInput/Slider"
+
+import { FormData, SliderField } from "../../types/types"
 
 const marks = [
   { value: 0, label: "1" },
@@ -30,7 +32,7 @@ export const ControlledSlider = (props: CustomSliderFieldProps) => {
 
   const handleChange = (
     onChange: (value: number) => void,
-    newValue: number | number[]
+    newValue: number | number[],
   ) => {
     if (typeof newValue === "number") {
       const formValue = newValue / 10 + 1

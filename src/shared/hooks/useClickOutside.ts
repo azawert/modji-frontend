@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react"
+
 import { useEventCallback } from "@mui/material"
 
 export function useClickOutside<T extends HTMLElement>(
   cb: (e?: Event) => void,
-  allowedSelectors?: string[]
+  allowedSelectors?: string[],
 ): React.MutableRefObject<T | null> {
   const ref = useRef<T | null>(null)
   const refCb = useEventCallback(cb)

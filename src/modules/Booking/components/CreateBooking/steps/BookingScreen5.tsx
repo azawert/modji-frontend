@@ -1,13 +1,14 @@
-import { useForm, UseFormReturn } from "react-hook-form"
-import { BookingModal } from "../modal/BookingModal/BookingModal"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { UseFormReturn, useForm } from "react-hook-form"
+
 import {
   ExtendedIPayment,
   ScreenSchema4,
 } from "../../../model/types/BookingValidationSchema"
 import useBookingStore from "../../../store/BookingStore"
-import { PriceForm } from "../form/blocks/PriceForm/PriceForm"
 import { StepTitle } from "../../typography/StepTitle/StepTitle"
+import { PriceForm } from "../form/blocks/PriceForm/PriceForm"
+import { BookingModal } from "../modal/BookingModal/BookingModal"
 
 const BookingScreen5 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

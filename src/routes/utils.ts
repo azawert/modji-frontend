@@ -7,7 +7,7 @@ import { APP_ROUTES, AppRoutes } from "./types"
  */
 export function getRouteKeyByPath(pathValue: string): keyof AppRoutes | null {
   const staticRoutes = Object.entries(APP_ROUTES).filter(
-    ([, value]) => typeof value === "string"
+    ([, value]) => typeof value === "string",
   ) as Array<[keyof AppRoutes, string]>
 
   for (const [key, staticPath] of staticRoutes) {
@@ -17,7 +17,7 @@ export function getRouteKeyByPath(pathValue: string): keyof AppRoutes | null {
   }
 
   const dynamicRoutes = Object.entries(APP_ROUTES).filter(
-    ([, value]) => typeof value === "function"
+    ([, value]) => typeof value === "function",
   ) as Array<[keyof AppRoutes, Function]>
 
   for (const [key, generator] of dynamicRoutes) {

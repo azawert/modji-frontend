@@ -1,5 +1,6 @@
-import { RoomDto } from "@/generated/bookings"
 import type { Dayjs } from "dayjs"
+
+import { RoomDto } from "@/generated/bookings"
 
 /**
  * Тип для определения дня в сетке бронирования

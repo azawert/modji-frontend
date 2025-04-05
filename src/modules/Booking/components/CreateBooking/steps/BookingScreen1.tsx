@@ -1,9 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { BookingModal } from "../modal/BookingModal/BookingModal"
 import { useForm } from "react-hook-form"
+
 import { ScreenSchema1 } from "../../../model/types/BookingValidationSchema"
 import useBookingStore from "../../../store/BookingStore"
 import { ScheduleForm } from "../form/blocks/ScheduleForm/ScheduleForm"
+import { BookingModal } from "../modal/BookingModal/BookingModal"
 
 const BookingScreen1 = () => {
   const bookingData = useBookingStore(state => state.bookingData)

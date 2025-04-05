@@ -1,18 +1,23 @@
+import { useCallback, useState } from "react"
+
+import { Box, IconButton, Toolbar } from "@mui/material"
 import AppBar from "@mui/material/AppBar"
+import { useLocation, useNavigate } from "react-router-dom"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+
+import { DropDownMenu } from "@/widgets/Dropdown/DropdownMenu.tsx"
+
+import useBookingStore from "@/modules/Booking/store/BookingStore"
+
+import userLogo from "../../../assets/userIcon.svg"
+import { ETextType, Link } from "../../../shared/ui/Link"
 import {
-  getDropDownMenuOptions,
   HeaderPageLink,
   TPropsForHeader,
+  getDropDownMenuOptions,
 } from "../data/data"
-import { Toolbar, Box, IconButton } from "@mui/material"
-import userLogo from "../../../assets/userIcon.svg"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { useCallback, useState } from "react"
-import { ETextType, Link } from "../../../shared/ui/Link"
 import { Logo } from "./Logo"
-import useBookingStore from "@/modules/Booking/store/BookingStore"
-import { DropDownMenu } from "@/widgets/Dropdown/DropdownMenu.tsx"
-import { useLocation, useNavigate } from "react-router-dom"
 
 export const Header: React.FC<TPropsForHeader> = ({ links }) => {
   const { pathname } = useLocation()

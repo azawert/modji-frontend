@@ -1,20 +1,28 @@
 import { useCallback } from "react"
-import useBookingStore from "../../store/BookingStore"
+
 import { yupResolver } from "@hookform/resolvers/yup"
-import { ShortClientSchema } from "../../model/types/ShortClientValidationSchema"
-import { useForm, UseFormReturn } from "react-hook-form"
+import { useForm } from "react-hook-form"
+
 import {
-  formatPhoneNumberToServerRequest,
+  addConfirmationNotification,
   addErrorNotification,
   addSuccessNotification,
-  addConfirmationNotification,
+  formatPhoneNumberToServerRequest,
 } from "@/shared/utils/utils"
-import { ShortClientModal } from "../../components/CreateBooking/modal/ShortClientModal/ShortClientModal"
-import { NewOwnerDto } from "@/generated/owners"
+
 import { useCreateClient } from "@/modules/Clients/api/mutation"
 
+import { NewOwnerDto } from "@/generated/owners"
+
+import { ShortClientModal } from "../../components/CreateBooking/modal/ShortClientModal/ShortClientModal"
+import {
+  ShortClientForm,
+  ShortClientSchema,
+} from "../../model/types/ShortClientValidationSchema"
+import useBookingStore from "../../store/BookingStore"
+
 const CreateShortClient = () => {
-  const form = useForm({
+  const form = useForm<ShortClientForm>({
     mode: "onChange",
     resolver: yupResolver(ShortClientSchema),
   })
@@ -45,7 +53,7 @@ const CreateShortClient = () => {
     ...rest
   }: NewOwnerDto) => {
     try {
-      await createClient(
+      createClient(
         {
           ...rest,
           mainPhone: formatPhoneNumberToServerRequest(mainPhone),
@@ -62,7 +70,7 @@ const CreateShortClient = () => {
             console.error(e)
             errorNotification("Произошла ошибка. Попробуйте позже")
           },
-        }
+        },
       )
     } catch (error) {
       console.error("Ошибка при создании клиента:", error)
@@ -72,7 +80,7 @@ const CreateShortClient = () => {
 
   return (
     <ShortClientModal
-      form={form as unknown as UseFormReturn<NewOwnerDto>}
+      form={form}
       isModalOpen={isModalOpen}
       onClose={handleCloseModalWindow}
       onSubmit={handleCreateClient}

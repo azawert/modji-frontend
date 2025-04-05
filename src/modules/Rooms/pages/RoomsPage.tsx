@@ -1,24 +1,28 @@
 import { useCallback, useState } from "react"
-import { RoomsPageTitle } from "../components/RoomsPageTitle"
-import { ETextType, Link } from "@/shared/ui/Link"
-import { cn } from "@/lib/utils"
+
 import { Divider } from "@mui/material"
-import { useGetAllRooms } from "../api/queries"
-import { RoomsPageBody } from "../components/RoomsPageBody"
-import { RoomDeleteModal } from "../components/RoomDeleteModal"
+import { useQueryClient } from "@tanstack/react-query"
+import { useForm } from "react-hook-form"
+
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { TOpenModal } from "@/shared/types/types"
+import { ETextType, Link } from "@/shared/ui/Link"
+
 import { NewRoomDto, RoomDto } from "@/generated/room"
+import { cn } from "@/lib/utils"
+
+import { EQueryKeys } from "../api/keys"
 import {
   useCreateRoom,
   useHideRoom,
   useUnHideRoom,
   useUpdateRoom,
 } from "../api/mutation"
-import { useQueryClient } from "@tanstack/react-query"
-import { EQueryKeys } from "../api/keys"
-import { useForm } from "react-hook-form"
-import { TOpenModal } from "@/shared/types/types"
+import { useGetAllRooms } from "../api/queries"
 import { RoomCreateOrEditModal } from "../components/RoomCreateOrEditModal"
-import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { RoomDeleteModal } from "../components/RoomDeleteModal"
+import { RoomsPageBody } from "../components/RoomsPageBody"
+import { RoomsPageTitle } from "../components/RoomsPageTitle"
 
 export enum EPageMode {
   ACTIVE = "Действующие",
@@ -59,7 +63,7 @@ export const RoomsPage: React.FC = () => {
     useState<TOpenModal>({ isOpen: false, isEdit: false })
 
   const { data: rooms, isLoading: isRoomsLoading } = useGetAllRooms(
-    selectedMode.label
+    selectedMode.label,
   )
   const { mutate: hideRoom } = useHideRoom()
   const { mutate: unHideRoom } = useUnHideRoom()
@@ -126,7 +130,7 @@ export const RoomsPage: React.FC = () => {
         },
       })
     },
-    [unHideRoom, queryClient, selectedMode.label]
+    [unHideRoom, queryClient, selectedMode.label],
   )
   const handleOpenCreateModal = useCallback(() => {
     setIsCreateOrEditModalOpened({ isOpen: true, isEdit: false })
@@ -163,7 +167,7 @@ export const RoomsPage: React.FC = () => {
                 })
                 handleCloseCreateOrEditModal()
               },
-            }
+            },
           )
         : createRoom(room, {
             onSuccess: () => {
@@ -182,7 +186,7 @@ export const RoomsPage: React.FC = () => {
       queryClient,
       selectedMode.label,
       updateRoom,
-    ]
+    ],
   )
 
   return (

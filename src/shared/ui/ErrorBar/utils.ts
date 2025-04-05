@@ -1,4 +1,5 @@
 import { TIcon } from "@/assets/Icons/types"
+
 import { StyleTheme } from "./ErrorBar"
 
 interface Theme {

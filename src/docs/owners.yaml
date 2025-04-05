@@ -1,42 +1,43 @@
-openapi: '3.0.1'
+openapi: "3.0.1"
 info:
-  title: 'Modgy: Owners Specification'
+  title: "Modgy: Owners Specification"
   description: Modgy owners
-  version: 'v6'
+  version: "v6"
 
 servers:
-    - url: http://localhost:8080
-      description: Local server for develop
-    - url: http://212.109.192.9:8080
-      description: backend server для тестирования кода и работы фронтэнда
-        По вопросам работы сервера обращаться к Руслану
-    - url: https://212.109.192.9:443
-      description: Удалённый backend сервер для тестирования и работы frontend.
-        По вопросам работы сервера обращаться к Руслану
+  - url: http://localhost:8080
+    description: Local server for develop
+  - url: http://212.109.192.9:8080
+    description: backend server для тестирования кода и работы фронтэнда
+      По вопросам работы сервера обращаться к Руслану
+  - url: https://212.109.192.9:443
+    description: Удалённый backend сервер для тестирования и работы frontend.
+      По вопросам работы сервера обращаться к Руслану
 paths:
   /owners:
     post:
       tags:
         - owner-controller
       summary: Добавление нового клиента (собственника зверушки)
-      description: Добавление нового клиента может осуществляться только пользователями с ролью ROLE_BOSS или
+      description:
+        Добавление нового клиента может осуществляться только пользователями с ролью ROLE_BOSS или
         ROLE_ADMIN.
       operationId: addOwner
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewOwnerDto'
+              $ref: "#/components/schemas/NewOwnerDto"
       responses:
         201:
           description: Created - клиент создан
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OwnerDto'
+                $ref: "#/components/schemas/OwnerDto"
         400:
           description: Запрос составлен неверно.
           content:
@@ -48,7 +49,7 @@ paths:
                 message: "Error: Field mainPhone must not be blank."
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -60,7 +61,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         404:
           description: Объект не найден.
           content:
@@ -72,7 +73,7 @@ paths:
                 message: "User with id=5 is not found"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         409:
           description: Ошибка уникальности полей базы данных.
           content:
@@ -84,7 +85,7 @@ paths:
                 message: "Attempt to insert duplicate key row in object owner with unique index owner_main_phone."
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -96,17 +97,18 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
     get:
       tags:
         - owner-controller
       summary: Получение списка всех клиентов
-      description: Получение списка всех клиентов может осуществляться только пользователями с ролью ROLE_BOSS
+      description:
+        Получение списка всех клиентов может осуществляться только пользователями с ролью ROLE_BOSS
         или ROLE_ADMIN.
       operationId: getAllOwners
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
 
       responses:
         200:
@@ -128,7 +130,7 @@ paths:
                 message: ""
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -140,7 +142,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         404:
           description: Объект не найден.
           content:
@@ -152,7 +154,7 @@ paths:
                 message: "Owner with id=42 is not found"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -164,7 +166,7 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
   /owners/{id}:
     get:
@@ -175,8 +177,8 @@ paths:
         Получение клиента по id может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       operationId: getOwnerById
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/ownerId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/ownerId"
       responses:
         200:
           description: OK,
@@ -195,7 +197,7 @@ paths:
                 message: ""
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -207,7 +209,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         404:
           description: Объект не найден.
           content:
@@ -219,7 +221,7 @@ paths:
                 message: "Owner with id=42 is not found"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -231,18 +233,18 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
     delete:
       tags:
-          - owner-controller
+        - owner-controller
       summary: Удаление клиента по id
       description: >-
         Удаление клиента по id может осуществляться только пользователями с ролью ROLE_BOSS.
       operationId: deleteOwnerById
       parameters:
-          - $ref: '#/components/parameters/requesterHeader'
-          - $ref: '#/components/parameters/ownerId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/ownerId"
       responses:
         204:
           description: NO_CONTENT
@@ -258,7 +260,7 @@ paths:
                 message: ""
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -270,7 +272,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         404:
           description: Объект не найден.
           content:
@@ -282,7 +284,7 @@ paths:
                 message: "Owner with id=42 is not found"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -294,23 +296,23 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     patch:
       tags:
-          - owner-controller
+        - owner-controller
       summary: Изменить данные клиента
       operationId: updateOwner
       description: >-
         Изменение данных клиента может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       parameters:
-          - $ref: '#/components/parameters/requesterHeader'
-          - $ref: '#/components/parameters/ownerId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/ownerId"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateOwnerDto'
+              $ref: "#/components/schemas/UpdateOwnerDto"
       responses:
         200:
           description: OK,
@@ -329,7 +331,7 @@ paths:
                 message: ""
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -341,7 +343,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         404:
           description: Объект не найден.
           content:
@@ -353,7 +355,7 @@ paths:
                 message: "Owner with id=42 is not found"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         409:
           description: Ошибка уникальности полей базы данных.
           content:
@@ -365,7 +367,7 @@ paths:
                 message: "Attempt to insert duplicate key row in object owner with unique index owner_main_phone."
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Объект не найден.
           content:
@@ -377,7 +379,7 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /owners/short:
     get:
       tags:
@@ -387,7 +389,7 @@ paths:
         Получение информации может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       operationId: getSomeShortOwners
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
         - name: num
           in: query
           description: число запрашиваемых клиентов
@@ -416,7 +418,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -428,7 +430,7 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
   /owners/short/{id}:
     get:
@@ -439,8 +441,8 @@ paths:
         Получение информации может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       operationId: getShortOwnerById
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
-        - $ref: '#/components/parameters/ownerId'
+        - $ref: "#/components/parameters/requesterHeader"
+        - $ref: "#/components/parameters/ownerId"
       responses:
         200:
           description: OK,
@@ -459,7 +461,7 @@ paths:
                 message: "User with role=ROLE_FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         404:
           description: Объект не найден.
           content:
@@ -471,7 +473,7 @@ paths:
                 message: "Owner with id=42 is not found"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -483,7 +485,7 @@ paths:
                 message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
   /owners/check:
     post:
@@ -494,13 +496,13 @@ paths:
         Проверка может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       operationId: checkOwnerPhoneNumber
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CheckOwnerDto'
+              $ref: "#/components/schemas/CheckOwnerDto"
       responses:
         200:
           description: OK,
@@ -519,7 +521,7 @@ paths:
                 message: ""
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -531,7 +533,7 @@ paths:
                 message: "User with role=FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -540,12 +542,10 @@ paths:
                 errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
-                message: [ ]
+                message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
-
-
+                $ref: "#/components/schemas/Error"
 
   /owners/search:
     post:
@@ -556,7 +556,7 @@ paths:
         Поиск может осуществляться только пользователями с ролью ROLE_BOSS или ROLE_ADMIN.
       operationId: searchOwner
       parameters:
-        - $ref: '#/components/parameters/requesterHeader'
+        - $ref: "#/components/parameters/requesterHeader"
         - name: direction
           in: query
           description: направление поиска
@@ -570,7 +570,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SearchOwnerDto'
+              $ref: "#/components/schemas/SearchOwnerDto"
       responses:
         200:
           description: OK,
@@ -589,7 +589,7 @@ paths:
                 message: ""
                 timestamp: 2023-12-03 09:10:50
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         403:
           description: Недостаточно прав для совершения действия.
           content:
@@ -601,7 +601,7 @@ paths:
                 message: "User with role=FINANCIAL, can't access for this action"
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         500:
           description: Внутренняя ошибка сервера.
           content:
@@ -610,10 +610,10 @@ paths:
                 errors: []
                 status: INTERNAL_SERVER_ERROR
                 reason: Internal Server Error.
-                message: [ ]
+                message: []
                 timestamp: 2023-12-03 09:10:55
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
 components:
   parameters:
@@ -676,7 +676,7 @@ components:
           description: Прочие контакты клиента
           type: string
           maxLength: 500
-          example: 'VK: FSumkin, TG: @Fumkin'
+          example: "VK: FSumkin, TG: @Fumkin"
         actualAddress:
           description: Фактический адрес клиента
           type: string
@@ -772,7 +772,8 @@ components:
         comment:
           description: Заметки о клиенте
           type: string
-          example: Очень, очень хороший мальчик. Вежлив, правдив, скромен, добр. Слушает маму,
+          example:
+            Очень, очень хороший мальчик. Вежлив, правдив, скромен, добр. Слушает маму,
             каждое утро делает зарядку. Характер очень мягкий.
         source:
           description: Откуда узнали о гостинице
@@ -833,7 +834,7 @@ components:
           description: Прочие контакты клиента
           type: string
           maxLength: 500
-          example: 'VK: FSumkin, TG: @Fumkin'
+          example: "VK: FSumkin, TG: @Fumkin"
         actualAddress:
           description: Фактический адрес клиента
           type: string
@@ -1192,7 +1193,6 @@ components:
           type: string
           description: Дата регистрации в ПО гостиницы (в формате "dd.MM.yyyy"), должна быть в прошлом
           example: 09.12.2023
-
 
     Error:
       title: Error

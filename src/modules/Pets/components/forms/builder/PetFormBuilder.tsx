@@ -1,17 +1,20 @@
-import { useForm, useWatch } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { createValidationSchema } from "./createValidationSchema"
 import { forwardRef, useEffect, useState } from "react"
+
+import { yupResolver } from "@hookform/resolvers/yup"
+import { useForm, useWatch } from "react-hook-form"
+
+import { usePetFormStore } from "@/modules/Pets/store"
+
 import { CategoryTitle } from "../../common/CategoryTitle/CategoryTitle"
-import { ControlledDate } from "../fields/ControlledDate/ControlledDate"
-import { ControlledSelect } from "../fields/ControlledSelect/ControlledSelect"
-import { ControlledRadio } from "../fields/ControlledRadio/ControlledRadio"
 import { ControlledCheckbox } from "../fields/ControlledCheckbox/ControlledCheckbox"
+import { ControlledDate } from "../fields/ControlledDate/ControlledDate"
+import { ControlledRadio } from "../fields/ControlledRadio/ControlledRadio"
+import { ControlledSelect } from "../fields/ControlledSelect/ControlledSelect"
 import { ControlledSlider } from "../fields/ControlledSlider/ControlledSlider"
 import { ControlledText } from "../fields/ControlledText/ControlledText"
 import { FormConfig, FormData, FormField } from "../types/types"
-import { usePetFormStore } from "@/modules/Pets/store"
 import { renderFields } from "../utils/groupFormFields"
+import { createValidationSchema } from "./createValidationSchema"
 
 interface FormBuilderProps {
   config: FormConfig
@@ -161,7 +164,7 @@ const FormBuilder = forwardRef(
         })}
       </form>
     )
-  }
+  },
 )
 
 export default FormBuilder

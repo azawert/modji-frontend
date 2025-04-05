@@ -1,8 +1,9 @@
 import { NewRoomDto, UpdateRoomDto } from "@/generated/room"
+
 import { TRoomCreateForm } from "./pages/RoomsPage"
 
 export const mapperFormToAnCreateRequest = (
-  form: TRoomCreateForm
+  form: TRoomCreateForm,
 ): NewRoomDto => {
   return {
     categoryId: +form.category,
@@ -14,7 +15,7 @@ export const mapperFormToAnCreateRequest = (
 }
 
 export const mapperFormToAnUpdateRequest = (
-  form: TRoomCreateForm
+  form: TRoomCreateForm,
 ): UpdateRoomDto => {
   return {
     categoryId: +form.category,

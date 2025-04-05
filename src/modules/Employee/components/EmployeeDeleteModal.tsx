@@ -1,8 +1,10 @@
+import { memo, useCallback } from "react"
+
+import { Close } from "@mui/icons-material"
+import { Box, IconButton, Typography } from "@mui/material"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { DeleteModal } from "@/shared/ui/modal/DeleteModal"
-import { Close } from "@mui/icons-material"
-import { Box, Typography, IconButton } from "@mui/material"
-import { memo, useCallback } from "react"
 
 /** Пропы для модалки
  * @prop isOpen флаг открытия модального окна
@@ -30,7 +32,7 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
         </IconButton>
       </Box>
     ),
-    [onCancel]
+    [onCancel],
   )
   const renderMainContent = useCallback(
     (): React.ReactNode => (
@@ -44,7 +46,7 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
         </Typography>
       </>
     ),
-    []
+    [],
   )
   const renderSubText = useCallback(
     () => (
@@ -57,7 +59,7 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
         </Typography>
       </>
     ),
-    [employeeName, employeeRole]
+    [employeeName, employeeRole],
   )
 
   const renderFooter = useCallback(
@@ -83,7 +85,7 @@ export const EmployeeDeleteModal: React.FC<TProps> = memo(props => {
         </Button>
       </>
     ),
-    [onConfirm, onCancel]
+    [onConfirm, onCancel],
   )
   return (
     <DeleteModal

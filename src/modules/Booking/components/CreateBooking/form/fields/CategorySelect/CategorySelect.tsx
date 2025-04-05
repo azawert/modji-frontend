@@ -1,6 +1,9 @@
-import { Select, SelectData } from "@/shared/ui/Inputs/Select/Select"
 import { Typography } from "@mui/material"
+
+import { Select, SelectData } from "@/shared/ui/Inputs/Select/Select"
+
 import { Placeholder } from "@/modules/Booking/consts/Placeholders"
+
 import { CategoryDto } from "@/generated/bookings"
 
 type TProps = {

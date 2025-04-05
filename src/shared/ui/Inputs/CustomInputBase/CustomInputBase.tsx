@@ -1,6 +1,8 @@
-import { cn } from "@/lib/utils"
-import { InputBase, InputBaseProps, styled } from "@mui/material"
 import { forwardRef } from "react"
+
+import { InputBase, InputBaseProps, styled } from "@mui/material"
+
+import { cn } from "@/lib/utils"
 
 const CustomizedInput = styled(InputBase)(({ theme }) => ({
   "& .MuiInputBase-input": {
@@ -42,7 +44,7 @@ export const CustomInputBase = forwardRef<
         {
           [disabled]: isDisabled,
           [errored]: error,
-        }
+        },
       )}
     />
   )

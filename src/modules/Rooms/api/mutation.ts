@@ -1,5 +1,10 @@
 import { useMutation } from "@tanstack/react-query"
-import { EMutationKeys } from "./keys"
+
+import {
+  addErrorNotification,
+  addSuccessNotification,
+} from "@/shared/utils/utils"
+
 import {
   NewRoomDto,
   UpdateRoomDto,
@@ -8,10 +13,8 @@ import {
   unhideRoomById,
   updateRoom,
 } from "@/generated/room"
-import {
-  addErrorNotification,
-  addSuccessNotification,
-} from "@/shared/utils/utils"
+
+import { EMutationKeys } from "./keys"
 
 export const useCreateRoom = () => {
   const successNotification = addSuccessNotification()

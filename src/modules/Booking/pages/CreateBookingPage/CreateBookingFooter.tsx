@@ -1,5 +1,6 @@
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useNavigate } from "react-router-dom"
+
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 
 export const BookingFooter = () => {
   const navigate = useNavigate()

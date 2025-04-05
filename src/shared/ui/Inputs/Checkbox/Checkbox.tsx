@@ -1,5 +1,6 @@
-import { Checkbox, FormControlLabel, styled } from "@mui/material"
 import { memo } from "react"
+
+import { Checkbox, FormControlLabel, styled } from "@mui/material"
 
 /**
  * @prop value - значение чекбокса

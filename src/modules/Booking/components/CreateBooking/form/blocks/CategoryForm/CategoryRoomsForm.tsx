@@ -1,20 +1,24 @@
+import { useEffect, useMemo } from "react"
+
 import {
   Controller,
   DeepPartial,
   UseFormReturn,
   useWatch,
 } from "react-hook-form"
-import { CategorySelect } from "../../fields/CategorySelect/CategorySelect"
-import { RoomSelect } from "../../fields/RoomSelect/RoomSelect"
+
 import {
   IBookingForm,
   ICategoryAndRoom,
 } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { useGetAllRooms } from "@/modules/Rooms/api/queries"
-import { useGetCategories } from "@/modules/Categories/api/queries"
-import { useEffect, useMemo } from "react"
 import useBookingStore from "@/modules/Booking/store/BookingStore"
+import { useGetCategories } from "@/modules/Categories/api/queries"
+import { useGetAllRooms } from "@/modules/Rooms/api/queries"
+
 import { RoomDto } from "@/generated/bookings"
+
+import { CategorySelect } from "../../fields/CategorySelect/CategorySelect"
+import { RoomSelect } from "../../fields/RoomSelect/RoomSelect"
 
 interface CategoryRoomsProps {
   form: UseFormReturn<ICategoryAndRoom>
@@ -38,7 +42,7 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
 
   const filteredRooms = useMemo(() => {
     const filtered = rooms?.filter(
-      room => room.categoryDto?.name === categoryValue
+      room => room.categoryDto?.name === categoryValue,
     )
 
     return filtered
@@ -83,7 +87,7 @@ export const CategoryRoomsForm = (props: CategoryRoomsProps) => {
                 className="w-64"
                 onChange={args => {
                   const curRoom = rooms?.find(
-                    room => room.number === field.value
+                    room => room.number === field.value,
                   ) as RoomDto
                   if (curRoom) setRoom(curRoom)
                   return field.onChange(args)

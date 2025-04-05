@@ -1,4 +1,5 @@
 import { NewUserDtoRole, UserDto, UserDtoRole } from "@/generated/user"
+
 import { TCreateUser } from "./const"
 
 /**
@@ -10,7 +11,7 @@ import { TCreateUser } from "./const"
 export const getFullName = (
   firstName: string,
   lastName?: string,
-  middleName?: string
+  middleName?: string,
 ): string => {
   if (!middleName && !lastName) {
     return `${firstName}`
@@ -37,7 +38,7 @@ export const roleMapperForRussianLanguage = {
  * @returns NewUserDto возвращает объект для отбравки на бэк
  */
 export const mapperCreateUserFormToAnUserCreateRequest = (
-  data: TCreateUser
+  data: TCreateUser,
 ): UserDto => ({
   email: data.email,
   role: data.role || NewUserDtoRole.ROLE_USER,
@@ -55,7 +56,7 @@ export const mapperCreateUserFormToAnUserCreateRequest = (
  */
 export const mapperCreateUserFormToAnUserUpdateRequest = (
   data: TCreateUser,
-  id: number
+  id: number,
 ): UserDto => ({
   email: data.email,
   role: data.role || NewUserDtoRole.ROLE_USER,

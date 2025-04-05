@@ -19,7 +19,7 @@ jobs:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
       API_URL: ${{ vars.API_URL }}
-  
+
   deploy-to-test-server:
     name: Update App on Test Server
     needs: build-and-push-image

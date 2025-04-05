@@ -1,20 +1,25 @@
+import { useState } from "react"
+
+import { IconButton } from "@mui/material"
+import { DeepPartial, UseFormReturn, useWatch } from "react-hook-form"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
-import { StepTitle } from "../../../../typography/StepTitle/StepTitle"
-import { OwnersSearch } from "../../fields/OwnersSearch/OwnersSearch"
 import { CardWithClient } from "@/shared/ui/CardWithClient"
 import { CardWithPet } from "@/shared/ui/CardWithPet"
-import { PetTag } from "@/shared/ui/PetTag"
-import useBookingStore from "@/modules/Booking/store/BookingStore"
-import CreateShortClient from "@/modules/Booking/features/createShortClient/CreateShortClient"
-import { OwnerDto, PetDtoForOwner } from "@/generated/owners"
 import { Icon } from "@/shared/ui/Icon/Icon"
-import { IconButton } from "@mui/material"
+import { PetTag } from "@/shared/ui/PetTag"
+
+import CreateShortClient from "@/modules/Booking/features/createShortClient/CreateShortClient"
 import { IPet } from "@/modules/Booking/model/types/BookingValidationSchema"
-import { DeepPartial, UseFormReturn, useWatch } from "react-hook-form"
-import { useState } from "react"
+import useBookingStore from "@/modules/Booking/store/BookingStore"
+import { useGetClientById } from "@/modules/Clients/api/queries"
+
+import { OwnerDto, PetDtoForOwner } from "@/generated/owners"
+
+import { StepTitle } from "../../../../typography/StepTitle/StepTitle"
 import { PetSelectionModal } from "../../../modal/PetSelectionModal/PetSelectionModal"
 import { CreateShortPet } from "../../../modal/ShortPetModal/ShortPetModal"
-import { useGetClientById } from "@/modules/Clients/api/queries"
+import { OwnersSearch } from "../../fields/OwnersSearch/OwnersSearch"
 
 interface IPetOwnerFormProps {
   isCreateBookingPage?: boolean
@@ -32,7 +37,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
   const setOwner = useBookingStore(state => state.setOwner)
   const storeOwner = useBookingStore(state => state.owner)
   const setIsOpenShortPetModal = useBookingStore(
-    state => state.setIsCreateShortPet
+    state => state.setIsCreateShortPet,
   )
   const setBookingData = useBookingStore(state => state.setBookingData)
 
@@ -113,7 +118,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
 
   const renderCardWithPet = (
     petsToShow: PetDtoForOwner[],
-    selectPet: (id: number) => void
+    selectPet: (id: number) => void,
   ) => {
     return (
       <>
@@ -141,7 +146,7 @@ export const PetOwnerForm = (props: IPetOwnerFormProps) => {
 
   const renderPetTags = (
     selected: PetDtoForOwner[],
-    removePet: (id: number) => void
+    removePet: (id: number) => void,
   ) => {
     return (
       <div className="flex flex-col gap-1">

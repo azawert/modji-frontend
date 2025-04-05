@@ -1,16 +1,20 @@
 import React, { forwardRef, useState } from "react"
+
 import dayjs from "dayjs"
 import "dayjs/locale/ru"
-import { IDateRange, TCalendarView, TDatePickerProps, months } from "./types"
+
+import { useClickOutside } from "@/shared/hooks/useClickOutside"
+import { Icon } from "@/shared/ui/Icon/Icon"
+
 import { cn } from "@/lib/utils"
+
+import { IDateRange, TCalendarView, TDatePickerProps, months } from "./types"
 import {
   checkIsDateIsBetween,
   isDateInSelectedMonth,
   transformFirstLetterToUpperCase,
   updateRange,
 } from "./utils"
-import { Icon } from "@/shared/ui/Icon/Icon"
-import { useClickOutside } from "@/shared/hooks/useClickOutside"
 
 dayjs.locale("ru")
 
@@ -68,7 +72,7 @@ export const DatePicker: React.FC<TDatePickerProps> = forwardRef<
     const today = dayjs()
 
     const startOfMonth = dayjs(new Date(currentYear, currentMonth)).startOf(
-      "month"
+      "month",
     )
     const endOfMonth = dayjs(new Date(currentYear, currentMonth)).endOf("month")
 
@@ -110,7 +114,7 @@ export const DatePicker: React.FC<TDatePickerProps> = forwardRef<
 
     const handleArrowClick = (
       unit: Omit<TCalendarView, "day">,
-      isIncrement: boolean
+      isIncrement: boolean,
     ) => {
       unit === "year"
         ? setCurrentYear(prev => (isIncrement ? prev + 1 : prev - 1))
@@ -267,7 +271,7 @@ export const DatePicker: React.FC<TDatePickerProps> = forwardRef<
                   }}
                 >
                   {transformFirstLetterToUpperCase(
-                    dayjs(new Date(currentYear, currentMonth)).format("MMMM")
+                    dayjs(new Date(currentYear, currentMonth)).format("MMMM"),
                   )}
                 </span>
 
@@ -335,7 +339,7 @@ export const DatePicker: React.FC<TDatePickerProps> = forwardRef<
         </div>
       )
     )
-  }
+  },
 )
 
 const styles = {

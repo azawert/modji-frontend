@@ -7,6 +7,7 @@
  */
 import { axiosInstance } from "../lib/axios-instance"
 import type { BodyType } from "../lib/axios-instance"
+
 export type SetUserStateParams = {
   /**
    * Состояние, которое должно быть присвоено пользователю. isActive=true - учётная запись активна, isActive=false - учётная запись заблокирована.
@@ -264,11 +265,11 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
  */
 export const getAllUsers = (
   params?: GetAllUsersParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<UserDto[]>(
     { url: `/users`, method: "GET", params },
-    options
+    options,
   )
 }
 
@@ -278,7 +279,7 @@ export const getAllUsers = (
  */
 export const addUser = (
   userDto: BodyType<UserDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<UserDto>(
     {
@@ -287,7 +288,7 @@ export const addUser = (
       headers: { "Content-Type": "application/json" },
       data: userDto,
     },
-    options
+    options,
   )
 }
 
@@ -297,7 +298,7 @@ export const addUser = (
  */
 export const getUserById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<UserDto>({ url: `/users/${id}`, method: "GET" }, options)
 }
@@ -308,7 +309,7 @@ export const getUserById = (
  */
 export const deleteUserById = (
   id: number,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<void>({ url: `/users/${id}`, method: "DELETE" }, options)
 }
@@ -320,7 +321,7 @@ export const deleteUserById = (
 export const updateUser = (
   id: number,
   updateUserDto: BodyType<UpdateUserDto>,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<UserDto>(
     {
@@ -329,7 +330,7 @@ export const updateUser = (
       headers: { "Content-Type": "application/json" },
       data: updateUserDto,
     },
-    options
+    options,
   )
 }
 
@@ -340,11 +341,11 @@ export const updateUser = (
 export const setUserState = (
   id: number,
   params: SetUserStateParams,
-  options?: SecondParameter<typeof axiosInstance>
+  options?: SecondParameter<typeof axiosInstance>,
 ) => {
   return axiosInstance<UserDto>(
     { url: `/users/${id}/state`, method: "PATCH", params },
-    options
+    options,
   )
 }
 

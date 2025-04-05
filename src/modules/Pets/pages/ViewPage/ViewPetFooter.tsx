@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
+
 import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+
 import { APP_ROUTES } from "@/routes/types"
 
 export const ViewPetFooter = () => {

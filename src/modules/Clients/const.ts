@@ -1,7 +1,9 @@
-import { NewOwnerDto, PetDtoForOwner } from "@/generated/owners"
 import { TStep } from "@/shared/types/types"
 import { SelectData } from "@/shared/ui/Inputs/Select/Select"
+
+import { NewOwnerDto, PetDtoForOwner } from "@/generated/owners"
 import { PetDtoType } from "@/generated/pets.ts"
+
 import { Pet } from "./types"
 
 /** набор шагов для модалки создания клиента */

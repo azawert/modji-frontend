@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid"
+
 import { FormConfig } from "../types/types"
 import { calcAge } from "../utils/calcAge"
 

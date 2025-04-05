@@ -1,14 +1,18 @@
+import { useEffect, useState } from "react"
+
+import CloseIcon from "@mui/icons-material/Close"
+import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material"
+
+import { DATA_TEST_ID_GLOBAL_OBJECT } from "@/shared/constants/test-id"
+import { eventEmitter } from "@/shared/utils/eventEmitter"
+
 import {
   ENotificationType,
   TNotification,
 } from "@/contexts/notificationContext/NotificationContext"
-import { Box, IconButton, Slide, Snackbar, Typography } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
-import { useEffect, useState } from "react"
-import { Icon } from "../Icon/Icon"
+
 import { Button, EButtonSize, EButtonVariant } from "../Button/Button"
-import { DATA_TEST_ID_GLOBAL_OBJECT } from "@/shared/constants/test-id"
-import { eventEmitter } from "@/shared/utils/eventEmitter"
+import { Icon } from "../Icon/Icon"
 
 /** Маппер для получения нужной иконки, для нотификации подтверждения иконка будет не нужна */
 const mapperTypeNotificationToIcon: Record<

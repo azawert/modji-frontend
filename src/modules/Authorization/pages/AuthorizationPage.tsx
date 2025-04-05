@@ -1,9 +1,10 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import { Avatar, Box, Typography } from "@mui/material"
+import { SubmitHandler, useForm } from "react-hook-form"
 
-import { Box, Avatar, Typography } from "@mui/material"
-import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
-import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { Button, EButtonSize, EButtonVariant } from "@/shared/ui/Button/Button"
+import { TextField } from "@/shared/ui/Inputs/TextField/TextField"
+
 import { TAuthUser } from "@/modules/Booking/const"
 import { EMAIL_VALIDATION_PATTERN } from "@/modules/Employee/const"
 

@@ -1,7 +1,11 @@
 import React from "react"
-import { IInfoItem } from "@/modules/Clients/types.ts"
-import { InfoCard } from "@/shared/ui/InfoCard.tsx"
+
 import { Box } from "@mui/material"
+
+import { InfoCard } from "@/shared/ui/InfoCard.tsx"
+
+import { IInfoItem } from "@/modules/Clients/types.ts"
+
 interface CardWithPetProps {
   petName: string
   petType: string

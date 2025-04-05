@@ -1,17 +1,21 @@
 import { useState } from "react"
+
+import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+import { SearchComponent } from "@/shared/ui/SearchComponent"
+import {
+  addErrorNotification,
+  addSuccessNotification,
+  formatPhoneNumberToServerRequest,
+} from "@/shared/utils/utils"
+
 import { ClientsTitle } from "@/modules/Clients/components/ClientsPage/ClientsTitle.tsx"
 import { CreateNewClientModal } from "@/modules/Clients/components/ClientsPage/CreateNewClientModal.tsx"
 import { TableWithClients } from "@/modules/Clients/components/ClientsPage/TableWithClients.tsx"
-import { SearchComponent } from "@/shared/ui/SearchComponent"
-import { useGetAllClients, useGetSuggestedClients } from "../api/queries"
-import { useCreateClient } from "../api/mutation"
+
 import { NewOwnerDto } from "@/generated/owners"
-import {
-  formatPhoneNumberToServerRequest,
-  addErrorNotification,
-  addSuccessNotification,
-} from "@/shared/utils/utils"
-import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle"
+
+import { useCreateClient } from "../api/mutation"
+import { useGetAllClients, useGetSuggestedClients } from "../api/queries"
 
 export const ClientsPage: React.FC = () => {
   useDocumentTitle({ title: "Клиенты" })
@@ -63,7 +67,7 @@ export const ClientsPage: React.FC = () => {
           errorNotification("Произошла ошибка. Попробуйте позже")
           handleCloseCreateModal()
         },
-      }
+      },
     )
   }
 

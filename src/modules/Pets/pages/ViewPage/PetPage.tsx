@@ -1,11 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom"
-import FormBuilder from "../../components/forms/builder/PetFormBuilder"
-import { useGetClientById } from "@/modules/Clients/api/queries"
-import { CircularProgress } from "@mui/material"
-import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
 import { useRef } from "react"
+
+import { CircularProgress } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
+
 import { addConfirmationNotification } from "@/shared/utils/utils"
-import { usePetFormStore } from "../../store"
+
+import { useGetClientById } from "@/modules/Clients/api/queries"
+import { CardClientSmall } from "@/modules/Clients/components/ClientsPage/CardClientSmall"
+
+import { useGetPetById } from "../../api/queries"
 import {
   CAT_CONFIG,
   DOG_CONFIG,
@@ -13,8 +16,9 @@ import {
   FormData as PetFormData,
 } from "../../components"
 import { PetPageTitle } from "../../components/common"
-import { useGetPetById } from "../../api/queries"
+import FormBuilder from "../../components/forms/builder/PetFormBuilder"
 import { PetTranslatedTypes } from "../../components/forms/types/enums"
+import { usePetFormStore } from "../../store"
 
 const petConfig = {
   DOG: DOG_CONFIG,
@@ -31,7 +35,7 @@ export const PetPage = () => {
 
   const { data: clientData, isLoading } = useGetClientById(Number(id))
   const { data: petData, isLoading: isLoadingPet } = useGetPetById(
-    Number(petId)
+    Number(petId),
   )
 
   const formRef = useRef<{ leaveForm: () => void }>(null)
