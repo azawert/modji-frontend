@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react"
 
+import { Tooltip } from "@mui/material"
+
+import { mapBookingStatusToText } from "@/modules/Booking/model/utils"
+import { getFullName } from "@/modules/Employee/utils"
+
 import { BookingDto } from "@/generated/bookings"
 
 import { TTabForHeader } from "../../../model/types/BookingGridTypes"
+import { BookingTooltipCard } from "../BookingTooltipCard/BookingTooltipCard"
 
 type BookingCellProps = {
   bookingInfo: {
@@ -66,23 +72,72 @@ export const BookingCell = ({
     return () => window.removeEventListener("resize", handleResize)
   }, [clientName, isWeekTab]) // Добавляем isWeekView в зависимости
 
+  const booking = bookingInfo.booking
+  const pet = booking.pets?.[0]
+  const owner = pet?.ownerShortDto
+
+  const tooltipContent = (
+    <BookingTooltipCard
+      labelStatus={mapBookingStatusToText[booking.status]}
+      clientName={getFullName(
+        owner?.firstName || "",
+        owner?.lastName,
+        owner?.middleName,
+      )}
+      clientRating={owner?.rating?.toString() || ""}
+      pet={pet}
+      color={color}
+      bookingSum={booking?.price?.toString() || "0"}
+      checkInDate={`${booking.checkInDate} ${booking.checkInTime}`}
+      checkOutDate={`${booking.checkOutDate} ${booking.checkOutTime}`}
+    />
+  )
+
   return (
-    <div
-      ref={containerRef}
-      className="absolute flex items-center justify-center rounded-[12px] overflow-hidden px-2"
-      style={{
-        width,
-        left,
-        right,
-        top: "5px",
-        bottom: "5px",
-        zIndex: 2,
-        backgroundColor: color,
+    <Tooltip
+      title={tooltipContent}
+      arrow
+      enterDelay={300}
+      placement="top"
+      componentsProps={{
+        popper: {
+          modifiers: [
+            {
+              name: "offset",
+              options: {
+                offset: [0, 12],
+              },
+            },
+          ],
+        },
+        tooltip: {
+          sx: {
+            backgroundColor: "transparent",
+            padding: 0,
+            boxShadow: "none",
+            borderRadius: 0,
+            width: 339,
+          },
+        },
       }}
     >
-      <span ref={textRef} className="whitespace-nowrap">
-        {displayName}
-      </span>
-    </div>
+      <div
+        ref={containerRef}
+        className="absolute flex items-center justify-center rounded-[12px] overflow-hidden px-2"
+        style={{
+          width,
+          left,
+          right,
+          top: "5px",
+          bottom: "5px",
+          zIndex: 2,
+          backgroundColor: color,
+        }}
+      >
+        <span ref={textRef} className="whitespace-nowrap">
+          {displayName}
+        </span>
+      </div>
+    </Tooltip>
   )
 }

@@ -9,6 +9,7 @@ import {
   BookingDto,
   BookingDtoStatus,
   NewBookingDto,
+  PetDtoType,
 } from "@/generated/bookings"
 import { RoomDto } from "@/generated/room"
 
@@ -173,6 +174,17 @@ export const mapBookingStatusToColor: Record<
   [BookingDtoStatus.STATUS_CANCELLED]: undefined,
 } as const
 
+export const mapBookingStatusToText: Record<
+  Partial<BookingDtoStatus>,
+  string
+> = {
+  [BookingDtoStatus.STATUS_CANCELLED]: "Отменено",
+  [BookingDtoStatus.STATUS_INITIAL]: "Первичное",
+  [BookingDtoStatus.STATUS_CHECKED_IN]: "Заселен",
+  [BookingDtoStatus.STATUS_CONFIRMED]: "Подтвержден",
+  [BookingDtoStatus.STATUS_CHECKED_OUT]: "Выселен",
+} as const
+
 /**
  * Функция для преобразования данных в тип который понятен таблице бронирований
  * @param rooms список комнат
@@ -224,4 +236,10 @@ export const getBookingInfo = (
     )
     return { booking, startIndex, endIndex }
   })
+}
+
+export const mapperForValuePetTypeToAnLabel = {
+  [PetDtoType.CAT]: "Кот",
+  [PetDtoType.DOG]: "Собака",
+  [PetDtoType.EXOTIC]: "Экзот",
 }
